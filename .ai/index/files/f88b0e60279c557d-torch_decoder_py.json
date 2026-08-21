@@ -1,0 +1,56 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:28f89f63c74f8dd1ccf27a8e3175316db30a677b",
+    "content_sha256": "53b42b2c7b7c7a7b07230f59f5120772d4451f34042d55dc21d7947b8fe93878",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "BS": "calo_rpd_studio.power_system.case_model.BS",
+      "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+      "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+      "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+      "VG": "calo_rpd_studio.power_system.case_model.VG",
+      "VM": "calo_rpd_studio.power_system.case_model.VM",
+      "annotations": "__future__.annotations",
+      "np": "numpy",
+      "torch": "torch"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "calo_rpd_studio.power_system.case_model",
+      "numpy",
+      "torch"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/accelerated/torch_decoder.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 3678,
+    "state_owner": "",
+    "symbol_count": 5
+  },
+  "path": "calo_rpd_studio/accelerated/torch_decoder.py",
+  "schema_version": 2
+}

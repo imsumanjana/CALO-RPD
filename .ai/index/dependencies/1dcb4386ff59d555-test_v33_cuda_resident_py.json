@@ -1,0 +1,298 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/torch_orpd.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_loader.py"
+    }
+  ],
+  "path": "tests/unit/test_v33_cuda_resident.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "astype"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "context.primary_control_linearization"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "context.primary_converged_power_flow"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "expected_context.primary_control_linearization"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "expected_context.primary_converged_power_flow"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "expected_linearization.jacobian.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "linearization.jacobian.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "np.linspace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "np.vstack"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "problem.evaluate_population_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "reference.evaluate_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "to": "zip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun.forbidden_reference_rerun",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "accelerated.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "np.isinf"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "to": "reference.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "to": "assignments.values"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "to": "set"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "batch.to_evaluations"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "candidates.numpy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "problem.evaluate_population_tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "to": "torch.rand"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v33_cuda_resident.test_v34_defaults_prioritize_device_resident_cuda",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v33_cuda_resident.test_v34_defaults_prioritize_device_resident_cuda",
+      "to": "hasattr"
+    }
+  ]
+}

@@ -1,0 +1,1797 @@
+{
+  "path": "tests/unit/test_v57_audit_closure_integration.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v57_audit_closure_integration.test_publication_export_blocks_partial_verified_subset",
+        "tests.unit.test_v57_audit_closure_integration.test_publication_export_fails_closed_when_validation_required_and_zero_verified"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_FakePortfolioDatabase",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase.__init__",
+      "semantic_tags": [],
+      "signature": "(self, rows)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase.get_experiment",
+      "semantic_tags": [],
+      "signature": "(self, _experiment_id)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "get_experiment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase.list_experiment_horizons",
+      "semantic_tags": [],
+      "signature": "(self, _experiment_id)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "list_experiment_horizons",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase.list_experiment_revisions",
+      "semantic_tags": [],
+      "signature": "(self, _experiment_id)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "list_experiment_revisions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase.experiment_horizon_status",
+      "semantic_tags": [],
+      "signature": "(self, _experiment_id, _evaluation_horizon)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "experiment_horizon_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v57_audit_closure_integration.test_comparison_summary_excludes_unverified_and_infeasible_objectives",
+        "tests.unit.test_v57_audit_closure_integration.test_publication_export_blocks_partial_verified_subset",
+        "tests.unit.test_v57_audit_closure_integration.test_publication_export_fails_closed_when_validation_required_and_zero_verified",
+        "tests.unit.test_v57_audit_closure_integration.test_scenario_matrix_uses_constraint_feasibility_and_total_loss_key"
+      ],
+      "calls": [
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration._portfolio_row",
+      "semantic_tags": [],
+      "signature": "(validation, feasible, objective)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "_portfolio_row",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exporter.export",
+          "target": "exporter.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakePortfolioDatabase",
+          "target": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_portfolio_row",
+          "target": "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_FakePortfolioDatabase": "name",
+        "_portfolio_row": "name",
+        "exporter.export": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_FakePortfolioDatabase",
+        "_portfolio_row",
+        "exporter.export",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+        "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+      ],
+      "doc": "",
+      "end_line": 81,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_publication_export_fails_closed_when_validation_required_and_zero_verified",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "test_publication_export_fails_closed_when_validation_required_and_zero_verified",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exporter.export",
+          "target": "exporter.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakePortfolioDatabase",
+          "target": "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_portfolio_row",
+          "target": "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_FakePortfolioDatabase": "name",
+        "_portfolio_row": "name",
+        "exporter.export": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_FakePortfolioDatabase",
+        "_portfolio_row",
+        "exporter.export",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v57_audit_closure_integration._FakePortfolioDatabase",
+        "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_publication_export_blocks_partial_verified_subset",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "test_publication_export_blocks_partial_verified_subset",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exporter._scenario_matrix",
+          "target": "exporter._scenario_matrix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible.tolist",
+          "target": "feasible.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "losses.tolist",
+          "target": "losses.tolist"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_portfolio_row",
+          "target": "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_portfolio_row": "name",
+        "exporter._scenario_matrix": "attribute",
+        "feasible.tolist": "attribute",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "losses.tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_portfolio_row",
+        "exporter._scenario_matrix",
+        "feasible.tolist",
+        "json.dumps",
+        "json.loads",
+        "losses.tolist"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+      ],
+      "doc": "",
+      "end_line": 110,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_scenario_matrix_uses_constraint_feasibility_and_total_loss_key",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_scenario_matrix_uses_constraint_feasibility_and_total_loss_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_runs",
+          "target": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_portfolio_row",
+          "target": "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+        }
+      ],
+      "call_forms": {
+        "_portfolio_row": "name",
+        "int": "name",
+        "pytest.approx": "attribute",
+        "summarize_runs": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_portfolio_row",
+        "int",
+        "pytest.approx",
+        "summarize_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.comparison_engine.summarize_runs",
+        "tests.unit.test_v57_audit_closure_integration._portfolio_row"
+      ],
+      "doc": "",
+      "end_line": 121,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_comparison_summary_excludes_unverified_and_infeasible_objectives",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 113,
+      "state_owner": "",
+      "symbol": "test_comparison_summary_excludes_unverified_and_infeasible_objectives",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ObjectiveConfig",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_objective",
+          "target": "calo_rpd_studio.orpd.objectives.calculate_objective"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "_PF",
+          "target": "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition._PF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "toy_case.clone",
+          "target": "toy_case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm_pu.astype",
+          "target": "vm_pu.astype"
+        }
+      ],
+      "call_forms": {
+        "ObjectiveConfig": "name",
+        "_PF": "name",
+        "calculate_objective": "name",
+        "np.asarray": "attribute",
+        "pytest.approx": "attribute",
+        "toy_case.clone": "attribute",
+        "vm_pu.astype": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ObjectiveConfig",
+        "_PF",
+        "calculate_objective",
+        "np.asarray",
+        "pytest.approx",
+        "toy_case.clone",
+        "vm_pu.astype"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition._PF"
+      ],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "test_voltage_deviation_uses_original_formulation_partition",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition._PF",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "_PF",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "broker.close",
+          "target": "broker.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.submit",
+          "target": "broker.submit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "BadEvaluator",
+          "target": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging.BadEvaluator"
+        }
+      ],
+      "call_forms": {
+        "BadEvaluator": "name",
+        "CrossRunBatchBroker": "name",
+        "broker.close": "attribute",
+        "broker.submit": "attribute",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BadEvaluator",
+        "CrossRunBatchBroker",
+        "broker.close",
+        "broker.submit",
+        "np.zeros",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging.BadEvaluator"
+      ],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging.BadEvaluator",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 147,
+      "state_owner": "",
+      "symbol": "BadEvaluator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging.BadEvaluator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging.BadEvaluator._evaluate_population_direct",
+      "semantic_tags": [],
+      "signature": "(self, _candidates)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "_evaluate_population_direct",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 163,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_formal_periodic_qualification_interval_is_retired_by_design",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 161,
+      "state_owner": "",
+      "symbol": "test_formal_periodic_qualification_interval_is_retired_by_design",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyQualificationConfig",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_grade",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._grade"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reason.lower",
+          "target": "reason.lower"
+        }
+      ],
+      "call_forms": {
+        "PolicyQualificationConfig": "name",
+        "_grade": "name",
+        "any": "name",
+        "float": "name",
+        "reason.lower": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PolicyQualificationConfig",
+        "_grade",
+        "any",
+        "float",
+        "reason.lower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._grade"
+      ],
+      "doc": "",
+      "end_line": 184,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_policy_grade_handles_nonfinite_comparator_medians_without_min_empty_failure",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 166,
+      "state_owner": "",
+      "symbol": "test_policy_grade_handles_nonfinite_comparator_medians_without_min_empty_failure",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ast.parse",
+          "target": "ast.parse"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ast.walk",
+          "target": "ast.walk"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "offenders.append",
+          "target": "offenders.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.rglob",
+          "target": "root.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ast.parse": "attribute",
+        "ast.walk": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "offenders.append": "attribute",
+        "path.read_text": "attribute",
+        "path.relative_to": "attribute",
+        "resolve": "attribute",
+        "root.rglob": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "ast.parse",
+        "ast.walk",
+        "isinstance",
+        "len",
+        "offenders.append",
+        "path.read_text",
+        "path.relative_to",
+        "resolve",
+        "root.rglob",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 199,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_no_broad_exception_pass_remains_in_scientific_source_tree",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 187,
+      "state_owner": "",
+      "symbol": "test_no_broad_exception_pass_remains_in_scientific_source_tree",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.split",
+          "target": "line.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.startswith",
+          "target": "path.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "any": "name",
+        "line.split": "attribute",
+        "line.strip": "attribute",
+        "path.startswith": "attribute",
+        "read_text": "attribute",
+        "resolve": "attribute",
+        "splitlines": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "any",
+        "line.split",
+        "line.strip",
+        "path.startswith",
+        "read_text",
+        "resolve",
+        "splitlines"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 220,
+      "entry_point": false,
+      "file": "tests/unit/test_v57_audit_closure_integration.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "Path": "pathlib.Path",
+        "PolicyQualificationConfig": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_grade": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "annotations": "__future__.annotations",
+        "ast": "ast",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "json": "json",
+        "np": "numpy",
+        "pytest": "pytest",
+        "summarize_runs": "calo_rpd_studio.results.comparison_engine.summarize_runs"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ast",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.policy_qualification",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.comparison_engine",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v57_audit_closure_integration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v57_audit_closure_integration",
+      "qualname": "tests.unit.test_v57_audit_closure_integration.test_release_source_does_not_bundle_generated_publication_export_or_v500_default_names",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 202,
+      "state_owner": "",
+      "symbol": "test_release_source_does_not_bundle_generated_publication_export_or_v500_default_names",
+      "tests": []
+    }
+  ]
+}

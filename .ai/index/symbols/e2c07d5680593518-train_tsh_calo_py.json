@@ -1,0 +1,781 @@
+{
+  "path": "calo_rpd_studio/scripts/train_tsh_calo.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._MISSING",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "_MISSING",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.train_tsh_calo._selected_accounting"
+      ],
+      "calls": [
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._valid_count",
+      "semantic_tags": [],
+      "signature": "(value)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_valid_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.get",
+          "target": "manifest.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "dict": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "manifest.get": "attribute",
+        "payload.get": "attribute",
+        "source.is_file": "attribute",
+        "source.read_text": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.train_tsh_calo._augment_output_payload"
+      ],
+      "calls": [
+        "Path",
+        "dict",
+        "expanduser",
+        "isinstance",
+        "json.loads",
+        "manifest.get",
+        "payload.get",
+        "source.is_file",
+        "source.read_text",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._manifest_accounting",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_manifest_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "accounting.get",
+          "target": "accounting.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.scripts.train_tsh_calo._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.get",
+          "target": "selected.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.items",
+          "target": "values.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.values",
+          "target": "values.values"
+        }
+      ],
+      "call_forms": {
+        "_valid_count": "name",
+        "accounting.get": "attribute",
+        "all": "name",
+        "int": "name",
+        "isinstance": "name",
+        "selected.get": "attribute",
+        "values.items": "attribute",
+        "values.values": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.train_tsh_calo._augment_output_payload"
+      ],
+      "calls": [
+        "_valid_count",
+        "accounting.get",
+        "all",
+        "int",
+        "isinstance",
+        "selected.get",
+        "values.items",
+        "values.values"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.train_tsh_calo._valid_count"
+      ],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._selected_accounting",
+      "semantic_tags": [],
+      "signature": "(accounting)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "_selected_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manifest_accounting",
+          "target": "calo_rpd_studio.scripts.train_tsh_calo._manifest_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_selected_accounting",
+          "target": "calo_rpd_studio.scripts.train_tsh_calo._selected_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.update",
+          "target": "result.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_dict",
+          "target": "to_dict"
+        }
+      ],
+      "call_forms": {
+        "_manifest_accounting": "name",
+        "_selected_accounting": "name",
+        "dict": "name",
+        "plan_training_evaluation_accounting": "name",
+        "result.update": "attribute",
+        "to_dict": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.train_tsh_calo._accounted_output_text"
+      ],
+      "calls": [
+        "_manifest_accounting",
+        "_selected_accounting",
+        "dict",
+        "plan_training_evaluation_accounting",
+        "result.update",
+        "to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting",
+        "calo_rpd_studio.scripts.train_tsh_calo._manifest_accounting",
+        "calo_rpd_studio.scripts.train_tsh_calo._selected_accounting"
+      ],
+      "doc": "",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._augment_output_payload",
+      "semantic_tags": [],
+      "signature": "(payload, plan)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "_augment_output_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_augment_output_payload",
+          "target": "calo_rpd_studio.scripts.train_tsh_calo._augment_output_payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.startswith",
+          "target": "text.startswith"
+        }
+      ],
+      "call_forms": {
+        "_augment_output_payload": "name",
+        "isinstance": "name",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "text.startswith": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.train_tsh_calo.main.accounted_print",
+        "tests.gui.test_tsh_calo_generalization_integration.test_cli_machine_event_discloses_training_guard_and_total"
+      ],
+      "calls": [
+        "_augment_output_payload",
+        "isinstance",
+        "json.dumps",
+        "json.loads",
+        "len",
+        "text.startswith"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.train_tsh_calo._augment_output_payload"
+      ],
+      "doc": "Augment one supported JSON output line without changing non-JSON diagnostics.",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo._accounted_output_text",
+      "semantic_tags": [],
+      "signature": "(text, plan)",
+      "start_line": 123,
+      "state_owner": "",
+      "symbol": "_accounted_output_text",
+      "tests": [
+        "tests/gui/test_tsh_calo_generalization_integration.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core.__dict__.get",
+          "target": "_core.__dict__.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_core_main",
+          "target": "_core_main"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "delattr",
+          "target": "delattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "_core.__dict__.get": "attribute",
+        "_core_main": "name",
+        "delattr": "name",
+        "int": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths"
+      ],
+      "calls": [
+        "_core.__dict__.get",
+        "_core_main",
+        "delattr",
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "Run the original command with an accounted, deterministic output boundary.",
+      "end_line": 173,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core_load_plan",
+          "target": "_core_load_plan"
+        }
+      ],
+      "call_forms": {
+        "_core_load_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_core_load_plan"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo.main",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo.main.capturing_load_plan",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "capturing_load_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "builtins.print",
+          "target": "builtins.print"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_accounted_output_text",
+          "target": "calo_rpd_studio.scripts.train_tsh_calo._accounted_output_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "_accounted_output_text": "name",
+        "builtins.print": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_accounted_output_text",
+        "builtins.print",
+        "isinstance",
+        "len",
+        "list"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.train_tsh_calo._accounted_output_text"
+      ],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/train_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.scripts._train_tsh_calo_core",
+        "annotations": "__future__.annotations",
+        "builtins": "builtins",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".",
+        "__future__",
+        "builtins",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.train_tsh_calo.main",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.train_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.train_tsh_calo.main.accounted_print",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 156,
+      "state_owner": "",
+      "symbol": "accounted_print",
+      "tests": []
+    }
+  ]
+}

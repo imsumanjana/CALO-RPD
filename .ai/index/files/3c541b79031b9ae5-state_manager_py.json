@@ -1,0 +1,70 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "shared desktop/application workflow state",
+    "content_hash": "git-sha1:dc30f1879a9a0f34d64ebf864cd800c995f451f7",
+    "content_sha256": "8fe3e83cb2d638cfcee68d4110ff4ba00d8296471e653ba8d88fa93704e69b4b",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+      "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+      "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "QObject": "PyQt6.QtCore.QObject",
+      "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+      "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+      "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+      "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+      "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+      "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+      "logging": "logging",
+      "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".execution_control",
+      ".task_status",
+      "PyQt6.QtCore",
+      "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "calo_rpd_studio.algorithms.calo.policy_registry",
+      "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+      "calo_rpd_studio.compute.governor",
+      "calo_rpd_studio.compute.topology",
+      "calo_rpd_studio.experiments.experiment_config",
+      "calo_rpd_studio.results.database",
+      "calo_rpd_studio.resume.service",
+      "logging"
+    ],
+    "integration_layer": "application state services and scientist-facing UI",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/app/state_manager.py",
+    "preferred_edit_target": true,
+    "public_surface": true,
+    "semantic_tags": [
+      "AppState",
+      "PyQt",
+      "authoritative-state",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 10627,
+    "state_owner": "AppState",
+    "symbol_count": 15
+  },
+  "path": "calo_rpd_studio/app/state_manager.py",
+  "schema_version": 2
+}

@@ -1,0 +1,869 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.bind_training_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry._candidate_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+      ],
+      "calls": [
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry._valid_count",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(value)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_valid_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core.count_tsh_calo_candidate_training_evaluations",
+          "target": "_core.count_tsh_calo_candidate_training_evaluations"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guard.get",
+          "target": "guard.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.get",
+          "target": "member.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance.get",
+          "target": "provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        }
+      ],
+      "call_forms": {
+        "_core.count_tsh_calo_candidate_training_evaluations": "attribute",
+        "_valid_count": "name",
+        "dict": "name",
+        "getattr": "name",
+        "guard.get": "attribute",
+        "int": "name",
+        "isinstance": "name",
+        "list": "name",
+        "member.get": "attribute",
+        "provenance.get": "attribute",
+        "row.get": "attribute",
+        "rows.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting"
+      ],
+      "calls": [
+        "_core.count_tsh_calo_candidate_training_evaluations",
+        "_valid_count",
+        "dict",
+        "getattr",
+        "guard.get",
+        "int",
+        "isinstance",
+        "list",
+        "member.get",
+        "provenance.get",
+        "row.get",
+        "rows.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry._candidate_evaluation_accounting",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(artifact)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "_candidate_evaluation_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        }
+      ],
+      "call_forms": {
+        "_valid_count": "name",
+        "all": "name",
+        "int": "name",
+        "metadata.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.bind_training_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.register",
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting",
+        "tests.gui.test_tsh_calo_policy_library_accounting.test_policy_registry_metadata_requires_exact_additive_total"
+      ],
+      "calls": [
+        "_valid_count",
+        "all",
+        "int",
+        "metadata.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+      ],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(metadata)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "_metadata_evaluation_accounting",
+      "tests": [
+        "tests/gui/test_tsh_calo_policy_library_accounting.py"
+      ]
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.__init__",
+        "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+        "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+        "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_inference.test_tsh_binding_requires_activation_and_inference_has_no_solver_or_training_authority",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_feasibility_admission_selection_and_activation_are_three_distinct_states",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_formal_evidence_admission_is_explicit_integrity_bound_and_does_not_activate",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_generic_qualified_row_without_calibration_receipt_cannot_activate",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_policy_comparison_names_a_leader_only_within_one_matching_design",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_qualification_contract_rejects_unsupported_experimental_architecture",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_registered_artifact_mutation_blocks_tsh_activation",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_tampered_qualification_decision_is_rejected_without_registry_mutation",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_transactional_evidence_requires_the_final_completion_authority",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_tsh_registration_cannot_self_qualify_or_accept_an_incompatible_abi",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_verified_feasibility_requires_scientist_selection_before_separate_activation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Retain exact counted-work metadata without changing lifecycle or activation authority.",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "policy-registry",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "PolicyRegistry",
+      "tests": [
+        "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py"
+      ]
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "accounting.get",
+          "target": "accounting.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_core.PolicyRegistry.training_evaluation_count",
+          "target": "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.training_evaluation_count"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_metadata_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.update",
+          "target": "metadata.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.update_policy",
+          "target": "self.database.update_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.get",
+          "target": "self.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.values",
+          "target": "values.values"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_core.PolicyRegistry.training_evaluation_count": "attribute",
+        "_metadata_evaluation_accounting": "name",
+        "_valid_count": "name",
+        "accounting.get": "attribute",
+        "all": "name",
+        "dict": "name",
+        "int": "name",
+        "isinstance": "name",
+        "metadata.update": "attribute",
+        "self.database.update_policy": "attribute",
+        "self.get": "attribute",
+        "values.values": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.register"
+      ],
+      "calls": [
+        "ValueError",
+        "_core.PolicyRegistry.training_evaluation_count",
+        "_metadata_evaluation_accounting",
+        "_valid_count",
+        "accounting.get",
+        "all",
+        "dict",
+        "int",
+        "isinstance",
+        "metadata.update",
+        "self.database.update_policy",
+        "self.get",
+        "values.values"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.training_evaluation_count",
+        "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry._valid_count"
+      ],
+      "doc": "",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.bind_training_evaluation_accounting",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(self, policy_id, accounting)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "bind_training_evaluation_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core.inspect_tsh_calo_candidate",
+          "target": "_core.inspect_tsh_calo_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_candidate_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._candidate_evaluation_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_metadata_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.get",
+          "target": "self.get"
+        }
+      ],
+      "call_forms": {
+        "_candidate_evaluation_accounting": "name",
+        "_core.inspect_tsh_calo_candidate": "attribute",
+        "_metadata_evaluation_accounting": "name",
+        "dict": "name",
+        "self.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.counted_evaluation_count",
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.register"
+      ],
+      "calls": [
+        "_candidate_evaluation_accounting",
+        "_core.inspect_tsh_calo_candidate",
+        "_metadata_evaluation_accounting",
+        "dict",
+        "self.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry._candidate_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+      ],
+      "doc": "",
+      "end_line": 144,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(self, policy_id)",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "training_evaluation_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.training_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "self.training_evaluation_accounting": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "self.training_evaluation_accounting"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting"
+      ],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.counted_evaluation_count",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(self, policy_id)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "counted_evaluation_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.bind_training_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.bind_training_evaluation_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.training_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_metadata_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "register",
+          "target": "register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.get",
+          "target": "self.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_metadata_evaluation_accounting": "name",
+        "dict": "name",
+        "register": "attribute",
+        "self.bind_training_evaluation_accounting": "attribute",
+        "self.get": "attribute",
+        "self.training_evaluation_accounting": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_metadata_evaluation_accounting",
+        "dict",
+        "register",
+        "self.bind_training_evaluation_accounting",
+        "self.get",
+        "self.training_evaluation_accounting",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.bind_training_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.training_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.policy_registry._metadata_evaluation_accounting"
+      ],
+      "doc": "",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.algorithms.calo._policy_registry_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_registry",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry.register",
+      "semantic_tags": [
+        "PolicyRegistry",
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "public-wrapper",
+        "qualification"
+      ],
+      "signature": "(self, path, name, status)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "register",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "path": "calo_rpd_studio/robustness/contingencies.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "out.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "tests.unit.test_v590_scientific_closure.test_n_minus_one_bundles_include_intact_base_by_default"
+      ],
+      "calls": [
+        "Scenario",
+        "out.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "Return intact P0 plus selected single-branch P1 contingencies by default.",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/contingencies.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.contingencies",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.contingencies",
+      "qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(indices, include_base)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "n_minus_one_branch_scenarios",
+      "tests": [
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "IndexError",
+          "target": "IndexError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "IndexError": "name",
+        "int": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "IndexError",
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/contingencies.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.contingencies",
+      "qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, k)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "out.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+        "tests.unit.test_v590_scientific_closure.test_n_minus_one_bundles_include_intact_base_by_default"
+      ],
+      "calls": [
+        "Scenario",
+        "out.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "Return intact P0 plus selected single-generator P1 contingencies by default.",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/contingencies.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.contingencies",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.contingencies",
+      "qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(indices, include_base)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "n_minus_one_generator_scenarios",
+      "tests": [
+        "tests/unit/test_robustness.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "IndexError",
+          "target": "IndexError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "IndexError": "name",
+        "astype": "attribute",
+        "case.bus_index_map": "attribute",
+        "int": "name",
+        "len": "name",
+        "np.where": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndexError",
+        "astype",
+        "case.bus_index_map",
+        "int",
+        "len",
+        "np.where"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/contingencies.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.contingencies",
+      "qualname": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, k)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    }
+  ]
+}

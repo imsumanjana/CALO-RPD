@@ -1,0 +1,1351 @@
+{
+  "path": "tests/unit/test_tsh_calo_training_resources.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_resources._estimate",
+        "tests.unit.test_tsh_calo_training_resources.test_declared_shape_estimator_is_deterministic_and_monotone"
+      ],
+      "calls": [
+        "TSHCALOTrainingResourceEnvelope",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources._envelope",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_envelope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "estimate_tsh_calo_training_working_set",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_envelope",
+          "target": "tests.unit.test_tsh_calo_training_resources._envelope"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOPolicyNetwork": "name",
+        "_envelope": "name",
+        "estimate_tsh_calo_training_working_set": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_resources.test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
+        "tests.unit.test_tsh_calo_training_resources.test_cpu_admission_uses_eighty_percent_of_current_available_ram",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
+        "tests.unit.test_tsh_calo_training_resources.test_declared_shape_estimator_is_deterministic_and_monotone",
+        "tests.unit.test_tsh_calo_training_resources.test_no_xpu_training_resource_path_exists"
+      ],
+      "calls": [
+        "TSHCALOPolicyNetwork",
+        "_envelope",
+        "estimate_tsh_calo_training_working_set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "tests.unit.test_tsh_calo_training_resources._envelope"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources._estimate",
+      "semantic_tags": [],
+      "signature": "(envelope)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_estimate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "repeated.to_dict",
+          "target": "repeated.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "small.to_dict",
+          "target": "small.to_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_envelope",
+          "target": "tests.unit.test_tsh_calo_training_resources._envelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "_envelope": "name",
+        "_estimate": "name",
+        "repeated.to_dict": "attribute",
+        "small.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_envelope",
+        "_estimate",
+        "repeated.to_dict",
+        "small.to_dict"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_tsh_calo_training_resources._envelope",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_declared_shape_estimator_is_deterministic_and_monotone",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "test_declared_shape_estimator_is_deterministic_and_monotone",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guard.close",
+          "target": "guard.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "guard.close": "attribute",
+        "int": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "guard.close",
+        "int",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cpu_admission_uses_eighty_percent_of_current_available_ram",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "test_cpu_admission_uses_eighty_percent_of_current_available_ram",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "events.append",
+          "target": "events.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guard.close",
+          "target": "guard.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "events.append": "attribute",
+        "guard.close": "attribute",
+        "int": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "events.append",
+        "guard.close",
+        "int",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "Lease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "events.append",
+          "target": "events.append"
+        }
+      ],
+      "call_forms": {
+        "events.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "events.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease.__init__",
+      "semantic_tags": [],
+      "signature": "(self, device)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "events.append",
+          "target": "events.append"
+        }
+      ],
+      "call_forms": {
+        "events.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "events.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease.Lease.close",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 163,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "Lease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease.__init__",
+      "semantic_tags": [],
+      "signature": "(self, _device)",
+      "start_line": 134,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission.Lease.close",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 177,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 166,
+      "state_owner": "",
+      "symbol": "test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 171,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "BusyLease",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceLeaseUnavailable",
+          "target": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+        }
+      ],
+      "call_forms": {
+        "DeviceLeaseUnavailable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceLeaseUnavailable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+      ],
+      "doc": "",
+      "end_line": 171,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu.BusyLease.__init__",
+      "semantic_tags": [],
+      "signature": "(self, _device)",
+      "start_line": 170,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.lower",
+          "target": "text.lower"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "pytest.raises": "attribute",
+        "read_text": "attribute",
+        "text.lower": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "pytest.raises",
+        "read_text",
+        "text.lower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 188,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_no_xpu_training_resource_path_exists",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 180,
+      "state_owner": "",
+      "symbol": "test_no_xpu_training_resource_path_exists",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingDeviceGuard.admit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_tsh_calo_training_device_provenance",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "estimate.to_dict",
+          "target": "estimate.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guard.admission.to_dict",
+          "target": "guard.admission.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_estimate",
+          "target": "tests.unit.test_tsh_calo_training_resources._estimate"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "TSHCALOTrainingDeviceGuard.admit": "attribute",
+        "_estimate": "name",
+        "estimate.to_dict": "attribute",
+        "guard.admission.to_dict": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute",
+        "validate_tsh_calo_training_device_provenance": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "TSHCALOTrainingDeviceGuard.admit",
+        "_estimate",
+        "estimate.to_dict",
+        "guard.admission.to_dict",
+        "monkeypatch.setattr",
+        "pytest.raises",
+        "validate_tsh_calo_training_device_provenance"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "doc": "",
+      "end_line": 223,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOTrainingDeviceGuard": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "estimate_tsh_calo_training_working_set": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+        "pytest": "pytest",
+        "resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "validate_tsh_calo_training_device_provenance": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.device_lease",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_resources",
+      "qualname": "tests.unit.test_tsh_calo_training_resources.test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 191,
+      "state_owner": "",
+      "symbol": "test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
+      "tests": []
+    }
+  ]
+}

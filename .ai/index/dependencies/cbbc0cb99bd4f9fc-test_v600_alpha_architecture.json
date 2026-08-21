@@ -1,0 +1,213 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/competitive_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_readiness.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/workspaces.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/topology.py"
+    }
+  ],
+  "path": "tests/unit/test_v600_alpha_architecture.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture._Registry.bind_to_experiment_config",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture._Registry.list",
+      "to": "list"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture._device",
+      "to": "calo_rpd_studio.compute.topology.ComputeDevice"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture._topology",
+      "to": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture._topology",
+      "to": "tuple"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_beta_separates_total_branches_from_safe_concurrency",
+      "to": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_beta_separates_total_branches_from_safe_concurrency",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "to": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified",
+      "to": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified",
+      "to": "tests.unit.test_v600_alpha_architecture._Policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified",
+      "to": "tests.unit.test_v600_alpha_architecture._Registry"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "to": "calculate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "to": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "to": "tests.unit.test_v600_alpha_architecture._device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "to": "tests.unit.test_v600_alpha_architecture._topology"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "to": "calculate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "to": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "to": "tests.unit.test_v600_alpha_architecture._topology"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+      "to": "calculate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+      "to": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+      "to": "tests.unit.test_v600_alpha_architecture._topology"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "to": "calculate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "to": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "to": "tests.unit.test_v600_alpha_architecture._device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "to": "tests.unit.test_v600_alpha_architecture._topology"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "to": "calculate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "to": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "to": "tests.unit.test_v600_alpha_architecture._device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "to": "tests.unit.test_v600_alpha_architecture._topology"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_v600_workspace_order_and_legacy_migration_are_key_based",
+      "to": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_v600_workspace_order_and_legacy_migration_are_key_based",
+      "to": "calo_rpd_studio.app.workspaces.workspace_index_for_key"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v600_alpha_architecture.test_v600_workspace_order_and_legacy_migration_are_key_based",
+      "to": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+    }
+  ]
+}

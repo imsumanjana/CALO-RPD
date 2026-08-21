@@ -1,0 +1,173 @@
+{
+  "path": "tests/unit/test_orpd.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.decoder.decode",
+          "target": "problem.decoder.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate",
+          "target": "problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.solution_state",
+          "target": "problem.solution_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "toy_case.checksum",
+          "target": "toy_case.checksum"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "len": "name",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "problem.decoder.decode": "attribute",
+        "problem.evaluate": "attribute",
+        "problem.solution_state": "attribute",
+        "toy_case.checksum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "len",
+        "np.full",
+        "np.isfinite",
+        "problem.decoder.decode",
+        "problem.evaluate",
+        "problem.solution_state",
+        "toy_case.checksum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd",
+      "qualname": "tests.unit.test_orpd.test_decoder_and_problem",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "test_decoder_and_problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "better": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Evaluation",
+        "better"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better",
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd",
+      "qualname": "tests.unit.test_orpd.test_feasibility_first_rule",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "test_feasibility_first_rule",
+      "tests": []
+    }
+  ]
+}

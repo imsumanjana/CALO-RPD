@@ -1,0 +1,92 @@
+{
+  "path": "calo_rpd_studio/statistics/friedman.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "friedmanchisquare",
+          "target": "friedmanchisquare"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.catch_warnings",
+          "target": "warnings.catch_warnings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.simplefilter",
+          "target": "warnings.simplefilter"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "friedmanchisquare": "name",
+        "np.isfinite": "attribute",
+        "warnings.catch_warnings": "attribute",
+        "warnings.simplefilter": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v660_remaining_audit.test_h14_friedman_degenerate_data_never_returns_nan"
+      ],
+      "calls": [
+        "float",
+        "friedmanchisquare",
+        "np.isfinite",
+        "warnings.catch_warnings",
+        "warnings.simplefilter"
+      ],
+      "calls_resolved": [],
+      "doc": "Return finite, explicit evidence even when every paired block is tied.",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/statistics/friedman.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "np": "numpy",
+        "warnings": "warnings"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "numpy",
+        "scipy.stats",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.statistics.friedman",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.statistics.friedman",
+      "qualname": "calo_rpd_studio.statistics.friedman.friedman_test",
+      "semantic_tags": [],
+      "signature": "(*groups)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "friedman_test",
+      "tests": [
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "path": "calo_rpd_studio/power_system/ybus.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.power_system.ybus.build_ybus"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ybus.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "numpy",
+        "scipy.sparse"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ybus",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ybus",
+      "qualname": "calo_rpd_studio.power_system.ybus.AdmittanceMatrices",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "AdmittanceMatrices",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AdmittanceMatrices",
+          "target": "calo_rpd_studio.power_system.ybus.AdmittanceMatrices"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cols.append",
+          "target": "cols.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "complex",
+          "target": "complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "csr_matrix",
+          "target": "csr_matrix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vals.append",
+          "target": "vals.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yf_cols.extend",
+          "target": "yf_cols.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yf_rows.extend",
+          "target": "yf_rows.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yf_vals.extend",
+          "target": "yf_vals.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yt_cols.extend",
+          "target": "yt_cols.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yt_rows.extend",
+          "target": "yt_rows.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yt_vals.extend",
+          "target": "yt_vals.extend"
+        }
+      ],
+      "call_forms": {
+        "AdmittanceMatrices": "name",
+        "ValueError": "name",
+        "abs": "name",
+        "case.bus_index_map": "attribute",
+        "cols.append": "attribute",
+        "complex": "name",
+        "csr_matrix": "name",
+        "enumerate": "name",
+        "int": "name",
+        "np.arange": "attribute",
+        "np.conj": "attribute",
+        "np.deg2rad": "attribute",
+        "np.exp": "attribute",
+        "rows.append": "attribute",
+        "vals.append": "attribute",
+        "yf_cols.extend": "attribute",
+        "yf_rows.extend": "attribute",
+        "yf_vals.extend": "attribute",
+        "yt_cols.extend": "attribute",
+        "yt_rows.extend": "attribute",
+        "yt_vals.extend": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "tests.unit.test_power_flow.test_ybus_and_power_flow",
+        "tests.unit.test_v590_scientific_closure.test_yf_yt_are_direct_sparse_branch_incidence_matrices",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "AdmittanceMatrices",
+        "ValueError",
+        "abs",
+        "case.bus_index_map",
+        "cols.append",
+        "complex",
+        "csr_matrix",
+        "enumerate",
+        "int",
+        "np.arange",
+        "np.conj",
+        "np.deg2rad",
+        "np.exp",
+        "rows.append",
+        "vals.append",
+        "yf_cols.extend",
+        "yf_rows.extend",
+        "yf_vals.extend",
+        "yt_cols.extend",
+        "yt_rows.extend",
+        "yt_vals.extend"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ybus.AdmittanceMatrices"
+      ],
+      "doc": "Build Ybus/Yf/Yt directly from sparse non-zero triplets.",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ybus.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "numpy",
+        "scipy.sparse"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ybus",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ybus",
+      "qualname": "calo_rpd_studio.power_system.ybus.build_ybus",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "build_ybus",
+      "tests": [
+        "tests/unit/test_power_flow.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    }
+  ]
+}

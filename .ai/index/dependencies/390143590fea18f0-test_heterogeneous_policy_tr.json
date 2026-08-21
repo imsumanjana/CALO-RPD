@@ -1,0 +1,106 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/heterogeneous_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_network.py"
+    }
+  ],
+  "path": "tests/unit/test_heterogeneous_policy_training.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.train_policy_heterogeneous"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_cpu_fallback_heterogeneous_training_smoke",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "add_"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training._state_dict_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "network.parameters"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+      "to": "torch.no_grad"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_rollout_shares_must_total_one_hundred",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_rollout_shares_must_total_one_hundred",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_unavailable_cuda_is_redistributed_to_cpu",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_unavailable_cuda_is_redistributed_to_cpu",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_heterogeneous_policy_training.test_weighted_plan_uses_9_3_for_twelve_episodes",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+    }
+  ]
+}

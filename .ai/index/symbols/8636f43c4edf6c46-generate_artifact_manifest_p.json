@@ -1,0 +1,487 @@
+{
+  "path": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "qualname": "calo_rpd_studio.scripts.generate_artifact_manifest.SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "SCHEMA",
+      "tests": [
+        "tests/unit/test_artifact_manifest.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "qualname": "calo_rpd_studio.scripts.generate_artifact_manifest._sha256",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifacts.append",
+          "target": "artifacts.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest._sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_file",
+          "target": "candidate.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_symlink",
+          "target": "candidate.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.relative_to",
+          "target": "candidate.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.resolve",
+          "target": "candidate.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.stat",
+          "target": "candidate.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.as_posix",
+          "target": "item.as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.resolve",
+          "target": "output.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.is_dir",
+          "target": "root.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.rglob",
+          "target": "root.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.resolve",
+          "target": "stage.resolve"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_sha256": "name",
+        "artifacts.append": "attribute",
+        "as_posix": "attribute",
+        "candidate.is_file": "attribute",
+        "candidate.is_symlink": "attribute",
+        "candidate.relative_to": "attribute",
+        "candidate.resolve": "attribute",
+        "candidate.stat": "attribute",
+        "item.as_posix": "attribute",
+        "output.resolve": "attribute",
+        "root.is_dir": "attribute",
+        "root.rglob": "attribute",
+        "sorted": "name",
+        "stage.resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest",
+        "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_empty_stage",
+        "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported"
+      ],
+      "calls": [
+        "ValueError",
+        "_sha256",
+        "artifacts.append",
+        "as_posix",
+        "candidate.is_file",
+        "candidate.is_symlink",
+        "candidate.relative_to",
+        "candidate.resolve",
+        "candidate.stat",
+        "item.as_posix",
+        "output.resolve",
+        "root.is_dir",
+        "root.rglob",
+        "sorted",
+        "stage.resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest._sha256"
+      ],
+      "doc": "Describe regular files below *stage* without following symbolic links.",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "qualname": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+      "semantic_tags": [],
+      "signature": "(stage, output)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "build_manifest",
+      "tests": [
+        "tests/unit/test_artifact_manifest.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.resolve",
+          "target": "output.resolve"
+        }
+      ],
+      "call_forms": {
+        "build_manifest": "name",
+        "destination.parent.mkdir": "attribute",
+        "destination.write_text": "attribute",
+        "json.dumps": "attribute",
+        "output.resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.container_smoke.main",
+        "calo_rpd_studio.scripts.generate_artifact_manifest.main",
+        "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding"
+      ],
+      "calls": [
+        "build_manifest",
+        "destination.parent.mkdir",
+        "destination.write_text",
+        "json.dumps",
+        "output.resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "qualname": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest",
+      "semantic_tags": [],
+      "signature": "(stage, output)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "write_manifest",
+      "tests": [
+        "tests/unit/test_artifact_manifest.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "argparse.ArgumentParser": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "write_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "argparse.ArgumentParser",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "write_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_artifact_manifest",
+      "qualname": "calo_rpd_studio.scripts.generate_artifact_manifest.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

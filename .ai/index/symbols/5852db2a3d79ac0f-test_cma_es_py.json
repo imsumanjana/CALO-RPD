@@ -1,0 +1,513 @@
+{
+  "path": "tests/unit/test_cma_es.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+        "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.SphereProblem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "SphereProblem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_cma_es.SphereProblem.evaluate_population"
+      ],
+      "calls": [
+        "Evaluation",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.SphereProblem.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_cma_es.SphereProblem.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_cma_es.SphereProblem.evaluate"
+      ],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.SphereProblem.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.SphereProblem.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "feasibility_first_ranks",
+          "target": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "feasibility_first_ranks": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Evaluation",
+        "feasibility_first_ranks"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.test_feasibility_first_ranks_are_dense_and_preserve_exact_ties",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "test_feasibility_first_ranks_are_dense_and_preserve_exact_ties",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_cma_es.SphereProblem"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "create_optimizer": "name",
+        "np.testing.assert_allclose": "attribute",
+        "run": "attribute",
+        "startswith": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "create_optimizer",
+        "np.testing.assert_allclose",
+        "run",
+        "startswith"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_cma_es.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_cma_es.SphereProblem"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "create_optimizer": "name",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "create_optimizer",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_cma_es.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/unit/test_cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "feasibility_first_ranks": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.cma_es",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_cma_es",
+      "qualname": "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "tests": []
+    }
+  ]
+}

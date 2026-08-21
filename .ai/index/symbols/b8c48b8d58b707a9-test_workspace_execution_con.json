@@ -1,0 +1,3364 @@
+{
+  "path": "tests/integration/test_workspace_execution_control.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionControlService",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.submit_algorithm_stage",
+          "target": "service.submit_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "ExecutionControlService": "name",
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "service.submit_algorithm_stage": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+        "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+        "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+        "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+        "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+        "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+        "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+        "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+        "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+        "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+        "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+        "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+        "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+        "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+        "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+        "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+        "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+        "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan"
+      ],
+      "calls": [
+        "ExecutionControlService",
+        "ExperimentConfig",
+        "ResultDatabase",
+        "service.submit_algorithm_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.prepared_service",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "prepared_service",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.active_plan",
+          "target": "service.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.record_audit",
+          "target": "service.record_audit"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        }
+      ],
+      "call_forms": {
+        "apply_workspace_study": "name",
+        "service.active_plan": "attribute",
+        "service.record_audit": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+        "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+        "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+        "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+        "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+        "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+        "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+        "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan"
+      ],
+      "calls": [
+        "apply_workspace_study",
+        "service.active_plan",
+        "service.record_audit"
+      ],
+      "calls_resolved": [
+        "tests.conftest.apply_workspace_study"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.audited_workspace",
+      "semantic_tags": [],
+      "signature": "(service, config, apply_workspace_study)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "audited_workspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_active_portfolio_goal",
+          "target": "database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.replace_portfolio_goal",
+          "target": "database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.active_plan",
+          "target": "service.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.get_active_portfolio_goal": "attribute",
+        "database.replace_portfolio_goal": "attribute",
+        "deepcopy": "name",
+        "fetchone": "attribute",
+        "prepared_service": "name",
+        "service.active_plan": "attribute",
+        "service.controller": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "con.execute",
+        "database.connect",
+        "database.get_active_portfolio_goal",
+        "database.replace_portfolio_goal",
+        "deepcopy",
+        "fetchone",
+        "prepared_service",
+        "service.active_plan",
+        "service.controller"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_active_applied_study_setup",
+          "target": "database.get_active_applied_study_setup"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_active_portfolio_goal",
+          "target": "database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_execution_plan",
+          "target": "database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.replace_portfolio_goal",
+          "target": "database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "apply_workspace_study": "name",
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.get_active_applied_study_setup": "attribute",
+        "database.get_active_portfolio_goal": "attribute",
+        "database.get_execution_plan": "attribute",
+        "database.replace_portfolio_goal": "attribute",
+        "deepcopy": "name",
+        "fetchone": "attribute",
+        "prepared_service": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "apply_workspace_study",
+        "con.execute",
+        "database.connect",
+        "database.get_active_applied_study_setup",
+        "database.get_active_portfolio_goal",
+        "database.get_execution_plan",
+        "database.replace_portfolio_goal",
+        "deepcopy",
+        "fetchone",
+        "prepared_service"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.conftest.apply_workspace_study",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.replace_portfolio_goal",
+          "target": "database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.active_plan",
+          "target": "service.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "audited_workspace": "name",
+        "database.replace_portfolio_goal": "attribute",
+        "deepcopy": "name",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.active_plan": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "audited_workspace",
+        "database.replace_portfolio_goal",
+        "deepcopy",
+        "prepared_service",
+        "pytest.raises",
+        "service.active_plan",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 83,
+      "state_owner": "",
+      "symbol": "test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_paused",
+          "target": "service.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.request_pause",
+          "target": "service.request_pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "audited_workspace": "name",
+        "prepared_service": "name",
+        "service.begin_run": "attribute",
+        "service.commit_paused": "attribute",
+        "service.controller": "attribute",
+        "service.request_pause": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audited_workspace",
+        "prepared_service",
+        "service.begin_run",
+        "service.commit_paused",
+        "service.controller",
+        "service.request_pause",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "test_workspace_pause_releases_controller_but_retains_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_campaign_task",
+          "target": "database.add_campaign_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_campaign",
+          "target": "database.create_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_campaign",
+          "target": "database.get_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_resumable_task",
+          "target": "database.get_resumable_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_campaign_tasks",
+          "target": "database.list_campaign_tasks"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_workspace_plan_cells",
+          "target": "database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.upsert_resumable_task",
+          "target": "database.upsert_resumable_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "frozen.to_dict",
+          "target": "frozen.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.cancel_retained",
+          "target": "service.cancel_retained"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_paused",
+          "target": "service.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.plan_configuration",
+          "target": "service.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.resume",
+          "target": "service.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "audited_workspace": "name",
+        "database.add_campaign_task": "attribute",
+        "database.create_campaign": "attribute",
+        "database.create_experiment": "attribute",
+        "database.get_campaign": "attribute",
+        "database.get_resumable_task": "attribute",
+        "database.list_campaign_tasks": "attribute",
+        "database.list_workspace_plan_cells": "attribute",
+        "database.upsert_resumable_task": "attribute",
+        "frozen.to_dict": "attribute",
+        "prepared_service": "name",
+        "service.begin_run": "attribute",
+        "service.cancel_retained": "attribute",
+        "service.commit_paused": "attribute",
+        "service.controller": "attribute",
+        "service.plan_configuration": "attribute",
+        "service.resume": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audited_workspace",
+        "database.add_campaign_task",
+        "database.create_campaign",
+        "database.create_experiment",
+        "database.get_campaign",
+        "database.get_resumable_task",
+        "database.list_campaign_tasks",
+        "database.list_workspace_plan_cells",
+        "database.upsert_resumable_task",
+        "frozen.to_dict",
+        "prepared_service",
+        "service.begin_run",
+        "service.cancel_retained",
+        "service.commit_paused",
+        "service.controller",
+        "service.plan_configuration",
+        "service.resume",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 163,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_paused",
+          "target": "service.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.record_audit",
+          "target": "service.record_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.request_pause",
+          "target": "service.request_pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "prepared_service": "name",
+        "service.begin_run": "attribute",
+        "service.commit_paused": "attribute",
+        "service.controller": "attribute",
+        "service.create_individual_draft": "attribute",
+        "service.record_audit": "attribute",
+        "service.request_pause": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "prepared_service",
+        "service.begin_run",
+        "service.commit_paused",
+        "service.controller",
+        "service.create_individual_draft",
+        "service.record_audit",
+        "service.request_pause",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 177,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 166,
+      "state_owner": "",
+      "symbol": "test_individual_pause_retains_exclusive_controller",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.plan_configuration",
+          "target": "service.plan_configuration"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "apply_workspace_study": "name",
+        "prepared_service": "name",
+        "service.create_individual_draft": "attribute",
+        "service.plan_configuration": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "apply_workspace_study",
+        "prepared_service",
+        "service.create_individual_draft",
+        "service.plan_configuration"
+      ],
+      "calls_resolved": [
+        "tests.conftest.apply_workspace_study",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 197,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 180,
+      "state_owner": "",
+      "symbol": "test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.plan_configuration",
+          "target": "service.plan_configuration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "prepared_service": "name",
+        "service.create_individual_draft": "attribute",
+        "service.plan_configuration": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "prepared_service",
+        "service.create_individual_draft",
+        "service.plan_configuration",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 220,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 200,
+      "state_owner": "",
+      "symbol": "test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_paused",
+          "target": "service.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_terminal",
+          "target": "service.commit_terminal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.record_audit",
+          "target": "service.record_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.resume",
+          "target": "service.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "audited_workspace": "name",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.begin_run": "attribute",
+        "service.commit_paused": "attribute",
+        "service.commit_terminal": "attribute",
+        "service.create_individual_draft": "attribute",
+        "service.record_audit": "attribute",
+        "service.resume": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audited_workspace",
+        "prepared_service",
+        "pytest.raises",
+        "service.begin_run",
+        "service.commit_paused",
+        "service.commit_terminal",
+        "service.create_individual_draft",
+        "service.record_audit",
+        "service.resume",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 223,
+      "state_owner": "",
+      "symbol": "test_paused_workspace_resume_waits_for_individual_owner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "database.acquire_execution_controller",
+          "target": "database.acquire_execution_controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.transition_execution_plan",
+          "target": "database.transition_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "audited_workspace": "name",
+        "database.acquire_execution_controller": "attribute",
+        "database.transition_execution_plan": "attribute",
+        "int": "name",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.controller": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audited_workspace",
+        "database.acquire_execution_controller",
+        "database.transition_execution_plan",
+        "int",
+        "prepared_service",
+        "pytest.raises",
+        "service.controller",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 272,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 249,
+      "state_owner": "",
+      "symbol": "test_controller_acquisition_is_singleton_and_fenced",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionControlService",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.commit_terminal",
+          "target": "first.commit_terminal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.stage",
+          "target": "first.stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.commit_terminal",
+          "target": "recovered.commit_terminal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.controller",
+          "target": "recovered.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "ExecutionControlService": "name",
+        "audited_workspace": "name",
+        "first.commit_terminal": "attribute",
+        "first.stage": "attribute",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "recovered.commit_terminal": "attribute",
+        "recovered.controller": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExecutionControlService",
+        "audited_workspace",
+        "first.commit_terminal",
+        "first.stage",
+        "prepared_service",
+        "pytest.raises",
+        "recovered.commit_terminal",
+        "recovered.controller"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 296,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 275,
+      "state_owner": "",
+      "symbol": "test_restart_fences_prior_instance_and_restores_staged_owner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.controller",
+          "target": "service.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.resume",
+          "target": "service.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.transition",
+          "target": "service.transition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "audited_workspace": "name",
+        "prepared_service": "name",
+        "service.begin_run": "attribute",
+        "service.controller": "attribute",
+        "service.resume": "attribute",
+        "service.stage": "attribute",
+        "service.transition": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "audited_workspace",
+        "prepared_service",
+        "service.begin_run",
+        "service.controller",
+        "service.resume",
+        "service.stage",
+        "service.transition"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 316,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 299,
+      "state_owner": "",
+      "symbol": "test_workspace_interruption_resumes_with_retained_owner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionControlService",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_workspace_plan_cells",
+          "target": "database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.update_workspace_plan_cell",
+          "target": "database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.controller",
+          "target": "recovered.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audited_workspace",
+          "target": "tests.integration.test_workspace_execution_control.audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "ExecutionControlService": "name",
+        "audited_workspace": "name",
+        "database.list_workspace_plan_cells": "attribute",
+        "database.update_workspace_plan_cell": "attribute",
+        "prepared_service": "name",
+        "recovered.controller": "attribute",
+        "service.begin_run": "attribute",
+        "service.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExecutionControlService",
+        "audited_workspace",
+        "database.list_workspace_plan_cells",
+        "database.update_workspace_plan_cell",
+        "prepared_service",
+        "recovered.controller",
+        "service.begin_run",
+        "service.stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 333,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 319,
+      "state_owner": "",
+      "symbol": "test_restart_marks_inflight_workspace_cell_resumable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_execution_controller",
+          "target": "database.get_execution_controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.get_execution_controller": "attribute",
+        "prepared_service": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "con.execute",
+        "database.connect",
+        "database.get_execution_controller",
+        "prepared_service",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 345,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 336,
+      "state_owner": "",
+      "symbol": "test_corrupt_controller_receipt_fails_closed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_execution_plan",
+          "target": "database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.get_execution_plan": "attribute",
+        "fetchone": "attribute",
+        "prepared_service": "name",
+        "service.create_individual_draft": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "con.execute",
+        "database.connect",
+        "database.get_execution_plan",
+        "fetchone",
+        "prepared_service",
+        "service.create_individual_draft"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 364,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 348,
+      "state_owner": "",
+      "symbol": "test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.record_audit",
+          "target": "service.record_audit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "fetchone": "attribute",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.create_individual_draft": "attribute",
+        "service.record_audit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "con.execute",
+        "database.connect",
+        "fetchone",
+        "prepared_service",
+        "pytest.raises",
+        "service.create_individual_draft",
+        "service.record_audit"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 382,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 367,
+      "state_owner": "",
+      "symbol": "test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_campaign_task",
+          "target": "database.add_campaign_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_campaign",
+          "target": "database.create_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "config.to_dict": "attribute",
+        "database.add_campaign_task": "attribute",
+        "database.create_campaign": "attribute",
+        "database.create_experiment": "attribute",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.create_individual_draft": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "config.to_dict",
+        "database.add_campaign_task",
+        "database.create_campaign",
+        "database.create_experiment",
+        "prepared_service",
+        "pytest.raises",
+        "service.create_individual_draft"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 415,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 385,
+      "state_owner": "",
+      "symbol": "test_duplicate_plan_job_admission_is_rejected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_active_algorithm_stage",
+          "target": "database.get_active_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sqlite3.connect",
+          "target": "sqlite3.connect"
+        }
+      ],
+      "call_forms": {
+        "ResultDatabase": "name",
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.get_active_algorithm_stage": "attribute",
+        "fetchone": "attribute",
+        "sqlite3.connect": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ResultDatabase",
+        "con.execute",
+        "database.connect",
+        "database.get_active_algorithm_stage",
+        "fetchone",
+        "sqlite3.connect"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 431,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 418,
+      "state_owner": "",
+      "symbol": "test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_campaign",
+          "target": "database.create_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "frozen.to_dict",
+          "target": "frozen.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.begin_run",
+          "target": "service.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.commit_paused",
+          "target": "service.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_individual_draft",
+          "target": "service.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.plan_configuration",
+          "target": "service.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.record_audit",
+          "target": "service.record_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.request_pause",
+          "target": "service.request_pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.resume",
+          "target": "service.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.stage",
+          "target": "service.stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.transition",
+          "target": "service.transition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prepared_service",
+          "target": "tests.integration.test_workspace_execution_control.prepared_service"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "database.connect": "attribute",
+        "database.create_campaign": "attribute",
+        "database.create_experiment": "attribute",
+        "fetchone": "attribute",
+        "frozen.to_dict": "attribute",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "prepared_service": "name",
+        "pytest.raises": "attribute",
+        "service.begin_run": "attribute",
+        "service.commit_paused": "attribute",
+        "service.create_individual_draft": "attribute",
+        "service.plan_configuration": "attribute",
+        "service.record_audit": "attribute",
+        "service.request_pause": "attribute",
+        "service.resume": "attribute",
+        "service.stage": "attribute",
+        "service.transition": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "con.execute",
+        "database.connect",
+        "database.create_campaign",
+        "database.create_experiment",
+        "fetchone",
+        "frozen.to_dict",
+        "json.dumps",
+        "json.loads",
+        "len",
+        "prepared_service",
+        "pytest.raises",
+        "service.begin_run",
+        "service.commit_paused",
+        "service.create_individual_draft",
+        "service.plan_configuration",
+        "service.record_audit",
+        "service.request_pause",
+        "service.resume",
+        "service.stage",
+        "service.transition"
+      ],
+      "calls_resolved": [
+        "tests.integration.test_workspace_execution_control.prepared_service"
+      ],
+      "doc": "",
+      "end_line": 471,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 434,
+      "state_owner": "",
+      "symbol": "test_resume_rejects_campaign_with_changed_frozen_budget",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 502,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 474,
+      "state_owner": "",
+      "symbol": "FakeExperimentManager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 486,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 482,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.started_configs.append",
+          "target": "self.started_configs.append"
+        }
+      ],
+      "call_forms": {
+        "self.started_configs.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.started_configs.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 491,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager.start_comparison",
+      "semantic_tags": [],
+      "signature": "(self, config)",
+      "start_line": 488,
+      "state_owner": "",
+      "symbol": "start_comparison",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 496,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager.resume_campaign",
+      "semantic_tags": [],
+      "signature": "(self, _campaign_id, update_workspace)",
+      "start_line": 493,
+      "state_owner": "",
+      "symbol": "resume_campaign",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 499,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager.pause",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 498,
+      "state_owner": "",
+      "symbol": "pause",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 502,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.FakeExperimentManager.cancel",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 501,
+      "state_owner": "",
+      "symbol": "cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceCampaignCoordinator",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "coordinator.run",
+          "target": "coordinator.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first_config.to_dict",
+          "target": "first_config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.completed.emit",
+          "target": "manager.completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.idle.emit",
+          "target": "manager.idle.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.started.emit",
+          "target": "manager.started.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.create_campaign",
+          "target": "state.database.create_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.create_experiment",
+          "target": "state.database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.record_audit",
+          "target": "state.execution_control.record_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.stage",
+          "target": "state.execution_control.stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "FakeExperimentManager",
+          "target": "tests.integration.test_workspace_execution_control.FakeExperimentManager"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "FakeExperimentManager": "name",
+        "SimpleNamespace": "name",
+        "WorkspaceCampaignCoordinator": "name",
+        "apply_workspace_study": "name",
+        "coordinator.run": "attribute",
+        "first_config.to_dict": "attribute",
+        "len": "name",
+        "manager.completed.emit": "attribute",
+        "manager.idle.emit": "attribute",
+        "manager.started.emit": "attribute",
+        "state.database.create_campaign": "attribute",
+        "state.database.create_experiment": "attribute",
+        "state.execution_control.record_audit": "attribute",
+        "state.execution_control.stage": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "FakeExperimentManager",
+        "SimpleNamespace",
+        "WorkspaceCampaignCoordinator",
+        "apply_workspace_study",
+        "coordinator.run",
+        "first_config.to_dict",
+        "len",
+        "manager.completed.emit",
+        "manager.idle.emit",
+        "manager.started.emit",
+        "state.database.create_campaign",
+        "state.database.create_experiment",
+        "state.execution_control.record_audit",
+        "state.execution_control.stage",
+        "state.execution_control.submit_algorithm_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "tests.conftest.apply_workspace_study",
+        "tests.integration.test_workspace_execution_control.FakeExperimentManager"
+      ],
+      "doc": "",
+      "end_line": 544,
+      "entry_point": false,
+      "file": "tests/integration/test_workspace_execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkspaceCampaignCoordinator": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.app.execution_control",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspace_campaign",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "json",
+        "pytest",
+        "sqlite3",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_workspace_execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_workspace_execution_control",
+      "qualname": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "semantic_tags": [],
+      "signature": "(tmp_path, apply_workspace_study)",
+      "start_line": 505,
+      "state_owner": "",
+      "symbol": "test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "tests": []
+    }
+  ]
+}

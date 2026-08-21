@@ -1,0 +1,275 @@
+{
+  "path": "calo_rpd_studio/visualization/plot_style.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar.reset",
+        "calo_rpd_studio.visualization.plot_manager.PlotManager.__init__",
+        "tests.unit.test_plot_export.test_auto_fit_visible_data_reacts_to_current_visible_series_only",
+        "tests.unit.test_plot_export.test_auto_fit_visible_data_tightens_nonnegative_convergence_range"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/plot_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.plot_style",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.plot_style",
+      "qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "PlotStyle",
+      "tests": [
+        "tests/unit/test_plot_export.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.visualization.plot_style.PlotStyle.save"
+      ],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/plot_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.plot_style",
+      "qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle.to_dict",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.to_dict",
+          "target": "calo_rpd_studio.visualization.plot_style.PlotStyle.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "json.dumps": "attribute",
+        "self.to_dict": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "json.dumps",
+        "self.to_dict",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_style.PlotStyle.to_dict"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/plot_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.plot_style",
+      "qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle.save",
+      "semantic_tags": [],
+      "signature": "(self, path)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "save",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "cls": "name",
+        "json.loads": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar.load_style_profile"
+      ],
+      "calls": [
+        "Path",
+        "cls",
+        "json.loads",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/plot_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.plot_style",
+      "qualname": "calo_rpd_studio.visualization.plot_style.PlotStyle.load",
+      "semantic_tags": [],
+      "signature": "(cls, path)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": []
+    }
+  ]
+}

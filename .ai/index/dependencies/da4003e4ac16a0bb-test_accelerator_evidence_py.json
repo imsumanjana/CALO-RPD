@@ -1,0 +1,71 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/source_identity.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/validate_accelerator.py"
+    }
+  ],
+  "path": "tests/unit/test_accelerator_evidence.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_accelerator_evidence.test_accelerator_evidence_is_strict_json_and_never_overwritten",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_accelerator_evidence_is_strict_json_and_never_overwritten",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_accelerator_evidence_is_strict_json_and_never_overwritten",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_accelerator_evidence_is_strict_json_and_never_overwritten",
+      "to": "path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_accelerator_evidence_is_strict_json_and_never_overwritten",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_accelerator_evidence.test_cpu_runtime_snapshot_records_eighty_percent_of_currently_available_ram",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_cpu_runtime_snapshot_records_eighty_percent_of_currently_available_ram",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_accelerator_evidence.test_cuda_peak_residency_proof_requires_workload_allocation_inside_allowance",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._cuda_peak_residency_evidence"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_accelerator_evidence.test_dirty_development_identity_is_never_durable_qualification",
+      "to": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_accelerator_evidence.test_json_safe_recurses_without_changing_finite_values",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._json_safe"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_accelerator_evidence.test_json_safe_recurses_without_changing_finite_values",
+      "to": "float"
+    }
+  ]
+}

@@ -1,0 +1,1231 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+      "tests": [
+        "tests/unit/test_tsh_calo_qualification.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "len": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate"
+      ],
+      "calls": [
+        "all",
+        "len",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._is_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(value)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_is_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encoded.encode",
+          "target": "encoded.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encoded.encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt"
+      ],
+      "calls": [
+        "encoded.encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._canonical_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Integrity receipt only; scientific acceptance remains the qualifier's responsibility.",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "TSHCALOQualificationReceipt",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.pop",
+          "target": "payload.pop"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "list": "name",
+        "payload.pop": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate"
+      ],
+      "calls": [
+        "asdict",
+        "list",
+        "payload.pop"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.unsigned_payload",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "unsigned_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.unsigned_payload",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.unsigned_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_is_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._is_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calibration_from_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ood_calibration_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.qualification_run_id.strip",
+          "target": "self.qualification_run_id.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.source_commit.strip",
+          "target": "self.source_commit.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_is_sha256": "name",
+        "calibration_from_receipt": "name",
+        "join": "attribute",
+        "lower": "attribute",
+        "ood_calibration_sha256": "name",
+        "protected_holdout_matches": "name",
+        "self.qualification_run_id.strip": "attribute",
+        "self.source_commit.strip": "attribute",
+        "self.unsigned_payload": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "_canonical_sha256",
+        "_is_sha256",
+        "calibration_from_receipt",
+        "join",
+        "lower",
+        "ood_calibration_sha256",
+        "protected_holdout_matches",
+        "self.qualification_run_id.strip",
+        "self.source_commit.strip",
+        "self.unsigned_payload",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.unsigned_payload",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._is_sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+      ],
+      "doc": "",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, expected_policy_sha256)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.as_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "as_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calibration.validate",
+          "target": "calibration.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OODCalibration",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        }
+      ],
+      "call_forms": {
+        "OODCalibration": "name",
+        "calibration.validate": "attribute",
+        "dict": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "payload.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance"
+      ],
+      "calls": [
+        "OODCalibration",
+        "calibration.validate",
+        "dict",
+        "float",
+        "np.asarray",
+        "payload.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(receipt)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "calibration_from_receipt",
+      "tests": [
+        "tests/unit/test_tsh_calo_qualification.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOQualificationReceipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ood_calibration_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provisional.unsigned_payload",
+          "target": "provisional.unsigned_payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "receipt.as_dict",
+          "target": "receipt.as_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "receipt.validate",
+          "target": "receipt.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOQualificationReceipt": "name",
+        "_canonical_sha256": "name",
+        "float": "name",
+        "lower": "attribute",
+        "np.asarray": "attribute",
+        "ood_calibration_sha256": "name",
+        "provisional.unsigned_payload": "attribute",
+        "receipt.as_dict": "attribute",
+        "receipt.validate": "attribute",
+        "replace": "name",
+        "str": "name",
+        "tolist": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle._add_transactional_completion",
+        "tests.unit.test_tsh_calo_policy_lifecycle._convert_to_feasibility_assessment",
+        "tests.unit.test_tsh_calo_policy_lifecycle._formal_evidence",
+        "tests.unit.test_tsh_calo_policy_lifecycle._qualification_config",
+        "tests.unit.test_tsh_calo_qualification._receipt",
+        "tests.unit.test_v120_phase5_release_preparation.test_new_policy_scope_requires_a_confined_exact_manifest"
+      ],
+      "calls": [
+        "TSHCALOQualificationReceipt",
+        "_canonical_sha256",
+        "float",
+        "lower",
+        "np.asarray",
+        "ood_calibration_sha256",
+        "provisional.unsigned_payload",
+        "receipt.as_dict",
+        "receipt.validate",
+        "replace",
+        "str",
+        "tolist",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+      ],
+      "doc": "Freeze supplied qualification inputs without deciding whether their evidence passes.",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(qualification_run_id, source_policy_sha256, source_commit, qualification_protocol_sha256, seed_manifest_sha256, evidence_artifact_sha256, development_cases, ood_calibration)",
+      "start_line": 105,
+      "state_owner": "",
+      "symbol": "build_tsh_calo_qualification_receipt",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_qualification.py",
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "load_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "loaded.as_dict",
+          "target": "loaded.as_dict"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "load_tsh_calo_qualification_receipt": "name",
+        "loaded.as_dict": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification_admission.inspect_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.policy_qualification_admission.inspect_qualification_evidence",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle._qualification_config",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_or_calibration_mutation_is_rejected",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance"
+      ],
+      "calls": [
+        "dict",
+        "load_tsh_calo_qualification_receipt",
+        "loaded.as_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+      ],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(receipt)",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "qualification_config",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_qualification.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOQualificationReceipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.get",
+          "target": "config.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "receipt.validate",
+          "target": "receipt.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOQualificationReceipt": "name",
+        "ValueError": "name",
+        "config.get": "attribute",
+        "dict": "name",
+        "payload.get": "attribute",
+        "receipt.validate": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.activate",
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.bind_to_experiment_config",
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.qualification_evidence_summaries",
+        "calo_rpd_studio.algorithms.calo.policy_qualification_admission.inspect_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.policy_qualification_admission.inspect_qualification_evidence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config",
+        "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_or_calibration_mutation_is_rejected",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance"
+      ],
+      "calls": [
+        "TSHCALOQualificationReceipt",
+        "ValueError",
+        "config.get",
+        "dict",
+        "payload.get",
+        "receipt.validate",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt"
+      ],
+      "doc": "",
+      "end_line": 163,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(config, expected_policy_sha256)",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "load_tsh_calo_qualification_receipt",
+      "tests": [
+        "tests/unit/test_tsh_calo_qualification.py"
+      ]
+    }
+  ]
+}

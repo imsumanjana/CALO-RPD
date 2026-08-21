@@ -1,0 +1,61 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:8833e1d2fb4a903627f4c578bb62df559b948ad5",
+    "content_sha256": "b8d9b939707798ad9a0c74bb891a980399facc560eb6bf55319abfaa453be5e6",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Any": "typing.Any",
+      "Callable": "typing.Callable",
+      "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+      "dataclass": "dataclasses.dataclass",
+      "logging": "logging",
+      "threading": "threading",
+      "torch": "torch"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "calo_rpd_studio.compute.device_lease",
+      "calo_rpd_studio.compute.memory_budget",
+      "dataclasses",
+      "logging",
+      "threading",
+      "torch",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/accelerated/vram_residency.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 18081,
+    "state_owner": "",
+    "symbol_count": 18
+  },
+  "path": "calo_rpd_studio/accelerated/vram_residency.py",
+  "schema_version": 2
+}

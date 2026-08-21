@@ -1,0 +1,771 @@
+{
+  "path": "containers/entrypoint.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._CHILDREN",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "_CHILDREN",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.kill",
+          "target": "process.kill"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.poll",
+          "target": "process.poll"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.terminate",
+          "target": "process.terminate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.wait",
+          "target": "process.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reversed",
+          "target": "reversed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "process.kill": "attribute",
+        "process.poll": "attribute",
+        "process.terminate": "attribute",
+        "process.wait": "attribute",
+        "reversed": "name",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [
+        "containers.entrypoint._handle_signal",
+        "containers.entrypoint.main"
+      ],
+      "calls": [
+        "max",
+        "process.kill",
+        "process.poll",
+        "process.terminate",
+        "process.wait",
+        "reversed",
+        "time.monotonic"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._terminate_children",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_terminate_children",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SystemExit",
+          "target": "SystemExit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_terminate_children",
+          "target": "containers.entrypoint._terminate_children"
+        }
+      ],
+      "call_forms": {
+        "SystemExit": "name",
+        "_terminate_children": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SystemExit",
+        "_terminate_children"
+      ],
+      "calls_resolved": [
+        "containers.entrypoint._terminate_children"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._handle_signal",
+      "semantic_tags": [],
+      "signature": "(signum, _frame)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_handle_signal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_CHILDREN.append",
+          "target": "_CHILDREN.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.Popen",
+          "target": "subprocess.Popen"
+        }
+      ],
+      "call_forms": {
+        "_CHILDREN.append": "attribute",
+        "subprocess.Popen": "attribute"
+      },
+      "called_by": [
+        "containers.entrypoint.main"
+      ],
+      "calls": [
+        "_CHILDREN.append",
+        "subprocess.Popen"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._start",
+      "semantic_tags": [],
+      "signature": "(*command)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_start",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.poll",
+          "target": "process.poll"
+        }
+      ],
+      "call_forms": {
+        "next": "name",
+        "process.poll": "attribute"
+      },
+      "called_by": [
+        "containers.entrypoint._supervise_children"
+      ],
+      "calls": [
+        "next",
+        "process.poll"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._first_exited",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_first_exited",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_first_exited",
+          "target": "containers.entrypoint._first_exited"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.unlink",
+          "target": "pid_file.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.write_text",
+          "target": "pid_file.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
+        }
+      ],
+      "call_forms": {
+        "_first_exited": "name",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "pid_file.unlink": "attribute",
+        "pid_file.write_text": "attribute",
+        "time.monotonic": "attribute",
+        "time.sleep": "attribute"
+      },
+      "called_by": [
+        "containers.entrypoint.main"
+      ],
+      "calls": [
+        "_first_exited",
+        "float",
+        "int",
+        "max",
+        "pid_file.unlink",
+        "pid_file.write_text",
+        "time.monotonic",
+        "time.sleep"
+      ],
+      "calls_resolved": [
+        "containers.entrypoint._first_exited"
+      ],
+      "doc": "Publish readiness only while every desktop process and the Qt app remain alive.",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._supervise_children",
+      "semantic_tags": [],
+      "signature": "(app, pid_file, readiness_seconds, poll_seconds)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "_supervise_children",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "bool": "name",
+        "lower": "attribute",
+        "os.environ.get": "attribute",
+        "print": "name",
+        "strip": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.mem_get_info": "attribute"
+      },
+      "called_by": [
+        "containers.entrypoint.main"
+      ],
+      "calls": [
+        "RuntimeError",
+        "bool",
+        "lower",
+        "os.environ.get",
+        "print",
+        "strip",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available",
+        "torch.cuda.mem_get_info"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint._verify_compute_mode",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "_verify_compute_mode",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_start",
+          "target": "containers.entrypoint._start"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_supervise_children",
+          "target": "containers.entrypoint._supervise_children"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_terminate_children",
+          "target": "containers.entrypoint._terminate_children"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_verify_compute_mode",
+          "target": "containers.entrypoint._verify_compute_mode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "directory.mkdir",
+          "target": "directory.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.chdir",
+          "target": "os.chdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.unlink",
+          "target": "pid_file.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runtime_directory.chmod",
+          "target": "runtime_directory.chmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "signal.signal",
+          "target": "signal.signal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workdir.mkdir",
+          "target": "workdir.mkdir"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_start": "name",
+        "_supervise_children": "name",
+        "_terminate_children": "name",
+        "_verify_compute_mode": "name",
+        "directory.mkdir": "attribute",
+        "os.chdir": "attribute",
+        "os.environ.get": "attribute",
+        "pid_file.unlink": "attribute",
+        "runtime_directory.chmod": "attribute",
+        "signal.signal": "attribute",
+        "str": "name",
+        "time.sleep": "attribute",
+        "workdir.mkdir": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_start",
+        "_supervise_children",
+        "_terminate_children",
+        "_verify_compute_mode",
+        "directory.mkdir",
+        "os.chdir",
+        "os.environ.get",
+        "pid_file.unlink",
+        "runtime_directory.chmod",
+        "signal.signal",
+        "str",
+        "time.sleep",
+        "workdir.mkdir"
+      ],
+      "calls_resolved": [
+        "containers.entrypoint._start",
+        "containers.entrypoint._supervise_children",
+        "containers.entrypoint._terminate_children",
+        "containers.entrypoint._verify_compute_mode"
+      ],
+      "doc": "",
+      "end_line": 146,
+      "entry_point": false,
+      "file": "containers/entrypoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "os": "os",
+        "signal": "signal",
+        "subprocess": "subprocess",
+        "sys": "sys",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "os",
+        "pathlib",
+        "signal",
+        "subprocess",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "containers.entrypoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "containers.entrypoint",
+      "qualname": "containers.entrypoint.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

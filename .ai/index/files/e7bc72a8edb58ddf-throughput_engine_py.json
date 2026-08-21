@@ -1,0 +1,68 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:fac005ec4aa3cada96f4f55d69ef37e3b9cee4e9",
+    "content_sha256": "47682033eb104bd0f7313c913cfdbcc3eefe45f4a545575b10b9e92bc5999676",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Any": "typing.Any",
+      "Iterable": "typing.Iterable",
+      "Path": "pathlib.Path",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "dataclass": "dataclasses.dataclass",
+      "field": "dataclasses.field",
+      "json": "json",
+      "logging": "logging",
+      "np": "numpy",
+      "queue": "queue",
+      "threading": "threading",
+      "time": "time",
+      "torch": "torch"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "json",
+      "logging",
+      "numpy",
+      "pathlib",
+      "queue",
+      "threading",
+      "time",
+      "torch",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/accelerated/throughput_engine.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 21387,
+    "state_owner": "",
+    "symbol_count": 31
+  },
+  "path": "calo_rpd_studio/accelerated/throughput_engine.py",
+  "schema_version": 2
+}

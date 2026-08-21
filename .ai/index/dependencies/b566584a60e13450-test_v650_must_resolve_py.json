@@ -1,0 +1,619 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/torch_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/ai_controller.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/device_resident_synthetic.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_qualification.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/run_checkpoint.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/constraints.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/mixed_variable_handler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_identity.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_loader.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/newton_raphson.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ybus.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    }
+  ],
+  "path": "tests/unit/test_v650_must_resolve.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.accelerated.torch_power_flow._sbus"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_torch"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.power_system.ac_power_flow._sbus"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.power_system.ac_power_flow._types"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "calo_rpd_studio.power_system.ybus.build_ybus"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "cpu"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "detach"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "np.abs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "np.exp"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "np.max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "numpy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+      "to": "torch.as_tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c10_stepped_values_never_exceed_declared_upper_bound",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_c10_stepped_values_never_exceed_declared_upper_bound",
+      "to": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_c10_stepped_values_never_exceed_declared_upper_bound",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_h01_fixed_voltage_span_uses_stable_absolute_scale",
+      "to": "calo_rpd_studio.orpd.constraints._normalized_above"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h01_fixed_voltage_span_uses_stable_absolute_scale",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h01_fixed_voltage_span_uses_stable_absolute_scale",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance",
+      "to": "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance",
+      "to": "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance",
+      "to": "toy_case.clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence",
+      "to": "abs"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification._paired_evidence"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h21_h22_checkpoint_mutations_are_single_transaction_operations",
+      "to": "inspect.getsource"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "ThreadPoolExecutor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "db.add_policy_checkpoint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "db.create_policy_lineage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "db.get_policy_checkpoint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "future.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "pool.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h22_concurrent_metadata_updates_are_not_lost",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build",
+      "to": "resolve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build",
+      "to": "section.index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build",
+      "to": "source.index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h30_results_explorer_guards_json_and_null_run_id_fallback",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h30_results_explorer_guards_json_and_null_run_id_fallback",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h30_results_explorer_guards_json_and_null_run_id_fallback",
+      "to": "resolve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_h30_results_explorer_guards_json_and_null_run_id_fallback",
+      "to": "source.index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "StallingPolicy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "ThreadPoolExecutor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "closer.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "entered.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "future.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "pool.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "release.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "threading.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately",
+      "to": "torch.device"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately.StallingPolicy.forward",
+      "to": "entered.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately.StallingPolicy.forward",
+      "to": "release.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately.StallingPolicy.forward",
+      "to": "torch.ones"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m18_policy_broker_close_releases_inflight_waiter_immediately.StallingPolicy.forward",
+      "to": "torch.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "db.add_policy_checkpoint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "db.create_policy_lineage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "db.list_policy_checkpoints"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m30_out_of_order_checkpoint_registration_cannot_replace_newer_latest",
+      "to": "dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "path.with_suffix"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "sidecar.is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+      "to": "sidecar.unlink"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes",
+      "to": "path.write_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes.forbidden",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "ThreadPoolExecutor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "closer.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "entered.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "future.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "object"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "pool.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "release.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter",
+      "to": "threading.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter.stalled",
+      "to": "entered.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n01_synthetic_broker_close_releases_inflight_waiter.stalled",
+      "to": "release.wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceSyntheticEvaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "object.__new__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "wrapped._verify_reference_parity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n02_stage_b_parity_rejects_truncated_accelerated_result",
+      "to": "wrapped.reference.evaluate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum",
+      "to": "calo_rpd_studio.power_system.case_identity.protected_holdout_identity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum",
+      "to": "canonical_protected_holdout_checksums.cache_clear"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum",
+      "to": "classmethod"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum.fake_load",
+      "to": "name.endswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum.fake_load",
+      "to": "str"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum.fake_load",
+      "to": "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum.FakeCase"
+    }
+  ]
+}

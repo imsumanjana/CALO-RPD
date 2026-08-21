@@ -1,0 +1,709 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/torch_orpd.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/vram_residency.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/benchmarking/campaign.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_binding.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_lease.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/execution_contract.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/topology.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_runner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/run_benchmark.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/run_final_benchmark.py"
+    }
+  ],
+  "path": "tests/unit/test_v120_phase2_contracts.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._BatchProblem.evaluate_population",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._BatchProblem.evaluate_population",
+      "to": "self.output"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem",
+      "to": "object.__new__"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem",
+      "to": "tests.unit.test_v120_phase2_contracts._capacity_problem.Evaluator"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem",
+      "to": "tests.unit.test_v120_phase2_contracts._capacity_problem.Reference"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem.Evaluator.evaluate_tensor",
+      "to": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem.Reference.evaluate",
+      "to": "tests.unit.test_v120_phase2_contracts._evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem.Reference.evaluate_with_context",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem.Reference.evaluate_with_context",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._capacity_problem.Reference.evaluate_with_context",
+      "to": "tests.unit.test_v120_phase2_contracts._evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._config",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._config",
+      "to": "values.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._cuda",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._cuda",
+      "to": "device_id.split"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._cuda",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._evaluation",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._evaluation",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._evaluation",
+      "to": "tolist"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts._snapshot",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts._snapshot",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_active_status_retains_phase2_cuda_cpu_only_contract_in_later_phases",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_active_status_retains_phase2_cuda_cpu_only_contract_in_later_phases",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_active_status_retains_phase2_cuda_cpu_only_contract_in_later_phases",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_active_status_retains_phase2_cuda_cpu_only_contract_in_later_phases",
+      "to": "resolve"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "optimizer.evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+      "to": "tests.unit.test_v120_phase2_contracts._BatchProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered.output",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered.output",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered.output",
+      "to": "rows.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered.output",
+      "to": "tests.unit.test_v120_phase2_contracts._evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "exploratory.evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "exploratory.execution_provenance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_capacity_exhaustion_formal_fails_exploratory_restarts_with_provenance",
+      "to": "tests.unit.test_v120_phase2_contracts._capacity_problem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary",
+      "to": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary",
+      "to": "calo_rpd_studio.scripts.run_benchmark.parser"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary",
+      "to": "calo_rpd_studio.scripts.run_final_benchmark.parser"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary",
+      "to": "parse_args"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_resolves_to_concrete_cpu_without_fallback",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_resolves_to_concrete_cpu_without_fallback",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_resolves_to_concrete_cpu_without_fallback",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_synthetic_topology_scan_is_fail_closed",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_synthetic_topology_scan_is_fail_closed",
+      "to": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_synthetic_topology_scan_is_fail_closed",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_synthetic_topology_scan_is_fail_closed",
+      "to": "service.scan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_cpu_only_synthetic_topology_scan_is_fail_closed",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_counted_context_api_obeys_the_same_fallback_flag",
+      "to": "exploratory.evaluate_population_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_counted_context_api_obeys_the_same_fallback_flag",
+      "to": "formal.evaluate_population_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_counted_context_api_obeys_the_same_fallback_flag",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_counted_context_api_obeys_the_same_fallback_flag",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_counted_context_api_obeys_the_same_fallback_flag",
+      "to": "tests.unit.test_v120_phase2_contracts._capacity_problem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_tensor_api_obeys_the_same_fallback_flag",
+      "to": "exploratory.evaluate_population_tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_tensor_api_obeys_the_same_fallback_flag",
+      "to": "formal.evaluate_population_tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_tensor_api_obeys_the_same_fallback_flag",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_tensor_api_obeys_the_same_fallback_flag",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_dense_tensor_api_obeys_the_same_fallback_flag",
+      "to": "tests.unit.test_v120_phase2_contracts._capacity_problem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_direct_and_gui_scheduler_bindings_share_cpu_only_semantics",
+      "to": "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_direct_and_gui_scheduler_bindings_share_cpu_only_semantics",
+      "to": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_direct_and_gui_scheduler_bindings_share_cpu_only_semantics",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+      "to": "values"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_unavailable_fails_closed",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_unavailable_fails_closed",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_unavailable_fails_closed",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_unavailable_fails_closed",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "tests.unit.test_v120_phase2_contracts._cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+      "to": "values"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_lease_cancellation_and_contention_have_distinct_failure_classes",
+      "to": "calo_rpd_studio.compute.device_lease.DeviceLeaseCancelled"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_lease_cancellation_and_contention_have_distinct_failure_classes",
+      "to": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_lease_cancellation_and_contention_have_distinct_failure_classes",
+      "to": "calo_rpd_studio.experiments.experiment_runner._failure_kind"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_one_physical_uuid_has_one_lease_despite_logical_reordering",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_one_physical_uuid_has_one_lease_despite_logical_reordering",
+      "to": "first.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_one_physical_uuid_has_one_lease_despite_logical_reordering",
+      "to": "other.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_one_physical_uuid_has_one_lease_despite_logical_reordering",
+      "to": "second.close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
+      "to": "lease.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission",
+      "to": "staticmethod"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission.flaky_lock",
+      "to": "attempts.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission.flaky_lock",
+      "to": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_ordinary_lease_contention_waits_for_queue_admission.flaky_lock",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_pci_identity_is_controlled_fallback_when_uuid_absent",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_pci_identity_is_controlled_fallback_when_uuid_absent",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_pci_identity_is_controlled_fallback_when_uuid_absent",
+      "to": "tests.unit.test_v120_phase2_contracts._cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_pci_identity_is_controlled_fallback_when_uuid_absent",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "optimizer.evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "tests.unit.test_v120_phase2_contracts._BatchProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+      "to": "tests.unit.test_v120_phase2_contracts._evaluation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_request_and_lifetime_vram_statistics_are_separate",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyStats"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_request_and_lifetime_vram_statistics_are_separate",
+      "to": "stats.to_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_xpu_is_never_executable",
+      "to": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v120_phase2_contracts.test_xpu_is_never_executable",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_xpu_is_never_executable",
+      "to": "tests.unit.test_v120_phase2_contracts._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v120_phase2_contracts.test_xpu_is_never_executable",
+      "to": "tests.unit.test_v120_phase2_contracts._snapshot"
+    }
+  ]
+}

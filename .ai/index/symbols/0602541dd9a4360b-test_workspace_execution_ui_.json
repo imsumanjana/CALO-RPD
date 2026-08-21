@@ -1,0 +1,2621 @@
+{
+  "path": "tests/gui/test_workspace_execution_ui.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "state.execution_control.submit_algorithm_stage": "attribute"
+      },
+      "called_by": [
+        "tests.gui.test_workspace_execution_ui.test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
+        "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+        "tests.gui.test_workspace_execution_ui.test_individual_audited_plan_ignores_mutable_algorithm_draft_drift",
+        "tests.gui.test_workspace_execution_ui.test_individual_setup_is_editable_without_workspace_portfolio_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_individual_staging_blocks_workspace_stage_and_resume",
+        "tests.gui.test_workspace_execution_ui.test_inline_study_panels_preserve_prerequisites_and_completion_signals",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_empty_study_filter_as_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+        "tests.gui.test_workspace_execution_ui.test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed",
+        "tests.gui.test_workspace_execution_ui.test_study_recommendation_hydration_is_non_persistent_until_apply",
+        "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
+        "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
+        "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing"
+      ],
+      "calls": [
+        "state.execution_control.submit_algorithm_stage"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui._submit_stage",
+      "semantic_tags": [],
+      "signature": "(state)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "_submit_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_plan",
+          "target": "state.execution_control.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.record_audit",
+          "target": "state.execution_control.record_audit"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        }
+      ],
+      "call_forms": {
+        "apply_workspace_study": "name",
+        "state.execution_control.active_plan": "attribute",
+        "state.execution_control.record_audit": "attribute"
+      },
+      "called_by": [
+        "tests.gui.test_workspace_execution_ui.test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
+        "tests.gui.test_workspace_execution_ui.test_individual_staging_blocks_workspace_stage_and_resume",
+        "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
+        "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing"
+      ],
+      "calls": [
+        "apply_workspace_study",
+        "state.execution_control.active_plan",
+        "state.execution_control.record_audit"
+      ],
+      "calls_resolved": [
+        "tests.conftest.apply_workspace_study"
+      ],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui._audited_workspace",
+      "semantic_tags": [],
+      "signature": "(state, apply_workspace_study)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "_audited_workspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_detail.text",
+          "target": "panel.plan_detail.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_summary.text",
+          "target": "panel.plan_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh_plan",
+          "target": "panel.refresh_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_errors.append",
+          "target": "technical_errors.append"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioManagerPanel": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel.plan_detail.text": "attribute",
+        "panel.plan_summary.text": "attribute",
+        "panel.refresh_plan": "attribute",
+        "qtbot.addWidget": "attribute",
+        "technical_errors.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioManagerPanel",
+        "monkeypatch.setattr",
+        "panel.plan_detail.text",
+        "panel.plan_summary.text",
+        "panel.refresh_plan",
+        "qtbot.addWidget",
+        "technical_errors.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+      ],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_missing_stage_as_prerequisite",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_portfolio_preview_treats_missing_stage_as_prerequisite",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._set_outputs",
+          "target": "panel._set_outputs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply",
+          "target": "panel.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.open_study.isEnabled",
+          "target": "panel.open_study.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_detail.text",
+          "target": "panel.plan_detail.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_active_applied_study_setup",
+          "target": "state.database.get_active_applied_study_setup"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.get_active_portfolio_goal",
+          "target": "state.database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_plan",
+          "target": "state.execution_control.active_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioManagerPanel": "name",
+        "_submit_stage": "name",
+        "hasattr": "name",
+        "panel._set_outputs": "attribute",
+        "panel.apply": "attribute",
+        "panel.open_study.isEnabled": "attribute",
+        "panel.plan_detail.text": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.database.get_active_applied_study_setup": "attribute",
+        "state.database.get_active_portfolio_goal": "attribute",
+        "state.execution_control.active_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioManagerPanel",
+        "_submit_stage",
+        "hasattr",
+        "panel._set_outputs",
+        "panel.apply",
+        "panel.open_study.isEnabled",
+        "panel.plan_detail.text",
+        "qtbot.addWidget",
+        "state.database.get_active_applied_study_setup",
+        "state.database.get_active_portfolio_goal",
+        "state.execution_control.active_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.apply_workspace_study_setup",
+          "target": "panel.apply_workspace_study_setup"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh_study_recommendation",
+          "target": "panel.refresh_study_recommendation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.runs.setValue",
+          "target": "panel.runs.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.runs.value",
+          "target": "panel.runs.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.use_study_recommendation",
+          "target": "panel.use_study_recommendation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio._set_outputs",
+          "target": "portfolio._set_outputs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.apply",
+          "target": "portfolio.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.active_plan",
+          "target": "state.execution_control.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "PortfolioManagerPanel": "name",
+        "_submit_stage": "name",
+        "panel.apply_workspace_study_setup": "attribute",
+        "panel.refresh_study_recommendation": "attribute",
+        "panel.runs.setValue": "attribute",
+        "panel.runs.value": "attribute",
+        "panel.show_context": "attribute",
+        "panel.use_study_recommendation": "attribute",
+        "portfolio._set_outputs": "attribute",
+        "portfolio.apply": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.active_plan": "attribute",
+        "state.execution_control.controller": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "PortfolioManagerPanel",
+        "_submit_stage",
+        "panel.apply_workspace_study_setup",
+        "panel.refresh_study_recommendation",
+        "panel.runs.setValue",
+        "panel.runs.value",
+        "panel.show_context",
+        "panel.use_study_recommendation",
+        "portfolio._set_outputs",
+        "portfolio.apply",
+        "qtbot.addWidget",
+        "state.execution_control.active_plan",
+        "state.execution_control.controller"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_study_recommendation_hydration_is_non_persistent_until_apply",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "test_study_recommendation_hydration_is_non_persistent_until_apply",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._clear_study_filter",
+          "target": "panel._clear_study_filter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_detail.text",
+          "target": "panel.plan_detail.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_summary.text",
+          "target": "panel.plan_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_errors.append",
+          "target": "technical_errors.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioManagerPanel": "name",
+        "_submit_stage": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel._clear_study_filter": "attribute",
+        "panel.plan_detail.text": "attribute",
+        "panel.plan_summary.text": "attribute",
+        "qtbot.addWidget": "attribute",
+        "technical_errors.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioManagerPanel",
+        "_submit_stage",
+        "monkeypatch.setattr",
+        "panel._clear_study_filter",
+        "panel.plan_detail.text",
+        "panel.plan_summary.text",
+        "qtbot.addWidget",
+        "technical_errors.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_empty_study_filter_as_prerequisite",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "test_portfolio_preview_treats_empty_study_filter_as_prerequisite",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_detail.text",
+          "target": "panel.plan_detail.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_summary.text",
+          "target": "panel.plan_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh_plan",
+          "target": "panel.refresh_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_errors.append",
+          "target": "technical_errors.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioManagerPanel": "name",
+        "_submit_stage": "name",
+        "monkeypatch.setattr": "attribute",
+        "panel.plan_detail.text": "attribute",
+        "panel.plan_summary.text": "attribute",
+        "panel.refresh_plan": "attribute",
+        "qtbot.addWidget": "attribute",
+        "technical_errors.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioManagerPanel",
+        "_submit_stage",
+        "monkeypatch.setattr",
+        "panel.plan_detail.text",
+        "panel.plan_summary.text",
+        "panel.refresh_plan",
+        "qtbot.addWidget",
+        "technical_errors.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 146,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 127,
+      "state_owner": "",
+      "symbol": "test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkState",
+          "target": "checkState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._selected_study_algorithms",
+          "target": "panel._selected_study_algorithms"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioManagerPanel": "name",
+        "_submit_stage": "name",
+        "apply_workspace_study": "name",
+        "checkState": "attribute",
+        "panel._selected_study_algorithms": "attribute",
+        "qtbot.addWidget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioManagerPanel",
+        "_submit_stage",
+        "apply_workspace_study",
+        "checkState",
+        "panel._selected_study_algorithms",
+        "qtbot.addWidget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.conftest.apply_workspace_study",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 161,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.plan_summary.text",
+          "target": "panel.plan_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.selected.text",
+          "target": "panel.selected.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_setup_workflow.set_step",
+          "target": "panel.study_setup_workflow.set_step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.workspace_requested.connect",
+          "target": "panel.workspace_requested.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_submit_stage": "name",
+        "apply_workspace_study": "name",
+        "len": "name",
+        "panel.plan_summary.text": "attribute",
+        "panel.selected.text": "attribute",
+        "panel.show_context": "attribute",
+        "panel.study_setup_workflow.set_step": "attribute",
+        "panel.workspace_requested.connect": "attribute",
+        "qtbot.addWidget": "attribute",
+        "range": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_submit_stage",
+        "apply_workspace_study",
+        "len",
+        "panel.plan_summary.text",
+        "panel.selected.text",
+        "panel.show_context",
+        "panel.study_setup_workflow.set_step",
+        "panel.workspace_requested.connect",
+        "qtbot.addWidget",
+        "range",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.conftest.apply_workspace_study",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 200,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 164,
+      "state_owner": "",
+      "symbol": "test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.audit_state.text",
+          "target": "panel.audit_state.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.setValue",
+          "target": "panel.population.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.value",
+          "target": "panel.population.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh",
+          "target": "panel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_plan.isEnabled",
+          "target": "panel.stage_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.status.text",
+          "target": "panel.status.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_workspace_study",
+          "target": "tests.conftest.apply_workspace_study"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_submit_stage": "name",
+        "apply_workspace_study": "name",
+        "panel.audit_state.text": "attribute",
+        "panel.population.setValue": "attribute",
+        "panel.population.value": "attribute",
+        "panel.refresh": "attribute",
+        "panel.stage_plan.isEnabled": "attribute",
+        "panel.status.text": "attribute",
+        "qtbot.addWidget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_submit_stage",
+        "apply_workspace_study",
+        "panel.audit_state.text",
+        "panel.population.setValue",
+        "panel.population.value",
+        "panel.refresh",
+        "panel.stage_plan.isEnabled",
+        "panel.status.text",
+        "qtbot.addWidget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.conftest.apply_workspace_study",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 222,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 203,
+      "state_owner": "",
+      "symbol": "test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.audit_state.text",
+          "target": "panel.audit_state.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.setValue",
+          "target": "panel.population.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.population.value",
+          "target": "panel.population.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh",
+          "target": "panel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_plan.isEnabled",
+          "target": "panel.stage_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_audited_workspace",
+          "target": "tests.gui.test_workspace_execution_ui._audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_audited_workspace": "name",
+        "_submit_stage": "name",
+        "panel.audit_state.text": "attribute",
+        "panel.population.setValue": "attribute",
+        "panel.population.value": "attribute",
+        "panel.refresh": "attribute",
+        "panel.stage_plan.isEnabled": "attribute",
+        "qtbot.addWidget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_audited_workspace",
+        "_submit_stage",
+        "panel.audit_state.text",
+        "panel.population.setValue",
+        "panel.population.value",
+        "panel.refresh",
+        "panel.stage_plan.isEnabled",
+        "qtbot.addWidget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._audited_workspace",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 242,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 225,
+      "state_owner": "",
+      "symbol": "test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.append",
+          "target": "completed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isHidden",
+          "target": "isHidden"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.formulation_completed.connect",
+          "target": "panel.formulation_completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.power_system_completed.connect",
+          "target": "panel.power_system_completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.scenarios_completed.connect",
+          "target": "panel.scenarios_completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.set_study_prerequisite_states",
+          "target": "panel.set_study_prerequisite_states"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_formulation.isEnabled",
+          "target": "panel.study_formulation.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_formulation.stage_completed.emit",
+          "target": "panel.study_formulation.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_power_system.isEnabled",
+          "target": "panel.study_power_system.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_power_system.stage_completed.emit",
+          "target": "panel.study_power_system.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_scenarios.isEnabled",
+          "target": "panel.study_scenarios.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_scenarios.stage_completed.emit",
+          "target": "panel.study_scenarios.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_submit_stage": "name",
+        "completed.append": "attribute",
+        "isHidden": "attribute",
+        "panel.formulation_completed.connect": "attribute",
+        "panel.power_system_completed.connect": "attribute",
+        "panel.scenarios_completed.connect": "attribute",
+        "panel.set_study_prerequisite_states": "attribute",
+        "panel.study_formulation.isEnabled": "attribute",
+        "panel.study_formulation.stage_completed.emit": "attribute",
+        "panel.study_power_system.isEnabled": "attribute",
+        "panel.study_power_system.stage_completed.emit": "attribute",
+        "panel.study_scenarios.isEnabled": "attribute",
+        "panel.study_scenarios.stage_completed.emit": "attribute",
+        "qtbot.addWidget": "attribute",
+        "text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_submit_stage",
+        "completed.append",
+        "isHidden",
+        "panel.formulation_completed.connect",
+        "panel.power_system_completed.connect",
+        "panel.scenarios_completed.connect",
+        "panel.set_study_prerequisite_states",
+        "panel.study_formulation.isEnabled",
+        "panel.study_formulation.stage_completed.emit",
+        "panel.study_power_system.isEnabled",
+        "panel.study_power_system.stage_completed.emit",
+        "panel.study_scenarios.isEnabled",
+        "panel.study_scenarios.stage_completed.emit",
+        "qtbot.addWidget",
+        "text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 275,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_inline_study_panels_preserve_prerequisites_and_completion_signals",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path)",
+      "start_line": 245,
+      "state_owner": "",
+      "symbol": "test_inline_study_panels_preserve_prerequisites_and_completion_signals",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.reuse_results.isHidden",
+          "target": "panel.reuse_results.isHidden"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.runs.isReadOnly",
+          "target": "panel.runs.isReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.runs.toolTip",
+          "target": "panel.runs.toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.set_study_prerequisite_states",
+          "target": "panel.set_study_prerequisite_states"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_scenarios.isEnabled",
+          "target": "panel.study_scenarios.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_setup_workflow.heading.text",
+          "target": "panel.study_setup_workflow.heading.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_submit_stage": "name",
+        "panel.reuse_results.isHidden": "attribute",
+        "panel.runs.isReadOnly": "attribute",
+        "panel.runs.toolTip": "attribute",
+        "panel.set_study_prerequisite_states": "attribute",
+        "panel.show_context": "attribute",
+        "panel.study_scenarios.isEnabled": "attribute",
+        "panel.study_setup_workflow.heading.text": "attribute",
+        "qtbot.addWidget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_submit_stage",
+        "panel.reuse_results.isHidden",
+        "panel.runs.isReadOnly",
+        "panel.runs.toolTip",
+        "panel.set_study_prerequisite_states",
+        "panel.show_context",
+        "panel.study_scenarios.isEnabled",
+        "panel.study_setup_workflow.heading.text",
+        "qtbot.addWidget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 313,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_setup_is_editable_without_workspace_portfolio_prerequisite",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path)",
+      "start_line": 278,
+      "state_owner": "",
+      "symbol": "test_individual_setup_is_editable_without_workspace_portfolio_prerequisite",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScientificAuditWorker",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.create_individual_draft",
+          "target": "state.execution_control.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.plan_configuration",
+          "target": "state.execution_control.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.completed.connect",
+          "target": "worker.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.failed.connect",
+          "target": "worker.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.run",
+          "target": "worker.run"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ScientificAuditWorker": "name",
+        "_submit_stage": "name",
+        "monkeypatch.setattr": "attribute",
+        "state.execution_control.create_individual_draft": "attribute",
+        "state.execution_control.plan_configuration": "attribute",
+        "str": "name",
+        "worker.completed.connect": "attribute",
+        "worker.failed.connect": "attribute",
+        "worker.run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ScientificAuditWorker",
+        "_submit_stage",
+        "monkeypatch.setattr",
+        "state.execution_control.create_individual_draft",
+        "state.execution_control.plan_configuration",
+        "str",
+        "worker.completed.connect",
+        "worker.failed.connect",
+        "worker.run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 352,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 316,
+      "state_owner": "",
+      "symbol": "test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 328,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner.unexpected_portfolio_plan",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 327,
+      "state_owner": "",
+      "symbol": "unexpected_portfolio_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 331,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner.unexpected_reuse_lookup",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 330,
+      "state_owner": "",
+      "symbol": "unexpected_reuse_lookup",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.ownership_banner.text",
+          "target": "panel.ownership_banner.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_plan.isEnabled",
+          "target": "panel.stage_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.create_individual_draft",
+          "target": "state.execution_control.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.plan_configuration",
+          "target": "state.execution_control.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.record_audit",
+          "target": "state.execution_control.record_audit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_submit_stage": "name",
+        "panel.ownership_banner.text": "attribute",
+        "panel.show_context": "attribute",
+        "panel.stage_plan.isEnabled": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.create_individual_draft": "attribute",
+        "state.execution_control.plan_configuration": "attribute",
+        "state.execution_control.record_audit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_submit_stage",
+        "panel.ownership_banner.text",
+        "panel.show_context",
+        "panel.stage_plan.isEnabled",
+        "qtbot.addWidget",
+        "state.execution_control.create_individual_draft",
+        "state.execution_control.plan_configuration",
+        "state.execution_control.record_audit"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 379,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_audited_plan_ignores_mutable_algorithm_draft_drift",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path)",
+      "start_line": 355,
+      "state_owner": "",
+      "symbol": "test_individual_audited_plan_ignores_mutable_algorithm_draft_drift",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.refresh",
+          "target": "portfolio.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.section_tabs.isEnabled",
+          "target": "portfolio.section_tabs.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.stage",
+          "target": "state.execution_control.stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.compare.isEnabled",
+          "target": "study.compare.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.ownership_actions.isVisible",
+          "target": "study.ownership_actions.isVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.ownership_banner.text",
+          "target": "study.ownership_banner.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.setup_card.isEnabled",
+          "target": "study.setup_card.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.show",
+          "target": "study.show"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.show_context",
+          "target": "study.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.stage_plan.isEnabled",
+          "target": "study.stage_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.study_formulation.isEnabled",
+          "target": "study.study_formulation.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.study_power_system.isEnabled",
+          "target": "study.study_power_system.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.study_scenarios.isEnabled",
+          "target": "study.study_scenarios.isEnabled"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_audited_workspace",
+          "target": "tests.gui.test_workspace_execution_ui._audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "PortfolioManagerPanel": "name",
+        "_audited_workspace": "name",
+        "_submit_stage": "name",
+        "portfolio.refresh": "attribute",
+        "portfolio.section_tabs.isEnabled": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.stage": "attribute",
+        "study.compare.isEnabled": "attribute",
+        "study.ownership_actions.isVisible": "attribute",
+        "study.ownership_banner.text": "attribute",
+        "study.setup_card.isEnabled": "attribute",
+        "study.show": "attribute",
+        "study.show_context": "attribute",
+        "study.stage_plan.isEnabled": "attribute",
+        "study.study_formulation.isEnabled": "attribute",
+        "study.study_power_system.isEnabled": "attribute",
+        "study.study_scenarios.isEnabled": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "PortfolioManagerPanel",
+        "_audited_workspace",
+        "_submit_stage",
+        "portfolio.refresh",
+        "portfolio.section_tabs.isEnabled",
+        "qtbot.addWidget",
+        "state.execution_control.stage",
+        "study.compare.isEnabled",
+        "study.ownership_actions.isVisible",
+        "study.ownership_banner.text",
+        "study.setup_card.isEnabled",
+        "study.show",
+        "study.show_context",
+        "study.stage_plan.isEnabled",
+        "study.study_formulation.isEnabled",
+        "study.study_power_system.isEnabled",
+        "study.study_scenarios.isEnabled"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.gui.test_workspace_execution_ui._audited_workspace",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 407,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 382,
+      "state_owner": "",
+      "symbol": "test_workspace_staging_freezes_individual_and_portfolio_editing",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.resume_plan.isEnabled",
+          "target": "panel.resume_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.setup_card.isEnabled",
+          "target": "panel.setup_card.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_formulation.isEnabled",
+          "target": "panel.study_formulation.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_power_system.isEnabled",
+          "target": "panel.study_power_system.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_scenarios.isEnabled",
+          "target": "panel.study_scenarios.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.begin_run",
+          "target": "state.execution_control.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.commit_paused",
+          "target": "state.execution_control.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.controller",
+          "target": "state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.request_pause",
+          "target": "state.execution_control.request_pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.stage",
+          "target": "state.execution_control.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_audited_workspace",
+          "target": "tests.gui.test_workspace_execution_ui._audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_audited_workspace": "name",
+        "_submit_stage": "name",
+        "panel.resume_plan.isEnabled": "attribute",
+        "panel.setup_card.isEnabled": "attribute",
+        "panel.show_context": "attribute",
+        "panel.study_formulation.isEnabled": "attribute",
+        "panel.study_power_system.isEnabled": "attribute",
+        "panel.study_scenarios.isEnabled": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.begin_run": "attribute",
+        "state.execution_control.commit_paused": "attribute",
+        "state.execution_control.controller": "attribute",
+        "state.execution_control.request_pause": "attribute",
+        "state.execution_control.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_audited_workspace",
+        "_submit_stage",
+        "panel.resume_plan.isEnabled",
+        "panel.setup_card.isEnabled",
+        "panel.show_context",
+        "panel.study_formulation.isEnabled",
+        "panel.study_power_system.isEnabled",
+        "panel.study_scenarios.isEnabled",
+        "qtbot.addWidget",
+        "state.execution_control.begin_run",
+        "state.execution_control.commit_paused",
+        "state.execution_control.controller",
+        "state.execution_control.request_pause",
+        "state.execution_control.stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._audited_workspace",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 431,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 410,
+      "state_owner": "",
+      "symbol": "test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.ownership_banner.text",
+          "target": "panel.ownership_banner.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.resume_plan.isEnabled",
+          "target": "panel.resume_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_context",
+          "target": "panel.show_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.stage_plan.isEnabled",
+          "target": "panel.stage_plan.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_formulation.isEnabled",
+          "target": "panel.study_formulation.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_power_system.isEnabled",
+          "target": "panel.study_power_system.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.study_scenarios.isEnabled",
+          "target": "panel.study_scenarios.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.addWidget",
+          "target": "qtbot.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.begin_run",
+          "target": "state.execution_control.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.commit_paused",
+          "target": "state.execution_control.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.create_individual_draft",
+          "target": "state.execution_control.create_individual_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.record_audit",
+          "target": "state.execution_control.record_audit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.stage",
+          "target": "state.execution_control.stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_audited_workspace",
+          "target": "tests.gui.test_workspace_execution_ui._audited_workspace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_submit_stage",
+          "target": "tests.gui.test_workspace_execution_ui._submit_stage"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "_audited_workspace": "name",
+        "_submit_stage": "name",
+        "panel.ownership_banner.text": "attribute",
+        "panel.resume_plan.isEnabled": "attribute",
+        "panel.show_context": "attribute",
+        "panel.stage_plan.isEnabled": "attribute",
+        "panel.study_formulation.isEnabled": "attribute",
+        "panel.study_power_system.isEnabled": "attribute",
+        "panel.study_scenarios.isEnabled": "attribute",
+        "qtbot.addWidget": "attribute",
+        "state.execution_control.begin_run": "attribute",
+        "state.execution_control.commit_paused": "attribute",
+        "state.execution_control.create_individual_draft": "attribute",
+        "state.execution_control.record_audit": "attribute",
+        "state.execution_control.stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "_audited_workspace",
+        "_submit_stage",
+        "panel.ownership_banner.text",
+        "panel.resume_plan.isEnabled",
+        "panel.show_context",
+        "panel.stage_plan.isEnabled",
+        "panel.study_formulation.isEnabled",
+        "panel.study_power_system.isEnabled",
+        "panel.study_scenarios.isEnabled",
+        "qtbot.addWidget",
+        "state.execution_control.begin_run",
+        "state.execution_control.commit_paused",
+        "state.execution_control.create_individual_draft",
+        "state.execution_control.record_audit",
+        "state.execution_control.stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "tests.gui.test_workspace_execution_ui._audited_workspace",
+        "tests.gui.test_workspace_execution_ui._submit_stage"
+      ],
+      "doc": "",
+      "end_line": 456,
+      "entry_point": false,
+      "file": "tests/gui/test_workspace_execution_ui.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "ScientificAuditWorker": "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_workspace_execution_ui",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_workspace_execution_ui",
+      "qualname": "tests.gui.test_workspace_execution_ui.test_individual_staging_blocks_workspace_stage_and_resume",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, apply_workspace_study)",
+      "start_line": 434,
+      "state_owner": "",
+      "symbol": "test_individual_staging_blocks_workspace_stage_and_resume",
+      "tests": []
+    }
+  ]
+}

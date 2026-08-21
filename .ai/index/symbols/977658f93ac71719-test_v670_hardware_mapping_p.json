@@ -1,0 +1,1300 @@
+{
+  "path": "tests/unit/test_v670_hardware_mapping.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "Cuda",
+          "target": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda"
+        }
+      ],
+      "call_forms": {
+        "Cuda": "name",
+        "SimpleNamespace": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+        "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index"
+      ],
+      "calls": [
+        "Cuda",
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda"
+      ],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch",
+      "semantic_tags": [],
+      "signature": "(uuids, names, utilization_error)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_fake_cuda_torch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.get_device_properties"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "Props",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props.__init__",
+      "semantic_tags": [],
+      "signature": "(self, uuid)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "Cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.is_available",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "is_available",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.device_count",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "device_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.get_device_name",
+      "semantic_tags": [],
+      "signature": "(index)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "get_device_name",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "Props",
+          "target": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props"
+        }
+      ],
+      "call_forms": {
+        "Props": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Props"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props"
+      ],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.get_device_properties",
+      "semantic_tags": [],
+      "signature": "(index)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "get_device_properties",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.utilization",
+      "semantic_tags": [],
+      "signature": "(index)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "utilization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.mem_get_info",
+      "semantic_tags": [],
+      "signature": "(index)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "mem_get_info",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ModuleNotFoundError",
+          "target": "ModuleNotFoundError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceMonitor",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monitor._sample_cuda",
+          "target": "monitor._sample_cuda"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setitem",
+          "target": "monkeypatch.setitem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_cuda_torch",
+          "target": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+        }
+      ],
+      "call_forms": {
+        "ModuleNotFoundError": "name",
+        "ResourceMonitor": "name",
+        "_fake_cuda_torch": "name",
+        "len": "name",
+        "monitor._sample_cuda": "attribute",
+        "monkeypatch.setitem": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ModuleNotFoundError",
+        "ResourceMonitor",
+        "_fake_cuda_torch",
+        "len",
+        "monitor._sample_cuda",
+        "monkeypatch.setitem"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "test_missing_nvml_telemetry_never_removes_cuda_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceMonitor",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monitor._sample_cuda",
+          "target": "monitor._sample_cuda"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setitem",
+          "target": "monkeypatch.setitem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pci_bus_id.endswith",
+          "target": "pci_bus_id.endswith"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_cuda_torch",
+          "target": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+        }
+      ],
+      "call_forms": {
+        "ResourceMonitor": "name",
+        "_fake_cuda_torch": "name",
+        "monitor._sample_cuda": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "monkeypatch.setitem": "attribute",
+        "pci_bus_id.endswith": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ResourceMonitor",
+        "_fake_cuda_torch",
+        "monitor._sample_cuda",
+        "monkeypatch.setattr",
+        "monkeypatch.setitem",
+        "pci_bus_id.endswith"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 81,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index.fake_run",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "fake_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "bind_config_to_device",
+          "target": "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "bind_config_to_device": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "bind_config_to_device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologyService",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scan",
+          "target": "scan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "Monitor",
+          "target": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor"
+        }
+      ],
+      "call_forms": {
+        "ComputeTopologyService": "name",
+        "Monitor": "name",
+        "monkeypatch.setattr": "attribute",
+        "scan": "attribute",
+        "staticmethod": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ComputeTopologyService",
+        "Monitor",
+        "monkeypatch.setattr",
+        "scan",
+        "staticmethod"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "Monitor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        }
+      ],
+      "call_forms": {
+        "DeviceSnapshot": "name",
+        "ResourceSnapshot": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceSnapshot",
+        "ResourceSnapshot"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+      ],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "sample",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "runtime_device_attestation",
+          "target": "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
+        }
+      ],
+      "call_forms": {
+        "runtime_device_attestation": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "runtime_device_attestation"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
+      ],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_cpu_runtime_attestation_is_explicit_and_truthful",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "test_cpu_runtime_attestation_is_explicit_and_truthful",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologyService._match_adapter",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologyService._match_adapter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "ComputeTopologyService._match_adapter": "attribute",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ComputeTopologyService._match_adapter",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeTopologyService._match_adapter"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "tests/unit/test_v670_hardware_mapping.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "rs": "calo_rpd_studio.compute.resource_scheduler",
+        "runtime_device_attestation": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "sys",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v670_hardware_mapping",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v670_hardware_mapping",
+      "qualname": "tests.unit.test_v670_hardware_mapping.test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
+      "tests": []
+    }
+  ]
+}

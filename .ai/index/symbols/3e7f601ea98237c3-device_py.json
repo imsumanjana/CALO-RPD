@@ -1,0 +1,470 @@
+{
+  "path": "calo_rpd_studio/accelerated/device.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.device.resolve_device"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/device.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.device",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.device",
+      "qualname": "calo_rpd_studio.accelerated.device.DeviceContext",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "DeviceContext",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.device.reflect_unit_interval",
+        "calo_rpd_studio.accelerated.device.resolve_device",
+        "calo_rpd_studio.accelerated.device.torch_dtype"
+      ],
+      "calls": [
+        "RuntimeError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/device.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.device",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.device",
+      "qualname": "calo_rpd_studio.accelerated.device._torch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_torch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceContext",
+          "target": "calo_rpd_studio.accelerated.device.DeviceContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.device._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.split",
+          "target": "candidate.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.startswith",
+          "target": "candidate.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.device_count",
+          "target": "torch.cuda.device_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        }
+      ],
+      "call_forms": {
+        "DeviceContext": "name",
+        "RuntimeError": "name",
+        "_torch": "name",
+        "bool": "name",
+        "candidate.split": "attribute",
+        "candidate.startswith": "attribute",
+        "int": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.cuda.device_count": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer.__init__",
+        "calo_rpd_studio.scripts.validate_accelerator.main",
+        "calo_rpd_studio.scripts.validate_hardware_soak.main",
+        "calo_rpd_studio.scripts.validate_resource_recovery.main"
+      ],
+      "calls": [
+        "DeviceContext",
+        "RuntimeError",
+        "_torch",
+        "bool",
+        "candidate.split",
+        "candidate.startswith",
+        "int",
+        "lower",
+        "str",
+        "strip",
+        "torch.cuda.device_count",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.device.DeviceContext",
+        "calo_rpd_studio.accelerated.device._torch"
+      ],
+      "doc": "Resolve ``auto``/CUDA/CPU to a verified PyTorch device.",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/device.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.device",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.device",
+      "qualname": "calo_rpd_studio.accelerated.device.resolve_device",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(requested, require_accelerator)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "resolve_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.device._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_torch": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__"
+      ],
+      "calls": [
+        "ValueError",
+        "_torch",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.device._torch"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/device.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.device",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.device",
+      "qualname": "calo_rpd_studio.accelerated.device.torch_dtype",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(dtype_name)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "torch_dtype",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.device._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.remainder",
+          "target": "torch.remainder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "torch.remainder": "attribute",
+        "torch.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._bounded"
+      ],
+      "calls": [
+        "_torch",
+        "torch.remainder",
+        "torch.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.device._torch"
+      ],
+      "doc": "Reflection boundary handling for tensors in normalized decision space.",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/device.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.device",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.device",
+      "qualname": "calo_rpd_studio.accelerated.device.reflect_unit_interval",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(values)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "reflect_unit_interval",
+      "tests": []
+    }
+  ]
+}

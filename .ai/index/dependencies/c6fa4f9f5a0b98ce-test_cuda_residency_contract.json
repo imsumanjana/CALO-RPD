@@ -1,0 +1,50 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/cuda_timing.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/heterogeneous_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    }
+  ],
+  "path": "tests/unit/test_cuda_residency_contract.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cuda_residency_contract.test_cuda_window_timing_qualifies_only_consistent_samples_at_target",
+      "to": "calo_rpd_studio.accelerated.cuda_timing.summarize_cuda_window_timing"
+    }
+  ]
+}

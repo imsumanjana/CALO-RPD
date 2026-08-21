@@ -1,0 +1,545 @@
+{
+  "path": "calo_rpd_studio/compute/scientific_equivalence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.BranchScientificIdentity",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "BranchScientificIdentity",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence.BranchScientificIdentity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.BranchScientificIdentity.fingerprint",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "fingerprint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.fingerprint",
+          "target": "item.fingerprint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "item.fingerprint": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.scientific_equivalence.scheduling_equivalent"
+      ],
+      "calls": [
+        "item.fingerprint",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.canonical_branch_set",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(identities)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "canonical_branch_set",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "canonical_branch_set",
+          "target": "calo_rpd_studio.compute.scientific_equivalence.canonical_branch_set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "canonical_branch_set": "name",
+        "set": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order"
+      ],
+      "calls": [
+        "canonical_branch_set",
+        "set",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.scientific_equivalence.canonical_branch_set"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.scheduling_equivalent",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(sequential, concurrent)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "scheduling_equivalent",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "canonical",
+          "target": "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records.canonical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "changed.append",
+          "target": "changed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "concurrent.get",
+          "target": "concurrent.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sequential.get",
+          "target": "sequential.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "canonical": "name",
+        "changed.append": "attribute",
+        "concurrent.get": "attribute",
+        "sequential.get": "attribute",
+        "set": "name",
+        "sorted": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "canonical",
+        "changed.append",
+        "concurrent.get",
+        "sequential.get",
+        "set",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records.canonical"
+      ],
+      "doc": "Compare branch terminal records while ignoring declared wall-clock/resource-placement metadata.",
+      "end_line": 81,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(sequential, concurrent, ignore_keys)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "compare_terminal_records",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "items": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records"
+      ],
+      "calls": [
+        "dict",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "items",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/scientific_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.scientific_equivalence",
+      "qualname": "calo_rpd_studio.compute.scientific_equivalence.compare_terminal_records.canonical",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(record)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "canonical",
+      "tests": []
+    }
+  ]
+}

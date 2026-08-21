@@ -1,0 +1,593 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/source_identity.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/result_contracts.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/version.py"
+    }
+  ],
+  "path": "calo_rpd_studio/experiments/execution_plans.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.content_payload",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.content_payload",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._selected_parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.utc_now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "cls"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "parameters.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "resolve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "sorted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "source_identity.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.utc_now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "cls"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.design_payload",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.design_payload",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._cell_payloads"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans._selected_parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "calo_rpd_studio.experiments.execution_plans.utc_now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "cls"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "config_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.design_payload",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.design_payload",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._canonical_json",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "cells.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "config_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "dict.fromkeys"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._cell_payloads",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "config_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "parameters.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._policy_binding_summary",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._selected_parameters",
+      "to": "config_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._selected_parameters",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._selected_parameters",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans._selected_parameters",
+      "to": "parameters.get"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.canonical_sha256",
+      "to": "calo_rpd_studio.experiments.execution_plans._canonical_json"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.canonical_sha256",
+      "to": "encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.canonical_sha256",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.canonical_sha256",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "calo_rpd_studio.experiments.execution_plans._selected_parameters"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "calo_rpd_studio.experiments.execution_plans.frozen_config_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "calo_rpd_studio.experiments.result_contracts.build_individual_result_contract"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "payload.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "to": "config_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "to": "keys.extend"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "calo_rpd_studio.experiments.execution_plans.canonical_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "config.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.stage_bound_individual_config",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.utc_now",
+      "to": "datetime.now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.execution_plans.utc_now",
+      "to": "isoformat"
+    }
+  ]
+}

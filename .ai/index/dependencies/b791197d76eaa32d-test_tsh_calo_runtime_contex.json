@@ -1,0 +1,149 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_runtime_context.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/scenario.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_runtime_context.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context._scenarios",
+      "to": "calo_rpd_studio.robustness.scenario.Scenario"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.build_runtime_topology_policy_context"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "inspect.getsource"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "policy_state.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+      "to": "problem.evaluate_with_context"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.build_runtime_topology_policy_context"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.measured_scenario_descriptors"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "np.linspace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "problem.evaluate_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "runtime.policy_state.validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+      "to": "tests.unit.test_tsh_calo_runtime_context._scenarios"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_structural_zero_reactive_load_is_encoded_as_unchanged",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.measured_scenario_descriptors"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_structural_zero_reactive_load_is_encoded_as_unchanged",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_structural_zero_reactive_load_is_encoded_as_unchanged",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_structural_zero_reactive_load_is_encoded_as_unchanged",
+      "to": "problem.evaluate_with_context"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.measured_scenario_descriptors"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+      "to": "calo_rpd_studio.robustness.scenario.Scenario"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+      "to": "problem.evaluate_with_context"
+    }
+  ]
+}

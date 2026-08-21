@@ -1,0 +1,2810 @@
+{
+  "path": "calo_rpd_studio/ai/model_io.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._TRUST_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_TRUST_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._TRUST_DIR",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "_TRUST_DIR",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._TRUST_KEY",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_TRUST_KEY",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._TRUSTED_ENVELOPE_MAGIC",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_TRUSTED_ENVELOPE_MAGIC",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.read",
+          "target": "handle.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "open",
+          "target": "open"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "handle.read": "attribute",
+        "hashlib.sha256": "attribute",
+        "int": "name",
+        "max": "name",
+        "open": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.inspect_checkpoint",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._restore_checkpoint_session",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.IndependentTSHCALOTrainingExtension._restore_segment_session",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core._validated_continuation_checkpoints",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.resolve_tsh_calo_training_extension_parent",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.register_checkpoint",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification._source_worktree_manifest",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification.freeze_plan",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification.inspect_verified_paused_automatic_qualification_workspace",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification.prepare_automatic_source_snapshot",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._write_json",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._acknowledge_pause",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._scan_terminal_cells",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._verify_component_evidence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.save_resume",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._retained_qualification_resume",
+        "tests.unit.test_tsh_calo_automatic_qualification._write_json",
+        "tests.unit.test_tsh_calo_automatic_qualification.test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate",
+        "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+        "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+        "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+        "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+        "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar",
+        "tests.unit.test_v650_must_resolve.test_m45_checkpoint_hash_streams_without_path_read_bytes"
+      ],
+      "calls": [
+        "Path",
+        "digest.hexdigest",
+        "digest.update",
+        "handle.read",
+        "hashlib.sha256",
+        "int",
+        "max",
+        "open"
+      ],
+      "calls_resolved": [],
+      "doc": "Stream a checkpoint SHA-256 without loading large artifacts into RAM.",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, chunk_size)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "checkpoint_sha256",
+      "tests": [
+        "tests/unit/test_tsh_calo_automatic_qualification.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_training_campaign.py",
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actual.lower",
+          "target": "actual.lower"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "actual.lower": "attribute",
+        "checkpoint_sha256": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController.load"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "actual.lower",
+        "checkpoint_sha256",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, expected_sha256)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "verify_checkpoint_hash",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.items",
+          "target": "state.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.is_tensor",
+          "target": "torch.is_tensor"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "all": "name",
+        "isinstance": "name",
+        "payload.get": "attribute",
+        "state.items": "attribute",
+        "torch.is_tensor": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.load_checkpoint"
+      ],
+      "calls": [
+        "ValueError",
+        "all",
+        "isinstance",
+        "payload.get",
+        "state.items",
+        "torch.is_tensor"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._validate_model_payload",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "_validate_model_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_model_payload",
+          "target": "calo_rpd_studio.ai.model_io._validate_model_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_checkpoint_hash",
+          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_validate_model_payload": "name",
+        "torch.load": "attribute",
+        "verify_checkpoint_hash": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.inspect_checkpoint",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController.load",
+        "calo_rpd_studio.algorithms.calo.competitive_training._load_base_payload",
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.register_checkpoint",
+        "calo_rpd_studio.algorithms.calo.training._train_policy_impl",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+      ],
+      "calls": [
+        "Path",
+        "_validate_model_payload",
+        "torch.load",
+        "verify_checkpoint_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._validate_model_payload",
+        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+      ],
+      "doc": "Load a portable/deployable model with PyTorch's restricted weights-only loader.",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.load_checkpoint",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, expected_sha256, map_location)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "load_checkpoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "with_suffix",
+          "target": "with_suffix"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "with_suffix": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._remove_completed_cell_checkpoint",
+        "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash"
+      ],
+      "calls": [
+        "Path",
+        "with_suffix"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "trusted_resume_sha_path",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "os.close",
+          "target": "os.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.open",
+          "target": "os.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "os.close": "attribute",
+        "os.fsync": "attribute",
+        "os.open": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "calls": [
+        "os.close",
+        "os.fsync",
+        "os.open",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Best-effort directory durability after atomic replace (supported on POSIX).",
+      "end_line": 82,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._fsync_directory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(directory)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "_fsync_directory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fsync_directory",
+          "target": "calo_rpd_studio.ai.model_io._fsync_directory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.fileno",
+          "target": "handle.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.flush",
+          "target": "handle.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.write",
+          "target": "handle.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "secrets.token_hex",
+          "target": "secrets.token_hex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.parent.mkdir",
+          "target": "target.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.with_name",
+          "target": "target.with_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "temp.open",
+          "target": "temp.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "temp.unlink",
+          "target": "temp.unlink"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_fsync_directory": "name",
+        "handle.fileno": "attribute",
+        "handle.flush": "attribute",
+        "handle.write": "attribute",
+        "os.fsync": "attribute",
+        "os.getpid": "attribute",
+        "os.replace": "attribute",
+        "secrets.token_hex": "attribute",
+        "target.parent.mkdir": "attribute",
+        "target.with_name": "attribute",
+        "temp.open": "attribute",
+        "temp.unlink": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model",
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_json",
+        "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core._write_json",
+        "calo_rpd_studio.algorithms.calo.competitive_training._atomic_json",
+        "calo_rpd_studio.algorithms.calo.competitive_training._commit_branch_generation",
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification.freeze_plan",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification.prepare_automatic_source_snapshot",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._write_json",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._write_json",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+        "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "calo_rpd_studio.scripts.validate_cuda_hot_path._write_new_json",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._write_new_json",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+      ],
+      "calls": [
+        "Path",
+        "_fsync_directory",
+        "handle.fileno",
+        "handle.flush",
+        "handle.write",
+        "os.fsync",
+        "os.getpid",
+        "os.replace",
+        "secrets.token_hex",
+        "target.parent.mkdir",
+        "target.with_name",
+        "temp.open",
+        "temp.unlink"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._fsync_directory"
+      ],
+      "doc": "Write bytes by fsync + atomic replace + best-effort parent-directory fsync.",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, data)",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "durable_write_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fsync_directory",
+          "target": "calo_rpd_studio.ai.model_io._fsync_directory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.fileno",
+          "target": "handle.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.flush",
+          "target": "handle.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "secrets.token_hex",
+          "target": "secrets.token_hex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.parent.mkdir",
+          "target": "target.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.with_name",
+          "target": "target.with_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "temp.open",
+          "target": "temp.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "temp.unlink",
+          "target": "temp.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_fsync_directory": "name",
+        "handle.fileno": "attribute",
+        "handle.flush": "attribute",
+        "os.fsync": "attribute",
+        "os.getpid": "attribute",
+        "os.replace": "attribute",
+        "secrets.token_hex": "attribute",
+        "target.parent.mkdir": "attribute",
+        "target.with_name": "attribute",
+        "temp.open": "attribute",
+        "temp.unlink": "attribute",
+        "torch.save": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+        "calo_rpd_studio.algorithms.calo.competitive_training._copy_trusted_resume",
+        "calo_rpd_studio.algorithms.calo.competitive_training._save_immutable_base",
+        "calo_rpd_studio.algorithms.calo.training.save_training_resume",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.save_resume",
+        "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash"
+      ],
+      "calls": [
+        "Path",
+        "_fsync_directory",
+        "handle.fileno",
+        "handle.flush",
+        "os.fsync",
+        "os.getpid",
+        "os.replace",
+        "secrets.token_hex",
+        "target.parent.mkdir",
+        "target.with_name",
+        "temp.open",
+        "temp.unlink",
+        "torch.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._fsync_directory"
+      ],
+      "doc": "Durably save a trusted-local torch payload before any trust sidecar is emitted.",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.durable_torch_save",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload, path)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "durable_torch_save",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_TRUST_DIR.mkdir",
+          "target": "_TRUST_DIR.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_TRUST_KEY.is_file",
+          "target": "_TRUST_KEY.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_TRUST_KEY.read_bytes",
+          "target": "_TRUST_KEY.read_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.chmod",
+          "target": "os.chmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "secrets.token_bytes",
+          "target": "secrets.token_bytes"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_TRUST_DIR.mkdir": "attribute",
+        "_TRUST_KEY.is_file": "attribute",
+        "_TRUST_KEY.read_bytes": "attribute",
+        "durable_write_bytes": "name",
+        "len": "name",
+        "os.chmod": "attribute",
+        "secrets.token_bytes": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io._resume_signature"
+      ],
+      "calls": [
+        "RuntimeError",
+        "_TRUST_DIR.mkdir",
+        "_TRUST_KEY.is_file",
+        "_TRUST_KEY.read_bytes",
+        "durable_write_bytes",
+        "len",
+        "os.chmod",
+        "secrets.token_bytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "doc": "",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "()",
+      "start_line": 123,
+      "state_owner": "",
+      "symbol": "_load_or_create_local_trust_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_load_or_create_local_trust_key",
+          "target": "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.encode",
+          "target": "digest.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hmac.new",
+          "target": "hmac.new"
+        }
+      ],
+      "call_forms": {
+        "_load_or_create_local_trust_key": "name",
+        "digest.encode": "attribute",
+        "hexdigest": "attribute",
+        "hmac.new": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+      ],
+      "calls": [
+        "_load_or_create_local_trust_key",
+        "digest.encode",
+        "hexdigest",
+        "hmac.new"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._load_or_create_local_trust_key"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._resume_signature",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(digest)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "_resume_signature",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resume_signature",
+          "target": "calo_rpd_studio.ai.model_io._resume_signature"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "trusted_resume_sha_path",
+          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_resume_signature": "name",
+        "checkpoint_sha256": "name",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "json.dumps": "attribute",
+        "trusted_resume_sha_path": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.algorithms.calo.competitive_training._copy_trusted_resume",
+        "calo_rpd_studio.algorithms.calo.training.save_training_resume",
+        "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash"
+      ],
+      "calls": [
+        "Path",
+        "_resume_signature",
+        "checkpoint_sha256",
+        "durable_write_bytes",
+        "encode",
+        "json.dumps",
+        "trusted_resume_sha_path"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._resume_signature",
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+      ],
+      "doc": "Authenticate an application-created exact-resume artifact with a machine-local HMAC sidecar.",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.write_trusted_resume_hash",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "write_trusted_resume_hash",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.write",
+          "target": "archive.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.writestr",
+          "target": "archive.writestr"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fsync_directory",
+          "target": "calo_rpd_studio.ai.model_io._fsync_directory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resume_signature",
+          "target": "calo_rpd_studio.ai.model_io._resume_signature"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_trusted_resume_hash",
+          "target": "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "envelope_temp.open",
+          "target": "envelope_temp.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "envelope_temp.unlink",
+          "target": "envelope_temp.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.fileno",
+          "target": "handle.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.flush",
+          "target": "handle.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload_temp.open",
+          "target": "payload_temp.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload_temp.unlink",
+          "target": "payload_temp.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.fileno",
+          "target": "raw.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.flush",
+          "target": "raw.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.write",
+          "target": "raw.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "secrets.token_hex",
+          "target": "secrets.token_hex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.parent.mkdir",
+          "target": "target.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.with_name",
+          "target": "target.with_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_fsync_directory": "name",
+        "_resume_signature": "name",
+        "archive.write": "attribute",
+        "archive.writestr": "attribute",
+        "checkpoint_sha256": "name",
+        "envelope_temp.open": "attribute",
+        "envelope_temp.unlink": "attribute",
+        "expanduser": "attribute",
+        "handle.fileno": "attribute",
+        "handle.flush": "attribute",
+        "json.dumps": "attribute",
+        "os.fsync": "attribute",
+        "os.getpid": "attribute",
+        "os.replace": "attribute",
+        "payload_temp.open": "attribute",
+        "payload_temp.unlink": "attribute",
+        "raw.fileno": "attribute",
+        "raw.flush": "attribute",
+        "raw.write": "attribute",
+        "resolve": "attribute",
+        "secrets.token_hex": "attribute",
+        "target.parent.mkdir": "attribute",
+        "target.with_name": "attribute",
+        "torch.save": "attribute",
+        "write_trusted_resume_hash": "name",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.save_resume"
+      ],
+      "calls": [
+        "Path",
+        "_fsync_directory",
+        "_resume_signature",
+        "archive.write",
+        "archive.writestr",
+        "checkpoint_sha256",
+        "envelope_temp.open",
+        "envelope_temp.unlink",
+        "expanduser",
+        "handle.fileno",
+        "handle.flush",
+        "json.dumps",
+        "os.fsync",
+        "os.getpid",
+        "os.replace",
+        "payload_temp.open",
+        "payload_temp.unlink",
+        "raw.fileno",
+        "raw.flush",
+        "raw.write",
+        "resolve",
+        "secrets.token_hex",
+        "target.parent.mkdir",
+        "target.with_name",
+        "torch.save",
+        "write_trusted_resume_hash",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._fsync_directory",
+        "calo_rpd_studio.ai.model_io._resume_signature",
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+      ],
+      "doc": "Atomically publish a self-authenticating exact-resume envelope.",
+      "end_line": 208,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload, path)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "durable_trusted_torch_save",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.namelist",
+          "target": "archive.namelist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.open",
+          "target": "archive.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.read",
+          "target": "archive.read"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resume_signature",
+          "target": "calo_rpd_studio.ai.model_io._resume_signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint_stream.read",
+          "target": "checkpoint_stream.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decode",
+          "target": "decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.read",
+          "target": "handle.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hmac.compare_digest",
+          "target": "hmac.compare_digest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.open",
+          "target": "source.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spool.seek",
+          "target": "spool.seek"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spool.write",
+          "target": "spool.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.SpooledTemporaryFile",
+          "target": "tempfile.SpooledTemporaryFile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trust.get",
+          "target": "trust.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_resume_signature": "name",
+        "archive.namelist": "attribute",
+        "archive.open": "attribute",
+        "archive.read": "attribute",
+        "checkpoint_stream.read": "attribute",
+        "decode": "attribute",
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "handle.read": "attribute",
+        "hashlib.sha256": "attribute",
+        "hmac.compare_digest": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "set": "name",
+        "source.open": "attribute",
+        "spool.seek": "attribute",
+        "spool.write": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "tempfile.SpooledTemporaryFile": "attribute",
+        "torch.load": "attribute",
+        "trust.get": "attribute",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.load_trusted_resume"
+      ],
+      "calls": [
+        "ValueError",
+        "_resume_signature",
+        "archive.namelist",
+        "archive.open",
+        "archive.read",
+        "checkpoint_stream.read",
+        "decode",
+        "digest.hexdigest",
+        "digest.update",
+        "handle.read",
+        "hashlib.sha256",
+        "hmac.compare_digest",
+        "json.loads",
+        "len",
+        "lower",
+        "set",
+        "source.open",
+        "spool.seek",
+        "spool.write",
+        "str",
+        "strip",
+        "tempfile.SpooledTemporaryFile",
+        "torch.load",
+        "trust.get",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._resume_signature"
+      ],
+      "doc": "",
+      "end_line": 245,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(source, map_location)",
+      "start_line": 211,
+      "state_owner": "",
+      "symbol": "_load_trusted_resume_envelope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_load_trusted_resume_envelope",
+          "target": "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resume_signature",
+          "target": "calo_rpd_studio.ai.model_io._resume_signature"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "trusted_resume_sha_path",
+          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_checkpoint_hash",
+          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hmac.compare_digest",
+          "target": "hmac.compare_digest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sidecar.is_file",
+          "target": "sidecar.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sidecar.read_text",
+          "target": "sidecar.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trust.get",
+          "target": "trust.get"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "_load_trusted_resume_envelope": "name",
+        "_resume_signature": "name",
+        "expanduser": "attribute",
+        "hmac.compare_digest": "attribute",
+        "json.loads": "attribute",
+        "lower": "attribute",
+        "resolve": "attribute",
+        "sidecar.is_file": "attribute",
+        "sidecar.read_text": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.load": "attribute",
+        "trust.get": "attribute",
+        "trusted_resume_sha_path": "name",
+        "verify_checkpoint_hash": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._restore_checkpoint_session",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.IndependentTSHCALOTrainingExtension._parent_trainer",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.IndependentTSHCALOTrainingExtension._restore_segment_session",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core._validated_continuation_checkpoints",
+        "calo_rpd_studio.algorithms.calo.competitive_training._branch_worker_main",
+        "calo_rpd_studio.algorithms.calo.competitive_training._candidate_from_resume",
+        "calo_rpd_studio.algorithms.calo.competitive_training._commit_branch_generation",
+        "calo_rpd_studio.algorithms.calo.competitive_training._common_evaluate_candidates",
+        "calo_rpd_studio.algorithms.calo.competitive_training._copy_trusted_resume",
+        "calo_rpd_studio.algorithms.calo.competitive_training.recover_competitive_session",
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "calo_rpd_studio.algorithms.calo.training.load_training_resume",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.load_resume",
+        "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+        "tests.unit.test_v580_audit_closure.test_exact_resume_history_payload_is_bounded",
+        "tests.unit.test_v580_audit_closure.test_legacy_resume_migration_is_explicit_and_authenticates_new_copy",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "_load_trusted_resume_envelope",
+        "_resume_signature",
+        "expanduser",
+        "hmac.compare_digest",
+        "json.loads",
+        "lower",
+        "resolve",
+        "sidecar.is_file",
+        "sidecar.read_text",
+        "str",
+        "strip",
+        "torch.load",
+        "trust.get",
+        "trusted_resume_sha_path",
+        "verify_checkpoint_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io._load_trusted_resume_envelope",
+        "calo_rpd_studio.ai.model_io._resume_signature",
+        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
+        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+      ],
+      "doc": "Load an application-created exact-resume checkpoint only after local authenticity verification.",
+      "end_line": 282,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.load_trusted_resume",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, map_location)",
+      "start_line": 248,
+      "state_owner": "",
+      "symbol": "load_trusted_resume",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v580_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "PermissionError",
+          "target": "PermissionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_torch_save",
+          "target": "calo_rpd_studio.ai.model_io.durable_torch_save"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_trusted_resume",
+          "target": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "trusted_resume_sha_path",
+          "target": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_checkpoint_hash",
+          "target": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_trusted_resume_hash",
+          "target": "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected.lower",
+          "target": "expected.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "migrated.get",
+          "target": "migrated.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parsed.get",
+          "target": "parsed.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sidecar.is_file",
+          "target": "sidecar.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sidecar.read_text",
+          "target": "sidecar.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.with_name",
+          "target": "source.with_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.split",
+          "target": "text.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        }
+      ],
+      "call_forms": {
+        "FileNotFoundError": "name",
+        "Path": "name",
+        "PermissionError": "name",
+        "ValueError": "name",
+        "any": "name",
+        "dict": "name",
+        "durable_torch_save": "name",
+        "expanduser": "attribute",
+        "expected.lower": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "load_trusted_resume": "name",
+        "migrated.get": "attribute",
+        "parsed.get": "attribute",
+        "resolve": "attribute",
+        "sidecar.is_file": "attribute",
+        "sidecar.read_text": "attribute",
+        "source.is_file": "attribute",
+        "source.with_name": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "text.split": "attribute",
+        "torch.load": "attribute",
+        "trusted_resume_sha_path": "name",
+        "verify_checkpoint_hash": "name",
+        "write_trusted_resume_hash": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.migrate_legacy_resume.main",
+        "tests.unit.test_v580_audit_closure.test_legacy_resume_migration_is_explicit_and_authenticates_new_copy"
+      ],
+      "calls": [
+        "FileNotFoundError",
+        "Path",
+        "PermissionError",
+        "ValueError",
+        "any",
+        "dict",
+        "durable_torch_save",
+        "expanduser",
+        "expected.lower",
+        "isinstance",
+        "json.loads",
+        "len",
+        "load_trusted_resume",
+        "migrated.get",
+        "parsed.get",
+        "resolve",
+        "sidecar.is_file",
+        "sidecar.read_text",
+        "source.is_file",
+        "source.with_name",
+        "str",
+        "strip",
+        "text.split",
+        "torch.load",
+        "trusted_resume_sha_path",
+        "verify_checkpoint_hash",
+        "write_trusted_resume_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "calo_rpd_studio.ai.model_io.load_trusted_resume",
+        "calo_rpd_studio.ai.model_io.trusted_resume_sha_path",
+        "calo_rpd_studio.ai.model_io.verify_checkpoint_hash",
+        "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+      ],
+      "doc": "One-time migration of a *locally trusted* pre-v5.7 exact-resume checkpoint.",
+      "end_line": 349,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/model_io.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "hmac": "hmac",
+        "json": "json",
+        "os": "os",
+        "secrets": "secrets",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "secrets",
+        "tempfile",
+        "torch",
+        "typing",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.model_io",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.model_io",
+      "qualname": "calo_rpd_studio.ai.model_io.migrate_legacy_local_resume",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, target, explicit_trust, map_location)",
+      "start_line": 285,
+      "state_owner": "",
+      "symbol": "migrate_legacy_local_resume",
+      "tests": [
+        "tests/unit/test_v580_audit_closure.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1123 @@
+{
+  "path": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.CASE_NAME",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "CASE_NAME",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.CASE_SOURCE",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "CASE_SOURCE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PGLibSourceManifest",
+          "target": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_bytes",
+          "target": "path.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.encode",
+          "target": "source.encode"
+        }
+      ],
+      "call_forms": {
+        "PGLibSourceManifest": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "path.write_bytes": "attribute",
+        "source.encode": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_pglib_import_rejects_hash_syntax_variant_and_closed_protected_asset",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_json_requires_exact_asset_hash_and_schema",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_preserves_protected_case_boundary",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_verified_pglib_import_retains_provenance_without_inferring_orpd"
+      ],
+      "calls": [
+        "PGLibSourceManifest",
+        "hashlib.sha256",
+        "hexdigest",
+        "path.write_bytes",
+        "source.encode"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case",
+      "semantic_tags": [],
+      "signature": "(tmp_path, source)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "_write_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfile",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShuntControlDefinition",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        }
+      ],
+      "call_forms": {
+        "ReviewedORPDProfile": "name",
+        "ShuntControlDefinition": "name",
+        "case.checksum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_json_requires_exact_asset_hash_and_schema",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_preserves_protected_case_boundary"
+      ],
+      "calls": [
+        "ReviewedORPDProfile",
+        "ShuntControlDefinition",
+        "case.checksum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+      ],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile",
+      "semantic_tags": [],
+      "signature": "(case, manifest)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "_profile",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "import_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.import_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.clone",
+          "target": "case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.to_dict",
+          "target": "case.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "from_dict",
+          "target": "from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_case",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_write_case": "name",
+        "case.checksum": "attribute",
+        "case.clone": "attribute",
+        "case.to_dict": "attribute",
+        "from_dict": "attribute",
+        "import_pglib_case": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_write_case",
+        "case.checksum",
+        "case.clone",
+        "case.to_dict",
+        "from_dict",
+        "import_pglib_case",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_verified_pglib_import_retains_provenance_without_inferring_orpd",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 89,
+      "state_owner": "",
+      "symbol": "test_verified_pglib_import_retains_provenance_without_inferring_orpd",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "available_bundled_pglib_cases",
+          "target": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_bundled_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "loaded.items",
+          "target": "loaded.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "loaded.values",
+          "target": "loaded.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "available_bundled_pglib_cases": "name",
+        "case.checksum": "attribute",
+        "len": "name",
+        "load_bundled_pglib_case": "name",
+        "loaded.items": "attribute",
+        "loaded.values": "attribute",
+        "pytest.raises": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "available_bundled_pglib_cases",
+        "case.checksum",
+        "len",
+        "load_bundled_pglib_case",
+        "loaded.items",
+        "loaded.values",
+        "pytest.raises",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_bundled_official_typical_api_and_sad_assets_verify_and_load",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "test_bundled_official_typical_api_and_sad_assets_verify_and_load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "import_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.import_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_case",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "_write_case": "name",
+        "import_pglib_case": "name",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_write_case",
+        "import_pglib_case",
+        "pytest.raises",
+        "replace",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+      ],
+      "doc": "",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_pglib_import_rejects_hash_syntax_variant_and_closed_protected_asset",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "test_pglib_import_rejects_hash_syntax_variant_and_closed_protected_asset",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "variable_config_from_reviewed_profile",
+          "target": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scientific_problem_payload",
+          "target": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "import_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.import_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile.checksum",
+          "target": "profile.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_profile",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_case",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "_profile": "name",
+        "_write_case": "name",
+        "import_pglib_case": "name",
+        "profile.checksum": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "scientific_problem_payload": "name",
+        "variable_config_from_reviewed_profile": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "ORPDVariableDecoder",
+        "_profile",
+        "_write_case",
+        "import_pglib_case",
+        "profile.checksum",
+        "pytest.raises",
+        "replace",
+        "scientific_problem_payload",
+        "variable_config_from_reviewed_profile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+      ],
+      "doc": "",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 148,
+      "state_owner": "",
+      "symbol": "test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "load_reviewed_orpd_profile",
+          "target": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "import_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.import_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile.payload",
+          "target": "profile.payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile_path.write_bytes",
+          "target": "profile_path.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_profile",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_case",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+        }
+      ],
+      "call_forms": {
+        "_profile": "name",
+        "_write_case": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "import_pglib_case": "name",
+        "json.dumps": "attribute",
+        "load_reviewed_orpd_profile": "name",
+        "profile.payload": "attribute",
+        "profile_path.write_bytes": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_profile",
+        "_write_case",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "import_pglib_case",
+        "json.dumps",
+        "load_reviewed_orpd_profile",
+        "profile.payload",
+        "profile_path.write_bytes",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+      ],
+      "doc": "",
+      "end_line": 194,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_json_requires_exact_asset_hash_and_schema",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 172,
+      "state_owner": "",
+      "symbol": "test_reviewed_profile_json_requires_exact_asset_hash_and_schema",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "variable_config_from_reviewed_profile",
+          "target": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "import_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.import_pglib_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_profile",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_case",
+          "target": "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableDecoder": "name",
+        "_profile": "name",
+        "_write_case": "name",
+        "import_pglib_case": "name",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "variable_config_from_reviewed_profile": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDVariableDecoder",
+        "_profile",
+        "_write_case",
+        "import_pglib_case",
+        "pytest.raises",
+        "replace",
+        "variable_config_from_reviewed_profile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._write_case"
+      ],
+      "doc": "",
+      "end_line": 206,
+      "entry_point": false,
+      "file": "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "PGLibImportError": "calo_rpd_studio.power_system.pglib_import.PGLibImportError",
+        "PGLibSourceManifest": "calo_rpd_studio.power_system.pglib_import.PGLibSourceManifest",
+        "ReviewedORPDProfile": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "ReviewedORPDProfileError": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "hashlib": "hashlib",
+        "import_pglib_case": "calo_rpd_studio.power_system.pglib_import.import_pglib_case",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "load_reviewed_orpd_profile": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "scientific_problem_payload": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_payload",
+        "variable_config_from_reviewed_profile": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.external_profile",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_pglib_import_and_reviewed_orpd_profile",
+      "qualname": "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_preserves_protected_case_boundary",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 197,
+      "state_owner": "",
+      "symbol": "test_reviewed_profile_preserves_protected_case_boundary",
+      "tests": []
+    }
+  ]
+}

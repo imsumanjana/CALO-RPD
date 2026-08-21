@@ -1,0 +1,1308 @@
+{
+  "path": "calo_rpd_studio/benchmarking/campaign.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.__init__",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.parser",
+        "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary",
+        "tests.unit.test_v2_benchmarking.test_campaign_design_hash_allows_status_updates_but_detects_design_tampering",
+        "tests.unit.test_v2_benchmarking.test_campaign_plan_uses_all_algorithms_and_equal_job_count",
+        "tests.unit.test_v2_benchmarking.test_confirmatory_campaign_requires_protected_test_and_cannot_relabel_it",
+        "tests.unit.test_v2_benchmarking.test_final_campaign_accepts_registered_comparator_subset_and_rejects_unknown",
+        "tests.unit.test_v2_benchmarking.test_final_campaign_requires_power_planned_run_floor",
+        "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+        "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 139,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "BenchmarkCampaignConfig",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v34_release_blockers.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "standard_benchmark_suite",
+          "target": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "suite.evidence_role",
+          "target": "suite.evidence_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "any": "name",
+        "float": "name",
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "primary_algorithm_names": "name",
+        "recommend_paired_runs": "name",
+        "set": "name",
+        "sorted": "name",
+        "standard_benchmark_suite": "name",
+        "str": "name",
+        "strip": "attribute",
+        "suite.evidence_role": "attribute",
+        "tuple": "name",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "any",
+        "float",
+        "int",
+        "join",
+        "len",
+        "lower",
+        "primary_algorithm_names",
+        "recommend_paired_runs",
+        "set",
+        "sorted",
+        "standard_benchmark_suite",
+        "str",
+        "strip",
+        "suite.evidence_role",
+        "tuple",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+      ],
+      "doc": "",
+      "end_line": 139,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig.validate",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, suite, verify_freeze)",
+      "start_line": 67,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.build_campaign"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkTask",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 143,
+      "state_owner": "",
+      "symbol": "BenchmarkTask",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkTask",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.BenchmarkTask.planned_jobs",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "planned_jobs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest",
+          "target": "digest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int.from_bytes",
+          "target": "int.from_bytes"
+        }
+      ],
+      "call_forms": {
+        "digest": "attribute",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "int.from_bytes": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.build_campaign"
+      ],
+      "calls": [
+        "digest",
+        "encode",
+        "hashlib.sha256",
+        "int.from_bytes"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign._task_seed",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(master_seed, case_name, study_key)",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "_task_seed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkTask",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkTask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_task_seed",
+          "target": "calo_rpd_studio.benchmarking.campaign._task_seed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "standard_benchmark_suite",
+          "target": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.validate",
+          "target": "campaign.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study.configure",
+          "target": "study.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "suite.evidence_role",
+          "target": "suite.evidence_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "suite.study",
+          "target": "suite.study"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tasks.append",
+          "target": "tasks.append"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkTask": "name",
+        "ExperimentConfig": "name",
+        "Path": "name",
+        "_task_seed": "name",
+        "campaign.validate": "attribute",
+        "config.validate": "attribute",
+        "deepcopy": "name",
+        "int": "name",
+        "list": "name",
+        "max": "name",
+        "standard_benchmark_suite": "name",
+        "str": "name",
+        "study.configure": "attribute",
+        "suite.evidence_role": "attribute",
+        "suite.study": "attribute",
+        "tasks.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v2_benchmarking.test_campaign_design_hash_allows_status_updates_but_detects_design_tampering",
+        "tests.unit.test_v2_benchmarking.test_campaign_plan_uses_all_algorithms_and_equal_job_count",
+        "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+        "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly"
+      ],
+      "calls": [
+        "BenchmarkTask",
+        "ExperimentConfig",
+        "Path",
+        "_task_seed",
+        "campaign.validate",
+        "config.validate",
+        "deepcopy",
+        "int",
+        "list",
+        "max",
+        "standard_benchmark_suite",
+        "str",
+        "study.configure",
+        "suite.evidence_role",
+        "suite.study",
+        "tasks.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkTask",
+        "calo_rpd_studio.benchmarking.campaign._task_seed",
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 215,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(campaign, base_config, suite, verify_freeze)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "build_campaign",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v34_release_blockers.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "campaign_plan_design_sha256",
+          "target": "calo_rpd_studio.benchmarking.campaign.campaign_plan_design_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "formulation_manifest",
+          "target": "formulation_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.config.to_dict",
+          "target": "task.config.to_dict"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDVariableDecoder": "name",
+        "Path": "name",
+        "campaign_plan_design_sha256": "name",
+        "destination.parent.mkdir": "attribute",
+        "destination.write_text": "attribute",
+        "formulation_manifest": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "task.config.to_dict": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v2_benchmarking.test_campaign_design_hash_allows_status_updates_but_detects_design_tampering",
+        "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDVariableDecoder",
+        "Path",
+        "campaign_plan_design_sha256",
+        "destination.parent.mkdir",
+        "destination.write_text",
+        "formulation_manifest",
+        "json.dumps",
+        "len",
+        "list",
+        "max",
+        "task.config.to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.campaign_plan_design_sha256",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 269,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(campaign, tasks, destination)",
+      "start_line": 218,
+      "state_owner": "",
+      "symbol": "write_campaign_plan",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v34_release_blockers.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "immutable_tasks.append",
+          "target": "immutable_tasks.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "immutable_tasks.append": "attribute",
+        "int": "name",
+        "items": "attribute",
+        "json.dumps": "attribute",
+        "list": "name",
+        "payload.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      ],
+      "calls": [
+        "dict",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "immutable_tasks.append",
+        "int",
+        "items",
+        "json.dumps",
+        "list",
+        "payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "Hash immutable campaign design while excluding run-time task state.",
+      "end_line": 295,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.campaign_plan_design_sha256",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(payload)",
+      "start_line": 272,
+      "state_owner": "",
+      "symbol": "campaign_plan_design_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "campaign_plan_design_sha256",
+          "target": "calo_rpd_studio.benchmarking.campaign.campaign_plan_design_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "campaign_plan_design_sha256": "name",
+        "json.loads": "attribute",
+        "path.read_text": "attribute",
+        "payload.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.build",
+        "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v2_benchmarking.test_campaign_design_hash_allows_status_updates_but_detects_design_tampering"
+      ],
+      "calls": [
+        "Path",
+        "campaign_plan_design_sha256",
+        "json.loads",
+        "path.read_text",
+        "payload.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.campaign_plan_design_sha256"
+      ],
+      "doc": "Verify that immutable campaign design was not changed after planning.",
+      "end_line": 309,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".freeze",
+        ".suite",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.version",
+        "copy",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.campaign",
+      "qualname": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(source)",
+      "start_line": 298,
+      "state_owner": "",
+      "symbol": "verify_campaign_plan_design",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py"
+      ]
+    }
+  ]
+}

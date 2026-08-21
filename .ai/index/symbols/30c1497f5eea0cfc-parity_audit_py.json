@@ -1,0 +1,474 @@
+{
+  "path": "calo_rpd_studio/accelerated/parity_audit.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ascontiguousarray",
+          "target": "np.ascontiguousarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probes.append",
+          "target": "probes.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probes.extend",
+          "target": "probes.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen.add",
+          "target": "seen.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tobytes",
+          "target": "tobytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unique.append",
+          "target": "unique.append"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.ascontiguousarray": "attribute",
+        "np.full": "attribute",
+        "np.ones": "attribute",
+        "np.random.default_rng": "attribute",
+        "np.zeros": "attribute",
+        "probes.append": "attribute",
+        "probes.extend": "attribute",
+        "range": "name",
+        "rng.random": "attribute",
+        "seen.add": "attribute",
+        "set": "name",
+        "tobytes": "attribute",
+        "unique.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit"
+      ],
+      "calls": [
+        "int",
+        "max",
+        "min",
+        "np.asarray",
+        "np.ascontiguousarray",
+        "np.full",
+        "np.ones",
+        "np.random.default_rng",
+        "np.zeros",
+        "probes.append",
+        "probes.extend",
+        "range",
+        "rng.random",
+        "seen.add",
+        "set",
+        "tobytes",
+        "unique.append"
+      ],
+      "calls_resolved": [],
+      "doc": "Return deterministic bounds/center/corner probes plus seeded random samples.",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/parity_audit.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".torch_orpd",
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.parity_audit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.parity_audit",
+      "qualname": "calo_rpd_studio.accelerated.parity_audit._parity_candidate_battery",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(reference, seed, random_candidates)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_parity_candidate_battery",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scientific_problem_fingerprint",
+          "target": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+        }
+      ],
+      "call_forms": {
+        "scientific_problem_fingerprint": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit"
+      ],
+      "calls": [
+        "scientific_problem_fingerprint"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/parity_audit.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".torch_orpd",
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.parity_audit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.parity_audit",
+      "qualname": "calo_rpd_studio.accelerated.parity_audit._scientific_fingerprint",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(reference)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "_scientific_fingerprint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_parity_candidate_battery",
+          "target": "calo_rpd_studio.accelerated.parity_audit._parity_candidate_battery"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_scientific_fingerprint",
+          "target": "calo_rpd_studio.accelerated.parity_audit._scientific_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parity_check",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_scenarios",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scientific_problem_fingerprint",
+          "target": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.update",
+          "target": "payload.update"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "_parity_candidate_battery": "name",
+        "_scientific_fingerprint": "name",
+        "asdict": "name",
+        "build_scenarios": "name",
+        "config.validate": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "parity_check": "name",
+        "payload.update": "attribute",
+        "scientific_problem_fingerprint": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run",
+        "calo_rpd_studio.scripts.validate_accelerator.main"
+      ],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "CaseLoader.load",
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "_parity_candidate_battery",
+        "_scientific_fingerprint",
+        "asdict",
+        "build_scenarios",
+        "config.validate",
+        "float",
+        "getattr",
+        "int",
+        "len",
+        "max",
+        "parity_check",
+        "payload.update",
+        "scientific_problem_fingerprint"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.parity_audit._parity_candidate_battery",
+        "calo_rpd_studio.accelerated.parity_audit._scientific_fingerprint",
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "Compare the exact configured scientific problem against the accelerator backend.",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/parity_audit.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".torch_orpd",
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.parity_audit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.parity_audit",
+      "qualname": "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, device, candidates)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "run_configuration_parity_audit",
+      "tests": []
+    }
+  ]
+}

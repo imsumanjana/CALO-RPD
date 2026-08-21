@@ -1,0 +1,1067 @@
+{
+  "path": "tests/unit/test_scientist_gui_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication",
+          "target": "QApplication"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.instance",
+          "target": "QApplication.instance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.fixture",
+          "target": "pytest.fixture"
+        }
+      ],
+      "call_forms": {
+        "QApplication": "name",
+        "QApplication.instance": "attribute",
+        "pytest.fixture": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication",
+        "QApplication.instance",
+        "pytest.fixture"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.qt_application",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "qt_application",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.close",
+          "target": "panel.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.cuda_vram_budget.parentWidget",
+          "target": "panel.cuda_vram_budget.parentWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.execution_backend.count",
+          "target": "panel.execution_backend.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.execution_backend.findData",
+          "target": "panel.execution_backend.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.execution_backend.itemText",
+          "target": "panel.execution_backend.itemText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qt_application.processEvents",
+          "target": "qt_application.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "any": "name",
+        "hasattr": "name",
+        "join": "attribute",
+        "lower": "attribute",
+        "panel.close": "attribute",
+        "panel.cuda_vram_budget.parentWidget": "attribute",
+        "panel.execution_backend.count": "attribute",
+        "panel.execution_backend.findData": "attribute",
+        "panel.execution_backend.itemText": "attribute",
+        "qt_application.processEvents": "attribute",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "any",
+        "hasattr",
+        "join",
+        "lower",
+        "panel.close",
+        "panel.cuda_vram_budget.parentWidget",
+        "panel.execution_backend.count",
+        "panel.execution_backend.findData",
+        "panel.execution_backend.itemText",
+        "qt_application.processEvents",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.test_experiment_workspace_has_only_two_scientist_compute_modes",
+      "semantic_tags": [],
+      "signature": "(qt_application, tmp_path)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "test_experiment_workspace_has_only_two_scientist_compute_modes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOIntelligencePanel",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.close",
+          "target": "panel.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.new_training_button.text",
+          "target": "panel.new_training_button.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_import_button.text",
+          "target": "panel.policy_import_button.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qt_application.processEvents",
+          "target": "qt_application.processEvents"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "CALOIntelligencePanel": "name",
+        "ExperimentManager": "name",
+        "hasattr": "name",
+        "panel.close": "attribute",
+        "panel.new_training_button.text": "attribute",
+        "panel.policy_import_button.text": "attribute",
+        "qt_application.processEvents": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "CALOIntelligencePanel",
+        "ExperimentManager",
+        "hasattr",
+        "panel.close",
+        "panel.new_training_button.text",
+        "panel.policy_import_button.text",
+        "qt_application.processEvents"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.test_policy_workspace_omits_internal_training_and_validation_modes",
+      "semantic_tags": [],
+      "signature": "(qt_application, tmp_path)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "test_policy_workspace_omits_internal_training_and_validation_modes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "dashboard_panel.DashboardPanel",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original.to_dict",
+          "target": "original.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._apply_study_protocol",
+          "target": "panel._apply_study_protocol"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.close",
+          "target": "panel.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qt_application.processEvents",
+          "target": "qt_application.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.to_dict",
+          "target": "state.config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staticmethod",
+          "target": "staticmethod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throw",
+          "target": "throw"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ValueError": "name",
+        "dashboard_panel.DashboardPanel": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "original.to_dict": "attribute",
+        "panel._apply_study_protocol": "attribute",
+        "panel.close": "attribute",
+        "qt_application.processEvents": "attribute",
+        "state.config.to_dict": "attribute",
+        "staticmethod": "name",
+        "throw": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "ValueError",
+        "dashboard_panel.DashboardPanel",
+        "monkeypatch.setattr",
+        "original.to_dict",
+        "panel._apply_study_protocol",
+        "panel.close",
+        "qt_application.processEvents",
+        "state.config.to_dict",
+        "staticmethod",
+        "throw"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.test_failed_study_application_does_not_mutate_live_configuration",
+      "semantic_tags": [],
+      "signature": "(qt_application, monkeypatch, tmp_path)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "test_failed_study_application_does_not_mutate_live_configuration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DashboardPanel",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.close",
+          "target": "panel.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.compute_labels.keys",
+          "target": "panel.compute_labels.keys"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.training_labels.keys",
+          "target": "panel.training_labels.keys"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qt_application.processEvents",
+          "target": "qt_application.processEvents"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "DashboardPanel": "name",
+        "any": "name",
+        "join": "attribute",
+        "lower": "attribute",
+        "panel.close": "attribute",
+        "panel.compute_labels.keys": "attribute",
+        "panel.training_labels.keys": "attribute",
+        "qt_application.processEvents": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "DashboardPanel",
+        "any",
+        "join",
+        "lower",
+        "panel.close",
+        "panel.compute_labels.keys",
+        "panel.training_labels.keys",
+        "qt_application.processEvents"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.test_dashboard_readiness_uses_scientist_facing_resource_language",
+      "semantic_tags": [],
+      "signature": "(qt_application, tmp_path)",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "test_dashboard_readiness_uses_scientist_facing_resource_language",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "fragments.append",
+          "target": "fragments.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fragments.extend",
+          "target": "fragments.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.findChildren",
+          "target": "panel.findChildren"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.count",
+          "target": "widget.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.isVisibleTo",
+          "target": "widget.isVisibleTo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.itemText",
+          "target": "widget.itemText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.placeholderText",
+          "target": "widget.placeholderText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.statusTip",
+          "target": "widget.statusTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.tabText",
+          "target": "widget.tabText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.text",
+          "target": "widget.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.title",
+          "target": "widget.title"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.toolTip",
+          "target": "widget.toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.whatsThis",
+          "target": "widget.whatsThis"
+        }
+      ],
+      "call_forms": {
+        "fragments.append": "attribute",
+        "fragments.extend": "attribute",
+        "isinstance": "name",
+        "join": "attribute",
+        "lower": "attribute",
+        "panel.findChildren": "attribute",
+        "range": "name",
+        "widget.count": "attribute",
+        "widget.isVisibleTo": "attribute",
+        "widget.itemText": "attribute",
+        "widget.placeholderText": "attribute",
+        "widget.statusTip": "attribute",
+        "widget.tabText": "attribute",
+        "widget.text": "attribute",
+        "widget.title": "attribute",
+        "widget.toolTip": "attribute",
+        "widget.whatsThis": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language"
+      ],
+      "calls": [
+        "fragments.append",
+        "fragments.extend",
+        "isinstance",
+        "join",
+        "lower",
+        "panel.findChildren",
+        "range",
+        "widget.count",
+        "widget.isVisibleTo",
+        "widget.itemText",
+        "widget.placeholderText",
+        "widget.statusTip",
+        "widget.tabText",
+        "widget.text",
+        "widget.title",
+        "widget.toolTip",
+        "widget.whatsThis"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract._visible_interface_text",
+      "semantic_tags": [],
+      "signature": "(panel)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "_visible_interface_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignPanel",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOIntelligencePanel",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DashboardPanel",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioManagerPanel",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.close",
+          "target": "panel.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show",
+          "target": "panel.show"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qt_application.processEvents",
+          "target": "qt_application.processEvents"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_visible_interface_text",
+          "target": "tests.unit.test_scientist_gui_contract._visible_interface_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "visible_text.find",
+          "target": "visible_text.find"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "BenchmarkCampaignPanel": "name",
+        "CALOIntelligencePanel": "name",
+        "DashboardPanel": "name",
+        "ExperimentManager": "name",
+        "ExperimentManagerPanel": "name",
+        "PortfolioManagerPanel": "name",
+        "_visible_interface_text": "name",
+        "join": "attribute",
+        "max": "name",
+        "panel.close": "attribute",
+        "panel.show": "attribute",
+        "qt_application.processEvents": "attribute",
+        "visible_text.find": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "BenchmarkCampaignPanel",
+        "CALOIntelligencePanel",
+        "DashboardPanel",
+        "ExperimentManager",
+        "ExperimentManagerPanel",
+        "PortfolioManagerPanel",
+        "_visible_interface_text",
+        "join",
+        "max",
+        "panel.close",
+        "panel.show",
+        "qt_application.processEvents",
+        "visible_text.find"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "tests.unit.test_scientist_gui_contract._visible_interface_text"
+      ],
+      "doc": "",
+      "end_line": 211,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_gui_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "BenchmarkCampaignPanel": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+        "CALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+        "DashboardPanel": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "ExperimentManagerPanel": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel",
+        "PortfolioManagerPanel": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "dashboard_panel": "calo_rpd_studio.gui.panels.dashboard_panel",
+        "importlib": "importlib.util",
+        "os": "os",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.gui.panels",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+        "calo_rpd_studio.gui.panels.dashboard_panel",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+        "importlib.util",
+        "os",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_gui_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_gui_contract",
+      "qualname": "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language",
+      "semantic_tags": [],
+      "signature": "(qt_application, tmp_path)",
+      "start_line": 148,
+      "state_owner": "",
+      "symbol": "test_normal_scientist_panels_hide_venue_and_engineering_language",
+      "tests": []
+    }
+  ]
+}

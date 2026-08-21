@@ -1,0 +1,449 @@
+{
+  "path": "calo_rpd_studio/gui/user_feedback.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/user_feedback.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.user_feedback",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.user_feedback",
+      "qualname": "calo_rpd_studio.gui.user_feedback._LOG",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/user_feedback.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.user_feedback",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.user_feedback",
+      "qualname": "calo_rpd_studio.gui.user_feedback._DETAILS_DIRECTION",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "_DETAILS_DIRECTION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.critical",
+          "target": "QMessageBox.critical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.error",
+          "target": "_LOG.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rstrip",
+          "target": "rstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.critical": "attribute",
+        "_LOG.error": "attribute",
+        "isinstance": "name",
+        "rstrip": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.open_config",
+        "calo_rpd_studio.app.main_window.MainWindow.restore_experiment_workspace",
+        "calo_rpd_studio.app.main_window.MainWindow.save_config",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._delete_completed_training",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._delete_standalone_policy_file",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._qualification_process_error",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._qualification_process_finished",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.activate_selected_policy",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.apply_policy_configuration",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.import_policy",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.qualify_selected_policy",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.resume_selected_assessment",
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.select_policy_for_use",
+        "calo_rpd_studio.gui.panels._independent_training_panel_core.IndependentTrainingPanel._process_error",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel.reset_algorithm_selection",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel.submit_algorithm_selection",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel.validate_calo_settings",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_failed",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.generate_package",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.validate_completed_campaign",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._request_compute_refresh",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._on_audit_completed",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._on_audit_failed",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply_workspace_study_setup",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.cancel_requested",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.discard_current_plan",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.extend_evaluation_horizon",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_failed",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.pause_requested",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.resume_current_plan",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.stage_current_plan",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_calo",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_comparison",
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.apply",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_case",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.run_pf",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_failed",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._standard_failed",
+        "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel.apply",
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.analyze",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._bulk_failed",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget._auto_rebuild_if_continual",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.apply_algorithm_learning",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.build_repository",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.preview_repository",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.save_classifications"
+      ],
+      "calls": [
+        "QMessageBox.critical",
+        "_LOG.error",
+        "isinstance",
+        "rstrip",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "Log complete technical context while keeping the modal short and actionable.",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/user_feedback.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.user_feedback",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.user_feedback",
+      "qualname": "calo_rpd_studio.gui.user_feedback.show_error",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(parent, title, message, error, source)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "show_error",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.warning",
+          "target": "QMessageBox.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rstrip",
+          "target": "rstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.warning": "attribute",
+        "_LOG.warning": "attribute",
+        "isinstance": "name",
+        "rstrip": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.cross_validate",
+        "calo_rpd_studio.gui.widgets.context_pane.ComputeQuickEditor.apply",
+        "calo_rpd_studio.gui.widgets.context_pane.ExperimentQuickEditor.apply",
+        "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor._library_selection_changed"
+      ],
+      "calls": [
+        "QMessageBox.warning",
+        "_LOG.warning",
+        "isinstance",
+        "rstrip",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "Warning counterpart for unavailable optional operations.",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/user_feedback.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.user_feedback",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.user_feedback",
+      "qualname": "calo_rpd_studio.gui.user_feedback.show_warning",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(parent, title, message, error, source)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "show_warning",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.error",
+          "target": "_LOG.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_LOG.error": "attribute",
+        "isinstance": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._refresh_resource_status",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._start_audit",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_cancelled",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_completed",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_failed",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_paused",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.on_started",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_study_recommendation",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.apply_context"
+      ],
+      "calls": [
+        "_LOG.error",
+        "isinstance",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "Retain a non-modal technical failure in the same Activity log stream.",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/user_feedback.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.user_feedback",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.user_feedback",
+      "qualname": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(source, error)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "log_technical_error",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,538 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "candidate/ensemble artifact integrity surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "designs.add",
+          "target": "designs.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guarded.append",
+          "target": "guarded.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "all": "name",
+        "any": "name",
+        "bool": "name",
+        "designs.add": "attribute",
+        "dict": "name",
+        "enumerate": "name",
+        "guarded.append": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "lower": "attribute",
+        "row.get": "attribute",
+        "set": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.assemble_tsh_calo_ensemble_candidate",
+        "tests.unit.test_tsh_calo_generalization_integration.test_artifact_boundary_rejects_mixed_guard_rows"
+      ],
+      "calls": [
+        "ValueError",
+        "all",
+        "any",
+        "bool",
+        "designs.add",
+        "dict",
+        "enumerate",
+        "guarded.append",
+        "isinstance",
+        "len",
+        "lower",
+        "row.get",
+        "set",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Reject mixed or differently guarded ensemble members before promotion can inspect them.",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "Sequence": "collections.abc.Sequence",
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "collections.abc",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "integrity",
+        "policy-artifact",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(rows)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_validate_ensemble_generalization_homogeneity_rows",
+      "tests": [
+        "tests/unit/test_tsh_calo_generalization_integration.py"
+      ]
+    },
+    {
+      "architectural_boundary": "candidate/ensemble artifact integrity surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_ensemble_generalization_homogeneity_rows",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.get",
+          "target": "member.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance.get",
+          "target": "provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_validate_ensemble_generalization_homogeneity_rows": "name",
+        "dict": "name",
+        "enumerate": "name",
+        "isinstance": "name",
+        "list": "name",
+        "member.get": "attribute",
+        "provenance.get": "attribute",
+        "rows.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.assemble_tsh_calo_ensemble_candidate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+      ],
+      "calls": [
+        "ValueError",
+        "_validate_ensemble_generalization_homogeneity_rows",
+        "dict",
+        "enumerate",
+        "isinstance",
+        "list",
+        "member.get",
+        "provenance.get",
+        "rows.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "Sequence": "collections.abc.Sequence",
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "collections.abc",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "integrity",
+        "policy-artifact",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(artifact)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "_validate_ensemble_generalization_homogeneity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "candidate/ensemble artifact integrity surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core_inspect_tsh_calo_candidate",
+          "target": "_core_inspect_tsh_calo_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_ensemble_generalization_homogeneity",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity"
+        }
+      ],
+      "call_forms": {
+        "_core_inspect_tsh_calo_candidate": "name",
+        "_validate_ensemble_generalization_homogeneity": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.inspect_qualification_candidate",
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.register",
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.training_evaluation_count",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._execute",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._existing_ensemble",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._existing_member_candidate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.IndependentTSHCALOTrainingExtension._execute",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._preflight",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.assemble_tsh_calo_ensemble_candidate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._preflight",
+        "calo_rpd_studio.gui.panels._independent_training_panel_core.TrainingModelLibrary._completed_candidate",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_generalization_guard.test_guarded_candidate_export_fails_closed_without_passed_bound_evidence",
+        "tests.unit.test_tsh_calo_inference._ensemble",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle._ensemble",
+        "tests.unit.test_tsh_calo_policy_lifecycle._formal_evidence",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_candidate_export_is_exact_versioned_unqualified_and_loadable",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_ensemble_assembly_preserves_independent_member_provenance",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_ensemble_rejects_duplicate_candidate_or_training_run",
+        "tests.unit.test_tsh_calo_qualification_campaign._ensemble",
+        "tests.unit.test_tsh_calo_qualification_campaign.test_formal_plan_requires_frozen_candidate_architecture_contract",
+        "tests.unit.test_tsh_calo_qualification_campaign.test_qualification_plan_rejects_protected_cases_and_mixed_contract_authorities",
+        "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export"
+      ],
+      "calls": [
+        "_core_inspect_tsh_calo_candidate",
+        "_validate_ensemble_generalization_homogeneity"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity"
+      ],
+      "doc": "Inspect a candidate and enforce guard homogeneity for every ensemble artifact.",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "Sequence": "collections.abc.Sequence",
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "collections.abc",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "integrity",
+        "policy-artifact",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, expected_sha256)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "inspect_tsh_calo_candidate",
+      "tests": [
+        "tests/unit/test_tsh_calo_generalization_guard.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_qualification_campaign.py",
+        "tests/unit/test_tsh_calo_training_session.py"
+      ]
+    },
+    {
+      "architectural_boundary": "candidate/ensemble artifact integrity surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core_assemble_tsh_calo_ensemble_candidate",
+          "target": "_core_assemble_tsh_calo_ensemble_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_ensemble_generalization_homogeneity",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_ensemble_generalization_homogeneity_rows",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "inspect_tsh_calo_candidate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        }
+      ],
+      "call_forms": {
+        "_core_assemble_tsh_calo_ensemble_candidate": "name",
+        "_validate_ensemble_generalization_homogeneity": "name",
+        "_validate_ensemble_generalization_homogeneity_rows": "name",
+        "dict": "name",
+        "inspect_tsh_calo_candidate": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._execute",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core.IndependentTSHCALOTrainingExtension._execute",
+        "tests.unit.test_tsh_calo_inference._ensemble",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle._ensemble",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_ensemble_rejects_duplicate_candidate_or_training_run",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate",
+        "tests.unit.test_tsh_calo_qualification_campaign._ensemble"
+      ],
+      "calls": [
+        "_core_assemble_tsh_calo_ensemble_candidate",
+        "_validate_ensemble_generalization_homogeneity",
+        "_validate_ensemble_generalization_homogeneity_rows",
+        "dict",
+        "inspect_tsh_calo_candidate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact._validate_ensemble_generalization_homogeneity_rows",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+      ],
+      "doc": "Assemble only members with a homogeneous guard declaration and design.",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "Sequence": "collections.abc.Sequence",
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "collections.abc",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.assemble_tsh_calo_ensemble_candidate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "integrity",
+        "policy-artifact",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, members)",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "assemble_tsh_calo_ensemble_candidate",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_qualification_campaign.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,959 @@
+{
+  "path": "tests/unit/test_config.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "c.save",
+          "target": "c.save"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.load": "attribute",
+        "c.save": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.load",
+        "c.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+      ],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_config_enum_roundtrip",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "test_config_enum_roundtrip",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.validate",
+          "target": "restored.validate"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "config.to_dict": "attribute",
+        "restored.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "config.to_dict",
+        "restored.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_plan_bound_result_contract_round_trip",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "test_plan_bound_result_contract_round_trip",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.validate",
+          "target": "restored.validate"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "config.to_dict": "attribute",
+        "pytest.raises": "attribute",
+        "restored.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "config.to_dict",
+        "pytest.raises",
+        "restored.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_workspace_study_runtime_contract_replaces_legacy_profile_run_floor",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "test_workspace_study_runtime_contract_replaces_legacy_profile_run_floor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.save",
+          "target": "config.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "ExperimentConfig.load": "attribute",
+        "config.save": "attribute",
+        "hasattr": "name",
+        "path.read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "ExperimentConfig.load",
+        "config.save",
+        "hasattr",
+        "path.read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+      ],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_config_roundtrip_uses_automatic_compute_defaults",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "test_config_roundtrip_uses_automatic_compute_defaults",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.save",
+          "target": "config.save"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.load": "attribute",
+        "config.save": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.load",
+        "config.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+      ],
+      "doc": "",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_experiment_roundtrip_retains_saved_calo_and_tsh_calo_runtime_settings",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "test_experiment_roundtrip_retains_saved_calo_and_tsh_calo_runtime_settings",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "hasattr": "name",
+        "pytest.mark.parametrize": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "hasattr",
+        "pytest.mark.parametrize"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_legacy_cuda_scheduler_modes_migrate_to_cuda_preferred",
+      "semantic_tags": [],
+      "signature": "(legacy_mode)",
+      "start_line": 142,
+      "state_owner": "",
+      "symbol": "test_legacy_cuda_scheduler_modes_migrate_to_cuda_preferred",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "config.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_historical_xpu_mode_is_readable_but_view_only",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "test_historical_xpu_mode_is_readable_but_view_only",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.lower",
+          "target": "name.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schema_path.read_text",
+          "target": "schema_path.read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "any": "name",
+        "json.loads": "attribute",
+        "name.lower": "attribute",
+        "resolve": "attribute",
+        "schema_path.read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "any",
+        "json.loads",
+        "name.lower",
+        "resolve",
+        "schema_path.read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 176,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_schema_contains_only_current_compute_modes_and_no_xpu_fields",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "test_schema_contains_only_current_compute_modes_and_no_xpu_fields",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schema_path.read_text",
+          "target": "schema_path.read_text"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "Path": "name",
+        "config.validate": "attribute",
+        "json.loads": "attribute",
+        "pytest.raises": "attribute",
+        "resolve": "attribute",
+        "schema_path.read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "Path",
+        "config.validate",
+        "json.loads",
+        "pytest.raises",
+        "resolve",
+        "schema_path.read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 192,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_population_requires_two_learners_in_code_and_schema",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "test_population_requires_two_learners_in_code_and_schema",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_schema",
+          "target": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schema_path.read_text",
+          "target": "schema_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_dict",
+          "target": "to_dict"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "Path": "name",
+        "build_schema": "name",
+        "json.loads": "attribute",
+        "pytest.raises": "attribute",
+        "resolve": "attribute",
+        "schema_path.read_text": "attribute",
+        "set": "name",
+        "to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "Path",
+        "build_schema",
+        "json.loads",
+        "pytest.raises",
+        "resolve",
+        "schema_path.read_text",
+        "set",
+        "to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.scripts.generate_experiment_schema.build_schema"
+      ],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_schema_matches_loader_unknown_field_and_throughput_defaults",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 195,
+      "state_owner": "",
+      "symbol": "test_schema_matches_loader_unknown_field_and_throughput_defaults",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_schema",
+          "target": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "build_schema": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "build_schema",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.scripts.generate_experiment_schema.build_schema"
+      ],
+      "doc": "",
+      "end_line": 228,
+      "entry_point": false,
+      "file": "tests/unit/test_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "build_schema": "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.evaluation_budget",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.scripts.generate_experiment_schema",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_config",
+      "qualname": "tests.unit.test_config.test_schema_declares_reviewed_external_control_identifiers_as_optional_arrays",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "test_schema_declares_reviewed_external_control_identifiers_as_optional_arrays",
+      "tests": []
+    }
+  ]
+}

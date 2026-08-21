@@ -1,0 +1,62 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:10ead9b97ba8e707ebb15af88543b0f72f122a75",
+    "content_sha256": "17a5b1f816e95f1e103157bec0ed388ba8a4ef1ba6682f7485921bc405101ef3",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Any": "typing.Any",
+      "Path": "pathlib.Path",
+      "annotations": "__future__.annotations",
+      "dataclass": "dataclasses.dataclass",
+      "datetime": "datetime.datetime",
+      "hashlib": "hashlib",
+      "json": "json",
+      "os": "os",
+      "threading": "threading",
+      "timezone": "datetime.timezone"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "datetime",
+      "hashlib",
+      "json",
+      "os",
+      "pathlib",
+      "threading",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/provenance.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 5235,
+    "state_owner": "",
+    "symbol_count": 8
+  },
+  "path": "calo_rpd_studio/compute/provenance.py",
+  "schema_version": 2
+}

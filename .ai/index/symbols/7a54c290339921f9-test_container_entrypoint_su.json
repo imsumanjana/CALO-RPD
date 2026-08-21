@@ -1,0 +1,503 @@
+{
+  "path": "tests/unit/test_container_entrypoint_supervision.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 7,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "importlib.util.module_from_spec",
+          "target": "importlib.util.module_from_spec"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "importlib.util.spec_from_file_location",
+          "target": "importlib.util.spec_from_file_location"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spec.loader.exec_module",
+          "target": "spec.loader.exec_module"
+        }
+      ],
+      "call_forms": {
+        "importlib.util.module_from_spec": "attribute",
+        "importlib.util.spec_from_file_location": "attribute",
+        "spec.loader.exec_module": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_fails_if_a_desktop_dependency_exits_cleanly",
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_publishes_live_app_pid_and_removes_it_on_exit",
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_refuses_readiness_when_qt_app_exits_early"
+      ],
+      "calls": [
+        "importlib.util.module_from_spec",
+        "importlib.util.spec_from_file_location",
+        "spec.loader.exec_module"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision._entrypoint_module",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "_entrypoint_module",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_fails_if_a_desktop_dependency_exits_cleanly",
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_publishes_live_app_pid_and_removes_it_on_exit",
+        "tests.unit.test_container_entrypoint_supervision.test_entrypoint_refuses_readiness_when_qt_app_exits_early"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_FakeProcess",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision._FakeProcess.__init__",
+      "semantic_tags": [],
+      "signature": "(self, pid, polls, observe)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self._polls.pop",
+          "target": "self._polls.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.observe.is_file",
+          "target": "self.observe.is_file"
+        }
+      ],
+      "call_forms": {
+        "self._polls.pop": "attribute",
+        "self.observe.is_file": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._polls.pop",
+        "self.observe.is_file"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision._FakeProcess.poll",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "poll",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "entrypoint._supervise_children",
+          "target": "entrypoint._supervise_children"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.exists",
+          "target": "pid_file.exists"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeProcess",
+          "target": "tests.unit.test_container_entrypoint_supervision._FakeProcess"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_entrypoint_module",
+          "target": "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+        }
+      ],
+      "call_forms": {
+        "_FakeProcess": "name",
+        "_entrypoint_module": "name",
+        "entrypoint._supervise_children": "attribute",
+        "pid_file.exists": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_FakeProcess",
+        "_entrypoint_module",
+        "entrypoint._supervise_children",
+        "pid_file.exists"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+        "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision.test_entrypoint_refuses_readiness_when_qt_app_exits_early",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "test_entrypoint_refuses_readiness_when_qt_app_exits_early",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "entrypoint._supervise_children",
+          "target": "entrypoint._supervise_children"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.exists",
+          "target": "pid_file.exists"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeProcess",
+          "target": "tests.unit.test_container_entrypoint_supervision._FakeProcess"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_entrypoint_module",
+          "target": "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+        }
+      ],
+      "call_forms": {
+        "_FakeProcess": "name",
+        "_entrypoint_module": "name",
+        "entrypoint._supervise_children": "attribute",
+        "pid_file.exists": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_FakeProcess",
+        "_entrypoint_module",
+        "entrypoint._supervise_children",
+        "pid_file.exists"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+        "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision.test_entrypoint_publishes_live_app_pid_and_removes_it_on_exit",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_entrypoint_publishes_live_app_pid_and_removes_it_on_exit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "entrypoint._supervise_children",
+          "target": "entrypoint._supervise_children"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pid_file.exists",
+          "target": "pid_file.exists"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeProcess",
+          "target": "tests.unit.test_container_entrypoint_supervision._FakeProcess"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_entrypoint_module",
+          "target": "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+        }
+      ],
+      "call_forms": {
+        "_FakeProcess": "name",
+        "_entrypoint_module": "name",
+        "entrypoint._supervise_children": "attribute",
+        "pid_file.exists": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_FakeProcess",
+        "_entrypoint_module",
+        "entrypoint._supervise_children",
+        "pid_file.exists"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_container_entrypoint_supervision._FakeProcess",
+        "tests.unit.test_container_entrypoint_supervision._entrypoint_module"
+      ],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "tests/unit/test_container_entrypoint_supervision.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "importlib.util",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_entrypoint_supervision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_entrypoint_supervision",
+      "qualname": "tests.unit.test_container_entrypoint_supervision.test_entrypoint_fails_if_a_desktop_dependency_exits_cleanly",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "test_entrypoint_fails_if_a_desktop_dependency_exits_cleanly",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,555 @@
+{
+  "path": "calo_rpd_studio/scripts/run_final_benchmark.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command.add_argument",
+          "target": "command.add_argument"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "argparse.ArgumentParser": "attribute",
+        "command.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary"
+      ],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "argparse.ArgumentParser",
+        "command.add_argument"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_final_benchmark.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_parallel_resilient": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "run_sequential_resilient": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.parallel_runner",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_final_benchmark",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_final_benchmark",
+      "qualname": "calo_rpd_studio.scripts.run_final_benchmark.parser",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "parser",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "path.read_text": "attribute",
+        "path.write_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_final_benchmark.main"
+      ],
+      "calls": [
+        "json.dumps",
+        "json.loads",
+        "path.read_text",
+        "path.write_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_final_benchmark.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_parallel_resilient": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "run_sequential_resilient": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.parallel_runner",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_final_benchmark",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_final_benchmark",
+      "qualname": "calo_rpd_studio.scripts.run_final_benchmark._update_manifest",
+      "semantic_tags": [],
+      "signature": "(path, task_index, experiment_id, status)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "_update_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "SystemExit",
+          "target": "SystemExit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.resolve",
+          "target": "archive.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.cases.split",
+          "target": "args.cases.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.studies.split",
+          "target": "args.studies.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "build",
+          "target": "build"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_campaign_plan",
+          "target": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScientificEvidencePackageBuilder",
+          "target": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_campaign",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_sequential_resilient",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_parallel_resilient",
+          "target": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_update_manifest",
+          "target": "calo_rpd_studio.scripts.run_final_benchmark._update_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parser",
+          "target": "calo_rpd_studio.scripts.run_final_benchmark.parser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_failure",
+          "target": "database.add_failure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_run",
+          "target": "database.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.set_experiment_learning_role",
+          "target": "database.set_experiment_learning_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.strip",
+          "target": "item.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.resolve",
+          "target": "manifest.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.mkdir",
+          "target": "output.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parse_args",
+          "target": "parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.save_arrays",
+          "target": "store.save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "ExperimentConfig": "name",
+        "Path": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "ScientificEvidencePackageBuilder": "name",
+        "SystemExit": "name",
+        "_update_manifest": "name",
+        "archive.resolve": "attribute",
+        "args.cases.split": "attribute",
+        "args.studies.split": "attribute",
+        "build": "attribute",
+        "build_campaign": "name",
+        "collect_provenance": "name",
+        "database.add_failure": "attribute",
+        "database.add_run": "attribute",
+        "database.create_experiment": "attribute",
+        "database.set_experiment_learning_role": "attribute",
+        "item.strip": "attribute",
+        "len": "name",
+        "manifest.resolve": "attribute",
+        "output.mkdir": "attribute",
+        "parse_args": "attribute",
+        "parser": "name",
+        "print": "name",
+        "replace": "name",
+        "resolve_config_for_entrypoint": "name",
+        "run_parallel_resilient": "name",
+        "run_sequential_resilient": "name",
+        "store.save_arrays": "attribute",
+        "str": "name",
+        "tuple": "name",
+        "validate_campaign": "name",
+        "verify_campaign_plan_design": "name",
+        "verify_freeze_manifest": "name",
+        "write_campaign_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "ExperimentConfig",
+        "Path",
+        "ResultDatabase",
+        "ResultStore",
+        "ScientificEvidencePackageBuilder",
+        "SystemExit",
+        "_update_manifest",
+        "archive.resolve",
+        "args.cases.split",
+        "args.studies.split",
+        "build",
+        "build_campaign",
+        "collect_provenance",
+        "database.add_failure",
+        "database.add_run",
+        "database.create_experiment",
+        "database.set_experiment_learning_role",
+        "item.strip",
+        "len",
+        "manifest.resolve",
+        "output.mkdir",
+        "parse_args",
+        "parser",
+        "print",
+        "replace",
+        "resolve_config_for_entrypoint",
+        "run_parallel_resilient",
+        "run_sequential_resilient",
+        "store.save_arrays",
+        "str",
+        "tuple",
+        "validate_campaign",
+        "verify_campaign_plan_design",
+        "verify_freeze_manifest",
+        "write_campaign_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "calo_rpd_studio.scripts.run_final_benchmark._update_manifest",
+        "calo_rpd_studio.scripts.run_final_benchmark.parser"
+      ],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_final_benchmark.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_parallel_resilient": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "run_sequential_resilient": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.parallel_runner",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "dataclasses",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_final_benchmark",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_final_benchmark",
+      "qualname": "calo_rpd_studio.scripts.run_final_benchmark.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

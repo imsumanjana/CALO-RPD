@@ -1,0 +1,658 @@
+{
+  "path": "calo_rpd_studio/benchmarking/package.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.generate_package",
+        "calo_rpd_studio.scripts.run_final_benchmark.main"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 257,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/package.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_campaign_evidence": "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "font_resolution_manifest": "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "generate_campaign_figures": "calo_rpd_studio.visualization.publication_evidence.generate_campaign_figures",
+        "json": "json",
+        "pd": "pandas",
+        "shutil": "shutil",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".campaign",
+        ".evidence",
+        ".freeze",
+        "__future__",
+        "calo_rpd_studio.version",
+        "calo_rpd_studio.visualization.font_preflight",
+        "calo_rpd_studio.visualization.publication_evidence",
+        "dataclasses",
+        "json",
+        "pandas",
+        "pathlib",
+        "shutil",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.package",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.package",
+      "qualname": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "ScientificEvidencePackageBuilder",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/package.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_campaign_evidence": "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "font_resolution_manifest": "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "generate_campaign_figures": "calo_rpd_studio.visualization.publication_evidence.generate_campaign_figures",
+        "json": "json",
+        "pd": "pandas",
+        "shutil": "shutil",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".campaign",
+        ".evidence",
+        ".freeze",
+        "__future__",
+        "calo_rpd_studio.version",
+        "calo_rpd_studio.visualization.font_preflight",
+        "calo_rpd_studio.visualization.publication_evidence",
+        "dataclasses",
+        "json",
+        "pandas",
+        "pathlib",
+        "shutil",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.package",
+      "qualname": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.__init__",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, database)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "article_lines.extend",
+          "target": "article_lines.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bundle.write",
+          "target": "bundle.write"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign_evidence",
+          "target": "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "font_resolution_manifest",
+          "target": "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_campaign_figures",
+          "target": "calo_rpd_studio.visualization.publication_evidence.generate_campaign_figures"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign_manifest.read_text",
+          "target": "campaign_manifest.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "descriptive.to_csv",
+          "target": "descriptive.to_csv"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "descriptive.to_latex",
+          "target": "descriptive.to_latex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "descriptive_rows.append",
+          "target": "descriptive_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "directory.mkdir",
+          "target": "directory.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.global_statistics.get",
+          "target": "evidence.global_statistics.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.task_summaries.items",
+          "target": "evidence.task_summaries.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.to_dict",
+          "target": "evidence.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.get",
+          "target": "first.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_payload.get",
+          "target": "freeze_payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective.get",
+          "target": "objective.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pairwise_rows.append",
+          "target": "pairwise_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pd.DataFrame",
+          "target": "pd.DataFrame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ranks.items",
+          "target": "ranks.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw_records.append",
+          "target": "raw_records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.rglob",
+          "target": "root.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runtime.get",
+          "target": "runtime.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_experiment",
+          "target": "self.database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.list_runs",
+          "target": "self.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.list_validations",
+          "target": "self.database.list_validations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.resolve_array_path",
+          "target": "self.database.resolve_array_path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shutil.copy2",
+          "target": "shutil.copy2"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sort_values",
+          "target": "sort_values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_arrays.is_file",
+          "target": "source_arrays.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.get",
+          "target": "summary.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.get",
+          "target": "task.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_array_dir.mkdir",
+          "target": "task_array_dir.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_experiments.items",
+          "target": "task_experiments.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_experiments.values",
+          "target": "task_experiments.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_raw_dir.mkdir",
+          "target": "task_raw_dir.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_csv",
+          "target": "to_csv"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validation_rows.append",
+          "target": "validation_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "article_lines.extend": "attribute",
+        "asdict": "name",
+        "build_campaign_evidence": "name",
+        "bundle.write": "attribute",
+        "campaign_manifest.read_text": "attribute",
+        "descriptive.to_csv": "attribute",
+        "descriptive.to_latex": "attribute",
+        "descriptive_rows.append": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "directory.mkdir": "attribute",
+        "evidence.global_statistics.get": "attribute",
+        "evidence.task_summaries.items": "attribute",
+        "evidence.to_dict": "attribute",
+        "first.get": "attribute",
+        "font_resolution_manifest": "name",
+        "freeze_payload.get": "attribute",
+        "generate_campaign_figures": "name",
+        "get": "attribute",
+        "items": "attribute",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "objective.get": "attribute",
+        "pairwise_rows.append": "attribute",
+        "path.is_file": "attribute",
+        "path.relative_to": "attribute",
+        "payload.get": "attribute",
+        "pd.DataFrame": "attribute",
+        "ranks.items": "attribute",
+        "raw_records.append": "attribute",
+        "read_text": "attribute",
+        "resolve": "attribute",
+        "result.get": "attribute",
+        "root.rglob": "attribute",
+        "row.get": "attribute",
+        "runtime.get": "attribute",
+        "self.database.get_experiment": "attribute",
+        "self.database.list_runs": "attribute",
+        "self.database.list_validations": "attribute",
+        "self.database.resolve_array_path": "attribute",
+        "shutil.copy2": "attribute",
+        "sort_values": "attribute",
+        "source.is_file": "attribute",
+        "source_arrays.is_file": "attribute",
+        "sum": "name",
+        "summary.get": "attribute",
+        "task.get": "attribute",
+        "task_array_dir.mkdir": "attribute",
+        "task_experiments.items": "attribute",
+        "task_experiments.values": "attribute",
+        "task_raw_dir.mkdir": "attribute",
+        "to_csv": "attribute",
+        "validation_rows.append": "attribute",
+        "verify_campaign_plan_design": "name",
+        "verify_freeze_manifest": "name",
+        "write_text": "attribute",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "ValueError",
+        "article_lines.extend",
+        "asdict",
+        "build_campaign_evidence",
+        "bundle.write",
+        "campaign_manifest.read_text",
+        "descriptive.to_csv",
+        "descriptive.to_latex",
+        "descriptive_rows.append",
+        "destination.parent.mkdir",
+        "directory.mkdir",
+        "evidence.global_statistics.get",
+        "evidence.task_summaries.items",
+        "evidence.to_dict",
+        "first.get",
+        "font_resolution_manifest",
+        "freeze_payload.get",
+        "generate_campaign_figures",
+        "get",
+        "items",
+        "join",
+        "json.dumps",
+        "json.loads",
+        "len",
+        "objective.get",
+        "pairwise_rows.append",
+        "path.is_file",
+        "path.relative_to",
+        "payload.get",
+        "pd.DataFrame",
+        "ranks.items",
+        "raw_records.append",
+        "read_text",
+        "resolve",
+        "result.get",
+        "root.rglob",
+        "row.get",
+        "runtime.get",
+        "self.database.get_experiment",
+        "self.database.list_runs",
+        "self.database.list_validations",
+        "self.database.resolve_array_path",
+        "shutil.copy2",
+        "sort_values",
+        "source.is_file",
+        "source_arrays.is_file",
+        "sum",
+        "summary.get",
+        "task.get",
+        "task_array_dir.mkdir",
+        "task_experiments.items",
+        "task_experiments.values",
+        "task_raw_dir.mkdir",
+        "to_csv",
+        "validation_rows.append",
+        "verify_campaign_plan_design",
+        "verify_freeze_manifest",
+        "write_text",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "calo_rpd_studio.visualization.publication_evidence.generate_campaign_figures"
+      ],
+      "doc": "",
+      "end_line": 257,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/package.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_campaign_evidence": "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "font_resolution_manifest": "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "generate_campaign_figures": "calo_rpd_studio.visualization.publication_evidence.generate_campaign_figures",
+        "json": "json",
+        "pd": "pandas",
+        "shutil": "shutil",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".campaign",
+        ".evidence",
+        ".freeze",
+        "__future__",
+        "calo_rpd_studio.version",
+        "calo_rpd_studio.visualization.font_preflight",
+        "calo_rpd_studio.visualization.publication_evidence",
+        "dataclasses",
+        "json",
+        "pandas",
+        "pathlib",
+        "shutil",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.package",
+      "qualname": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.build",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, campaign_manifest, output_directory, freeze_manifest)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "build",
+      "tests": []
+    }
+  ]
+}

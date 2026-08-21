@@ -1,0 +1,274 @@
+{
+  "path": "tools/ai_repo_intelligence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "tools/ai_repo_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "apply_audit_seed": "ai_intelligence.audit_seed.apply_audit_seed",
+        "argparse": "argparse",
+        "build_context": "ai_intelligence.context.build_context",
+        "canonical_json": "ai_intelligence.common.canonical_json",
+        "current_status": "ai_intelligence.indexer.current_status",
+        "repo_root": "ai_intelligence.common.repo_root",
+        "sys": "sys",
+        "update_index": "ai_intelligence.indexer.update_index",
+        "validate_indexes": "ai_intelligence.indexer.validate_indexes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ai_intelligence.audit_seed",
+        "ai_intelligence.common",
+        "ai_intelligence.context",
+        "ai_intelligence.indexer",
+        "argparse",
+        "pathlib",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "repository",
+      "parent_qualname": "tools.ai_repo_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_repo_intelligence",
+      "qualname": "tools.ai_repo_intelligence.TOOLS_DIR",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "TOOLS_DIR",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "commands.add_parser",
+          "target": "commands.add_parser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.add_argument",
+          "target": "context.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_subparsers",
+          "target": "parser.add_subparsers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.add_argument",
+          "target": "status.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "apply_audit_seed",
+          "target": "tools.ai_intelligence.audit_seed.apply_audit_seed"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "canonical_json",
+          "target": "tools.ai_intelligence.common.canonical_json"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "repo_root",
+          "target": "tools.ai_intelligence.common.repo_root"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "build_context",
+          "target": "tools.ai_intelligence.context.build_context"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "current_status",
+          "target": "tools.ai_intelligence.indexer.current_status"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "update_index",
+          "target": "tools.ai_intelligence.indexer.update_index"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "validate_indexes",
+          "target": "tools.ai_intelligence.indexer.validate_indexes"
+        }
+      ],
+      "call_forms": {
+        "apply_audit_seed": "name",
+        "argparse.ArgumentParser": "attribute",
+        "build_context": "name",
+        "canonical_json": "name",
+        "commands.add_parser": "attribute",
+        "context.add_argument": "attribute",
+        "current_status": "name",
+        "join": "attribute",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "parser.add_argument": "attribute",
+        "parser.add_subparsers": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "repo_root": "name",
+        "result.get": "attribute",
+        "status.add_argument": "attribute",
+        "status.get": "attribute",
+        "update_index": "name",
+        "validate_indexes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "apply_audit_seed",
+        "argparse.ArgumentParser",
+        "build_context",
+        "canonical_json",
+        "commands.add_parser",
+        "context.add_argument",
+        "current_status",
+        "join",
+        "len",
+        "max",
+        "min",
+        "parser.add_argument",
+        "parser.add_subparsers",
+        "parser.parse_args",
+        "print",
+        "repo_root",
+        "result.get",
+        "status.add_argument",
+        "status.get",
+        "update_index",
+        "validate_indexes"
+      ],
+      "calls_resolved": [
+        "tools.ai_intelligence.audit_seed.apply_audit_seed",
+        "tools.ai_intelligence.common.canonical_json",
+        "tools.ai_intelligence.common.repo_root",
+        "tools.ai_intelligence.context.build_context",
+        "tools.ai_intelligence.indexer.current_status",
+        "tools.ai_intelligence.indexer.update_index",
+        "tools.ai_intelligence.indexer.validate_indexes"
+      ],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "tools/ai_repo_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "apply_audit_seed": "ai_intelligence.audit_seed.apply_audit_seed",
+        "argparse": "argparse",
+        "build_context": "ai_intelligence.context.build_context",
+        "canonical_json": "ai_intelligence.common.canonical_json",
+        "current_status": "ai_intelligence.indexer.current_status",
+        "repo_root": "ai_intelligence.common.repo_root",
+        "sys": "sys",
+        "update_index": "ai_intelligence.indexer.update_index",
+        "validate_indexes": "ai_intelligence.indexer.validate_indexes"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "ai_intelligence.audit_seed",
+        "ai_intelligence.common",
+        "ai_intelligence.context",
+        "ai_intelligence.indexer",
+        "argparse",
+        "pathlib",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_repo_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_repo_intelligence",
+      "qualname": "tools.ai_repo_intelligence.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

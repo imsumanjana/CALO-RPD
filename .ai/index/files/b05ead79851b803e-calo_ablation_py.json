@@ -1,0 +1,64 @@
+{
+  "file": {
+    "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:e813675d7777836725045e9f260998104d7052c7",
+    "content_sha256": "66ef7d28317da545ed7f28438af18a6c1b310568a256d2b744cdcae0e824c72d",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+      "CompletedRun": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+      "LegacyMTLBOOptimizer": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+      "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+      "RunExecutionFailure": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+      "_optimizer_failure_state": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+      "annotations": "__future__.annotations",
+      "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+      "dataclass": "dataclasses.dataclass",
+      "deepcopy": "copy.deepcopy",
+      "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+      "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+      "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+      "time": "time"
+    },
+    "important_invariants": [
+      "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+    ],
+    "imports": [
+      ".evaluation_budget",
+      ".experiment_runner",
+      "__future__",
+      "calo_rpd_studio.algorithms.base_optimizer",
+      "calo_rpd_studio.algorithms.legacy_mtlbo",
+      "calo_rpd_studio.compute.device_binding",
+      "copy",
+      "dataclasses",
+      "time"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "experiments",
+    "parse_error": "",
+    "path": "calo_rpd_studio/experiments/calo_ablation.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "determinism",
+      "evaluation-accounting",
+      "experiments",
+      "fairness"
+    ],
+    "size_bytes": 4249,
+    "state_owner": "",
+    "symbol_count": 4
+  },
+  "path": "calo_rpd_studio/experiments/calo_ablation.py",
+  "schema_version": 2
+}

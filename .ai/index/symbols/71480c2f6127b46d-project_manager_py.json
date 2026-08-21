@@ -1,0 +1,173 @@
+{
+  "path": "calo_rpd_studio/app/project_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/project_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.project_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.project_manager",
+      "qualname": "calo_rpd_studio.app.project_manager.ProjectManager",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "ProjectManager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.save",
+          "target": "config.save"
+        }
+      ],
+      "call_forms": {
+        "config.save": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.save_config"
+      ],
+      "calls": [
+        "config.save"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/project_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.project_manager.ProjectManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.project_manager",
+      "qualname": "calo_rpd_studio.app.project_manager.ProjectManager.save",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(config, path)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "save",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.load": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.open_config"
+      ],
+      "calls": [
+        "ExperimentConfig.load"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+      ],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/project_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.project_manager.ProjectManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.project_manager",
+      "qualname": "calo_rpd_studio.app.project_manager.ProjectManager.load",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(path)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": []
+    }
+  ]
+}

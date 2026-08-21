@@ -1,0 +1,1372 @@
+{
+  "path": "tests/unit/test_v120_phase5_release_preparation.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scope._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.release_policy_scope._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "scope._canonical_sha256": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase5_release_preparation._policy_free_decision",
+        "tests.unit.test_v120_phase5_release_preparation.test_new_policy_scope_requires_a_confined_exact_manifest"
+      ],
+      "calls": [
+        "dict",
+        "scope._canonical_sha256"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.release_policy_scope._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation._seal",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_seal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scope.disabled_template",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.disabled_template"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.pop",
+          "target": "payload.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.update",
+          "target": "payload.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_seal",
+          "target": "tests.unit.test_v120_phase5_release_preparation._seal"
+        }
+      ],
+      "call_forms": {
+        "_seal": "name",
+        "payload.pop": "attribute",
+        "payload.update": "attribute",
+        "scope.disabled_template": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase5_release_preparation.test_policy_free_scope_forbids_policy_identity_and_benefit_claims",
+        "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_refuses_approved_scope_without_transition_evidence"
+      ],
+      "calls": [
+        "_seal",
+        "payload.pop",
+        "payload.update",
+        "scope.disabled_template"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.release_policy_scope.disabled_template",
+        "tests.unit.test_v120_phase5_release_preparation._seal"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation._policy_free_decision",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_policy_free_decision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scope.disabled_template",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.disabled_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scope.validate_scope_decision",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "pytest.raises": "attribute",
+        "scope.disabled_template": "attribute",
+        "scope.validate_scope_decision": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "pytest.raises",
+        "scope.disabled_template",
+        "scope.validate_scope_decision"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.release_policy_scope.disabled_template",
+        "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_disabled_scope_template_cannot_authorize_a_release_policy_scope",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "test_disabled_scope_template_cannot_authorize_a_release_policy_scope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "final_records.disabled_authorization_template",
+          "target": "calo_rpd_studio.scripts.finalize_release_records.disabled_authorization_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "final_records.validate_authorization",
+          "target": "calo_rpd_studio.scripts.finalize_release_records.validate_authorization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "final_records.disabled_authorization_template": "attribute",
+        "final_records.validate_authorization": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "final_records.disabled_authorization_template",
+        "final_records.validate_authorization",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records.disabled_authorization_template",
+        "calo_rpd_studio.scripts.finalize_release_records.validate_authorization"
+      ],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_disabled_final_record_template_cannot_generate_release_records",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "test_disabled_final_record_template_cannot_generate_release_records",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "final_records._load_json_object",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._load_json_object"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "invalid.write_text",
+          "target": "invalid.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "final_records._load_json_object": "attribute",
+        "invalid.write_text": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "final_records._load_json_object",
+        "invalid.write_text",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._load_json_object"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_final_record_json_loader_requires_an_object",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "test_final_record_json_loader_requires_an_object",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scope._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.release_policy_scope._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scope._stable",
+          "target": "calo_rpd_studio.scripts.release_policy_scope._stable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scope.validate_scope_decision",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_free_decision",
+          "target": "tests.unit.test_v120_phase5_release_preparation._policy_free_decision"
+        }
+      ],
+      "call_forms": {
+        "_policy_free_decision": "name",
+        "dict": "name",
+        "pytest.raises": "attribute",
+        "scope._canonical_sha256": "attribute",
+        "scope._stable": "attribute",
+        "scope.validate_scope_decision": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_policy_free_decision",
+        "dict",
+        "pytest.raises",
+        "scope._canonical_sha256",
+        "scope._stable",
+        "scope.validate_scope_decision"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.release_policy_scope._canonical_sha256",
+        "calo_rpd_studio.scripts.release_policy_scope._stable",
+        "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "tests.unit.test_v120_phase5_release_preparation._policy_free_decision"
+      ],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_policy_free_scope_forbids_policy_identity_and_benefit_claims",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "test_policy_free_scope_forbids_policy_identity_and_benefit_claims",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "artifact.read_bytes",
+          "target": "artifact.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifact.write_bytes",
+          "target": "artifact.write_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OODCalibration",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scope.disabled_template",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.disabled_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scope.validate_scope_decision",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.read_bytes",
+          "target": "manifest.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.write_text",
+          "target": "manifest.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.pop",
+          "target": "payload.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.update",
+          "target": "payload.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qualification.read_bytes",
+          "target": "qualification.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qualification.write_text",
+          "target": "qualification.write_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_seal",
+          "target": "tests.unit.test_v120_phase5_release_preparation._seal"
+        }
+      ],
+      "call_forms": {
+        "OODCalibration": "name",
+        "_seal": "name",
+        "artifact.read_bytes": "attribute",
+        "artifact.write_bytes": "attribute",
+        "build_tsh_calo_qualification_receipt": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "manifest.read_bytes": "attribute",
+        "manifest.write_text": "attribute",
+        "np.ones": "attribute",
+        "np.zeros": "attribute",
+        "payload.pop": "attribute",
+        "payload.update": "attribute",
+        "qualification.read_bytes": "attribute",
+        "qualification.write_text": "attribute",
+        "scope.disabled_template": "attribute",
+        "scope.validate_scope_decision": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OODCalibration",
+        "_seal",
+        "artifact.read_bytes",
+        "artifact.write_bytes",
+        "build_tsh_calo_qualification_receipt",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "manifest.read_bytes",
+        "manifest.write_text",
+        "np.ones",
+        "np.zeros",
+        "payload.pop",
+        "payload.update",
+        "qualification.read_bytes",
+        "qualification.write_text",
+        "scope.disabled_template",
+        "scope.validate_scope_decision"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "calo_rpd_studio.scripts.release_policy_scope.disabled_template",
+        "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "tests.unit.test_v120_phase5_release_preparation._seal"
+      ],
+      "doc": "",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_new_policy_scope_requires_a_confined_exact_manifest",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "test_new_policy_scope_requires_a_confined_exact_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.parent.mkdir",
+          "target": "path.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute",
+        "path.parent.mkdir": "attribute",
+        "path.write_text": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_binds_complete_evidence_without_claiming_release",
+        "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_refuses_approved_scope_without_transition_evidence"
+      ],
+      "calls": [
+        "json.dumps",
+        "path.parent.mkdir",
+        "path.write_text",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation._evidence_fixture",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 143,
+      "state_owner": "",
+      "symbol": "_evidence_fixture",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "preparation._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.create_release_preparation._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "preparation.build_release_preparation",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "preparation.validate_release_preparation",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.mkdir",
+          "target": "evidence.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "forged.items",
+          "target": "forged.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.mkdir",
+          "target": "source.mkdir"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_evidence_fixture",
+          "target": "tests.unit.test_v120_phase5_release_preparation._evidence_fixture"
+        }
+      ],
+      "call_forms": {
+        "SourceIdentity": "name",
+        "_evidence_fixture": "name",
+        "dict": "name",
+        "evidence.mkdir": "attribute",
+        "forged.items": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "preparation._canonical_sha256": "attribute",
+        "preparation.build_release_preparation": "attribute",
+        "preparation.validate_release_preparation": "attribute",
+        "pytest.raises": "attribute",
+        "set": "name",
+        "source.mkdir": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SourceIdentity",
+        "_evidence_fixture",
+        "dict",
+        "evidence.mkdir",
+        "forged.items",
+        "monkeypatch.setattr",
+        "preparation._canonical_sha256",
+        "preparation.build_release_preparation",
+        "preparation.validate_release_preparation",
+        "pytest.raises",
+        "set",
+        "source.mkdir"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.scripts.create_release_preparation._canonical_sha256",
+        "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation",
+        "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "tests.unit.test_v120_phase5_release_preparation._evidence_fixture"
+      ],
+      "doc": "",
+      "end_line": 191,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_binds_complete_evidence_without_claiming_release",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "test_release_preparation_binds_complete_evidence_without_claiming_release",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "preparation.build_release_preparation",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.mkdir",
+          "target": "evidence.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.mkdir",
+          "target": "source.mkdir"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_evidence_fixture",
+          "target": "tests.unit.test_v120_phase5_release_preparation._evidence_fixture"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_free_decision",
+          "target": "tests.unit.test_v120_phase5_release_preparation._policy_free_decision"
+        }
+      ],
+      "call_forms": {
+        "SourceIdentity": "name",
+        "_evidence_fixture": "name",
+        "_policy_free_decision": "name",
+        "evidence.mkdir": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "preparation.build_release_preparation": "attribute",
+        "pytest.raises": "attribute",
+        "source.mkdir": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SourceIdentity",
+        "_evidence_fixture",
+        "_policy_free_decision",
+        "evidence.mkdir",
+        "monkeypatch.setattr",
+        "preparation.build_release_preparation",
+        "pytest.raises",
+        "source.mkdir"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation",
+        "tests.unit.test_v120_phase5_release_preparation._evidence_fixture",
+        "tests.unit.test_v120_phase5_release_preparation._policy_free_decision"
+      ],
+      "doc": "",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_refuses_approved_scope_without_transition_evidence",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 194,
+      "state_owner": "",
+      "symbol": "test_release_preparation_refuses_approved_scope_without_transition_evidence",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "preparation.build_release_preparation",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.mkdir",
+          "target": "evidence.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.mkdir",
+          "target": "source.mkdir"
+        }
+      ],
+      "call_forms": {
+        "evidence.mkdir": "attribute",
+        "preparation.build_release_preparation": "attribute",
+        "pytest.raises": "attribute",
+        "source.mkdir": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "evidence.mkdir",
+        "preparation.build_release_preparation",
+        "pytest.raises",
+        "source.mkdir"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.create_release_preparation.build_release_preparation"
+      ],
+      "doc": "",
+      "end_line": 224,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_release_preparation_rejects_an_incomplete_evidence_map",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 217,
+      "state_owner": "",
+      "symbol": "test_release_preparation_rejects_an_incomplete_evidence_map",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "distributions._safe_name",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "distributions._safe_name": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "distributions._safe_name",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name"
+      ],
+      "doc": "",
+      "end_line": 229,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_distribution_member_name_rejects_traversal",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 227,
+      "state_owner": "",
+      "symbol": "test_distribution_member_name_rejects_traversal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "release_ci.verify",
+          "target": "calo_rpd_studio.scripts.verify_release_ci_contract.verify"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "release_ci.verify": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "release_ci.verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_release_ci_contract.verify"
+      ],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase5_release_preparation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "distributions": "calo_rpd_studio.scripts.generate_distribution_manifests",
+        "final_records": "calo_rpd_studio.scripts.finalize_release_records",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "preparation": "calo_rpd_studio.scripts.create_release_preparation",
+        "pytest": "pytest",
+        "release_ci": "calo_rpd_studio.scripts.verify_release_ci_contract",
+        "scope": "calo_rpd_studio.scripts.release_policy_scope"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase5_release_preparation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase5_release_preparation",
+      "qualname": "tests.unit.test_v120_phase5_release_preparation.test_release_ci_contract_covers_required_jobs_and_boundaries",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 232,
+      "state_owner": "",
+      "symbol": "test_release_ci_contract_covers_required_jobs_and_boundaries",
+      "tests": []
+    }
+  ]
+}

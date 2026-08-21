@@ -1,0 +1,293 @@
+{
+  "path": "calo_rpd_studio/results/comparison_engine.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "df.groupby",
+          "target": "df.groupby"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean",
+          "target": "mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.median",
+          "target": "np.median"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.min",
+          "target": "np.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.std",
+          "target": "np.std"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pd.DataFrame",
+          "target": "pd.DataFrame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pd.to_numeric",
+          "target": "pd.to_numeric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.append",
+          "target": "records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows_out.append",
+          "target": "rows_out.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set_index",
+          "target": "set_index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.sort_values",
+          "target": "summary.sort_values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_numpy",
+          "target": "to_numpy"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "bool": "name",
+        "data.get": "attribute",
+        "df.groupby": "attribute",
+        "float": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "mean": "attribute",
+        "np.isfinite": "attribute",
+        "np.max": "attribute",
+        "np.mean": "attribute",
+        "np.median": "attribute",
+        "np.min": "attribute",
+        "np.std": "attribute",
+        "pd.DataFrame": "attribute",
+        "pd.to_numeric": "attribute",
+        "records.append": "attribute",
+        "row.get": "attribute",
+        "rows_out.append": "attribute",
+        "set_index": "attribute",
+        "str": "name",
+        "summary.sort_values": "attribute",
+        "to_numpy": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v57_audit_closure_integration.test_comparison_summary_excludes_unverified_and_infeasible_objectives"
+      ],
+      "calls": [
+        "astype",
+        "bool",
+        "data.get",
+        "df.groupby",
+        "float",
+        "int",
+        "json.loads",
+        "mean",
+        "np.isfinite",
+        "np.max",
+        "np.mean",
+        "np.median",
+        "np.min",
+        "np.std",
+        "pd.DataFrame",
+        "pd.to_numeric",
+        "records.append",
+        "row.get",
+        "rows_out.append",
+        "set_index",
+        "str",
+        "summary.sort_values",
+        "to_numpy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/comparison_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "json",
+        "numpy",
+        "pandas"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.comparison_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.comparison_engine",
+      "qualname": "calo_rpd_studio.results.comparison_engine.summarize_runs",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(rows, require_verified, feasible_objectives_only)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "summarize_runs",
+      "tests": [
+        "tests/unit/test_v57_audit_closure_integration.py"
+      ]
+    },
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pd.to_numeric",
+          "target": "pd.to_numeric"
+        }
+      ],
+      "call_forms": {
+        "np.isfinite": "attribute",
+        "pd.to_numeric": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.isfinite",
+        "pd.to_numeric"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/comparison_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "json",
+        "numpy",
+        "pandas"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.comparison_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.comparison_engine",
+      "qualname": "calo_rpd_studio.results.comparison_engine.interpret_comparison",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(summary, calo)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "interpret_comparison",
+      "tests": []
+    }
+  ]
+}

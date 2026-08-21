@@ -1,0 +1,484 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/section_card.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.__init__",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel._add_form_card",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel._build_algorithm_page",
+        "calo_rpd_studio.gui.panels.algorithms_panel.AlgorithmsPanel._build_settings_page",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._organize_study_setup",
+        "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel.__init__",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.__init__",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A clean card with an optional heading and subtitle.",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/section_card.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.section_card",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.section_card",
+      "qualname": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "SectionCard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "description.setObjectName",
+          "target": "description.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "description.setWordWrap",
+          "target": "description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "heading.setObjectName",
+          "target": "heading.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "heading.setWordWrap",
+          "target": "heading.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.setContentsMargins",
+          "target": "self.layout_root.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.setSpacing",
+          "target": "self.layout_root.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QLabel": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "description.setObjectName": "attribute",
+        "description.setWordWrap": "attribute",
+        "heading.setObjectName": "attribute",
+        "heading.setWordWrap": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.layout_root.setContentsMargins": "attribute",
+        "self.layout_root.setSpacing": "attribute",
+        "self.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QLabel",
+        "QVBoxLayout",
+        "__init__",
+        "description.setObjectName",
+        "description.setWordWrap",
+        "heading.setObjectName",
+        "heading.setWordWrap",
+        "self.layout_root.addWidget",
+        "self.layout_root.setContentsMargins",
+        "self.layout_root.setSpacing",
+        "self.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/section_card.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.section_card",
+      "qualname": "calo_rpd_studio.gui.widgets.section_card.SectionCard.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title, subtitle, parent)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Compact dashboard metric tile with semantic labels.",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/section_card.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.section_card",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.section_card",
+      "qualname": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "MetricCard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.detail.setObjectName",
+          "target": "self.detail.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.detail.setWordWrap",
+          "target": "self.detail.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.label.setObjectName",
+          "target": "self.label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.label.setWordWrap",
+          "target": "self.label.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.value.setObjectName",
+          "target": "self.value.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.value.setWordWrap",
+          "target": "self.value.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QLabel": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self.detail.setObjectName": "attribute",
+        "self.detail.setWordWrap": "attribute",
+        "self.label.setObjectName": "attribute",
+        "self.label.setWordWrap": "attribute",
+        "self.setObjectName": "attribute",
+        "self.value.setObjectName": "attribute",
+        "self.value.setWordWrap": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QLabel",
+        "QVBoxLayout",
+        "__init__",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self.detail.setObjectName",
+        "self.detail.setWordWrap",
+        "self.label.setObjectName",
+        "self.label.setWordWrap",
+        "self.setObjectName",
+        "self.value.setObjectName",
+        "self.value.setWordWrap",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/section_card.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.section_card",
+      "qualname": "calo_rpd_studio.gui.widgets.section_card.MetricCard.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, label, value, detail, parent)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.detail.setText",
+          "target": "self.detail.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.value.setText",
+          "target": "self.value.setText"
+        }
+      ],
+      "call_forms": {
+        "self.detail.setText": "attribute",
+        "self.value.setText": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.detail.setText",
+        "self.value.setText"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/section_card.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.section_card",
+      "qualname": "calo_rpd_studio.gui.widgets.section_card.MetricCard.set_metric",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, value, detail)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "set_metric",
+      "tests": []
+    }
+  ]
+}

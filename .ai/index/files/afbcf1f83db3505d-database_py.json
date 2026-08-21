@@ -1,0 +1,72 @@
+{
+  "file": {
+    "architectural_boundary": "SQLite persistence",
+    "authoritative_source": "durable experiment/result/provenance persistence",
+    "content_hash": "git-sha1:99fcbdbcbc735437ee65889839b0c8074a560222",
+    "content_sha256": "099d5525f7d314882849324fd47cdb82613876f8a9d6699c446e4ae142e1aa00",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "VERSION": "calo_rpd_studio.version.VERSION",
+      "annotations": "__future__.annotations",
+      "contextmanager": "contextlib.contextmanager",
+      "datetime": "datetime.datetime",
+      "hashlib": "hashlib",
+      "json": "json",
+      "logging": "logging",
+      "math": "math",
+      "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+      "sqlite3": "sqlite3",
+      "threading": "threading",
+      "timezone": "datetime.timezone",
+      "uuid": "uuid"
+    },
+    "important_invariants": [
+      "Exact resume/extension depends on frozen compatibility, not source revision alone."
+    ],
+    "imports": [
+      "__future__",
+      "calo_rpd_studio.experiments.execution_plans",
+      "calo_rpd_studio.version",
+      "contextlib",
+      "datetime",
+      "hashlib",
+      "json",
+      "logging",
+      "math",
+      "pathlib",
+      "sqlite3",
+      "threading",
+      "uuid"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Exact resume/extension depends on frozen compatibility, not source revision alone."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "persistence",
+    "parse_error": "",
+    "path": "calo_rpd_studio/results/database.py",
+    "preferred_edit_target": true,
+    "public_surface": true,
+    "semantic_tags": [
+      "ResultDatabase",
+      "SQLite",
+      "integrity",
+      "migration",
+      "persistence",
+      "provenance",
+      "resume",
+      "schema"
+    ],
+    "size_bytes": 195883,
+    "state_owner": "ResultDatabase",
+    "symbol_count": 135
+  },
+  "path": "calo_rpd_studio/results/database.py",
+  "schema_version": 2
+}

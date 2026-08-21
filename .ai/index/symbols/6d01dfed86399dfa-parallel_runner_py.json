@@ -1,0 +1,250 @@
+{
+  "path": "calo_rpd_studio/experiments/parallel_runner.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "run_single",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_single"
+        }
+      ],
+      "call_forms": {
+        "run_single": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "run_single"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/parallel_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ProcessPoolExecutor": "concurrent.futures.ProcessPoolExecutor",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "as_completed": "concurrent.futures.as_completed",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".experiment_runner",
+        ".seed_manager",
+        "calo_rpd_studio.compute.device_binding",
+        "concurrent.futures"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.parallel_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.parallel_runner",
+      "qualname": "calo_rpd_studio.experiments.parallel_runner._worker",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(args)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "_worker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ProcessPoolExecutor",
+          "target": "ProcessPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_completed",
+          "target": "as_completed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "failed_run_from_exception",
+          "target": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SeedManager",
+          "target": "calo_rpd_studio.experiments.seed_manager.SeedManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.algorithms.index",
+          "target": "config.algorithms.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "done.append",
+          "target": "done.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "done.sort",
+          "target": "done.sort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ex.submit",
+          "target": "ex.submit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "f.result",
+          "target": "f.result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failed.append",
+          "target": "failed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failed.sort",
+          "target": "failed.sort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "generate",
+          "target": "generate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "ProcessPoolExecutor": "name",
+        "SeedManager": "name",
+        "as_completed": "name",
+        "config.algorithms.index": "attribute",
+        "config.validate": "attribute",
+        "done.append": "attribute",
+        "done.sort": "attribute",
+        "ex.submit": "attribute",
+        "f.result": "attribute",
+        "failed.append": "attribute",
+        "failed.sort": "attribute",
+        "failed_run_from_exception": "name",
+        "generate": "attribute",
+        "max": "name",
+        "range": "name",
+        "resolve_config_for_entrypoint": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main"
+      ],
+      "calls": [
+        "ProcessPoolExecutor",
+        "SeedManager",
+        "as_completed",
+        "config.algorithms.index",
+        "config.validate",
+        "done.append",
+        "done.sort",
+        "ex.submit",
+        "f.result",
+        "failed.append",
+        "failed.sort",
+        "failed_run_from_exception",
+        "generate",
+        "max",
+        "range",
+        "resolve_config_for_entrypoint"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "calo_rpd_studio.experiments.seed_manager.SeedManager"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/parallel_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ProcessPoolExecutor": "concurrent.futures.ProcessPoolExecutor",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "as_completed": "concurrent.futures.as_completed",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".experiment_runner",
+        ".seed_manager",
+        "calo_rpd_studio.compute.device_binding",
+        "concurrent.futures"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.parallel_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.parallel_runner",
+      "qualname": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "run_parallel_resilient",
+      "tests": []
+    }
+  ]
+}

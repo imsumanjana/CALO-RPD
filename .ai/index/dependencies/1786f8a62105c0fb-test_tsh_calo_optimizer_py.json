@@ -1,0 +1,508 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_qualification.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_runtime_context.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_receipt.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_optimizer.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._device_provenance",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._episode_receipts",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.build_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._episode_receipts",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.canonical_reward_sequence_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._episode_receipts",
+      "to": "tests.unit.test_tsh_calo_optimizer._sha"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._episode_receipts",
+      "to": "to_dict"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "tests.unit.test_tsh_calo_optimizer._device_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "tests.unit.test_tsh_calo_optimizer._episode_receipts"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "tests.unit.test_tsh_calo_optimizer._sha"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._member",
+      "to": "torch.manual_seed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "binding.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.assemble_tsh_calo_ensemble_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.build_runtime_topology_policy_context"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "database.add_policy_qualification"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "np.ones_like"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "np.zeros_like"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "problem.evaluate_with_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "registry.activate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "registry.bind_to_experiment_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "registry.register"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "tests.unit.test_tsh_calo_optimizer._member"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._parameters",
+      "to": "tests.unit.test_tsh_calo_optimizer._sha"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._run",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer._run",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._run",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._run",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._sha",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._sha",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer._sha",
+      "to": "label.encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "np.eye"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "np.linspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+      "to": "tests.unit.test_tsh_calo_optimizer._run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+      "to": "tests.unit.test_tsh_calo_optimizer._run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_optimizer_has_no_training_registry_or_activation_authority",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_optimizer_has_no_training_registry_or_activation_authority",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+      "to": "tests.unit.test_tsh_calo_optimizer._sha"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_qualified_activated_ensemble_drives_counted_end_to_end_run",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_qualified_activated_ensemble_drives_counted_end_to_end_run",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_qualified_activated_ensemble_drives_counted_end_to_end_run",
+      "to": "tests.unit.test_tsh_calo_optimizer._parameters"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_qualified_activated_ensemble_drives_counted_end_to_end_run",
+      "to": "tests.unit.test_tsh_calo_optimizer._run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "calo_rpd_studio.algorithms.registry.policy_gated_algorithm_names"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+      "to": "isinstance"
+    }
+  ]
+}

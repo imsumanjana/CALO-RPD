@@ -1,0 +1,307 @@
+{
+  "path": "calo_rpd_studio/orpd/mixed_variable_handler.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.clip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into"
+      ],
+      "calls": [
+        "float",
+        "np.clip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 8,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/mixed_variable_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "qualname": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(z, lower, upper)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "decode_continuous",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.floor",
+          "target": "np.floor"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.floor": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "int",
+        "min",
+        "np.asarray",
+        "np.clip",
+        "np.floor"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/mixed_variable_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "qualname": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(z, values)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "decode_discrete",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.finfo",
+          "target": "np.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.floor",
+          "target": "np.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "abs": "name",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "np.finfo": "attribute",
+        "np.floor": "attribute",
+        "np.isfinite": "attribute",
+        "range": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.__init__",
+        "tests.unit.test_v650_must_resolve.test_c10_stepped_values_never_exceed_declared_upper_bound"
+      ],
+      "calls": [
+        "ValueError",
+        "abs",
+        "float",
+        "int",
+        "max",
+        "np.finfo",
+        "np.floor",
+        "np.isfinite",
+        "range",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the declared discrete lattice without ever crossing ``upper``.",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/mixed_variable_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.mixed_variable_handler",
+      "qualname": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(lower, upper, step)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "stepped_values",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    }
+  ]
+}

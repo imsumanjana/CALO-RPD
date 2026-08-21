@@ -1,0 +1,1177 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyCheckpointRecord",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "PolicyCheckpointRecord",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._policy_registry_core.PolicyRegistry.__init__",
+        "tests.unit.test_v5_continuation.test_policy_lineage_tracks_latest_separately_from_best"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Track latest and best-qualified checkpoints without rewriting policy history.",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "PolicyLineageManager",
+      "tests": [
+        "tests/unit/test_v5_continuation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, database)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.create_policy_lineage",
+          "target": "self.database.create_policy_lineage"
+        }
+      ],
+      "call_forms": {
+        "self.database.create_policy_lineage": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.fork"
+      ],
+      "calls": [
+        "self.database.create_policy_lineage"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.create",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, name, parent_lineage_id, forked_from_checkpoint_id, notes)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "create",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.create",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_policy_checkpoint",
+          "target": "self.database.get_policy_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "self.create": "attribute",
+        "self.database.get_policy_checkpoint": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "self.create",
+        "self.database.get_policy_checkpoint",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.create"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.fork",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, checkpoint_id, name, notes)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "fork",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_checkpoint",
+          "target": "calo_rpd_studio.ai.model_io.load_checkpoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.get_checkpoint",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.get_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.add_policy_checkpoint",
+          "target": "self.database.add_policy_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "FileNotFoundError": "name",
+        "Path": "name",
+        "checkpoint_sha256": "name",
+        "expanduser": "attribute",
+        "int": "name",
+        "load_checkpoint": "name",
+        "path.is_file": "attribute",
+        "resolve": "attribute",
+        "self.database.add_policy_checkpoint": "attribute",
+        "self.get_checkpoint": "attribute",
+        "str": "name",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "FileNotFoundError",
+        "Path",
+        "checkpoint_sha256",
+        "expanduser",
+        "int",
+        "load_checkpoint",
+        "path.is_file",
+        "resolve",
+        "self.database.add_policy_checkpoint",
+        "self.get_checkpoint",
+        "str",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.get_checkpoint"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.register_checkpoint",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id, checkpoint_path, cumulative_epoch, phase_index, resume_path, checkpoint_id, metadata, is_latest)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "register_checkpoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._record",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_policy_checkpoint",
+          "target": "self.database.get_policy_checkpoint"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "self._record": "attribute",
+        "self.database.get_policy_checkpoint": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.register_checkpoint"
+      ],
+      "calls": [
+        "KeyError",
+        "self._record",
+        "self.database.get_policy_checkpoint"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.get_checkpoint",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, checkpoint_id)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "get_checkpoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._record",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.list_policy_checkpoints",
+          "target": "self.database.list_policy_checkpoints"
+        }
+      ],
+      "call_forms": {
+        "self._record": "attribute",
+        "self.database.list_policy_checkpoints": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.best",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.export_manifest",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.latest"
+      ],
+      "calls": [
+        "self._record",
+        "self.database.list_policy_checkpoints"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record"
+      ],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "checkpoints",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.checkpoints",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+        }
+      ],
+      "call_forms": {
+        "self.checkpoints": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.checkpoints"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+      ],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.latest",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "latest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.checkpoints",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+        }
+      ],
+      "call_forms": {
+        "self.checkpoints": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.checkpoints"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.best",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "best",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.mark_best_policy_checkpoint",
+          "target": "self.database.mark_best_policy_checkpoint"
+        }
+      ],
+      "call_forms": {
+        "self.database.mark_best_policy_checkpoint": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.database.mark_best_policy_checkpoint"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.mark_best",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id, checkpoint_id)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "mark_best",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.checkpoints",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_policy_lineage",
+          "target": "self.database.get_policy_lineage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.parent.mkdir",
+          "target": "target.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.write_text",
+          "target": "target.write_text"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "Path": "name",
+        "asdict": "name",
+        "json.dumps": "attribute",
+        "self.checkpoints": "attribute",
+        "self.database.get_policy_lineage": "attribute",
+        "target.parent.mkdir": "attribute",
+        "target.write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "Path",
+        "asdict",
+        "json.dumps",
+        "self.checkpoints",
+        "self.database.get_policy_lineage",
+        "target.parent.mkdir",
+        "target.write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.export_manifest",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, lineage_id, path)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "export_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyCheckpointRecord",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyCheckpointRecord"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PolicyCheckpointRecord": "name",
+        "bool": "name",
+        "dict": "name",
+        "int": "name",
+        "row.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.checkpoints",
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager.get_checkpoint"
+      ],
+      "calls": [
+        "PolicyCheckpointRecord",
+        "bool",
+        "dict",
+        "int",
+        "row.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyCheckpointRecord"
+      ],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+        "dataclass": "dataclasses.dataclass",
+        "json": "json",
+        "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_lineage",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager._record",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(row)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "_record",
+      "tests": []
+    }
+  ]
+}

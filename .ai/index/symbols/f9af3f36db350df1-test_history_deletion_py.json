@@ -1,0 +1,483 @@
+{
+  "path": "tests/integration/test_history_deletion.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.connect",
+          "target": "db.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "db.connect": "attribute",
+        "json.dumps": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.integration.test_history_deletion.test_clear_history_removes_all_experiments_and_referenced_traces",
+        "tests.integration.test_history_deletion.test_delete_experiment_removes_records_and_trace_file",
+        "tests.integration.test_history_deletion.test_delete_run_preserves_experiment_and_other_runs"
+      ],
+      "calls": [
+        "con.execute",
+        "db.connect",
+        "json.dumps",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/integration/test_history_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_history_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_history_deletion",
+      "qualname": "tests.integration.test_history_deletion._insert_run",
+      "semantic_tags": [],
+      "signature": "(db, experiment_id, run_id, trace_path, verified)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "_insert_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.connect",
+          "target": "db.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.delete_experiment",
+          "target": "db.delete_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.experiment_storage_summary",
+          "target": "db.experiment_storage_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_failures",
+          "target": "db.list_failures"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_runs",
+          "target": "db.list_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_run",
+          "target": "tests.integration.test_history_deletion._insert_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace.exists",
+          "target": "trace.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace.write_bytes",
+          "target": "trace.write_bytes"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_insert_run": "name",
+        "con.execute": "attribute",
+        "db.connect": "attribute",
+        "db.create_experiment": "attribute",
+        "db.delete_experiment": "attribute",
+        "db.experiment_storage_summary": "attribute",
+        "db.get_experiment": "attribute",
+        "db.list_failures": "attribute",
+        "db.list_runs": "attribute",
+        "trace.exists": "attribute",
+        "trace.write_bytes": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_insert_run",
+        "con.execute",
+        "db.connect",
+        "db.create_experiment",
+        "db.delete_experiment",
+        "db.experiment_storage_summary",
+        "db.get_experiment",
+        "db.list_failures",
+        "db.list_runs",
+        "trace.exists",
+        "trace.write_bytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_history_deletion._insert_run"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "tests/integration/test_history_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_history_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_history_deletion",
+      "qualname": "tests.integration.test_history_deletion.test_delete_experiment_removes_records_and_trace_file",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "test_delete_experiment_removes_records_and_trace_file",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.delete_run",
+          "target": "db.delete_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_runs",
+          "target": "db.list_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_run",
+          "target": "tests.integration.test_history_deletion._insert_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace_a.exists",
+          "target": "trace_a.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace_a.write_bytes",
+          "target": "trace_a.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace_b.exists",
+          "target": "trace_b.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace_b.write_bytes",
+          "target": "trace_b.write_bytes"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_insert_run": "name",
+        "db.create_experiment": "attribute",
+        "db.delete_run": "attribute",
+        "db.get_experiment": "attribute",
+        "db.list_runs": "attribute",
+        "trace_a.exists": "attribute",
+        "trace_a.write_bytes": "attribute",
+        "trace_b.exists": "attribute",
+        "trace_b.write_bytes": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_insert_run",
+        "db.create_experiment",
+        "db.delete_run",
+        "db.get_experiment",
+        "db.list_runs",
+        "trace_a.exists",
+        "trace_a.write_bytes",
+        "trace_b.exists",
+        "trace_b.write_bytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_history_deletion._insert_run"
+      ],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "tests/integration/test_history_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_history_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_history_deletion",
+      "qualname": "tests.integration.test_history_deletion.test_delete_run_preserves_experiment_and_other_runs",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 67,
+      "state_owner": "",
+      "symbol": "test_delete_run_preserves_experiment_and_other_runs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.clear_history",
+          "target": "db.clear_history"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_experiments",
+          "target": "db.list_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.exists",
+          "target": "path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_run",
+          "target": "tests.integration.test_history_deletion._insert_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trace.write_bytes",
+          "target": "trace.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traces.append",
+          "target": "traces.append"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_insert_run": "name",
+        "all": "name",
+        "db.clear_history": "attribute",
+        "db.create_experiment": "attribute",
+        "db.list_experiments": "attribute",
+        "path.exists": "attribute",
+        "range": "name",
+        "trace.write_bytes": "attribute",
+        "traces.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_insert_run",
+        "all",
+        "db.clear_history",
+        "db.create_experiment",
+        "db.list_experiments",
+        "path.exists",
+        "range",
+        "trace.write_bytes",
+        "traces.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_history_deletion._insert_run"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "tests/integration/test_history_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_history_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_history_deletion",
+      "qualname": "tests.integration.test_history_deletion.test_clear_history_removes_all_experiments_and_referenced_traces",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "test_clear_history_removes_all_experiments_and_referenced_traces",
+      "tests": []
+    }
+  ]
+}

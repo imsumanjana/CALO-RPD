@@ -1,0 +1,506 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plans.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    }
+  ],
+  "path": "calo_rpd_studio/app/execution_control.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.__init__",
+      "to": "self.database.recover_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.__init__",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "content.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_plan",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_plan",
+      "to": "self.database.get_active_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_plan",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage",
+      "to": "self.database.get_active_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+      "to": "self.database.cancel_retained_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller",
+      "to": "self.database.get_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "to": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "to": "self.database.create_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "to": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "to": "self.database.create_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.current_owner_summary",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.current_owner_summary",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_draft",
+      "to": "self.database.discard_unstarted_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_draft",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "plan.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "self.database.list_workspace_plan_cells"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "self.database.set_execution_plan_audited"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.request_pause",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "plan.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "self.database.acquire_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "self.database.get_active_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.stage",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.stage",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.stage",
+      "to": "self.database.acquire_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.stage",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.submit_algorithm_stage",
+      "to": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.submit_algorithm_stage",
+      "to": "self.database.replace_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "self.database.transition_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "expected_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "self.database.get_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "self.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "stored_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "to": "to_dict"
+    }
+  ]
+}

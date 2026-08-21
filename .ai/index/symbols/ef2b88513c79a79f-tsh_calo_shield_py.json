@@ -1,0 +1,3678 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "positive.sum",
+          "target": "positive.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.clamp",
+          "target": "torch.clamp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "attribute",
+        "bool": "name",
+        "positive.sum": "attribute",
+        "torch.clamp": "attribute",
+        "torch.where": "attribute",
+        "torch.zeros_like": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.resolve"
+      ],
+      "calls": [
+        "ValueError",
+        "any",
+        "bool",
+        "positive.sum",
+        "torch.clamp",
+        "torch.where",
+        "torch.zeros_like"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield._normalise_masked",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(values, allowed)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "_normalise_masked",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "EnsembleDisagreement",
+      "tests": [
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.contexts.reshape",
+          "target": "self.contexts.reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.groups.new_tensor",
+          "target": "self.groups.new_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.groups.reshape",
+          "target": "self.groups.reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.isfinite",
+          "target": "torch.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "all": "attribute",
+        "any": "attribute",
+        "bool": "name",
+        "self.contexts.reshape": "attribute",
+        "self.groups.new_tensor": "attribute",
+        "self.groups.reshape": "attribute",
+        "torch.cat": "attribute",
+        "torch.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "all",
+        "any",
+        "bool",
+        "self.contexts.reshape",
+        "self.groups.new_tensor",
+        "self.groups.reshape",
+        "torch.cat",
+        "torch.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsemblePolicyResult",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "EnsemblePolicyResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyOutput",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EnsembleDisagreement",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EnsemblePolicyResult",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsemblePolicyResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_probabilities.mean",
+          "target": "context_probabilities.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_probabilities.var",
+          "target": "context_probabilities.var"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "disagreement.validate",
+          "target": "disagreement.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_probabilities.mean",
+          "target": "group_probabilities.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_probabilities.var",
+          "target": "group_probabilities.var"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item",
+          "target": "item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean",
+          "target": "mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean_contexts.clamp_min",
+          "target": "mean_contexts.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean_groups.clamp_min",
+          "target": "mean_groups.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean_output.validate",
+          "target": "mean_output.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mean_regime.clamp_min",
+          "target": "mean_regime.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.validate",
+          "target": "output.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "regime_probabilities.mean",
+          "target": "regime_probabilities.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "regime_probabilities.var",
+          "target": "regime_probabilities.var"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.finfo",
+          "target": "torch.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.log",
+          "target": "torch.log"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.softmax",
+          "target": "torch.softmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.stack",
+          "target": "torch.stack"
+        }
+      ],
+      "call_forms": {
+        "EnsembleDisagreement": "name",
+        "EnsemblePolicyResult": "name",
+        "TSHCALOPolicyOutput": "name",
+        "ValueError": "name",
+        "context_probabilities.mean": "attribute",
+        "context_probabilities.var": "attribute",
+        "disagreement.validate": "attribute",
+        "float": "name",
+        "group_probabilities.mean": "attribute",
+        "group_probabilities.var": "attribute",
+        "item": "attribute",
+        "len": "name",
+        "mean": "attribute",
+        "mean_contexts.clamp_min": "attribute",
+        "mean_groups.clamp_min": "attribute",
+        "mean_output.validate": "attribute",
+        "mean_regime.clamp_min": "attribute",
+        "output.validate": "attribute",
+        "regime_probabilities.mean": "attribute",
+        "regime_probabilities.var": "attribute",
+        "torch.finfo": "attribute",
+        "torch.log": "attribute",
+        "torch.softmax": "attribute",
+        "torch.stack": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_ensemble_disagreement_is_zero_for_identical_members_and_increases_on_conflict"
+      ],
+      "calls": [
+        "EnsembleDisagreement",
+        "EnsemblePolicyResult",
+        "TSHCALOPolicyOutput",
+        "ValueError",
+        "context_probabilities.mean",
+        "context_probabilities.var",
+        "disagreement.validate",
+        "float",
+        "group_probabilities.mean",
+        "group_probabilities.var",
+        "item",
+        "len",
+        "mean",
+        "mean_contexts.clamp_min",
+        "mean_groups.clamp_min",
+        "mean_output.validate",
+        "mean_regime.clamp_min",
+        "output.validate",
+        "regime_probabilities.mean",
+        "regime_probabilities.var",
+        "torch.finfo",
+        "torch.log",
+        "torch.softmax",
+        "torch.stack"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsemblePolicyResult"
+      ],
+      "doc": "Combine independently trained heads and retain probability-space disagreement.",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(outputs)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "aggregate_policy_ensemble",
+      "tests": [
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "moments",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature.moments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.concatenate",
+          "target": "np.concatenate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.log1p",
+          "target": "np.log1p"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "len": "name",
+        "moments": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.concatenate": "attribute",
+        "np.isfinite": "attribute",
+        "np.log1p": "attribute",
+        "state.validate": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._collect_calibration",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_inference.test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_ood_calibration_is_frozen_shape_checked_and_attenuates_distant_state"
+      ],
+      "calls": [
+        "ValueError",
+        "len",
+        "moments",
+        "np.all",
+        "np.asarray",
+        "np.concatenate",
+        "np.isfinite",
+        "np.log1p",
+        "state.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature.moments"
+      ],
+      "doc": "Return an order-invariant raw-state signature without learned or protected-test fitting.",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(state)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "topology_ood_signature",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.concatenate",
+          "target": "np.concatenate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.mean",
+          "target": "values.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.std",
+          "target": "values.std"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "np.concatenate": "attribute",
+        "np.zeros": "attribute",
+        "values.mean": "attribute",
+        "values.std": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+      ],
+      "calls": [
+        "np.asarray",
+        "np.concatenate",
+        "np.zeros",
+        "values.mean",
+        "values.std"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature.moments",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(values)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "moments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._calibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer._ood_calibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._collect_calibration",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_inference._controller",
+        "tests.unit.test_tsh_calo_inference.test_runtime_rejects_a_binding_whose_frozen_qualification_receipt_was_mutated",
+        "tests.unit.test_tsh_calo_inference.test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle._add_transactional_completion",
+        "tests.unit.test_tsh_calo_policy_lifecycle._convert_to_feasibility_assessment",
+        "tests.unit.test_tsh_calo_policy_lifecycle._formal_evidence",
+        "tests.unit.test_tsh_calo_policy_lifecycle._qualification_config",
+        "tests.unit.test_tsh_calo_qualification._receipt",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_ood_calibration_is_frozen_shape_checked_and_attenuates_distant_state",
+        "tests.unit.test_v120_phase5_release_preparation.test_new_policy_scope_requires_a_confined_exact_manifest"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Frozen development-only calibration; fitting is deliberately outside runtime.",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 135,
+      "state_owner": "",
+      "symbol": "OODCalibration",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_tsh_calo_qualification.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py",
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "len": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration.score_and_attenuation"
+      ],
+      "calls": [
+        "ValueError",
+        "len",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 155,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 143,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.square",
+          "target": "np.square"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "max": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute",
+        "np.mean": "attribute",
+        "np.sqrt": "attribute",
+        "np.square": "attribute",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "max",
+        "np.all",
+        "np.asarray",
+        "np.clip",
+        "np.isfinite",
+        "np.mean",
+        "np.sqrt",
+        "np.square",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration.validate"
+      ],
+      "doc": "",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration.score_and_attenuation",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, signature)",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "score_and_attenuation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calibration.validate",
+          "target": "calibration.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encoded.encode",
+          "target": "encoded.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "calibration.validate": "attribute",
+        "encoded.encode": "attribute",
+        "float": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._calibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._ComponentAblationOptimizer._build_inference_controller",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._QualificationCandidateOptimizer._build_inference_controller",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._collect_calibration",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._controller",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_inference.test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline"
+      ],
+      "calls": [
+        "calibration.validate",
+        "encoded.encode",
+        "float",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(calibration)",
+      "start_line": 172,
+      "state_owner": "",
+      "symbol": "ood_calibration_sha256",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_inference.test_deterministic_inference_replays_exactly",
+        "tests.unit.test_tsh_calo_inference.test_qualified_active_immutable_ensemble_executes_through_shield",
+        "tests.unit.test_tsh_calo_inference.test_runtime_safety_rejection_never_returns_a_partial_policy_action",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_contextual_bandit_is_sliding_window_checkpoint_exact_and_reward_responsive",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Fixed-memory deterministic reward residual with exact checkpoint state.",
+      "end_line": 270,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 184,
+      "state_owner": "",
+      "symbol": "SlidingWindowContextualBandit",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "np.isfinite": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "int",
+        "np.isfinite",
+        "np.zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 197,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, window_size, exploration)",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "min": "name",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "int",
+        "min",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.update",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, group, context, operator, reward)",
+      "start_line": 199,
+      "state_owner": "",
+      "symbol": "update",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.sum",
+          "target": "counts.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.log1p",
+          "target": "np.log1p"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.sum",
+          "target": "values.sum"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "astype": "attribute",
+        "counts.sum": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.exp": "attribute",
+        "np.log1p": "attribute",
+        "np.max": "attribute",
+        "np.mean": "attribute",
+        "np.ones": "attribute",
+        "np.sqrt": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute",
+        "range": "name",
+        "values.sum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "astype",
+        "counts.sum",
+        "float",
+        "int",
+        "np.any",
+        "np.asarray",
+        "np.exp",
+        "np.log1p",
+        "np.max",
+        "np.mean",
+        "np.ones",
+        "np.sqrt",
+        "np.where",
+        "np.zeros",
+        "range",
+        "values.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 238,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.probabilities",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, group, context, allowed)",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "probabilities",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.count.copy",
+          "target": "self.count.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cursor.copy",
+          "target": "self.cursor.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rewards.copy",
+          "target": "self.rewards.copy"
+        }
+      ],
+      "call_forms": {
+        "self.count.copy": "attribute",
+        "self.cursor.copy": "attribute",
+        "self.rewards.copy": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.count.copy",
+        "self.cursor.copy",
+        "self.rewards.copy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 248,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.state_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 240,
+      "state_owner": "",
+      "symbol": "state_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "cls": "name",
+        "float": "name",
+        "int": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "payload.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_contextual_bandit_is_sliding_window_checkpoint_exact_and_reward_responsive"
+      ],
+      "calls": [
+        "ValueError",
+        "cls",
+        "float",
+        "int",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite",
+        "payload.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 270,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.from_state_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, payload)",
+      "start_line": 251,
+      "state_owner": "",
+      "symbol": "from_state_dict",
+      "tests": [
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_inference.test_deterministic_inference_replays_exactly",
+        "tests.unit.test_tsh_calo_inference.test_qualified_active_immutable_ensemble_executes_through_shield",
+        "tests.unit.test_tsh_calo_inference.test_runtime_safety_rejection_never_returns_a_partial_policy_action",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 274,
+      "state_owner": "",
+      "symbol": "SafetyEnvelope",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 279,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 308,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 292,
+      "state_owner": "",
+      "symbol": "ShieldConfig",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.sum",
+          "target": "weights.sum"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "weights.sum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite",
+        "weights.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 308,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 299,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.resolve",
+        "tests.unit.test_tsh_calo_device_equivalence._result"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 319,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 312,
+      "state_owner": "",
+      "symbol": "ShieldTrace",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.resolve"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 325,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldDecision",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "ShieldDecision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 448,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 328,
+      "state_owner": "",
+      "symbol": "UncertaintySafetyShield",
+      "tests": [
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ShieldConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.validate",
+          "target": "self.config.validate"
+        }
+      ],
+      "call_forms": {
+        "ShieldConfig": "name",
+        "self.config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ShieldConfig",
+        "self.config.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig"
+      ],
+      "doc": "",
+      "end_line": 333,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, config)",
+      "start_line": 331,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.action_mask.to",
+          "target": "action.action_mask.to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.validate",
+          "target": "action.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "allowed.detach",
+          "target": "allowed.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bandit.probabilities",
+          "target": "bandit.probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShieldDecision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldDecision"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShieldTrace",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalise_masked",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield._normalise_masked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clone",
+          "target": "clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "contexts.max",
+          "target": "contexts.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "contexts.min",
+          "target": "contexts.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "contexts.tolist",
+          "target": "contexts.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "disagreement.contexts.to",
+          "target": "disagreement.contexts.to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "disagreement.groups.to",
+          "target": "disagreement.groups.to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "disagreement.validate",
+          "target": "disagreement.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expand",
+          "target": "expand"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_probabilities.clamp_min",
+          "target": "group_probabilities.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.max",
+          "target": "groups.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.min",
+          "target": "groups.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.numel",
+          "target": "groups.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.tolist",
+          "target": "groups.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "neural_logits.masked_fill",
+          "target": "neural_logits.masked_fill"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.pad",
+          "target": "np.pad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numpy",
+          "target": "numpy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reasons.append",
+          "target": "reasons.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "safety.validate",
+          "target": "safety.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to",
+          "target": "to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full_like",
+          "target": "torch.full_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.log",
+          "target": "torch.log"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.maximum",
+          "target": "torch.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones_like",
+          "target": "torch.ones_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.softmax",
+          "target": "torch.softmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.stack",
+          "target": "torch.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uncertainty.detach",
+          "target": "uncertainty.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.detach",
+          "target": "weights.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.sum",
+          "target": "weights.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "ShieldDecision": "name",
+        "ShieldTrace": "name",
+        "ValueError": "name",
+        "_normalise_masked": "name",
+        "action.action_mask.to": "attribute",
+        "action.validate": "attribute",
+        "allowed.detach": "attribute",
+        "any": "attribute",
+        "bandit.probabilities": "attribute",
+        "bool": "name",
+        "clone": "attribute",
+        "contexts.max": "attribute",
+        "contexts.min": "attribute",
+        "contexts.tolist": "attribute",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "disagreement.contexts.to": "attribute",
+        "disagreement.groups.to": "attribute",
+        "disagreement.validate": "attribute",
+        "enumerate": "name",
+        "expand": "attribute",
+        "float": "name",
+        "group_probabilities.clamp_min": "attribute",
+        "groups.max": "attribute",
+        "groups.min": "attribute",
+        "groups.numel": "attribute",
+        "groups.tolist": "attribute",
+        "int": "name",
+        "len": "name",
+        "neural_logits.masked_fill": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.pad": "attribute",
+        "numpy": "attribute",
+        "reasons.append": "attribute",
+        "safety.validate": "attribute",
+        "to": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.full_like": "attribute",
+        "torch.log": "attribute",
+        "torch.maximum": "attribute",
+        "torch.ones_like": "attribute",
+        "torch.softmax": "attribute",
+        "torch.stack": "attribute",
+        "tuple": "name",
+        "uncertainty.detach": "attribute",
+        "weights.detach": "attribute",
+        "weights.sum": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ShieldDecision",
+        "ShieldTrace",
+        "ValueError",
+        "_normalise_masked",
+        "action.action_mask.to",
+        "action.validate",
+        "allowed.detach",
+        "any",
+        "bandit.probabilities",
+        "bool",
+        "clone",
+        "contexts.max",
+        "contexts.min",
+        "contexts.tolist",
+        "cpu",
+        "detach",
+        "disagreement.contexts.to",
+        "disagreement.groups.to",
+        "disagreement.validate",
+        "enumerate",
+        "expand",
+        "float",
+        "group_probabilities.clamp_min",
+        "groups.max",
+        "groups.min",
+        "groups.numel",
+        "groups.tolist",
+        "int",
+        "len",
+        "neural_logits.masked_fill",
+        "np.asarray",
+        "np.isfinite",
+        "np.pad",
+        "numpy",
+        "reasons.append",
+        "safety.validate",
+        "to",
+        "torch.as_tensor",
+        "torch.full_like",
+        "torch.log",
+        "torch.maximum",
+        "torch.ones_like",
+        "torch.softmax",
+        "torch.stack",
+        "tuple",
+        "uncertainty.detach",
+        "weights.detach",
+        "weights.sum",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldDecision",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield._normalise_masked"
+      ],
+      "doc": "",
+      "end_line": 435,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.resolve",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, action, disagreement, ood_score, ood_attenuation, learner_groups, learner_contexts, bandit, safety)",
+      "start_line": 335,
+      "state_owner": "",
+      "symbol": "resolve",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "squeeze",
+          "target": "squeeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.argmax",
+          "target": "torch.argmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.multinomial",
+          "target": "torch.multinomial"
+        }
+      ],
+      "call_forms": {
+        "squeeze": "attribute",
+        "torch.argmax": "attribute",
+        "torch.multinomial": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide"
+      ],
+      "calls": [
+        "squeeze",
+        "torch.argmax",
+        "torch.multinomial"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 448,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.sample",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(decision, deterministic, generator)",
+      "start_line": 438,
+      "state_owner": "",
+      "symbol": "sample",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 454,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 451,
+      "state_owner": "",
+      "symbol": "FallbackDisposition",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "tests.unit.test_tsh_calo_device_equivalence._result"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 461,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 458,
+      "state_owner": "",
+      "symbol": "PolicyFallbackDecision",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyFallbackDecision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PolicyFallbackDecision": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.fallback_decision",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_policy_fallback_is_explicitly_blocked_or_relabelled_as_frozen_baseline"
+      ],
+      "calls": [
+        "PolicyFallbackDecision",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision"
+      ],
+      "doc": "Never reinterpret an unavailable/rejected policy or silently label fallback as TSH-CALO.",
+      "end_line": 487,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_LEARNER_CONTEXTS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_LEARNER_CONTEXTS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "REGIME_OPERATOR_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        ".tsh_calo_policy",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(policy_usable, rejection_reason, baseline_fallback_permitted, tsh_algorithm_identity, frozen_baseline_identity)",
+      "start_line": 464,
+      "state_owner": "",
+      "symbol": "resolve_policy_fallback",
+      "tests": [
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    }
+  ]
+}

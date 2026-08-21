@@ -1,0 +1,533 @@
+{
+  "path": "tools/ai_intelligence/context.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TOKEN_RE.findall",
+          "target": "TOKEN_RE.findall"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "token.lower",
+          "target": "token.lower"
+        }
+      ],
+      "call_forms": {
+        "TOKEN_RE.findall": "attribute",
+        "len": "name",
+        "token.lower": "attribute"
+      },
+      "called_by": [
+        "tools.ai_intelligence.context.build_context"
+      ],
+      "calls": [
+        "TOKEN_RE.findall",
+        "len",
+        "token.lower"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "TOKEN_RE": "tools.ai_intelligence.common.TOKEN_RE",
+        "annotations": "__future__.annotations",
+        "current_status": "tools.ai_intelligence.indexer.current_status",
+        "json": "json",
+        "read_json": "tools.ai_intelligence.common.read_json"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        ".indexer",
+        "__future__",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.context",
+      "qualname": "tools.ai_intelligence.context.query_tokens",
+      "semantic_tags": [],
+      "signature": "(text)",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "query_tokens",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "symbol.get",
+          "target": "symbol.get"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "sum": "name",
+        "symbol.get": "attribute"
+      },
+      "called_by": [
+        "tools.ai_intelligence.context.build_context"
+      ],
+      "calls": [
+        "lower",
+        "sum",
+        "symbol.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "TOKEN_RE": "tools.ai_intelligence.common.TOKEN_RE",
+        "annotations": "__future__.annotations",
+        "current_status": "tools.ai_intelligence.indexer.current_status",
+        "json": "json",
+        "read_json": "tools.ai_intelligence.common.read_json"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        ".indexer",
+        "__future__",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.context",
+      "qualname": "tools.ai_intelligence.context.score_symbol",
+      "semantic_tags": [],
+      "signature": "(symbol, tokens)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "score_symbol",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "range": "name",
+        "read_text": "attribute",
+        "splitlines": "attribute"
+      },
+      "called_by": [
+        "tools.ai_intelligence.context.build_context"
+      ],
+      "calls": [
+        "int",
+        "join",
+        "len",
+        "max",
+        "min",
+        "range",
+        "read_text",
+        "splitlines"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "TOKEN_RE": "tools.ai_intelligence.common.TOKEN_RE",
+        "annotations": "__future__.annotations",
+        "current_status": "tools.ai_intelligence.indexer.current_status",
+        "json": "json",
+        "read_json": "tools.ai_intelligence.common.read_json"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        ".indexer",
+        "__future__",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.context",
+      "qualname": "tools.ai_intelligence.context.excerpt",
+      "semantic_tags": [],
+      "signature": "(root, symbol, max_lines)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "excerpt",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decisions.exists",
+          "target": "decisions.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decisions.read_text",
+          "target": "decisions.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deps.get",
+          "target": "deps.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "edge.get",
+          "target": "edge.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "findings.get",
+          "target": "findings.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.append",
+          "target": "output.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.exists",
+          "target": "path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relevant_findings.append",
+          "target": "relevant_findings.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repo_map.exists",
+          "target": "repo_map.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repo_map.read_text",
+          "target": "repo_map.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rstrip",
+          "target": "rstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tests.get",
+          "target": "tests.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_json",
+          "target": "tools.ai_intelligence.common.read_json"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "excerpt",
+          "target": "tools.ai_intelligence.context.excerpt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "query_tokens",
+          "target": "tools.ai_intelligence.context.query_tokens"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "score_symbol",
+          "target": "tools.ai_intelligence.context.score_symbol"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "current_status",
+          "target": "tools.ai_intelligence.indexer.current_status"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "current_status": "name",
+        "decisions.exists": "attribute",
+        "decisions.read_text": "attribute",
+        "deps.get": "attribute",
+        "edge.get": "attribute",
+        "excerpt": "name",
+        "findings.get": "attribute",
+        "get": "attribute",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "min": "name",
+        "output.append": "attribute",
+        "path.exists": "attribute",
+        "path.read_text": "attribute",
+        "query_tokens": "name",
+        "read_json": "name",
+        "relevant_findings.append": "attribute",
+        "repo_map.exists": "attribute",
+        "repo_map.read_text": "attribute",
+        "row.get": "attribute",
+        "rstrip": "attribute",
+        "score_symbol": "name",
+        "sorted": "name",
+        "status.get": "attribute",
+        "tests.get": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence.test_context_is_targeted",
+        "tools.ai_repo_intelligence.main"
+      ],
+      "calls": [
+        "any",
+        "current_status",
+        "decisions.exists",
+        "decisions.read_text",
+        "deps.get",
+        "edge.get",
+        "excerpt",
+        "findings.get",
+        "get",
+        "join",
+        "json.dumps",
+        "len",
+        "lower",
+        "min",
+        "output.append",
+        "path.exists",
+        "path.read_text",
+        "query_tokens",
+        "read_json",
+        "relevant_findings.append",
+        "repo_map.exists",
+        "repo_map.read_text",
+        "row.get",
+        "rstrip",
+        "score_symbol",
+        "sorted",
+        "status.get",
+        "tests.get"
+      ],
+      "calls_resolved": [
+        "tools.ai_intelligence.common.read_json",
+        "tools.ai_intelligence.context.excerpt",
+        "tools.ai_intelligence.context.query_tokens",
+        "tools.ai_intelligence.context.score_symbol",
+        "tools.ai_intelligence.indexer.current_status"
+      ],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "TOKEN_RE": "tools.ai_intelligence.common.TOKEN_RE",
+        "annotations": "__future__.annotations",
+        "current_status": "tools.ai_intelligence.indexer.current_status",
+        "json": "json",
+        "read_json": "tools.ai_intelligence.common.read_json"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        ".indexer",
+        "__future__",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.context",
+      "qualname": "tools.ai_intelligence.context.build_context",
+      "semantic_tags": [],
+      "signature": "(root, question, limit)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "build_context",
+      "tests": [
+        "tests/tooling/test_ai_repo_intelligence.py"
+      ]
+    }
+  ]
+}

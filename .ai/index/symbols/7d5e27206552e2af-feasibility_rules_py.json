@@ -1,0 +1,406 @@
+{
+  "path": "calo_rpd_studio/orpd/feasibility_rules.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 6,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/feasibility_rules.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.feasibility_rules",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.feasibility_rules",
+      "qualname": "calo_rpd_studio.orpd.feasibility_rules.DEFAULT_FEASIBILITY_TOLERANCE",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "DEFAULT_FEASIBILITY_TOLERANCE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "getattr": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.feasibility_rules.better",
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "calls": [
+        "float",
+        "getattr",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/feasibility_rules.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.feasibility_rules",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.feasibility_rules",
+      "qualname": "calo_rpd_studio.orpd.feasibility_rules._tolerance",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(evaluation, fallback)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "_tolerance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "getattr": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "calls": [
+        "float",
+        "getattr"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/feasibility_rules.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.feasibility_rules",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.feasibility_rules",
+      "qualname": "calo_rpd_studio.orpd.feasibility_rules._is_feasible",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(evaluation, tol)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "_is_feasible",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_is_feasible",
+          "target": "calo_rpd_studio.orpd.feasibility_rules._is_feasible"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tolerance",
+          "target": "calo_rpd_studio.orpd.feasibility_rules._tolerance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "_is_feasible": "name",
+        "_tolerance": "name",
+        "float": "name",
+        "getattr": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.order",
+        "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run",
+        "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_lshade",
+        "calo_rpd_studio.orpd.feasibility_rules.better",
+        "tests.unit.test_v660_remaining_audit.test_c03_m04_m05_one_feasibility_tolerance_and_one_ordering"
+      ],
+      "calls": [
+        "_is_feasible",
+        "_tolerance",
+        "float",
+        "getattr",
+        "max"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules._is_feasible",
+        "calo_rpd_studio.orpd.feasibility_rules._tolerance"
+      ],
+      "doc": "Return the canonical total ordering used by *all* generic optimizers.",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/feasibility_rules.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.feasibility_rules",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.feasibility_rules",
+      "qualname": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(e, tol)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "sort_key",
+      "tests": [
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_tolerance",
+          "target": "calo_rpd_studio.orpd.feasibility_rules._tolerance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "sort_key",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "_tolerance": "name",
+        "float": "name",
+        "max": "name",
+        "sort_key": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms._helpers.greedy_replace",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation",
+        "calo_rpd_studio.algorithms.bat.BatOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "calo_rpd_studio.algorithms.clpso.CLPSOOptimizer.run",
+        "calo_rpd_studio.algorithms.crow_search.CrowSearchOptimizer.run",
+        "calo_rpd_studio.algorithms.firefly.FireflyOptimizer.run",
+        "calo_rpd_studio.algorithms.flower_pollination.FlowerPollinationOptimizer.run",
+        "calo_rpd_studio.algorithms.imperialist_competitive.ImperialistCompetitiveOptimizer.run",
+        "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer.run",
+        "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "calo_rpd_studio.algorithms.mtla_de.MTLADEOptimizer.run",
+        "calo_rpd_studio.algorithms.pso.PSOOptimizer.run",
+        "calo_rpd_studio.algorithms.qode.QODEOptimizer.run",
+        "calo_rpd_studio.algorithms.simulated_annealing.SimulatedAnnealingOptimizer.run",
+        "calo_rpd_studio.algorithms.tlbo.TLBOOptimizer.run",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_bat",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_clpso",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_crow",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_firefly",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_fpa",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_ica",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_mtla_de",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_pso",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_qode",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_sa",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_tlbo",
+        "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "tests.unit.test_orpd.test_feasibility_first_rule",
+        "tests.unit.test_v660_remaining_audit.test_c03_m04_m05_one_feasibility_tolerance_and_one_ordering"
+      ],
+      "calls": [
+        "_tolerance",
+        "float",
+        "max",
+        "sort_key"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules._tolerance",
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/feasibility_rules.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.feasibility_rules",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.feasibility_rules",
+      "qualname": "calo_rpd_studio.orpd.feasibility_rules.better",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(a, b, tol)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "better",
+      "tests": [
+        "tests/unit/test_orpd.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "path": "tests/unit/test_tsh_calo_qualification.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.encode",
+          "target": "label.encode"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "label.encode": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_qualification._receipt",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest",
+        "label.encode"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calibration_from_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "hashlib": "hashlib",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "np": "numpy",
+        "pytest": "pytest",
+        "qualification_config": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "hashlib",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_qualification",
+      "qualname": "tests.unit.test_tsh_calo_qualification._sha",
+      "semantic_tags": [],
+      "signature": "(label)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_sha",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OODCalibration",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha",
+          "target": "tests.unit.test_tsh_calo_qualification._sha"
+        }
+      ],
+      "call_forms": {
+        "OODCalibration": "name",
+        "_sha": "name",
+        "build_tsh_calo_qualification_receipt": "name",
+        "np.arange": "attribute",
+        "np.ones": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_qualification.test_protected_holdout_cannot_enter_qualification_calibration",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_or_calibration_mutation_is_rejected",
+        "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance"
+      ],
+      "calls": [
+        "OODCalibration",
+        "_sha",
+        "build_tsh_calo_qualification_receipt",
+        "np.arange",
+        "np.ones"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "tests.unit.test_tsh_calo_qualification._sha"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calibration_from_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "hashlib": "hashlib",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "np": "numpy",
+        "pytest": "pytest",
+        "qualification_config": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "hashlib",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_qualification",
+      "qualname": "tests.unit.test_tsh_calo_qualification._receipt",
+      "semantic_tags": [],
+      "signature": "(cases)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_receipt",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "calibration_from_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "qualification_config",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_receipt",
+          "target": "tests.unit.test_tsh_calo_qualification._receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha",
+          "target": "tests.unit.test_tsh_calo_qualification._sha"
+        }
+      ],
+      "call_forms": {
+        "_receipt": "name",
+        "_sha": "name",
+        "calibration_from_receipt": "name",
+        "load_tsh_calo_qualification_receipt": "name",
+        "np.arange": "attribute",
+        "np.ones": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "qualification_config": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_receipt",
+        "_sha",
+        "calibration_from_receipt",
+        "load_tsh_calo_qualification_receipt",
+        "np.arange",
+        "np.ones",
+        "np.testing.assert_array_equal",
+        "qualification_config"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config",
+        "tests.unit.test_tsh_calo_qualification._receipt",
+        "tests.unit.test_tsh_calo_qualification._sha"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calibration_from_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "hashlib": "hashlib",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "np": "numpy",
+        "pytest": "pytest",
+        "qualification_config": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "hashlib",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_qualification",
+      "qualname": "tests.unit.test_tsh_calo_qualification.test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "test_receipt_round_trip_freezes_exact_policy_calibration_and_provenance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "load_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "qualification_config",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_receipt",
+          "target": "tests.unit.test_tsh_calo_qualification._receipt"
+        }
+      ],
+      "call_forms": {
+        "_receipt": "name",
+        "load_tsh_calo_qualification_receipt": "name",
+        "pytest.raises": "attribute",
+        "qualification_config": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_receipt",
+        "load_tsh_calo_qualification_receipt",
+        "pytest.raises",
+        "qualification_config"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config",
+        "tests.unit.test_tsh_calo_qualification._receipt"
+      ],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calibration_from_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "hashlib": "hashlib",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "np": "numpy",
+        "pytest": "pytest",
+        "qualification_config": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "hashlib",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_qualification",
+      "qualname": "tests.unit.test_tsh_calo_qualification.test_receipt_or_calibration_mutation_is_rejected",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_receipt_or_calibration_mutation_is_rejected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_receipt",
+          "target": "tests.unit.test_tsh_calo_qualification._receipt"
+        }
+      ],
+      "call_forms": {
+        "_receipt": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_receipt",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_tsh_calo_qualification._receipt"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "annotations": "__future__.annotations",
+        "build_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.build_tsh_calo_qualification_receipt",
+        "calibration_from_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.calibration_from_receipt",
+        "hashlib": "hashlib",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "np": "numpy",
+        "pytest": "pytest",
+        "qualification_config": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.qualification_config"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "hashlib",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_qualification",
+      "qualname": "tests.unit.test_tsh_calo_qualification.test_protected_holdout_cannot_enter_qualification_calibration",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "test_protected_holdout_cannot_enter_qualification_calibration",
+      "tests": []
+    }
+  ]
+}

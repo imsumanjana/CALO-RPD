@@ -1,0 +1,1196 @@
+{
+  "path": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer._LOG",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._config_for_revision",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Structured restoration failure with an explicit stage and experiment identity.",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "WorkspaceRestoreError",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id, stage, message)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError.as_dict",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "as_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Restore the explicit latest scientific revision, never whichever campaign was updated last.",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "ExperimentWorkspaceRestorer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.pages_by_key.values",
+          "target": "self.pages_by_key.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "getattr": "name",
+        "isinstance": "name",
+        "list": "name",
+        "self.pages_by_key.values": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "getattr",
+        "isinstance",
+        "list",
+        "self.pages_by_key.values",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, workflow, pages)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.pages_by_key.get",
+          "target": "self.pages_by_key.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.pages_by_key.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+      ],
+      "calls": [
+        "self.pages_by_key.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._page",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace_key)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_page",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "r.get",
+          "target": "r.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiment_revisions",
+          "target": "self.state.database.list_experiment_revisions"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "lower": "attribute",
+        "max": "name",
+        "r.get": "attribute",
+        "self.state.database.list_experiment_revisions": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+      ],
+      "calls": [
+        "int",
+        "lower",
+        "max",
+        "r.get",
+        "self.state.database.list_experiment_revisions",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._select_revision",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "_select_revision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceRestoreError",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.get",
+          "target": "campaign.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.append",
+          "target": "candidates.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_campaigns",
+          "target": "self.state.database.list_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "TypeError": "name",
+        "WorkspaceRestoreError": "name",
+        "_LOG.warning": "attribute",
+        "campaign.get": "attribute",
+        "candidates.append": "attribute",
+        "get": "attribute",
+        "int": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "payload.get": "attribute",
+        "row.get": "attribute",
+        "self.state.database.list_campaigns": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+      ],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "TypeError",
+        "WorkspaceRestoreError",
+        "_LOG.warning",
+        "campaign.get",
+        "candidates.append",
+        "get",
+        "int",
+        "isinstance",
+        "json.loads",
+        "payload.get",
+        "row.get",
+        "self.state.database.list_campaigns",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._config_for_revision",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id, row, revision)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "_config_for_revision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.error",
+          "target": "_LOG.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "binding.get",
+          "target": "binding.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "binding_row.get",
+          "target": "binding_row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._config_for_revision",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._config_for_revision"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._page",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._page"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._select_revision",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._select_revision"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.workflow.restore",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceRestoreError",
+          "target": "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "migrate_workspace_ui",
+          "target": "calo_rpd_studio.app.workspaces.migrate_workspace_ui"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_sha.lower",
+          "target": "expected_sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fn",
+          "target": "fn"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "live.load_experiment",
+          "target": "live.load_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "loader",
+          "target": "loader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "migration_report.as_dict",
+          "target": "migration_report.as_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresher",
+          "target": "refresher"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restore_case",
+          "target": "restore_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selector",
+          "target": "selector"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.case_changed.emit",
+          "target": "self.state.case_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_experiment",
+          "target": "self.state.database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_experiment_policy_binding",
+          "target": "self.state.database.get_experiment_policy_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_workspace_state",
+          "target": "self.state.database.get_workspace_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiment_revisions",
+          "target": "self.state.database.list_experiment_revisions"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_runs",
+          "target": "self.state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.policy_registry.inspect_checkpoint",
+          "target": "self.state.policy_registry.inspect_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workspace.get",
+          "target": "workspace.get"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "KeyError": "name",
+        "WorkspaceRestoreError": "name",
+        "_LOG.error": "attribute",
+        "binding.get": "attribute",
+        "binding_row.get": "attribute",
+        "bool": "name",
+        "callable": "name",
+        "config.validate": "attribute",
+        "dict": "name",
+        "expected_sha.lower": "attribute",
+        "fn": "name",
+        "getattr": "name",
+        "len": "name",
+        "live.load_experiment": "attribute",
+        "loader": "name",
+        "lower": "attribute",
+        "migrate_workspace_ui": "name",
+        "migration_report.as_dict": "attribute",
+        "refresher": "name",
+        "restore_case": "name",
+        "row.get": "attribute",
+        "run_ac_power_flow": "name",
+        "selector": "name",
+        "self._config_for_revision": "attribute",
+        "self._page": "attribute",
+        "self._select_revision": "attribute",
+        "self.state.case_changed.emit": "attribute",
+        "self.state.database.get_experiment": "attribute",
+        "self.state.database.get_experiment_policy_binding": "attribute",
+        "self.state.database.get_workspace_state": "attribute",
+        "self.state.database.list_experiment_revisions": "attribute",
+        "self.state.database.list_runs": "attribute",
+        "self.state.policy_registry.inspect_checkpoint": "attribute",
+        "self.state.update_config": "attribute",
+        "self.workflow.restore": "attribute",
+        "str": "name",
+        "type": "name",
+        "workspace.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "KeyError",
+        "WorkspaceRestoreError",
+        "_LOG.error",
+        "binding.get",
+        "binding_row.get",
+        "bool",
+        "callable",
+        "config.validate",
+        "dict",
+        "expected_sha.lower",
+        "fn",
+        "getattr",
+        "len",
+        "live.load_experiment",
+        "loader",
+        "lower",
+        "migrate_workspace_ui",
+        "migration_report.as_dict",
+        "refresher",
+        "restore_case",
+        "row.get",
+        "run_ac_power_flow",
+        "selector",
+        "self._config_for_revision",
+        "self._page",
+        "self._select_revision",
+        "self.state.case_changed.emit",
+        "self.state.database.get_experiment",
+        "self.state.database.get_experiment_policy_binding",
+        "self.state.database.get_workspace_state",
+        "self.state.database.list_experiment_revisions",
+        "self.state.database.list_runs",
+        "self.state.policy_registry.inspect_checkpoint",
+        "self.state.update_config",
+        "self.workflow.restore",
+        "str",
+        "type",
+        "workspace.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._config_for_revision",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._page",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._select_revision",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore",
+        "calo_rpd_studio.app.experiment_workspace_restorer.WorkspaceRestoreError",
+        "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/experiment_workspace_restorer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Mapping": "typing.Mapping",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "logging": "logging",
+        "migrate_workspace_ui": "calo_rpd_studio.app.workspaces.migrate_workspace_ui",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "logging",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.experiment_workspace_restorer",
+      "qualname": "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "restore",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,1792 @@
+{
+  "path": "calo_rpd_studio/compute/soak.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_hardware_soak.main",
+        "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.SoakConfig",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "SoakConfig",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak.SoakConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.SoakConfig.validate",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.SoakResult",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "SoakResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak.SoakResult",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.SoakResult.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak._utc",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "_utc",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "str": "name",
+        "torch.cuda.is_available": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run"
+      ],
+      "calls": [
+        "lower",
+        "str",
+        "torch.cuda.is_available"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak._resolve_backend",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(requested)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "_resolve_backend",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "device.startswith",
+          "target": "device.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numpy",
+          "target": "numpy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sample.tobytes",
+          "target": "sample.tobytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tobytes",
+          "target": "tobytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.arange",
+          "target": "torch.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "device.startswith": "attribute",
+        "float": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "max": "name",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "numpy": "attribute",
+        "reshape": "attribute",
+        "sample.tobytes": "attribute",
+        "tobytes": "attribute",
+        "torch.arange": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run"
+      ],
+      "calls": [
+        "astype",
+        "cpu",
+        "detach",
+        "device.startswith",
+        "float",
+        "hashlib.sha256",
+        "hexdigest",
+        "max",
+        "np.arange",
+        "np.asarray",
+        "numpy",
+        "reshape",
+        "sample.tobytes",
+        "tobytes",
+        "torch.arange",
+        "torch.cuda.synchronize",
+        "torch.device"
+      ],
+      "calls_resolved": [],
+      "doc": "Perform a deterministic FP64 workload and return a compact checksum.",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak._workload",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(device, size)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "_workload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "len": "name",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "min": "name",
+        "np.mean": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak._summarize_telemetry"
+      ],
+      "calls": [
+        "float",
+        "len",
+        "math.isfinite",
+        "max",
+        "min",
+        "np.mean"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak._numeric_summary",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(values)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "_numeric_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_numeric_summary",
+          "target": "calo_rpd_studio.compute.soak._numeric_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu_temperatures.append",
+          "target": "cpu_temperatures.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "device_rows.items",
+          "target": "device_rows.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "device_rows.setdefault",
+          "target": "device_rows.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sample.get",
+          "target": "sample.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.get",
+          "target": "snapshot.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_numeric_summary": "name",
+        "append": "attribute",
+        "cpu_temperatures.append": "attribute",
+        "device_rows.items": "attribute",
+        "device_rows.setdefault": "attribute",
+        "dict": "name",
+        "float": "name",
+        "get": "attribute",
+        "len": "name",
+        "max": "name",
+        "row.get": "attribute",
+        "sample.get": "attribute",
+        "snapshot.get": "attribute",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "tests.unit.test_v620_rc_final.test_soak_telemetry_summary_reports_only_observed_sensors"
+      ],
+      "calls": [
+        "_numeric_summary",
+        "append",
+        "cpu_temperatures.append",
+        "device_rows.items",
+        "device_rows.setdefault",
+        "dict",
+        "float",
+        "get",
+        "len",
+        "max",
+        "row.get",
+        "sample.get",
+        "snapshot.get",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.soak._numeric_summary"
+      ],
+      "doc": "Summarize observed sensors without inventing unavailable values.",
+      "end_line": 194,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak._summarize_telemetry",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(samples)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "_summarize_telemetry",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_hardware_soak.main",
+        "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 364,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.HardwareSoakRunner",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 197,
+      "state_owner": "",
+      "symbol": "HardwareSoakRunner",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "bool": "name",
+        "config.validate": "attribute",
+        "lower": "attribute",
+        "re.fullmatch": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "ValueError",
+        "bool",
+        "config.validate",
+        "lower",
+        "re.fullmatch",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 220,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak.HardwareSoakRunner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.HardwareSoakRunner.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, config, output_dir, run_id, source_commit, source_identity_kind, tracked_source_clean, require_physical_cuda)",
+      "start_line": 198,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "backend.startswith",
+          "target": "backend.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExclusiveDeviceLease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AdaptiveComputeGovernor",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GovernorConfig",
+          "target": "calo_rpd_studio.compute.governor.GovernorConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeProvenanceRecorder",
+          "target": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeProvenanceRecorder.verify",
+          "target": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.verify"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SoakResult",
+          "target": "calo_rpd_studio.compute.soak.SoakResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resolve_backend",
+          "target": "calo_rpd_studio.compute.soak._resolve_backend"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_summarize_telemetry",
+          "target": "calo_rpd_studio.compute.soak._summarize_telemetry"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc",
+          "target": "calo_rpd_studio.compute.soak._utc"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_workload",
+          "target": "calo_rpd_studio.compute.soak._workload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologyService",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.to_dict",
+          "target": "decision.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "governor.sample",
+          "target": "governor.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lease.close",
+          "target": "lease.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile.to_dict",
+          "target": "profile.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "progress",
+          "target": "progress"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance_path.exists",
+          "target": "provenance_path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recorder.append",
+          "target": "recorder.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.to_dict",
+          "target": "result.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result_path.exists",
+          "target": "result_path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "telemetry_samples.append",
+          "target": "telemetry_samples.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.time_ns",
+          "target": "time.time_ns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "topology.to_dict",
+          "target": "topology.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "topology_service.scan",
+          "target": "topology_service.scan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "verification.get",
+          "target": "verification.get"
+        }
+      ],
+      "call_forms": {
+        "AdaptiveComputeGovernor": "name",
+        "ComputeProvenanceRecorder": "name",
+        "ComputeProvenanceRecorder.verify": "attribute",
+        "ComputeTopologyService": "name",
+        "ExclusiveDeviceLease": "name",
+        "FileExistsError": "name",
+        "GovernorConfig": "name",
+        "RuntimeError": "name",
+        "SafeResourceBudgetEngine": "name",
+        "SoakResult": "name",
+        "_resolve_backend": "name",
+        "_summarize_telemetry": "name",
+        "_utc": "name",
+        "_workload": "name",
+        "asdict": "name",
+        "backend.startswith": "attribute",
+        "bool": "name",
+        "calculate": "attribute",
+        "decision.to_dict": "attribute",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "float": "name",
+        "governor.sample": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "lease.close": "attribute",
+        "list": "name",
+        "max": "name",
+        "profile.to_dict": "attribute",
+        "progress": "name",
+        "provenance_path.exists": "attribute",
+        "recorder.append": "attribute",
+        "result.to_dict": "attribute",
+        "result_path.exists": "attribute",
+        "str": "name",
+        "telemetry_samples.append": "attribute",
+        "time.monotonic": "attribute",
+        "time.sleep": "attribute",
+        "time.time_ns": "attribute",
+        "topology.to_dict": "attribute",
+        "topology_service.scan": "attribute",
+        "verification.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AdaptiveComputeGovernor",
+        "ComputeProvenanceRecorder",
+        "ComputeProvenanceRecorder.verify",
+        "ComputeTopologyService",
+        "ExclusiveDeviceLease",
+        "FileExistsError",
+        "GovernorConfig",
+        "RuntimeError",
+        "SafeResourceBudgetEngine",
+        "SoakResult",
+        "_resolve_backend",
+        "_summarize_telemetry",
+        "_utc",
+        "_workload",
+        "asdict",
+        "backend.startswith",
+        "bool",
+        "calculate",
+        "decision.to_dict",
+        "durable_write_bytes",
+        "encode",
+        "float",
+        "governor.sample",
+        "hashlib.sha256",
+        "hexdigest",
+        "int",
+        "json.dumps",
+        "lease.close",
+        "list",
+        "max",
+        "profile.to_dict",
+        "progress",
+        "provenance_path.exists",
+        "recorder.append",
+        "result.to_dict",
+        "result_path.exists",
+        "str",
+        "telemetry_samples.append",
+        "time.monotonic",
+        "time.sleep",
+        "time.time_ns",
+        "topology.to_dict",
+        "topology_service.scan",
+        "verification.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "calo_rpd_studio.compute.governor.GovernorConfig",
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.verify",
+        "calo_rpd_studio.compute.soak.SoakResult",
+        "calo_rpd_studio.compute.soak._resolve_backend",
+        "calo_rpd_studio.compute.soak._summarize_telemetry",
+        "calo_rpd_studio.compute.soak._utc",
+        "calo_rpd_studio.compute.soak._workload",
+        "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+      ],
+      "doc": "",
+      "end_line": 364,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "Callable": "typing.Callable",
+        "ComputeProvenanceRecorder": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "Path": "pathlib.Path",
+        "ProtectionState": "calo_rpd_studio.compute.governor.ProtectionState",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "re": "re",
+        "time": "time",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".device_lease",
+        ".governor",
+        ".provenance",
+        ".topology",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "re",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.soak.HardwareSoakRunner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.soak",
+      "qualname": "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, progress)",
+      "start_line": 222,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

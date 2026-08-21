@@ -1,0 +1,660 @@
+{
+  "path": "tests/unit/test_orpd_counted_evaluation_context.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_control_linearization",
+          "target": "context.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_converged_power_flow",
+          "target": "context.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "Scenario": "name",
+        "context.primary_control_linearization": "attribute",
+        "context.primary_converged_power_flow": "attribute",
+        "len": "name",
+        "monkeypatch.setattr": "attribute",
+        "np.all": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "problem.evaluate_with_context": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "Scenario",
+        "context.primary_control_linearization",
+        "context.primary_converged_power_flow",
+        "len",
+        "monkeypatch.setattr",
+        "np.all",
+        "np.full",
+        "np.isfinite",
+        "np.testing.assert_allclose",
+        "problem.evaluate_with_context"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_context_retention_uses_exactly_the_existing_scenario_solver_calls",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, toy_case)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "test_context_retention_uses_exactly_the_existing_scenario_solver_calls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        }
+      ],
+      "call_forms": {
+        "original": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "original"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context.test_context_retention_uses_exactly_the_existing_scenario_solver_calls",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_context_retention_uses_exactly_the_existing_scenario_solver_calls.counted",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "counted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_control_linearization",
+          "target": "context.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate",
+          "target": "problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "ORPDProblem": "name",
+        "context.primary_control_linearization": "attribute",
+        "len": "name",
+        "np.linspace": "attribute",
+        "problem.evaluate": "attribute",
+        "problem.evaluate_with_context": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "ORPDProblem",
+        "context.primary_control_linearization",
+        "len",
+        "np.linspace",
+        "problem.evaluate",
+        "problem.evaluate_with_context",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_ordinary_evaluate_remains_value_equivalent_and_does_not_retain_context",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "test_ordinary_evaluate_remains_value_equivalent_and_does_not_retain_context",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.primary_control_linearization",
+          "target": "first.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.primary_control_linearization",
+          "target": "second.primary_control_linearization"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "first.primary_control_linearization": "attribute",
+        "np.linspace": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "problem.evaluate_with_context": "attribute",
+        "second.primary_control_linearization": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "first.primary_control_linearization",
+        "np.linspace",
+        "np.testing.assert_allclose",
+        "problem.evaluate_with_context",
+        "second.primary_control_linearization"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_counted_linearization_identity_and_values_are_deterministic",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "test_counted_linearization_identity_and_values_are_deterministic",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls.copy",
+          "target": "controls.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counted.primary_control_linearization",
+          "target": "counted.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counted.primary_converged_power_flow",
+          "target": "counted.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower_context.primary_converged_power_flow",
+          "target": "lower_context.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.angle",
+          "target": "np.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "upper_context.primary_converged_power_flow",
+          "target": "upper_context.primary_converged_power_flow"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "ORPDVariableConfig": "name",
+        "controls.copy": "attribute",
+        "counted.primary_control_linearization": "attribute",
+        "counted.primary_converged_power_flow": "attribute",
+        "lower_context.primary_converged_power_flow": "attribute",
+        "np.angle": "attribute",
+        "np.linspace": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "problem.evaluate_with_context": "attribute",
+        "range": "name",
+        "upper_context.primary_converged_power_flow": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "ORPDVariableConfig",
+        "controls.copy",
+        "counted.primary_control_linearization",
+        "counted.primary_converged_power_flow",
+        "lower_context.primary_converged_power_flow",
+        "np.angle",
+        "np.linspace",
+        "np.testing.assert_allclose",
+        "problem.evaluate_with_context",
+        "range",
+        "upper_context.primary_converged_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_converged_power_flow",
+          "target": "context.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "ORPDProblem": "name",
+        "context.primary_converged_power_flow": "attribute",
+        "np.full": "attribute",
+        "problem.evaluate_with_context": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "ORPDProblem",
+        "context.primary_converged_power_flow",
+        "np.full",
+        "problem.evaluate_with_context",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "tests/unit/test_orpd_counted_evaluation_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "problem_module": "calo_rpd_studio.orpd.problem"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.scenario",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_orpd_counted_evaluation_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_orpd_counted_evaluation_context",
+      "qualname": "tests.unit.test_orpd_counted_evaluation_context.test_context_fails_closed_when_no_counted_scenario_converged",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, toy_case)",
+      "start_line": 143,
+      "state_owner": "",
+      "symbol": "test_context_fails_closed_when_no_counted_scenario_converged",
+      "tests": []
+    }
+  ]
+}

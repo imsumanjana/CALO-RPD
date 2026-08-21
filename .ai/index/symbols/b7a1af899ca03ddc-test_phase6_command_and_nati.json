@@ -1,0 +1,2583 @@
+{
+  "path": "tests/unit/test_phase6_command_and_native_contracts.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_refresh_invalidates_cached_file_observations",
+        "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_scans_default_and_explicit_locations"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_MemorySettings",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.values.get",
+          "target": "self.values.get"
+        }
+      ],
+      "call_forms": {
+        "self.values.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.values.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings.value",
+      "semantic_tags": [],
+      "signature": "(self, key, default)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings.set_value",
+      "semantic_tags": [],
+      "signature": "(self, key, value)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "set_value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "intersection",
+          "target": "intersection"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.command_id.startswith",
+          "target": "item.command_id.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training.tooltip.lower",
+          "target": "training.tooltip.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "intersection": "attribute",
+        "item.command_id.startswith": "attribute",
+        "join": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "next": "name",
+        "set": "name",
+        "training.tooltip.lower": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "all",
+        "intersection",
+        "item.command_id.startswith",
+        "join",
+        "len",
+        "lower",
+        "next",
+        "set",
+        "training.tooltip.lower",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_phase6_command_registry_has_one_stable_authority",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "test_phase6_command_registry_has_one_stable_authority",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingModelLibrary",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.changed.connect",
+          "target": "library.changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.refresh",
+          "target": "library.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "notifications.append",
+          "target": "notifications.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_MemorySettings",
+          "target": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings"
+        }
+      ],
+      "call_forms": {
+        "TrainingModelLibrary": "name",
+        "_MemorySettings": "name",
+        "library.changed.connect": "attribute",
+        "library.refresh": "attribute",
+        "notifications.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingModelLibrary",
+        "_MemorySettings",
+        "library.changed.connect",
+        "library.refresh",
+        "notifications.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "tests.unit.test_phase6_command_and_native_contracts._MemorySettings"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_refresh_invalidates_cached_file_observations",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "test_training_model_library_refresh_invalidates_cached_file_observations",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "DISPLAY_VERSION.lower",
+          "target": "DISPLAY_VERSION.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "PRODUCT_VERSION.lower",
+          "target": "PRODUCT_VERSION.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "DISPLAY_VERSION.lower": "attribute",
+        "PRODUCT_VERSION.lower": "attribute",
+        "json.loads": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "DISPLAY_VERSION.lower",
+        "PRODUCT_VERSION.lower",
+        "json.loads",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 182,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_product_version_hides_internal_build_stage_without_changing_build_identity",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "test_product_version_hides_internal_build_stage_without_changing_build_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GoverningPolicyStatus",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "governing_policy_user_message",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        }
+      ],
+      "call_forms": {
+        "GoverningPolicyStatus": "name",
+        "governing_policy_user_message": "name",
+        "lower": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GoverningPolicyStatus",
+        "governing_policy_user_message",
+        "lower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+      ],
+      "doc": "",
+      "end_line": 198,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_policy_display_language_hides_internal_lifecycle_reason",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 185,
+      "state_owner": "",
+      "symbol": "test_policy_display_language_hides_internal_lifecycle_reason",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingLaunchModel",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.arguments",
+          "target": "model.arguments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.set_value",
+          "target": "model.set_value"
+        }
+      ],
+      "call_forms": {
+        "TrainingLaunchModel": "name",
+        "items": "attribute",
+        "join": "attribute",
+        "lower": "attribute",
+        "model.arguments": "attribute",
+        "model.set_value": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingLaunchModel",
+        "items",
+        "join",
+        "lower",
+        "model.arguments",
+        "model.set_value"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+      ],
+      "doc": "",
+      "end_line": 225,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_independent_training_arguments_keep_check_and_start_separate",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 201,
+      "state_owner": "",
+      "symbol": "test_independent_training_arguments_keep_check_and_start_separate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ROOT.resolve",
+          "target": "ROOT.resolve"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingLaunchModel",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.create_plan",
+          "target": "model.create_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.set_resource_design",
+          "target": "model.set_resource_design"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.set_value",
+          "target": "model.set_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "ROOT.resolve": "attribute",
+        "TrainingLaunchModel": "name",
+        "model.create_plan": "attribute",
+        "model.set_resource_design": "attribute",
+        "model.set_value": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ROOT.resolve",
+        "TrainingLaunchModel",
+        "model.create_plan",
+        "model.set_resource_design",
+        "model.set_value",
+        "monkeypatch.setattr",
+        "pytest.raises",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+      ],
+      "doc": "",
+      "end_line": 286,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 228,
+      "state_owner": "",
+      "symbol": "test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_roots.append",
+          "target": "source_roots.append"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "SourceIdentity": "name",
+        "resolve": "attribute",
+        "source_roots.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "SourceIdentity",
+        "resolve",
+        "source_roots.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity"
+      ],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts.test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs.resolved_source_identity",
+      "semantic_tags": [],
+      "signature": "(cwd)",
+      "start_line": 235,
+      "state_owner": "",
+      "symbol": "resolved_source_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingLaunchModel",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.set_value",
+          "target": "model.set_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "TrainingLaunchModel": "name",
+        "model.set_value": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingLaunchModel",
+        "model.set_value",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel"
+      ],
+      "doc": "",
+      "end_line": 297,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_rule_based_calo_remains_an_ordinary_algorithm_not_a_training_input",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 289,
+      "state_owner": "",
+      "symbol": "test_rule_based_calo_remains_an_ordinary_algorithm_not_a_training_input",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingModelLibrary",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.exists",
+          "target": "completed.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.mkdir",
+          "target": "completed.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.resolve",
+          "target": "completed.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed_candidate.read_bytes",
+          "target": "completed_candidate.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed_candidate.resolve",
+          "target": "completed_candidate.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed_candidate.write_bytes",
+          "target": "completed_candidate.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed_without_candidate.mkdir",
+          "target": "completed_without_candidate.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "default.is_dir",
+          "target": "default.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "default.resolve",
+          "target": "default.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "external.resolve",
+          "target": "external.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.add_scan_location",
+          "target": "library.add_scan_location"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.completed_campaigns",
+          "target": "library.completed_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.completed_policy_candidates",
+          "target": "library.completed_policy_candidates"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.delete_completed_campaign",
+          "target": "library.delete_completed_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.resumable_campaigns",
+          "target": "library.resumable_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.saved_campaigns",
+          "target": "library.saved_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "library.scan_locations",
+          "target": "library.scan_locations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resumable.mkdir",
+          "target": "resumable.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resumable.resolve",
+          "target": "resumable.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_MemorySettings",
+          "target": "tests.unit.test_phase6_command_and_native_contracts._MemorySettings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unsafe_interruption.mkdir",
+          "target": "unsafe_interruption.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "TrainingModelLibrary": "name",
+        "_MemorySettings": "name",
+        "completed.exists": "attribute",
+        "completed.mkdir": "attribute",
+        "completed.resolve": "attribute",
+        "completed_candidate.read_bytes": "attribute",
+        "completed_candidate.resolve": "attribute",
+        "completed_candidate.write_bytes": "attribute",
+        "completed_without_candidate.mkdir": "attribute",
+        "default.is_dir": "attribute",
+        "default.resolve": "attribute",
+        "external.resolve": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "library.add_scan_location": "attribute",
+        "library.completed_campaigns": "attribute",
+        "library.completed_policy_candidates": "attribute",
+        "library.delete_completed_campaign": "attribute",
+        "library.resumable_campaigns": "attribute",
+        "library.saved_campaigns": "attribute",
+        "library.scan_locations": "attribute",
+        "resolve": "attribute",
+        "resumable.mkdir": "attribute",
+        "resumable.resolve": "attribute",
+        "set": "name",
+        "str": "name",
+        "tuple": "name",
+        "unsafe_interruption.mkdir": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingModelLibrary",
+        "_MemorySettings",
+        "completed.exists",
+        "completed.mkdir",
+        "completed.resolve",
+        "completed_candidate.read_bytes",
+        "completed_candidate.resolve",
+        "completed_candidate.write_bytes",
+        "completed_without_candidate.mkdir",
+        "default.is_dir",
+        "default.resolve",
+        "external.resolve",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "library.add_scan_location",
+        "library.completed_campaigns",
+        "library.completed_policy_candidates",
+        "library.delete_completed_campaign",
+        "library.resumable_campaigns",
+        "library.saved_campaigns",
+        "library.scan_locations",
+        "resolve",
+        "resumable.mkdir",
+        "resumable.resolve",
+        "set",
+        "str",
+        "tuple",
+        "unsafe_interruption.mkdir",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "tests.unit.test_phase6_command_and_native_contracts._MemorySettings"
+      ],
+      "doc": "",
+      "end_line": 401,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_scans_default_and_explicit_locations",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 300,
+      "state_owner": "",
+      "symbol": "test_training_model_library_scans_default_and_explicit_locations",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 438,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 404,
+      "state_owner": "",
+      "symbol": "test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "launcher.lower",
+          "target": "launcher.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tomllib.loads",
+          "target": "tomllib.loads"
+        }
+      ],
+      "call_forms": {
+        "launcher.lower": "attribute",
+        "read_text": "attribute",
+        "tomllib.loads": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "launcher.lower",
+        "read_text",
+        "tomllib.loads"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 449,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_native_entry_and_repository_launcher_do_not_install_on_routine_start",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 441,
+      "state_owner": "",
+      "symbol": "test_native_entry_and_repository_launcher_do_not_install_on_routine_start",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.find",
+          "target": "source.find"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.rfind",
+          "target": "source.rfind"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "source.find": "attribute",
+        "source.rfind": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "source.find",
+        "source.rfind"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 461,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_disabled_primary_style_is_more_specific_in_both_themes",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 452,
+      "state_owner": "",
+      "symbol": "test_disabled_primary_style_is_more_specific_in_both_themes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 490,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_spin_controls_use_modern_vector_arrows_and_themed_interaction_states",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 464,
+      "state_owner": "",
+      "symbol": "test_spin_controls_use_modern_vector_arrows_and_themed_interaction_states",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "theme.split",
+          "target": "theme.split"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "split": "attribute",
+        "theme.split": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "split",
+        "theme.split"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 521,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_global_checkbox_style_draws_visible_borders_and_complete_states",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 493,
+      "state_owner": "",
+      "symbol": "test_global_checkbox_style_draws_visible_borders_and_complete_states",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "theme.split",
+          "target": "theme.split"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "split": "attribute",
+        "theme.split": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "split",
+        "theme.split"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 535,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_ribbon_category_buttons_use_an_underline_without_native_tab_painting",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 524,
+      "state_owner": "",
+      "symbol": "test_ribbon_category_buttons_use_an_underline_without_native_tab_painting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 540,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_phase6_validation_and_local_logs_remain_git_ignored",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 538,
+      "state_owner": "",
+      "symbol": "test_phase6_validation_and_local_logs_remain_git_ignored",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 558,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_phase6_validator_fails_closed_on_interruption_and_gui_tests_are_bounded",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 543,
+      "state_owner": "",
+      "symbol": "test_phase6_validator_fails_closed_on_interruption_and_gui_tests_are_bounded",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.index",
+          "target": "source.index"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "source.index": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "source.index"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 570,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_empty_portfolio_selection_is_an_input_prompt_not_a_logged_failure",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 561,
+      "state_owner": "",
+      "symbol": "test_empty_portfolio_selection_is_an_input_prompt_not_a_logged_failure",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "renderer.split",
+          "target": "renderer.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "renderer.split": "attribute",
+        "split": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "renderer.split",
+        "split"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 585,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_offscreen_renderer_rejects_a_training_architecture_control",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 573,
+      "state_owner": "",
+      "symbol": "test_offscreen_renderer_rejects_a_training_architecture_control",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "constructor.index",
+          "target": "constructor.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.split",
+          "target": "context.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "intelligence.count",
+          "target": "intelligence.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_core.count",
+          "target": "training_core.count"
+        }
+      ],
+      "call_forms": {
+        "constructor.index": "attribute",
+        "context.split": "attribute",
+        "intelligence.count": "attribute",
+        "read_text": "attribute",
+        "split": "attribute",
+        "training_core.count": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "constructor.index",
+        "context.split",
+        "intelligence.count",
+        "read_text",
+        "split",
+        "training_core.count"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 779,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_policy_training_process_actions_are_visible_in_the_input_pane",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 588,
+      "state_owner": "",
+      "symbol": "test_policy_training_process_actions_are_visible_in_the_input_pane",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_reject_local_evidence_or_policy_artifacts",
+          "target": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "_reject_local_evidence_or_policy_artifacts": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_reject_local_evidence_or_policy_artifacts",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts"
+      ],
+      "doc": "",
+      "end_line": 794,
+      "entry_point": false,
+      "file": "tests/unit/test_phase6_command_and_native_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "COMMAND_SPECS": "calo_rpd_studio.gui.command_registry.COMMAND_SPECS",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TrainingLaunchModel": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+        "TrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "_reject_local_evidence_or_policy_artifacts": "calo_rpd_studio.scripts.verify_phase6_distribution._reject_local_evidence_or_policy_artifacts",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "source_identity": "calo_rpd_studio.compute.source_identity",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.gui.panels.independent_training_panel",
+        "calo_rpd_studio.scripts.verify_phase6_distribution",
+        "calo_rpd_studio.version",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_phase6_command_and_native_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_phase6_command_and_native_contracts",
+      "qualname": "tests.unit.test_phase6_command_and_native_contracts.test_phase6_distribution_contract_rejects_local_evidence_and_policy_artifacts",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 782,
+      "state_owner": "",
+      "symbol": "test_phase6_distribution_contract_rejects_local_evidence_and_policy_artifacts",
+      "tests": []
+    }
+  ]
+}

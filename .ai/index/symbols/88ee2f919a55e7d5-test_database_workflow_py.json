@@ -1,0 +1,435 @@
+{
+  "path": "tests/integration/test_database_workflow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sqlite3.connect",
+          "target": "sqlite3.connect"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "collect_provenance": "name",
+        "con.execute": "attribute",
+        "db.create_experiment": "attribute",
+        "db.get_experiment": "attribute",
+        "fetchone": "attribute",
+        "sqlite3.connect": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "collect_provenance",
+        "con.execute",
+        "db.create_experiment",
+        "db.get_experiment",
+        "fetchone",
+        "sqlite3.connect"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/integration/test_database_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "hashlib": "hashlib",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "hashlib",
+        "pytest",
+        "sqlite3"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_database_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_database_workflow",
+      "qualname": "tests.integration.test_database_workflow.test_database_experiment_creation",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_database_experiment_creation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.executescript",
+          "target": "con.executescript"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sqlite3.connect",
+          "target": "sqlite3.connect"
+        }
+      ],
+      "call_forms": {
+        "con.executescript": "attribute",
+        "sqlite3.connect": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_database_workflow.test_version_zero_database_migrates_with_verified_backup_and_no_data_loss"
+      ],
+      "calls": [
+        "con.executescript",
+        "sqlite3.connect"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "tests/integration/test_database_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "hashlib": "hashlib",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "hashlib",
+        "pytest",
+        "sqlite3"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_database_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_database_workflow",
+      "qualname": "tests.integration.test_database_workflow._create_version_zero_database",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "_create_version_zero_database",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "backup.execute",
+          "target": "backup.execute"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fetchone",
+          "target": "fetchone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "migrated.execute",
+          "target": "migrated.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_bytes",
+          "target": "read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sqlite3.connect",
+          "target": "sqlite3.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_create_version_zero_database",
+          "target": "tests.integration.test_database_workflow._create_version_zero_database"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tmp_path.glob",
+          "target": "tmp_path.glob"
+        }
+      ],
+      "call_forms": {
+        "ResultDatabase": "name",
+        "_create_version_zero_database": "name",
+        "backup.execute": "attribute",
+        "con.execute": "attribute",
+        "fetchone": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "list": "name",
+        "migrated.execute": "attribute",
+        "read_bytes": "attribute",
+        "sqlite3.connect": "attribute",
+        "str": "name",
+        "tmp_path.glob": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ResultDatabase",
+        "_create_version_zero_database",
+        "backup.execute",
+        "con.execute",
+        "fetchone",
+        "hashlib.sha256",
+        "hexdigest",
+        "list",
+        "migrated.execute",
+        "read_bytes",
+        "sqlite3.connect",
+        "str",
+        "tmp_path.glob"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_database_workflow._create_version_zero_database"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "tests/integration/test_database_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "hashlib": "hashlib",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "hashlib",
+        "pytest",
+        "sqlite3"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_database_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_database_workflow",
+      "qualname": "tests.integration.test_database_workflow.test_version_zero_database_migrates_with_verified_backup_and_no_data_loss",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "test_version_zero_database_migrates_with_verified_backup_and_no_data_loss",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_bytes",
+          "target": "path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sqlite3.connect",
+          "target": "sqlite3.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tmp_path.glob",
+          "target": "tmp_path.glob"
+        }
+      ],
+      "call_forms": {
+        "ResultDatabase": "name",
+        "con.execute": "attribute",
+        "list": "name",
+        "path.read_bytes": "attribute",
+        "pytest.raises": "attribute",
+        "sqlite3.connect": "attribute",
+        "tmp_path.glob": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ResultDatabase",
+        "con.execute",
+        "list",
+        "path.read_bytes",
+        "pytest.raises",
+        "sqlite3.connect",
+        "tmp_path.glob"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "tests/integration/test_database_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "hashlib": "hashlib",
+        "pytest": "pytest",
+        "sqlite3": "sqlite3"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "hashlib",
+        "pytest",
+        "sqlite3"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_database_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_database_workflow",
+      "qualname": "tests.integration.test_database_workflow.test_future_database_schema_is_rejected_without_mutation",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "test_future_database_schema_is_rejected_without_mutation",
+      "tests": []
+    }
+  ]
+}

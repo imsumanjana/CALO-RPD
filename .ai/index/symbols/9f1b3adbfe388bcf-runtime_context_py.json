@@ -1,0 +1,180 @@
+{
+  "path": "calo_rpd_studio/accelerated/runtime_context.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/runtime_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.runtime_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.runtime_context",
+      "qualname": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(broker)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "set_cross_run_broker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController.load"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/runtime_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.runtime_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.runtime_context",
+      "qualname": "calo_rpd_studio.accelerated.runtime_context.get_cross_run_broker",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "get_cross_run_broker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "set_cross_run_broker",
+          "target": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker"
+        }
+      ],
+      "call_forms": {
+        "set_cross_run_broker": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main"
+      ],
+      "calls": [
+        "set_cross_run_broker"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker"
+      ],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/runtime_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "threading"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.runtime_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.runtime_context",
+      "qualname": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "clear_cross_run_broker",
+      "tests": []
+    }
+  ]
+}

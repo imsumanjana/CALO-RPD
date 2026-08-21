@@ -1,0 +1,1382 @@
+{
+  "path": "calo_rpd_studio/compute/governor.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.ProtectionState",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "ProtectionState",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+        "calo_rpd_studio.app.state_manager.AppState.refresh_compute_profile",
+        "calo_rpd_studio.app.state_manager.AppState.sample_compute_governor",
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.__init__",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+        "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+        "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.GovernorConfig",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "GovernorConfig",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "getattr": "name",
+        "math.isfinite": "attribute",
+        "min": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "getattr",
+        "math.isfinite",
+        "min"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.GovernorConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.GovernorConfig.validate",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.GovernorDecision",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "GovernorDecision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.GovernorDecision",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.GovernorDecision.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+        "calo_rpd_studio.app.state_manager.AppState.refresh_compute_profile",
+        "calo_rpd_studio.app.state_manager.AppState.sample_compute_governor",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+        "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+        "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Stateful Green/Amber/Red protection with hysteresis and staged admission.",
+      "end_line": 314,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "AdaptiveComputeGovernor",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GovernorConfig",
+          "target": "calo_rpd_studio.compute.governor.GovernorConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceMonitor",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deque",
+          "target": "deque"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.validate",
+          "target": "self.config.validate"
+        }
+      ],
+      "call_forms": {
+        "GovernorConfig": "name",
+        "ResourceMonitor": "name",
+        "deque": "name",
+        "float": "name",
+        "self.config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GovernorConfig",
+        "ResourceMonitor",
+        "deque",
+        "float",
+        "self.config.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.governor.GovernorConfig",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+      ],
+      "doc": "",
+      "end_line": 121,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, profile, monitor, config)",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 125,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.state",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 129,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.history",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "history",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "time.monotonic"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.note_branch_launch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, when)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "note_branch_launch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "time.monotonic"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.staged_delay_elapsed",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, now)",
+      "start_line": 134,
+      "state_owner": "",
+      "symbol": "staged_delay_elapsed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot"
+      ],
+      "calls": [
+        "float"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 163,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._snapshot_payload",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(snapshot)",
+      "start_line": 141,
+      "state_owner": "",
+      "symbol": "_snapshot_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "amber.append",
+          "target": "amber.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "red.append",
+          "target": "red.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "amber.append": "attribute",
+        "float": "name",
+        "red.append": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot"
+      ],
+      "calls": [
+        "amber.append",
+        "float",
+        "red.append",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 233,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._classify_raw",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, snapshot)",
+      "start_line": 165,
+      "state_owner": "",
+      "symbol": "_classify_raw",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._classify_raw",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._classify_raw"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._snapshot_payload",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._snapshot_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GovernorDecision",
+          "target": "calo_rpd_studio.compute.governor.GovernorDecision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._history.append",
+          "target": "self._history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "GovernorDecision": "name",
+        "bool": "name",
+        "encode": "attribute",
+        "float": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "max": "name",
+        "self._classify_raw": "attribute",
+        "self._history.append": "attribute",
+        "self._snapshot_payload": "attribute",
+        "time.monotonic": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.sample"
+      ],
+      "calls": [
+        "GovernorDecision",
+        "bool",
+        "encode",
+        "float",
+        "hashlib.sha256",
+        "hexdigest",
+        "int",
+        "json.dumps",
+        "max",
+        "self._classify_raw",
+        "self._history.append",
+        "self._snapshot_payload",
+        "time.monotonic",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._classify_raw",
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor._snapshot_payload",
+        "calo_rpd_studio.compute.governor.GovernorDecision"
+      ],
+      "doc": "",
+      "end_line": 311,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, snapshot, active_branches)",
+      "start_line": 235,
+      "state_owner": "",
+      "symbol": "evaluate_snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate_snapshot",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.monitor.sample",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.sample"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate_snapshot": "attribute",
+        "self.monitor.sample": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.sample"
+      ],
+      "calls": [
+        "self.evaluate_snapshot",
+        "self.monitor.sample"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.evaluate_snapshot",
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.sample"
+      ],
+      "doc": "",
+      "end_line": 314,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/governor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "deque": "collections.deque",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        ".topology",
+        "__future__",
+        "collections",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "json",
+        "math",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.governor",
+      "qualname": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.sample",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, active_branches)",
+      "start_line": 313,
+      "state_owner": "",
+      "symbol": "sample",
+      "tests": []
+    }
+  ]
+}

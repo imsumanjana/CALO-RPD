@@ -1,0 +1,1022 @@
+{
+  "path": "calo_rpd_studio/experiments/study_strength.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "StudyStrength",
+      "tests": [
+        "tests/unit/test_study_strength.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "StudyStrengthPlan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.guidance"
+      ],
+      "calls": [
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.output_labels",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "output_labels",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.output_labels",
+          "target": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.output_labels"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "join": "attribute",
+        "len": "name",
+        "recommend_paired_runs": "name",
+        "self.output_labels": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "join",
+        "len",
+        "recommend_paired_runs",
+        "self.output_labels"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.output_labels",
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+      ],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.guidance",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, selected_case, standardized_effect, target_power)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "guidance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.PairedRunRecommendation",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "PairedRunRecommendation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength._BASE_OUTPUTS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "_BASE_OUTPUTS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 223,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength._PLANS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 109,
+      "state_owner": "",
+      "symbol": "_PLANS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "StudyStrength",
+          "target": "calo_rpd_studio.experiments.study_strength.StudyStrength"
+        }
+      ],
+      "call_forms": {
+        "StudyStrength": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._study_strength_changed",
+        "tests.unit.test_study_strength.test_power_aware_run_planner_is_monotone_and_multiplicity_aware",
+        "tests.unit.test_study_strength.test_strength_guidance_reports_outputs_runs_and_honest_limitations"
+      ],
+      "calls": [
+        "StudyStrength"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.StudyStrength"
+      ],
+      "doc": "",
+      "end_line": 227,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(strength)",
+      "start_line": 226,
+      "state_owner": "",
+      "symbol": "study_strength_plan",
+      "tests": [
+        "tests/unit/test_study_strength.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "NormalDist",
+          "target": "NormalDist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PairedRunRecommendation",
+          "target": "calo_rpd_studio.experiments.study_strength.PairedRunRecommendation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.ceil",
+          "target": "math.ceil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "normal.inv_cdf",
+          "target": "normal.inv_cdf"
+        }
+      ],
+      "call_forms": {
+        "NormalDist": "name",
+        "PairedRunRecommendation": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "math.ceil": "attribute",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "normal.inv_cdf": "attribute",
+        "study_strength_plan": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig.validate",
+        "calo_rpd_studio.experiments.study_strength.StudyStrengthPlan.guidance",
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "tests.unit.test_study_strength.test_low_strength_is_explicitly_screening_not_powered",
+        "tests.unit.test_study_strength.test_power_aware_run_planner_is_monotone_and_multiplicity_aware",
+        "tests.unit.test_study_strength.test_study_strength_applies_one_coherent_valid_protocol"
+      ],
+      "calls": [
+        "NormalDist",
+        "PairedRunRecommendation",
+        "RuntimeError",
+        "ValueError",
+        "float",
+        "int",
+        "len",
+        "math.ceil",
+        "math.isfinite",
+        "max",
+        "normal.inv_cdf",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.PairedRunRecommendation",
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "doc": "Return a conservative paired-run planning approximation.",
+      "end_line": 312,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(strength, standardized_effect, target_power, family_alpha, failure_allowance, planned_comparisons)",
+      "start_line": 230,
+      "state_owner": "",
+      "symbol": "recommend_paired_runs",
+      "tests": [
+        "tests/unit/test_study_strength.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "join": "attribute",
+        "len": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+        "tests.unit.test_study_strength.test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals"
+      ],
+      "calls": [
+        "join",
+        "len",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "Describe the scientist-relevant fields changed by a guided protocol.",
+      "end_line": 344,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(before, after)",
+      "start_line": 315,
+      "state_owner": "",
+      "symbol": "summarize_study_protocol_change",
+      "tests": [
+        "tests/unit/test_study_strength.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "float": "name",
+        "int": "name",
+        "list": "name",
+        "min": "name",
+        "recommend_paired_runs": "name",
+        "str": "name",
+        "study_strength_plan": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+        "tests.unit.test_study_strength.test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals",
+        "tests.unit.test_study_strength.test_study_strength_applies_one_coherent_valid_protocol",
+        "tests.unit.test_study_strength.test_study_strength_does_not_modify_governing_policy_binding",
+        "tests.unit.test_study_strength.test_study_strength_round_trip_is_serialized"
+      ],
+      "calls": [
+        "RuntimeError",
+        "float",
+        "int",
+        "list",
+        "min",
+        "recommend_paired_runs",
+        "str",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "doc": "Apply one coherent protocol without touching CALO policy-training settings.",
+      "end_line": 410,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "Enum": "enum.Enum",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "NormalDist": "statistics.NormalDist",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "math",
+        "statistics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.study_strength",
+      "qualname": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, strength, case_name, standardized_effect, target_power)",
+      "start_line": 347,
+      "state_owner": "",
+      "symbol": "apply_study_strength",
+      "tests": [
+        "tests/unit/test_study_strength.py"
+      ]
+    }
+  ]
+}

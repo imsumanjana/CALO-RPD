@@ -1,0 +1,77 @@
+{
+  "path": "calo_rpd_studio/results/ranking_engine.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "out.sort_values",
+          "target": "out.sort_values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rank",
+          "target": "rank"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.copy",
+          "target": "summary.copy"
+        }
+      ],
+      "call_forms": {
+        "out.sort_values": "attribute",
+        "rank": "attribute",
+        "summary.copy": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "out.sort_values",
+        "rank",
+        "summary.copy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/ranking_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "pd": "pandas"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "pandas"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.ranking_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.ranking_engine",
+      "qualname": "calo_rpd_studio.results.ranking_engine.rank_summary",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(summary)",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "rank_summary",
+      "tests": []
+    }
+  ]
+}

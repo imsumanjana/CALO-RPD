@@ -1,0 +1,1568 @@
+{
+  "path": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 268,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "ResumeCenterPanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.clicked.connect",
+          "target": "archive.clicked.connect"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SectionCard",
+          "target": "calo_rpd_studio.gui.widgets.section_card.SectionCard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "card.layout_root.addLayout",
+          "target": "card.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "card.layout_root.addWidget",
+          "target": "card.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "delete.clicked.connect",
+          "target": "delete.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.clicked.connect",
+          "target": "inspect.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh.clicked.connect",
+          "target": "refresh.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resume_all.clicked.connect",
+          "target": "resume_all.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resume_selected.clicked.connect",
+          "target": "resume_selected.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resume_selected.setObjectName",
+          "target": "resume_selected.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addStretch",
+          "target": "row.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addWidget",
+          "target": "row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.cancelled.connect",
+          "target": "self.manager.cancelled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.completed.connect",
+          "target": "self.manager.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.failed.connect",
+          "target": "self.manager.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.horizontalHeader",
+          "target": "self.table.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setAlternatingRowColors",
+          "target": "self.table.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setColumnHidden",
+          "target": "self.table.setColumnHidden"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setHorizontalHeaderLabels",
+          "target": "self.table.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setSelectionBehavior",
+          "target": "self.table.setSelectionBehavior"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setSelectionMode",
+          "target": "self.table.setSelectionMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.verticalHeader",
+          "target": "self.table.verticalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setSectionResizeMode",
+          "target": "setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setVisible",
+          "target": "setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QHBoxLayout": "name",
+        "QPushButton": "name",
+        "QTableWidget": "name",
+        "SectionCard": "name",
+        "__init__": "attribute",
+        "archive.clicked.connect": "attribute",
+        "card.layout_root.addLayout": "attribute",
+        "card.layout_root.addWidget": "attribute",
+        "delete.clicked.connect": "attribute",
+        "inspect.clicked.connect": "attribute",
+        "refresh.clicked.connect": "attribute",
+        "resume_all.clicked.connect": "attribute",
+        "resume_selected.clicked.connect": "attribute",
+        "resume_selected.setObjectName": "attribute",
+        "row.addStretch": "attribute",
+        "row.addWidget": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.manager.cancelled.connect": "attribute",
+        "self.manager.completed.connect": "attribute",
+        "self.manager.failed.connect": "attribute",
+        "self.refresh": "attribute",
+        "self.table.horizontalHeader": "attribute",
+        "self.table.setAlternatingRowColors": "attribute",
+        "self.table.setColumnHidden": "attribute",
+        "self.table.setHorizontalHeaderLabels": "attribute",
+        "self.table.setSelectionBehavior": "attribute",
+        "self.table.setSelectionMode": "attribute",
+        "self.table.verticalHeader": "attribute",
+        "setSectionResizeMode": "attribute",
+        "setVisible": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QHBoxLayout",
+        "QPushButton",
+        "QTableWidget",
+        "SectionCard",
+        "__init__",
+        "archive.clicked.connect",
+        "card.layout_root.addLayout",
+        "card.layout_root.addWidget",
+        "delete.clicked.connect",
+        "inspect.clicked.connect",
+        "refresh.clicked.connect",
+        "resume_all.clicked.connect",
+        "resume_selected.clicked.connect",
+        "resume_selected.setObjectName",
+        "row.addStretch",
+        "row.addWidget",
+        "self.layout_root.addWidget",
+        "self.manager.cancelled.connect",
+        "self.manager.completed.connect",
+        "self.manager.failed.connect",
+        "self.refresh",
+        "self.table.horizontalHeader",
+        "self.table.setAlternatingRowColors",
+        "self.table.setColumnHidden",
+        "self.table.setHorizontalHeaderLabels",
+        "self.table.setSelectionBehavior",
+        "self.table.setSelectionMode",
+        "self.table.verticalHeader",
+        "setSectionResizeMode",
+        "setVisible",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh",
+        "calo_rpd_studio.gui.widgets.section_card.SectionCard"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, experiment_manager, parent)",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cell.flags",
+          "target": "cell.flags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cell.setFlags",
+          "target": "cell.setFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.selectRow",
+          "target": "self.table.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setRowCount",
+          "target": "self.table.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "cell.flags": "attribute",
+        "cell.setFlags": "attribute",
+        "enumerate": "name",
+        "len": "name",
+        "self.state.resume_service.unfinished": "attribute",
+        "self.table.selectRow": "attribute",
+        "self.table.setItem": "attribute",
+        "self.table.setRowCount": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.__init__",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.archive_selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.delete_selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_all",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_selected"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "cell.flags",
+        "cell.setFlags",
+        "enumerate",
+        "len",
+        "self.state.resume_service.unfinished",
+        "self.table.selectRow",
+        "self.table.setItem",
+        "self.table.setRowCount",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.currentRow",
+          "target": "self.table.currentRow"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "self.table.currentRow": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.archive_selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.delete_selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.inspect_selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_selected"
+      ],
+      "calls": [
+        "len",
+        "self.table.currentRow"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "_selected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.critical",
+          "target": "QMessageBox.critical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment_restore_requested.emit",
+          "target": "self.experiment_restore_requested.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.resume_campaign",
+          "target": "self.manager.resume_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_training_requested.emit",
+          "target": "self.policy_training_requested.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.portfolio_export_resumed.emit",
+          "target": "self.portfolio_export_resumed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_campaign",
+          "target": "self.state.database.get_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.validation_resumed.emit",
+          "target": "self.validation_resumed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workspace_requested.emit",
+          "target": "self.workspace_requested.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.critical": "attribute",
+        "QMessageBox.information": "attribute",
+        "bool": "name",
+        "dict": "name",
+        "get": "attribute",
+        "self.experiment_restore_requested.emit": "attribute",
+        "self.manager.resume_campaign": "attribute",
+        "self.policy_training_requested.emit": "attribute",
+        "self.portfolio_export_resumed.emit": "attribute",
+        "self.state.database.get_campaign": "attribute",
+        "self.validation_resumed.emit": "attribute",
+        "self.workspace_requested.emit": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_all",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_selected"
+      ],
+      "calls": [
+        "QMessageBox.critical",
+        "QMessageBox.information",
+        "bool",
+        "dict",
+        "get",
+        "self.experiment_restore_requested.emit",
+        "self.manager.resume_campaign",
+        "self.policy_training_requested.emit",
+        "self.portfolio_export_resumed.emit",
+        "self.state.database.get_campaign",
+        "self.validation_resumed.emit",
+        "self.workspace_requested.emit",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, item)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "_resume",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        }
+      ],
+      "call_forms": {
+        "item.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_all"
+      ],
+      "calls": [
+        "item.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume_verb",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(item)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "_resume_verb",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._resume",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+        }
+      ],
+      "call_forms": {
+        "self._resume": "attribute",
+        "self._selected": "attribute",
+        "self.refresh": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._resume",
+        "self._selected",
+        "self.refresh"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+      ],
+      "doc": "",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_selected",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 166,
+      "state_owner": "",
+      "symbol": "resume_selected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._resume",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._resume_verb",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume_verb"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deferred.append",
+          "target": "deferred.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lines.append",
+          "target": "lines.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resumed.append",
+          "target": "resumed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unsupported.append",
+          "target": "unsupported.append"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "deferred.append": "attribute",
+        "item.get": "attribute",
+        "join": "attribute",
+        "lines.append": "attribute",
+        "list": "name",
+        "resumed.append": "attribute",
+        "self._resume": "attribute",
+        "self._resume_verb": "attribute",
+        "self.refresh": "attribute",
+        "str": "name",
+        "unsupported.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.information",
+        "deferred.append",
+        "item.get",
+        "join",
+        "lines.append",
+        "list",
+        "resumed.append",
+        "self._resume",
+        "self._resume_verb",
+        "self.refresh",
+        "str",
+        "unsupported.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._resume_verb",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.resume_all",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 171,
+      "state_owner": "",
+      "symbol": "resume_all",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QDialog",
+          "target": "QDialog"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QDialogButtonBox",
+          "target": "QDialogButtonBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFormLayout",
+          "target": "QFormLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPlainTextEdit",
+          "target": "QPlainTextEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.rejected.connect",
+          "target": "buttons.rejected.connect"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dialog.exec",
+          "target": "dialog.exec"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dialog.setMinimumWidth",
+          "target": "dialog.setMinimumWidth"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dialog.setWindowTitle",
+          "target": "dialog.setWindowTitle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "form.addRow",
+          "target": "form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.setWordWrap",
+          "target": "label.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "labels.items",
+          "target": "labels.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addLayout",
+          "target": "layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical.hide",
+          "target": "technical.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical.setAccessibleName",
+          "target": "technical.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical.setPlainText",
+          "target": "technical.setPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical.setReadOnly",
+          "target": "technical.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_toggle.setCheckable",
+          "target": "technical_toggle.setCheckable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_toggle.setText",
+          "target": "technical_toggle.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "technical_toggle.toggled.connect",
+          "target": "technical_toggle.toggled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "title",
+          "target": "title"
+        }
+      ],
+      "call_forms": {
+        "QDialog": "name",
+        "QDialogButtonBox": "name",
+        "QFormLayout": "name",
+        "QLabel": "name",
+        "QPlainTextEdit": "name",
+        "QPushButton": "name",
+        "QVBoxLayout": "name",
+        "buttons.rejected.connect": "attribute",
+        "dialog.exec": "attribute",
+        "dialog.setMinimumWidth": "attribute",
+        "dialog.setWindowTitle": "attribute",
+        "form.addRow": "attribute",
+        "item.get": "attribute",
+        "label.setWordWrap": "attribute",
+        "labels.items": "attribute",
+        "layout.addLayout": "attribute",
+        "layout.addWidget": "attribute",
+        "replace": "attribute",
+        "self._selected": "attribute",
+        "str": "name",
+        "technical.hide": "attribute",
+        "technical.setAccessibleName": "attribute",
+        "technical.setPlainText": "attribute",
+        "technical.setReadOnly": "attribute",
+        "technical_toggle.setCheckable": "attribute",
+        "technical_toggle.setText": "attribute",
+        "technical_toggle.toggled.connect": "attribute",
+        "title": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QDialog",
+        "QDialogButtonBox",
+        "QFormLayout",
+        "QLabel",
+        "QPlainTextEdit",
+        "QPushButton",
+        "QVBoxLayout",
+        "buttons.rejected.connect",
+        "dialog.exec",
+        "dialog.setMinimumWidth",
+        "dialog.setWindowTitle",
+        "form.addRow",
+        "item.get",
+        "label.setWordWrap",
+        "labels.items",
+        "layout.addLayout",
+        "layout.addWidget",
+        "replace",
+        "self._selected",
+        "str",
+        "technical.hide",
+        "technical.setAccessibleName",
+        "technical.setPlainText",
+        "technical.setReadOnly",
+        "technical_toggle.setCheckable",
+        "technical_toggle.setText",
+        "technical_toggle.toggled.connect",
+        "title"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected"
+      ],
+      "doc": "",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.inspect_selected",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 205,
+      "state_owner": "",
+      "symbol": "inspect_selected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.archive",
+          "target": "self.state.resume_service.archive"
+        }
+      ],
+      "call_forms": {
+        "self._selected": "attribute",
+        "self.refresh": "attribute",
+        "self.state.resume_service.archive": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._selected",
+        "self.refresh",
+        "self.state.resume_service.archive"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+      ],
+      "doc": "",
+      "end_line": 253,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.archive_selected",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 249,
+      "state_owner": "",
+      "symbol": "archive_selected",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.question",
+          "target": "QMessageBox.question"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.delete",
+          "target": "self.state.resume_service.delete"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.question": "attribute",
+        "self._selected": "attribute",
+        "self.refresh": "attribute",
+        "self.state.resume_service.delete": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.question",
+        "self._selected",
+        "self.refresh",
+        "self.state.resume_service.delete"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel._selected",
+        "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.refresh"
+      ],
+      "doc": "",
+      "end_line": 268,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/resume_center_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.resume_center_panel",
+      "qualname": "calo_rpd_studio.gui.panels.resume_center_panel.ResumeCenterPanel.delete_selected",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 255,
+      "state_owner": "",
+      "symbol": "delete_selected",
+      "tests": []
+    }
+  ]
+}

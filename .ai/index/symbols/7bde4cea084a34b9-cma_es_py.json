@@ -1,0 +1,395 @@
+{
+  "path": "calo_rpd_studio/algorithms/cma_es.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "sort_key",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "enumerate": "name",
+        "float": "name",
+        "set": "name",
+        "sort_key": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.cma_es.CMAESOptimizer.run",
+        "tests.unit.test_cma_es.test_feasibility_first_ranks_are_dense_and_preserve_exact_ties"
+      ],
+      "calls": [
+        "enumerate",
+        "float",
+        "set",
+        "sort_key",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "doc": "Return dense scalar ranks without weakening the shared lexicographic ordering.",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "cma": "cma",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time",
+        "version": "importlib.metadata.version"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "cma",
+        "importlib.metadata",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.cma_es",
+      "qualname": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks",
+      "semantic_tags": [],
+      "signature": "(evaluations)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "feasibility_first_ranks",
+      "tests": [
+        "tests/unit/test_cma_es.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Active CMA-ES from the authors' maintained pycma implementation.",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "cma": "cma",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time",
+        "version": "importlib.metadata.version"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "cma",
+        "importlib.metadata",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.cma_es",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.cma_es",
+      "qualname": "calo_rpd_studio.algorithms.cma_es.CMAESOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "CMAESOptimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "feasibility_first_ranks",
+          "target": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.tolist",
+          "target": "candidates.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cma.CMAEvolutionStrategy",
+          "target": "cma.CMAEvolutionStrategy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty",
+          "target": "np.empty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.parameters.get",
+          "target": "self.config.parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.standard_normal",
+          "target": "self.rng.standard_normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strategy.ask",
+          "target": "strategy.ask"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strategy.stop",
+          "target": "strategy.stop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strategy.tell",
+          "target": "strategy.tell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "version",
+          "target": "version"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "bool": "name",
+        "candidates.tolist": "attribute",
+        "cma.CMAEvolutionStrategy": "attribute",
+        "feasibility_first_ranks": "name",
+        "float": "name",
+        "int": "name",
+        "items": "attribute",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.empty": "attribute",
+        "np.full": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.config.parameters.get": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.record": "attribute",
+        "self.rng.standard_normal": "attribute",
+        "str": "name",
+        "strategy.ask": "attribute",
+        "strategy.stop": "attribute",
+        "strategy.tell": "attribute",
+        "time.perf_counter": "attribute",
+        "version": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "bool",
+        "candidates.tolist",
+        "cma.CMAEvolutionStrategy",
+        "feasibility_first_ranks",
+        "float",
+        "int",
+        "items",
+        "len",
+        "max",
+        "min",
+        "np.asarray",
+        "np.empty",
+        "np.full",
+        "self.can_evaluate",
+        "self.config.parameters.get",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.record",
+        "self.rng.standard_normal",
+        "str",
+        "strategy.ask",
+        "strategy.stop",
+        "strategy.tell",
+        "time.perf_counter",
+        "version"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/cma_es.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "cma": "cma",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time",
+        "version": "importlib.metadata.version"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "cma",
+        "importlib.metadata",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.cma_es.CMAESOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.cma_es",
+      "qualname": "calo_rpd_studio.algorithms.cma_es.CMAESOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

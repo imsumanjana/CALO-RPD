@@ -1,0 +1,268 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/result.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/exporter.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/fingerprint.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/models.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/planner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/result_store.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/resume/models.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/resume/service.py"
+    }
+  ],
+  "path": "tests/unit/test_v32_portfolio_resume.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume._fake_completed",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume._fake_completed",
+      "to": "calo_rpd_studio.algorithms.result.OptimizerResult"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume._fake_completed",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+      "to": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+      "to": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "calo_rpd_studio.results.result_store.ResultStore"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "database.add_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "export"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "stat"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "store.save_arrays"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "to": "tests.unit.test_v32_portfolio_resume._fake_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "to": "calo_rpd_studio.resume.service.ResumeService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "to": "database.get_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "to": "service.recover_after_restart"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "to": "service.register"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "to": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "to": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "to": "left.to_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "calo_rpd_studio.results.result_store.ResultStore"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "database.add_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "database.clone_run_to_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "database.delete_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "path.exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "path.is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "save_arrays"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "to": "tests.unit.test_v32_portfolio_resume._fake_completed"
+    }
+  ]
+}

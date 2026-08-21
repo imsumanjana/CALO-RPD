@@ -1,0 +1,1183 @@
+{
+  "path": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_ood_calibration_is_frozen_shape_checked_and_attenuates_distant_state"
+      ],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield._state",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_uncertainty_shield._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_state": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "torch.manual_seed": "attribute",
+        "torch.ones": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_ensemble_disagreement_is_zero_for_identical_members_and_increases_on_conflict",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+        "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed"
+      ],
+      "calls": [
+        "GroupActionMask",
+        "TSHCALOPolicyNetwork",
+        "_state",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "torch.manual_seed",
+        "torch.ones"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_output_and_action",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyOutput",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_policy_ensemble",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_conflict.expand",
+          "target": "context_conflict.expand"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_conflict.expand",
+          "target": "group_conflict.expand"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_output_and_action",
+          "target": "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.count_nonzero",
+          "target": "torch.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full",
+          "target": "torch.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOPolicyOutput": "name",
+        "_output_and_action": "name",
+        "aggregate_policy_ensemble": "name",
+        "context_conflict.expand": "attribute",
+        "group_conflict.expand": "attribute",
+        "pytest.approx": "attribute",
+        "torch.all": "attribute",
+        "torch.count_nonzero": "attribute",
+        "torch.full": "attribute",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOPolicyOutput",
+        "_output_and_action",
+        "aggregate_policy_ensemble",
+        "context_conflict.expand",
+        "group_conflict.expand",
+        "pytest.approx",
+        "torch.all",
+        "torch.count_nonzero",
+        "torch.full",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_ensemble_disagreement_is_zero_for_identical_members_and_increases_on_conflict",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "test_ensemble_disagreement_is_zero_for_identical_members_and_increases_on_conflict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calibration.score_and_attenuation",
+          "target": "calibration.score_and_attenuation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OODCalibration",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "topology_ood_signature",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full_like",
+          "target": "np.full_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones_like",
+          "target": "np.ones_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros_like",
+          "target": "np.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_uncertainty_shield._state"
+        }
+      ],
+      "call_forms": {
+        "OODCalibration": "name",
+        "_state": "name",
+        "calibration.score_and_attenuation": "attribute",
+        "len": "name",
+        "np.full_like": "attribute",
+        "np.ones_like": "attribute",
+        "np.zeros": "attribute",
+        "np.zeros_like": "attribute",
+        "pytest.raises": "attribute",
+        "topology_ood_signature": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OODCalibration",
+        "_state",
+        "calibration.score_and_attenuation",
+        "len",
+        "np.full_like",
+        "np.ones_like",
+        "np.zeros",
+        "np.zeros_like",
+        "pytest.raises",
+        "topology_ood_signature"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_ood_calibration_is_frozen_shape_checked_and_attenuates_distant_state",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "test_ood_calibration_is_frozen_shape_checked_and_attenuates_distant_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bandit.probabilities",
+          "target": "bandit.probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bandit.state_dict",
+          "target": "bandit.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bandit.update",
+          "target": "bandit.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SlidingWindowContextualBandit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SlidingWindowContextualBandit.from_state_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.from_state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.probabilities",
+          "target": "restored.probabilities"
+        }
+      ],
+      "call_forms": {
+        "SlidingWindowContextualBandit": "name",
+        "SlidingWindowContextualBandit.from_state_dict": "attribute",
+        "bandit.probabilities": "attribute",
+        "bandit.state_dict": "attribute",
+        "bandit.update": "attribute",
+        "max": "name",
+        "np.testing.assert_allclose": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "pytest.approx": "attribute",
+        "restored.probabilities": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SlidingWindowContextualBandit",
+        "SlidingWindowContextualBandit.from_state_dict",
+        "bandit.probabilities",
+        "bandit.state_dict",
+        "bandit.update",
+        "max",
+        "np.testing.assert_allclose",
+        "np.testing.assert_array_equal",
+        "pytest.approx",
+        "restored.probabilities"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit.from_state_dict"
+      ],
+      "doc": "",
+      "end_line": 114,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_contextual_bandit_is_sliding_window_checkpoint_exact_and_reward_responsive",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "test_contextual_bandit_is_sliding_window_checkpoint_exact_and_reward_responsive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.action_mask.allowed.clone",
+          "target": "action.action_mask.allowed.clone"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EnsembleDisagreement",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafetyEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SlidingWindowContextualBandit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "UncertaintySafetyShield",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "confident.probabilities.sum",
+          "target": "confident.probabilities.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shield.resolve",
+          "target": "shield.resolve"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_output_and_action",
+          "target": "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full",
+          "target": "torch.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "EnsembleDisagreement": "name",
+        "GroupActionMask": "name",
+        "SafetyEnvelope": "name",
+        "SlidingWindowContextualBandit": "name",
+        "UncertaintySafetyShield": "name",
+        "_output_and_action": "name",
+        "action.action_mask.allowed.clone": "attribute",
+        "confident.probabilities.sum": "attribute",
+        "shield.resolve": "attribute",
+        "torch.all": "attribute",
+        "torch.full": "attribute",
+        "torch.ones": "attribute",
+        "torch.tensor": "attribute",
+        "torch.testing.assert_close": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "EnsembleDisagreement",
+        "GroupActionMask",
+        "SafetyEnvelope",
+        "SlidingWindowContextualBandit",
+        "UncertaintySafetyShield",
+        "_output_and_action",
+        "action.action_mask.allowed.clone",
+        "confident.probabilities.sum",
+        "shield.resolve",
+        "torch.all",
+        "torch.full",
+        "torch.ones",
+        "torch.tensor",
+        "torch.testing.assert_close",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+      ],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 117,
+      "state_owner": "",
+      "symbol": "test_shield_masks_invalid_actions_preserves_exploration_and_attenuates_uncertainty",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "EnsembleDisagreement",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafetyEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SlidingWindowContextualBandit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "UncertaintySafetyShield",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manual_seed",
+          "target": "manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shield.resolve",
+          "target": "shield.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shield.sample",
+          "target": "shield.sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_output_and_action",
+          "target": "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.Generator",
+          "target": "torch.Generator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "EnsembleDisagreement": "name",
+        "SafetyEnvelope": "name",
+        "SlidingWindowContextualBandit": "name",
+        "UncertaintySafetyShield": "name",
+        "_output_and_action": "name",
+        "dict": "name",
+        "manual_seed": "attribute",
+        "pytest.raises": "attribute",
+        "shield.resolve": "attribute",
+        "shield.sample": "attribute",
+        "torch.Generator": "attribute",
+        "torch.tensor": "attribute",
+        "torch.testing.assert_close": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "EnsembleDisagreement",
+        "SafetyEnvelope",
+        "SlidingWindowContextualBandit",
+        "UncertaintySafetyShield",
+        "_output_and_action",
+        "dict",
+        "manual_seed",
+        "pytest.raises",
+        "shield.resolve",
+        "shield.sample",
+        "torch.Generator",
+        "torch.tensor",
+        "torch.testing.assert_close",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "tests.unit.test_tsh_calo_uncertainty_shield._output_and_action"
+      ],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 161,
+      "state_owner": "",
+      "symbol": "test_shield_sampling_replays_and_budget_or_lattice_violation_fails_closed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_policy_fallback",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback"
+        }
+      ],
+      "call_forms": {
+        "resolve_policy_fallback": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "resolve_policy_fallback"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback"
+      ],
+      "doc": "",
+      "end_line": 218,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_uncertainty_shield.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSHCALOPolicyOutput": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyOutput",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "np": "numpy",
+        "pytest": "pytest",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_uncertainty_shield",
+      "qualname": "tests.unit.test_tsh_calo_uncertainty_shield.test_policy_fallback_is_explicitly_blocked_or_relabelled_as_frozen_baseline",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "test_policy_fallback_is_explicitly_blocked_or_relabelled_as_frozen_baseline",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,563 @@
+{
+  "path": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOComponentAblationPlan.from_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "TSHCALOComponentAblationPlan.from_dict": "attribute",
+        "ValueError": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "resolve": "attribute",
+        "source.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.ablate_tsh_calo.main"
+      ],
+      "calls": [
+        "Path",
+        "TSHCALOComponentAblationPlan.from_dict",
+        "ValueError",
+        "expanduser",
+        "isinstance",
+        "json.loads",
+        "resolve",
+        "source.read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan.from_dict"
+      ],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo.load_plan",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "load_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stdout.strip",
+          "target": "stdout.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "resolve": "attribute",
+        "stdout.strip": "attribute",
+        "subprocess.run": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.ablate_tsh_calo.validate_repository_for_plan"
+      ],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "resolve",
+        "stdout.strip",
+        "subprocess.run"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo.repository_state",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "repository_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "repository_state",
+          "target": "calo_rpd_studio.scripts.ablate_tsh_calo.repository_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "head.lower",
+          "target": "head.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.source_commit.lower",
+          "target": "plan.source_commit.lower"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "head.lower": "attribute",
+        "plan.source_commit.lower": "attribute",
+        "repository_state": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.ablate_tsh_calo.main"
+      ],
+      "calls": [
+        "RuntimeError",
+        "head.lower",
+        "plan.source_commit.lower",
+        "repository_state"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.ablate_tsh_calo.repository_state"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo.validate_repository_for_plan",
+      "semantic_tags": [],
+      "signature": "(plan, root)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "validate_repository_for_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "payload.update",
+          "target": "payload.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.execution_plan_sha256",
+          "target": "plan.execution_plan_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.scientific_design_sha256",
+          "target": "plan.scientific_design_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.seed_manifest_sha256",
+          "target": "plan.seed_manifest_sha256"
+        }
+      ],
+      "call_forms": {
+        "payload.update": "attribute",
+        "plan.execution_plan_sha256": "attribute",
+        "plan.scientific_design_sha256": "attribute",
+        "plan.seed_manifest_sha256": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.ablate_tsh_calo.main"
+      ],
+      "calls": [
+        "payload.update",
+        "plan.execution_plan_sha256",
+        "plan.scientific_design_sha256",
+        "plan.seed_manifest_sha256"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo._summary",
+      "semantic_tags": [],
+      "signature": "(plan, state, result)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOComponentAblationCampaign",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_summary",
+          "target": "calo_rpd_studio.scripts.ablate_tsh_calo._summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_plan",
+          "target": "calo_rpd_studio.scripts.ablate_tsh_calo.load_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_repository_for_plan",
+          "target": "calo_rpd_studio.scripts.ablate_tsh_calo.validate_repository_for_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.resume",
+          "target": "campaign.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.start",
+          "target": "campaign.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.error",
+          "target": "parser.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOComponentAblationCampaign": "name",
+        "_summary": "name",
+        "argparse.ArgumentParser": "attribute",
+        "campaign.resume": "attribute",
+        "campaign.start": "attribute",
+        "json.dumps": "attribute",
+        "load_plan": "name",
+        "parser.add_argument": "attribute",
+        "parser.error": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "validate_repository_for_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOComponentAblationCampaign",
+        "_summary",
+        "argparse.ArgumentParser",
+        "campaign.resume",
+        "campaign.start",
+        "json.dumps",
+        "load_plan",
+        "parser.add_argument",
+        "parser.error",
+        "parser.parse_args",
+        "print",
+        "validate_repository_for_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "calo_rpd_studio.scripts.ablate_tsh_calo._summary",
+        "calo_rpd_studio.scripts.ablate_tsh_calo.load_plan",
+        "calo_rpd_studio.scripts.ablate_tsh_calo.validate_repository_for_plan"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/ablate_tsh_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOComponentAblationCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign",
+        "TSHCALOComponentAblationPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "subprocess": "subprocess"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.ablate_tsh_calo",
+      "qualname": "calo_rpd_studio.scripts.ablate_tsh_calo.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

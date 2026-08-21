@@ -1,0 +1,2595 @@
+{
+  "path": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "_BulkValidationWorker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "list": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "list",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, database, rows, parent)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validate_runs",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.emit",
+          "target": "self.completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.failed.emit",
+          "target": "self.failed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.emit",
+          "target": "self.progress.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "self.completed.emit": "attribute",
+        "self.failed.emit": "attribute",
+        "self.progress.emit": "attribute",
+        "type": "name",
+        "validate_runs": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.completed.emit",
+        "self.failed.emit",
+        "self.progress.emit",
+        "type",
+        "validate_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.validate_runs"
+      ],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker.run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 421,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "ValidationAuditPanel",
+      "tests": [
+        "tests/gui/test_gui_startup.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QProgressBar",
+          "target": "QProgressBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTextEdit",
+          "target": "QTextEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bulk_actions.addStretch",
+          "target": "bulk_actions.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bulk_actions.addWidget",
+          "target": "bulk_actions.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bulk_layout.addLayout",
+          "target": "bulk_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bulk_layout.addWidget",
+          "target": "bulk_layout.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_experiments",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls.addWidget",
+          "target": "controls.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh.clicked.connect",
+          "target": "refresh.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_all_button.clicked.connect",
+          "target": "self.bulk_all_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_cancel_button.clicked.connect",
+          "target": "self.bulk_cancel_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_cancel_button.setEnabled",
+          "target": "self.bulk_cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_current_button.clicked.connect",
+          "target": "self.bulk_current_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_current_button.setObjectName",
+          "target": "self.bulk_current_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setFormat",
+          "target": "self.bulk_progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setRange",
+          "target": "self.bulk_progress.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setValue",
+          "target": "self.bulk_progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_resume_button.clicked.connect",
+          "target": "self.bulk_resume_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setObjectName",
+          "target": "self.bulk_status.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setWordWrap",
+          "target": "self.bulk_status.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentIndexChanged.connect",
+          "target": "self.experiment.currentIndexChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addLayout",
+          "target": "self.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.output.setReadOnly",
+          "target": "self.output.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.runs_changed.connect",
+          "target": "state.runs_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate.clicked.connect",
+          "target": "validate.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate.setObjectName",
+          "target": "validate.setObjectName"
+        }
+      ],
+      "call_forms": {
+        "QComboBox": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QProgressBar": "name",
+        "QPushButton": "name",
+        "QTextEdit": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "bulk_actions.addStretch": "attribute",
+        "bulk_actions.addWidget": "attribute",
+        "bulk_layout.addLayout": "attribute",
+        "bulk_layout.addWidget": "attribute",
+        "controls.addWidget": "attribute",
+        "layout.addWidget": "attribute",
+        "refresh.clicked.connect": "attribute",
+        "self.bulk_all_button.clicked.connect": "attribute",
+        "self.bulk_cancel_button.clicked.connect": "attribute",
+        "self.bulk_cancel_button.setEnabled": "attribute",
+        "self.bulk_current_button.clicked.connect": "attribute",
+        "self.bulk_current_button.setObjectName": "attribute",
+        "self.bulk_progress.setFormat": "attribute",
+        "self.bulk_progress.setRange": "attribute",
+        "self.bulk_progress.setValue": "attribute",
+        "self.bulk_resume_button.clicked.connect": "attribute",
+        "self.bulk_status.setObjectName": "attribute",
+        "self.bulk_status.setWordWrap": "attribute",
+        "self.experiment.currentIndexChanged.connect": "attribute",
+        "self.layout_root.addLayout": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.output.setReadOnly": "attribute",
+        "self.refresh_experiments": "attribute",
+        "state.runs_changed.connect": "attribute",
+        "super": "name",
+        "validate.clicked.connect": "attribute",
+        "validate.setObjectName": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QComboBox",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QProgressBar",
+        "QPushButton",
+        "QTextEdit",
+        "QVBoxLayout",
+        "__init__",
+        "bulk_actions.addStretch",
+        "bulk_actions.addWidget",
+        "bulk_layout.addLayout",
+        "bulk_layout.addWidget",
+        "controls.addWidget",
+        "layout.addWidget",
+        "refresh.clicked.connect",
+        "self.bulk_all_button.clicked.connect",
+        "self.bulk_cancel_button.clicked.connect",
+        "self.bulk_cancel_button.setEnabled",
+        "self.bulk_current_button.clicked.connect",
+        "self.bulk_current_button.setObjectName",
+        "self.bulk_progress.setFormat",
+        "self.bulk_progress.setRange",
+        "self.bulk_progress.setValue",
+        "self.bulk_resume_button.clicked.connect",
+        "self.bulk_status.setObjectName",
+        "self.bulk_status.setWordWrap",
+        "self.experiment.currentIndexChanged.connect",
+        "self.layout_root.addLayout",
+        "self.layout_root.addWidget",
+        "self.output.setReadOnly",
+        "self.refresh_experiments",
+        "state.runs_changed.connect",
+        "super",
+        "validate.clicked.connect",
+        "validate.setObjectName"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments"
+      ],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_runs",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.addItem",
+          "target": "self.experiment.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.blockSignals",
+          "target": "self.experiment.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.clear",
+          "target": "self.experiment.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiments",
+          "target": "self.state.database.list_experiments"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self.experiment.addItem": "attribute",
+        "self.experiment.blockSignals": "attribute",
+        "self.experiment.clear": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.refresh_runs": "attribute",
+        "self.state.database.list_experiments": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.__init__",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.select_run"
+      ],
+      "calls": [
+        "max",
+        "self.experiment.addItem",
+        "self.experiment.blockSignals",
+        "self.experiment.clear",
+        "self.experiment.currentData",
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.refresh_runs",
+        "self.state.database.list_experiments"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_runs"
+      ],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "refresh_experiments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.addItem",
+          "target": "self.run.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.blockSignals",
+          "target": "self.run.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.clear",
+          "target": "self.run.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.currentData",
+          "target": "self.run.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.findData",
+          "target": "self.run.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.setCurrentIndex",
+          "target": "self.run.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_runs",
+          "target": "self.state.database.list_runs"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self.experiment.currentData": "attribute",
+        "self.run.addItem": "attribute",
+        "self.run.blockSignals": "attribute",
+        "self.run.clear": "attribute",
+        "self.run.currentData": "attribute",
+        "self.run.findData": "attribute",
+        "self.run.setCurrentIndex": "attribute",
+        "self.state.database.list_runs": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.select_run"
+      ],
+      "calls": [
+        "max",
+        "self.experiment.currentData",
+        "self.run.addItem",
+        "self.run.blockSignals",
+        "self.run.clear",
+        "self.run.currentData",
+        "self.run.findData",
+        "self.run.setCurrentIndex",
+        "self.state.database.list_runs"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_runs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "refresh_runs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_experiments",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_runs",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.findData",
+          "target": "self.run.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.setCurrentIndex",
+          "target": "self.run.setCurrentIndex"
+        }
+      ],
+      "call_forms": {
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.refresh_experiments": "attribute",
+        "self.refresh_runs": "attribute",
+        "self.run.findData": "attribute",
+        "self.run.setCurrentIndex": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.refresh_experiments",
+        "self.refresh_runs",
+        "self.run.findData",
+        "self.run.setCurrentIndex"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_experiments",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.refresh_runs"
+      ],
+      "doc": "Select a reviewed run so validation opens on the intended record.",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.select_run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id, run_id)",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "select_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "check_run_record",
+          "target": "calo_rpd_studio.results.integrity_checker.check_run_record"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_stored_run",
+          "target": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.output.setPlainText",
+          "target": "self.output.setPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.run.currentData",
+          "target": "self.run.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_run",
+          "target": "self.state.database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.runs_changed.emit",
+          "target": "self.state.runs_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "QApplication.processEvents": "attribute",
+        "check_run_record": "name",
+        "json.dumps": "attribute",
+        "result.get": "attribute",
+        "self.output.setPlainText": "attribute",
+        "self.run.currentData": "attribute",
+        "self.state.database.get_run": "attribute",
+        "self.state.runs_changed.emit": "attribute",
+        "show_error": "name",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute",
+        "validate_stored_run": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication.processEvents",
+        "check_run_record",
+        "json.dumps",
+        "result.get",
+        "self.output.setPlainText",
+        "self.run.currentData",
+        "self.state.database.get_run",
+        "self.state.runs_changed.emit",
+        "show_error",
+        "task.begin",
+        "task.fail",
+        "task.finish",
+        "validate_stored_run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 166,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "select_runs_for_validation",
+          "target": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_bulk_validation",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        }
+      ],
+      "call_forms": {
+        "select_runs_for_validation": "name",
+        "self._start_bulk_validation": "attribute",
+        "self.experiment.currentData": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "select_runs_for_validation",
+        "self._start_bulk_validation",
+        "self.experiment.currentData"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+      ],
+      "doc": "",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_current_experiment",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 205,
+      "state_owner": "",
+      "symbol": "validate_current_experiment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "select_runs_for_validation",
+          "target": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_bulk_validation",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+        }
+      ],
+      "call_forms": {
+        "select_runs_for_validation": "name",
+        "self._start_bulk_validation": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "select_runs_for_validation",
+        "self._start_bulk_validation"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+      ],
+      "doc": "",
+      "end_line": 221,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_all_unverified",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "validate_all_unverified",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_BulkValidationWorker",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_all_button.setEnabled",
+          "target": "self.bulk_all_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_cancel_button.setEnabled",
+          "target": "self.bulk_cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_current_button.setEnabled",
+          "target": "self.bulk_current_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setFormat",
+          "target": "self.bulk_progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setValue",
+          "target": "self.bulk_progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setText",
+          "target": "self.bulk_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.register",
+          "target": "self.state.resume_service.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.completed.connect",
+          "target": "worker.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.failed.connect",
+          "target": "worker.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.finished.connect",
+          "target": "worker.finished.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.progress.connect",
+          "target": "worker.progress.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.start",
+          "target": "worker.start"
+        }
+      ],
+      "call_forms": {
+        "_BulkValidationWorker": "name",
+        "len": "name",
+        "self.bulk_all_button.setEnabled": "attribute",
+        "self.bulk_cancel_button.setEnabled": "attribute",
+        "self.bulk_current_button.setEnabled": "attribute",
+        "self.bulk_progress.setFormat": "attribute",
+        "self.bulk_progress.setValue": "attribute",
+        "self.bulk_status.setText": "attribute",
+        "self.state.resume_service.register": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "str": "name",
+        "task.begin": "attribute",
+        "worker.completed.connect": "attribute",
+        "worker.failed.connect": "attribute",
+        "worker.finished.connect": "attribute",
+        "worker.progress.connect": "attribute",
+        "worker.start": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_task_by_id",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_all_unverified",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_current_experiment"
+      ],
+      "calls": [
+        "_BulkValidationWorker",
+        "len",
+        "self.bulk_all_button.setEnabled",
+        "self.bulk_cancel_button.setEnabled",
+        "self.bulk_current_button.setEnabled",
+        "self.bulk_progress.setFormat",
+        "self.bulk_progress.setValue",
+        "self.bulk_status.setText",
+        "self.state.resume_service.register",
+        "self.state.resume_service.update",
+        "str",
+        "task.begin",
+        "worker.completed.connect",
+        "worker.failed.connect",
+        "worker.finished.connect",
+        "worker.progress.connect",
+        "worker.start"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker"
+      ],
+      "doc": "",
+      "end_line": 272,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, rows, scope)",
+      "start_line": 223,
+      "state_owner": "",
+      "symbol": "_start_bulk_validation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setFormat",
+          "target": "self.bulk_progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setValue",
+          "target": "self.bulk_progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setText",
+          "target": "self.bulk_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.update",
+          "target": "self.state.task_status.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "payload.get": "attribute",
+        "self.bulk_progress.setFormat": "attribute",
+        "self.bulk_progress.setValue": "attribute",
+        "self.bulk_status.setText": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.update": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "payload.get",
+        "self.bulk_progress.setFormat",
+        "self.bulk_progress.setValue",
+        "self.bulk_status.setText",
+        "self.state.resume_service.update",
+        "self.state.task_status.update",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 298,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._bulk_progressed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, payload)",
+      "start_line": 274,
+      "state_owner": "",
+      "symbol": "_bulk_progressed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setFormat",
+          "target": "self.bulk_progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setValue",
+          "target": "self.bulk_progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setText",
+          "target": "self.bulk_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.output.setPlainText",
+          "target": "self.output.setPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.runs_changed.emit",
+          "target": "self.state.runs_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.cancelled",
+          "target": "self.state.task_status.cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.finish",
+          "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.get",
+          "target": "summary.get"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "json.dumps": "attribute",
+        "self.bulk_progress.setFormat": "attribute",
+        "self.bulk_progress.setValue": "attribute",
+        "self.bulk_status.setText": "attribute",
+        "self.output.setPlainText": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.runs_changed.emit": "attribute",
+        "self.state.task_status.cancelled": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "summary.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "json.dumps",
+        "self.bulk_progress.setFormat",
+        "self.bulk_progress.setValue",
+        "self.bulk_status.setText",
+        "self.output.setPlainText",
+        "self.state.resume_service.update",
+        "self.state.runs_changed.emit",
+        "self.state.task_status.cancelled",
+        "self.state.task_status.finish",
+        "summary.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 335,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._bulk_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, summary)",
+      "start_line": 300,
+      "state_owner": "",
+      "symbol": "_bulk_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_progress.setFormat",
+          "target": "self.bulk_progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setText",
+          "target": "self.bulk_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.fail",
+          "target": "self.state.task_status.fail"
+        }
+      ],
+      "call_forms": {
+        "self.bulk_progress.setFormat": "attribute",
+        "self.bulk_status.setText": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.fail": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.bulk_progress.setFormat",
+        "self.bulk_status.setText",
+        "self.state.resume_service.update",
+        "self.state.task_status.fail",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 351,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._bulk_failed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message)",
+      "start_line": 337,
+      "state_owner": "",
+      "symbol": "_bulk_failed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_bulk_validation",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.state.get",
+          "target": "item.state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_run",
+          "target": "self.state.database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "item.state.get": "attribute",
+        "next": "name",
+        "row.get": "attribute",
+        "rows.append": "attribute",
+        "self._start_bulk_validation": "attribute",
+        "self.state.database.get_run": "attribute",
+        "self.state.resume_service.unfinished": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_bulk_validation"
+      ],
+      "calls": [
+        "QMessageBox.information",
+        "item.state.get",
+        "next",
+        "row.get",
+        "rows.append",
+        "self._start_bulk_validation",
+        "self.state.database.get_run",
+        "self.state.resume_service.unfinished",
+        "self.state.resume_service.update",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._start_bulk_validation"
+      ],
+      "doc": "Resume one specifically identified retained bulk-validation record.",
+      "end_line": 390,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_task_by_id",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, task_id)",
+      "start_line": 353,
+      "state_owner": "",
+      "symbol": "resume_task_by_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.resume_task_by_id",
+          "target": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_task_by_id"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "self.resume_task_by_id": "attribute",
+        "self.state.resume_service.unfinished": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.information",
+        "self.resume_task_by_id",
+        "self.state.resume_service.unfinished"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_task_by_id"
+      ],
+      "doc": "",
+      "end_line": 403,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.resume_bulk_validation",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 392,
+      "state_owner": "",
+      "symbol": "resume_bulk_validation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self._bulk_worker.requestInterruption",
+          "target": "self._bulk_worker.requestInterruption"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_cancel_button.setEnabled",
+          "target": "self.bulk_cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_status.setText",
+          "target": "self.bulk_status.setText"
+        }
+      ],
+      "call_forms": {
+        "self._bulk_worker.requestInterruption": "attribute",
+        "self.bulk_cancel_button.setEnabled": "attribute",
+        "self.bulk_status.setText": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._bulk_worker.requestInterruption",
+        "self.bulk_cancel_button.setEnabled",
+        "self.bulk_status.setText"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 412,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.cancel_bulk_validation",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 405,
+      "state_owner": "",
+      "symbol": "cancel_bulk_validation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_all_button.setEnabled",
+          "target": "self.bulk_all_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_cancel_button.setEnabled",
+          "target": "self.bulk_cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.bulk_current_button.setEnabled",
+          "target": "self.bulk_current_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "worker.deleteLater",
+          "target": "worker.deleteLater"
+        }
+      ],
+      "call_forms": {
+        "self.bulk_all_button.setEnabled": "attribute",
+        "self.bulk_cancel_button.setEnabled": "attribute",
+        "self.bulk_current_button.setEnabled": "attribute",
+        "worker.deleteLater": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.bulk_all_button.setEnabled",
+        "self.bulk_cancel_button.setEnabled",
+        "self.bulk_current_button.setEnabled",
+        "worker.deleteLater"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 421,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/validation_audit_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "check_run_record": "calo_rpd_studio.results.integrity_checker.check_run_record",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "select_runs_for_validation": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "validate_runs": "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.results.integrity_checker",
+        "calo_rpd_studio.results.solution_validator",
+        "calo_rpd_studio.resume.models",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.validation_audit_panel",
+      "qualname": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel._bulk_worker_finished",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 414,
+      "state_owner": "",
+      "symbol": "_bulk_worker_finished",
+      "tests": []
+    }
+  ]
+}

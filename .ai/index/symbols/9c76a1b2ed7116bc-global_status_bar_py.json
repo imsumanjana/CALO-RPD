@@ -1,0 +1,1018 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolution.get",
+          "target": "resolution.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "getattr": "name",
+        "resolution.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.activity_center.ActivityCenter.refresh_context",
+        "calo_rpd_studio.gui.widgets.context_pane.ComputeQuickEditor.load",
+        "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.apply_context"
+      ],
+      "calls": [
+        "dict",
+        "getattr",
+        "resolution.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Return an actual assignment only after the runtime resolver recorded one.",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.truthful_runtime_assignment",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(config)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "truthful_runtime_assignment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow._create_global_status_bar"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 184,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "GlobalStatusBarWidget",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QElapsedTimer",
+          "target": "QElapsedTimer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QProgressBar",
+          "target": "QProgressBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTimer",
+          "target": "QTimer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._timer.setInterval",
+          "target": "self._timer.setInterval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._timer.timeout.connect",
+          "target": "self._timer.timeout.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.clicked.connect",
+          "target": "self.cancel_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.hide",
+          "target": "self.cancel_button.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setObjectName",
+          "target": "self.cancel_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_label.setObjectName",
+          "target": "self.compute_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_label.setObjectName",
+          "target": "self.device_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.setMinimumWidth",
+          "target": "self.elapsed_label.setMinimumWidth"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.setObjectName",
+          "target": "self.elapsed_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.memory_label.setObjectName",
+          "target": "self.memory_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_label.setObjectName",
+          "target": "self.policy_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.hide",
+          "target": "self.progress.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setFixedWidth",
+          "target": "self.progress.setFixedWidth"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setObjectName",
+          "target": "self.progress.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setRange",
+          "target": "self.progress.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setTextVisible",
+          "target": "self.progress.setTextVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setObjectName",
+          "target": "self.state_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.task_label.setMinimumWidth",
+          "target": "self.task_label.setMinimumWidth"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.task_label.setObjectName",
+          "target": "self.task_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.version_label.setObjectName",
+          "target": "self.version_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QElapsedTimer": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QProgressBar": "name",
+        "QPushButton": "name",
+        "QTimer": "name",
+        "__init__": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self._timer.setInterval": "attribute",
+        "self._timer.timeout.connect": "attribute",
+        "self.cancel_button.clicked.connect": "attribute",
+        "self.cancel_button.hide": "attribute",
+        "self.cancel_button.setObjectName": "attribute",
+        "self.compute_label.setObjectName": "attribute",
+        "self.device_label.setObjectName": "attribute",
+        "self.elapsed_label.setMinimumWidth": "attribute",
+        "self.elapsed_label.setObjectName": "attribute",
+        "self.memory_label.setObjectName": "attribute",
+        "self.policy_label.setObjectName": "attribute",
+        "self.progress.hide": "attribute",
+        "self.progress.setFixedWidth": "attribute",
+        "self.progress.setObjectName": "attribute",
+        "self.progress.setRange": "attribute",
+        "self.progress.setTextVisible": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state_label.setObjectName": "attribute",
+        "self.task_label.setMinimumWidth": "attribute",
+        "self.task_label.setObjectName": "attribute",
+        "self.version_label.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QElapsedTimer",
+        "QHBoxLayout",
+        "QLabel",
+        "QProgressBar",
+        "QPushButton",
+        "QTimer",
+        "__init__",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self._timer.setInterval",
+        "self._timer.timeout.connect",
+        "self.cancel_button.clicked.connect",
+        "self.cancel_button.hide",
+        "self.cancel_button.setObjectName",
+        "self.compute_label.setObjectName",
+        "self.device_label.setObjectName",
+        "self.elapsed_label.setMinimumWidth",
+        "self.elapsed_label.setObjectName",
+        "self.memory_label.setObjectName",
+        "self.policy_label.setObjectName",
+        "self.progress.hide",
+        "self.progress.setFixedWidth",
+        "self.progress.setObjectName",
+        "self.progress.setRange",
+        "self.progress.setTextVisible",
+        "self.progress.setValue",
+        "self.state_label.setObjectName",
+        "self.task_label.setMinimumWidth",
+        "self.task_label.setObjectName",
+        "self.version_label.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, parent)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "polish",
+          "target": "polish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._elapsed.start",
+          "target": "self._elapsed.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._timer.isActive",
+          "target": "self._timer.isActive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._timer.start",
+          "target": "self._timer.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._timer.stop",
+          "target": "self._timer.stop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.hide",
+          "target": "self.cancel_button.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setText",
+          "target": "self.cancel_button.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setToolTip",
+          "target": "self.cancel_button.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setVisible",
+          "target": "self.cancel_button.setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.setText",
+          "target": "self.elapsed_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setFormat",
+          "target": "self.progress.setFormat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setRange",
+          "target": "self.progress.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setVisible",
+          "target": "self.progress.setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.show",
+          "target": "self.progress.show"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setProperty",
+          "target": "self.state_label.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setText",
+          "target": "self.state_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.style",
+          "target": "self.state_label.style"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.task_label.setText",
+          "target": "self.task_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.task_label.setToolTip",
+          "target": "self.task_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.get",
+          "target": "snapshot.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.lower",
+          "target": "state.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "title.casefold",
+          "target": "title.casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unpolish",
+          "target": "unpolish"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "bool": "name",
+        "int": "name",
+        "max": "name",
+        "min": "name",
+        "polish": "attribute",
+        "self._elapsed.start": "attribute",
+        "self._timer.isActive": "attribute",
+        "self._timer.start": "attribute",
+        "self._timer.stop": "attribute",
+        "self.cancel_button.hide": "attribute",
+        "self.cancel_button.setText": "attribute",
+        "self.cancel_button.setToolTip": "attribute",
+        "self.cancel_button.setVisible": "attribute",
+        "self.elapsed_label.setText": "attribute",
+        "self.progress.setFormat": "attribute",
+        "self.progress.setRange": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.progress.setVisible": "attribute",
+        "self.progress.show": "attribute",
+        "self.state_label.setProperty": "attribute",
+        "self.state_label.setText": "attribute",
+        "self.state_label.style": "attribute",
+        "self.task_label.setText": "attribute",
+        "self.task_label.setToolTip": "attribute",
+        "snapshot.get": "attribute",
+        "state.lower": "attribute",
+        "str": "name",
+        "title.casefold": "attribute",
+        "unpolish": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "any",
+        "bool",
+        "int",
+        "max",
+        "min",
+        "polish",
+        "self._elapsed.start",
+        "self._timer.isActive",
+        "self._timer.start",
+        "self._timer.stop",
+        "self.cancel_button.hide",
+        "self.cancel_button.setText",
+        "self.cancel_button.setToolTip",
+        "self.cancel_button.setVisible",
+        "self.elapsed_label.setText",
+        "self.progress.setFormat",
+        "self.progress.setRange",
+        "self.progress.setValue",
+        "self.progress.setVisible",
+        "self.progress.show",
+        "self.state_label.setProperty",
+        "self.state_label.setText",
+        "self.state_label.style",
+        "self.task_label.setText",
+        "self.task_label.setToolTip",
+        "snapshot.get",
+        "state.lower",
+        "str",
+        "title.casefold",
+        "unpolish"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.apply_snapshot",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, snapshot)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "apply_snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "divmod",
+          "target": "divmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._elapsed.elapsed",
+          "target": "self._elapsed.elapsed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._elapsed.isValid",
+          "target": "self._elapsed.isValid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.setText",
+          "target": "self.elapsed_label.setText"
+        }
+      ],
+      "call_forms": {
+        "divmod": "name",
+        "max": "name",
+        "self._elapsed.elapsed": "attribute",
+        "self._elapsed.isValid": "attribute",
+        "self.elapsed_label.setText": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "divmod",
+        "max",
+        "self._elapsed.elapsed",
+        "self._elapsed.isValid",
+        "self.elapsed_label.setText"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 148,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget._update_elapsed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "_update_elapsed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "governing_policy_user_message",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "log_technical_error",
+          "target": "calo_rpd_studio.gui.user_feedback.log_technical_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "truthful_runtime_assignment",
+          "target": "calo_rpd_studio.gui.widgets.global_status_bar.truthful_runtime_assignment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_label.setText",
+          "target": "self.compute_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_label.setToolTip",
+          "target": "self.compute_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_label.setText",
+          "target": "self.device_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_label.setToolTip",
+          "target": "self.device_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.memory_label.setText",
+          "target": "self.memory_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.memory_label.setToolTip",
+          "target": "self.memory_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_label.setText",
+          "target": "self.policy_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_label.setToolTip",
+          "target": "self.policy_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.governing_policy_status",
+          "target": "state.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "float": "name",
+        "getattr": "name",
+        "governing_policy_user_message": "name",
+        "log_technical_error": "name",
+        "self.compute_label.setText": "attribute",
+        "self.compute_label.setToolTip": "attribute",
+        "self.device_label.setText": "attribute",
+        "self.device_label.setToolTip": "attribute",
+        "self.memory_label.setText": "attribute",
+        "self.memory_label.setToolTip": "attribute",
+        "self.policy_label.setText": "attribute",
+        "self.policy_label.setToolTip": "attribute",
+        "state.governing_policy_status": "attribute",
+        "str": "name",
+        "truthful_runtime_assignment": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "float",
+        "getattr",
+        "governing_policy_user_message",
+        "log_technical_error",
+        "self.compute_label.setText",
+        "self.compute_label.setToolTip",
+        "self.device_label.setText",
+        "self.device_label.setToolTip",
+        "self.memory_label.setText",
+        "self.memory_label.setToolTip",
+        "self.policy_label.setText",
+        "self.policy_label.setToolTip",
+        "state.governing_policy_status",
+        "str",
+        "truthful_runtime_assignment"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "calo_rpd_studio.gui.widgets.global_status_bar.truthful_runtime_assignment"
+      ],
+      "doc": "Show configured intent separately from actual runtime and admission ceilings.",
+      "end_line": 184,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/global_status_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QElapsedTimer": "PyQt6.QtCore.QElapsedTimer",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.global_status_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.apply_context",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "apply_context",
+      "tests": []
+    }
+  ]
+}

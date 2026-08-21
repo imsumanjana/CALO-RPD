@@ -1,0 +1,278 @@
+{
+  "path": "calo_rpd_studio/compute/training_actor_worker.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__import__",
+          "target": "__import__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_actor_lane_payload",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "message.get",
+          "target": "message.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traceback.format_exc",
+          "target": "traceback.format_exc"
+        }
+      ],
+      "call_forms": {
+        "__import__": "name",
+        "collect_actor_lane_payload": "name",
+        "dict": "name",
+        "message.get": "attribute",
+        "read_frame": "name",
+        "str": "name",
+        "traceback.format_exc": "attribute",
+        "write_frame": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.training_actor_worker.main"
+      ],
+      "calls": [
+        "__import__",
+        "collect_actor_lane_payload",
+        "dict",
+        "message.get",
+        "read_frame",
+        "str",
+        "traceback.format_exc",
+        "write_frame"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_actor_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "collect_actor_lane_payload": "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "torch": "torch",
+        "traceback": "traceback",
+        "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.compute.persistent_training_actor",
+        "pathlib",
+        "torch",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_actor_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_actor_worker",
+      "qualname": "calo_rpd_studio.compute.training_actor_worker._server",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(device, lane)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "_server",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_actor_lane_payload",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_server",
+          "target": "calo_rpd_studio.compute.training_actor_worker._server"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.error",
+          "target": "parser.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traceback.format_exc",
+          "target": "traceback.format_exc"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_server": "name",
+        "argparse.ArgumentParser": "attribute",
+        "collect_actor_lane_payload": "name",
+        "parser.add_argument": "attribute",
+        "parser.error": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "torch.load": "attribute",
+        "torch.save": "attribute",
+        "traceback.format_exc": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_server",
+        "argparse.ArgumentParser",
+        "collect_actor_lane_payload",
+        "parser.add_argument",
+        "parser.error",
+        "parser.parse_args",
+        "print",
+        "torch.load",
+        "torch.save",
+        "traceback.format_exc"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "calo_rpd_studio.compute.training_actor_worker._server"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_actor_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "collect_actor_lane_payload": "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "torch": "torch",
+        "traceback": "traceback",
+        "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.compute.persistent_training_actor",
+        "pathlib",
+        "torch",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_actor_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_actor_worker",
+      "qualname": "calo_rpd_studio.compute.training_actor_worker.main",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(argv)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

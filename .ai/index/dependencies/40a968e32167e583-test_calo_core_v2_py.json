@@ -1,0 +1,296 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/archives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/environmental_selection.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/learning_operators.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/operator_credit.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/decision_variables.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    }
+  ],
+  "path": "tests/unit/test_calo_core_v2.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2._ev",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2._ev",
+      "to": "float"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_cuda_request_fails_cleanly_when_cuda_unavailable",
+      "to": "calo_rpd_studio.algorithms.calo.training._resolve_training_device"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_cuda_request_fails_cleanly_when_cuda_unavailable",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_cuda_request_fails_cleanly_when_cuda_unavailable",
+      "to": "torch.cuda.is_available"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "boundary.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "boundary.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "evaluations.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "feasible.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "rng.random"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_dual_archives_preserve_feasible_and_diverse_boundary_candidates",
+      "to": "tests.unit.test_calo_core_v2._ev"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "rng.random"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_environmental_selection_returns_requested_population_size",
+      "to": "tests.unit.test_calo_core_v2._ev"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_epsilon_rule_allows_near_feasible_objective_comparison",
+      "to": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_epsilon_rule_allows_near_feasible_objective_comparison",
+      "to": "tests.unit.test_calo_core_v2._ev"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "calo_rpd_studio.orpd.decision_variables.DecisionVariable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "np.allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "blended.max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "blended.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "credit.probabilities"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "credit.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "np.isclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "probs.sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_online_operator_credit_is_normalized_and_blend_is_valid",
+      "to": "range"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_real_ppo_training_smoke_saves_core_v2_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_real_ppo_training_smoke_saves_core_v2_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo.training.train_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_real_ppo_training_smoke_saves_core_v2_checkpoint",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_resource_aware_parallel_training_records_execution_metadata",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_resource_aware_parallel_training_records_execution_metadata",
+      "to": "calo_rpd_studio.algorithms.calo.training.train_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_resource_aware_parallel_training_records_execution_metadata",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_training_rejects_final_benchmark_leakage_by_default",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_core_v2.test_training_rejects_final_benchmark_leakage_by_default",
+      "to": "calo_rpd_studio.algorithms.calo.training.train_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_core_v2.test_training_rejects_final_benchmark_leakage_by_default",
+      "to": "pytest.raises"
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "path": "calo_rpd_studio/power_system/branch_flows.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/branch_flows.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdmittanceMatrices": "calo_rpd_studio.power_system.ybus.AdmittanceMatrices",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.branch_flows",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.branch_flows",
+      "qualname": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "BranchFlowResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BranchFlowResult",
+          "target": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "BranchFlowResult": "name",
+        "case.bus_index_map": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.abs": "attribute",
+        "np.conj": "attribute",
+        "np.maximum": "attribute",
+        "np.sum": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "BranchFlowResult",
+        "case.bus_index_map",
+        "enumerate",
+        "float",
+        "int",
+        "np.abs",
+        "np.conj",
+        "np.maximum",
+        "np.sum",
+        "np.where",
+        "np.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.branch_flows.BranchFlowResult"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/branch_flows.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdmittanceMatrices": "calo_rpd_studio.power_system.ybus.AdmittanceMatrices",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.branch_flows",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.branch_flows",
+      "qualname": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, voltage, admittance)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "calculate_branch_flows",
+      "tests": []
+    }
+  ]
+}

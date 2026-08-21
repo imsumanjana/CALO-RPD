@@ -1,0 +1,303 @@
+{
+  "path": "calo_rpd_studio/app/settings_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.application.main",
+        "calo_rpd_studio.scripts.validate_phase6_gui_contracts.validate",
+        "tests.gui.test_ci_visual_smoke.test_main_scientist_workspace_renders_to_nonempty_image",
+        "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+        "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+        "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+        "tests.gui.test_history_manager.test_history_manager_is_available_from_application_settings",
+        "tests.gui.test_phase6_ribbon_workspace._window"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/settings_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QSettings": "PyQt6.QtCore.QSettings"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.settings_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.settings_manager",
+      "qualname": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "SettingsManager",
+      "tests": [
+        "tests/gui/test_ci_visual_smoke.py",
+        "tests/gui/test_gui_startup.py",
+        "tests/gui/test_history_manager.py",
+        "tests/gui/test_phase6_ribbon_workspace.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QSettings",
+          "target": "QSettings"
+        }
+      ],
+      "call_forms": {
+        "QSettings": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QSettings"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 8,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/settings_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QSettings": "PyQt6.QtCore.QSettings"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.settings_manager",
+      "qualname": "calo_rpd_studio.app.settings_manager.SettingsManager.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.settings.value",
+          "target": "calo_rpd_studio.app.settings_manager.SettingsManager.value"
+        }
+      ],
+      "call_forms": {
+        "self.settings.value": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.settings_manager.SettingsManager.value"
+      ],
+      "calls": [
+        "self.settings.value"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.settings_manager.SettingsManager.value"
+      ],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/settings_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QSettings": "PyQt6.QtCore.QSettings"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.settings_manager",
+      "qualname": "calo_rpd_studio.app.settings_manager.SettingsManager.value",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key, default)",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.settings.setValue",
+          "target": "self.settings.setValue"
+        }
+      ],
+      "call_forms": {
+        "self.settings.setValue": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.settings.setValue"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/settings_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QSettings": "PyQt6.QtCore.QSettings"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.settings_manager",
+      "qualname": "calo_rpd_studio.app.settings_manager.SettingsManager.set_value",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key, value)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "set_value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.settings.sync",
+          "target": "calo_rpd_studio.app.settings_manager.SettingsManager.sync"
+        }
+      ],
+      "call_forms": {
+        "self.settings.sync": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.settings_manager.SettingsManager.sync"
+      ],
+      "calls": [
+        "self.settings.sync"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.settings_manager.SettingsManager.sync"
+      ],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/settings_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QSettings": "PyQt6.QtCore.QSettings"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.settings_manager",
+      "qualname": "calo_rpd_studio.app.settings_manager.SettingsManager.sync",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "sync",
+      "tests": []
+    }
+  ]
+}

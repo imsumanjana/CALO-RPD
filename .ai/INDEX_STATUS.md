@@ -1,18 +1,24 @@
-# AI index status
+# AI Index Status
 
-- Schema: 1
-- Indexed commit: `1be4ffce19883675b880d4a940cdc06c73090ef2`
-- Indexed branch: `agent/ai-repository-intelligence`
-- Source fingerprint: `823c2270ff8df513a33428569c28f3bc6e91c7a0969604e231134e54a2265173`
-- Indexed files: 642
-- Indexed symbols: 5337
-- File dependency edges: 1599
-- Symbol call edges: 8611
-- Implementation files with mapped tests: 200
-- Parse errors: 0
-- Audited units retained: 9
-- Units requiring re-audit: 0
-- Files changed in this update: 0
-- Files removed since previous index: 0
+- Intelligence version: **2.1.0 / CALO profile 1**
+- Indexed source baseline: `13175e174d15618851d96f7f517095ac8ea9dbcb`
+- Source index current: **yes at generation time**
+- Freshness authority: **content hashes**
+- Previous indexed source baseline: `e6482c1ee8215fa9676d126f44a24ecf63accb1f`
+- Canonical storage: **sharded** (`.ai/index/`)
+- Initialization baseline: **no**
+- Relevant files: **677**
+- Indexed symbols: **5391**
+- Modules: **13**
+- Newly indexed files: **0**
+- Modified files: **0**
+- Renames: **0**
+- Deleted files: **0**
+- Non-fatal parse errors: **0**
+- Reviewed units retained: **9**
+- Units requiring re-audit: **0**
 
-Indexing is not auditing. Review state is valid only when `audit-coverage.json` binds it to the current content hash.
+## Actual recent changes
+- None.
+
+> Indexing and embedding are not auditing. Git SHA is provenance; content hashes decide freshness.

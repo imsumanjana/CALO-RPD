@@ -1,0 +1,343 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/torch_orpd.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_runner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/variable_decoder.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_loader.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_validation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/cvar.py"
+    }
+  ],
+  "path": "tests/scientific/test_v34_scientific_integrity.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "case.checksum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "decoder.formulation_manifest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "decoder.decode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "astype"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "np.where"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+      "to": "calo_rpd_studio.power_system.case_validation.validate_case"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+      "to": "clone"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "to": "random"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "checksum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "scenario.apply"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "to": "sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "np.array"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "to": "torch.tensor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_rejects_invalid_inputs",
+      "to": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_rejects_invalid_inputs",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_rejects_invalid_inputs",
+      "to": "pytest.raises"
+    }
+  ]
+}

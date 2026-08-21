@@ -1,0 +1,325 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/ai_controller.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_network.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_qualification.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    }
+  ],
+  "path": "tests/unit/test_calo_v41_policy_system.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+      "to": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+      "to": "network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+      "to": "torch.save"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "checkpoint.is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "registry.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "registry.is_suppressed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "registry.register"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "registry.remove_unqualified_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "registry.unqualified_candidate_removal_blocker"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_exact_unused_unqualified_candidate_registration_can_be_removed",
+      "to": "tests.unit.test_calo_v41_policy_system._write_native_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "State"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "calo_rpd_studio.algorithms.calo.policy_schema.infer_checkpoint_schema"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "tests.unit.test_calo_v41_policy_system._write_native_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_native_policy_schema_is_explicit_and_32_dimensional.State.vector",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "database.add_policy_qualification"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "legacy.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "registry.activate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "registry.register"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+      "to": "torch.save"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_assisted_controller_fails_closed_without_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_assisted_controller_fails_closed_without_checkpoint",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_qualification_protects_holdout_cases_by_default",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_qualification_protects_holdout_cases_by_default",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_policy_qualification_protects_holdout_cases_by_default",
+      "to": "validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "database.add_policy_qualification"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.activate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.bind_to_experiment_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.delete"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.register"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.remove_unqualified_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "registry.unqualified_candidate_removal_blocker"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+      "to": "tests.unit.test_calo_v41_policy_system._write_native_policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "database.delete_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "database.get_workspace_state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+      "to": "database.save_workspace_state"
+    }
+  ]
+}

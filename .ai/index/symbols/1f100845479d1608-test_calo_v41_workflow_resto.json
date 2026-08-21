@@ -1,0 +1,454 @@
+{
+  "path": "tests/unit/test_calo_v41_workflow_restore.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name"
+      },
+      "called_by": [
+        "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
+        "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
+        "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
+        "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state"
+      ],
+      "calls": [
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_workflow_restore.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_workflow_restore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_workflow_restore",
+      "qualname": "tests.unit.test_calo_v41_workflow_restore._state",
+      "semantic_tags": [],
+      "signature": "(config, ready, sha)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.completed.add",
+          "target": "first.completed.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.individual_completed.update",
+          "target": "first.individual_completed.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.notify_governing_policy_changed",
+          "target": "first.notify_governing_policy_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.snapshot",
+          "target": "first.snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.is_workspace_enabled",
+          "target": "restored.is_workspace_enabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.restore",
+          "target": "restored.restore"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_calo_v41_workflow_restore._state"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "WorkflowManager": "name",
+        "_state": "name",
+        "first.completed.add": "attribute",
+        "first.individual_completed.update": "attribute",
+        "first.notify_governing_policy_changed": "attribute",
+        "first.snapshot": "attribute",
+        "restored.is_workspace_enabled": "attribute",
+        "restored.restore": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "WorkflowManager",
+        "_state",
+        "first.completed.add",
+        "first.individual_completed.update",
+        "first.notify_governing_policy_changed",
+        "first.snapshot",
+        "restored.is_workspace_enabled",
+        "restored.restore"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.unit.test_calo_v41_workflow_restore._state"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_workflow_restore.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_workflow_restore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_workflow_restore",
+      "qualname": "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_calo_v41_workflow_restore._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.is_workspace_enabled",
+          "target": "workflow.is_workspace_enabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.restore",
+          "target": "workflow.restore"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "WorkflowManager": "name",
+        "_state": "name",
+        "workflow.is_workspace_enabled": "attribute",
+        "workflow.restore": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "WorkflowManager",
+        "_state",
+        "workflow.is_workspace_enabled",
+        "workflow.restore"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.unit.test_calo_v41_workflow_restore._state"
+      ],
+      "doc": "",
+      "end_line": 71,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_workflow_restore.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_workflow_restore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_workflow_restore",
+      "qualname": "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_calo_v41_workflow_restore._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.is_workspace_enabled",
+          "target": "workflow.is_workspace_enabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.restore",
+          "target": "workflow.restore"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "WorkflowManager": "name",
+        "_state": "name",
+        "workflow.is_workspace_enabled": "attribute",
+        "workflow.restore": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "WorkflowManager",
+        "_state",
+        "workflow.is_workspace_enabled",
+        "workflow.restore"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.unit.test_calo_v41_workflow_restore._state"
+      ],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_workflow_restore.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_workflow_restore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_workflow_restore",
+      "qualname": "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.restore",
+          "target": "restored.restore"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_calo_v41_workflow_restore._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.individual_completed.update",
+          "target": "workflow.individual_completed.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.snapshot",
+          "target": "workflow.snapshot"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "WorkflowManager": "name",
+        "_state": "name",
+        "restored.restore": "attribute",
+        "workflow.individual_completed.update": "attribute",
+        "workflow.snapshot": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "WorkflowManager",
+        "_state",
+        "restored.restore",
+        "workflow.individual_completed.update",
+        "workflow.snapshot"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.unit.test_calo_v41_workflow_restore._state"
+      ],
+      "doc": "",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_workflow_restore.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_workflow_restore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_workflow_restore",
+      "qualname": "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "test_policy_free_individual_completion_survives_restore_without_governing_policy",
+      "tests": []
+    }
+  ]
+}

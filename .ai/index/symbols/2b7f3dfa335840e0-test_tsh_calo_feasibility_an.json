@@ -1,0 +1,1022 @@
+{
+  "path": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence._case",
+      "semantic_tags": [],
+      "signature": "(name, feasibility, first_efficiency)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_tsh_calo_feasibility_assessment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_case",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._case"
+        }
+      ],
+      "call_forms": {
+        "_case": "name",
+        "build_tsh_calo_feasibility_assessment": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_duplicate_candidate_cannot_inflate_the_comparative_influence_cohort",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_feasibility_assessment_checksum_rejects_posthoc_score_change",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_feasibility_assessment_is_measurement_not_binary_qualification",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_influence_excludes_a_rating_payload_that_no_longer_matches_its_checksum",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_single_model_influence_is_truthfully_insufficient",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_rejects_different_assessment_design_when_identity_is_supplied",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_requires_comparable_campaigns_and_never_changes_training"
+      ],
+      "calls": [
+        "_case",
+        "build_tsh_calo_feasibility_assessment"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._case"
+      ],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+      "semantic_tags": [],
+      "signature": "(score_a, score_b)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_ratings",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOTrainingCampaignPlan",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingCampaignPlan"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOTrainingEpisodePlan",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingEpisodePlan"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOTrainingHyperparameters",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingHyperparameters"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOTrainingMemberPlan",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingMemberPlan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "episode.session_id.replace",
+          "target": "episode.session_id.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingCampaignPlan": "name",
+        "TSHCALOTrainingEpisodePlan": "name",
+        "TSHCALOTrainingHyperparameters": "name",
+        "TSHCALOTrainingMemberPlan": "name",
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "episode.session_id.replace": "attribute",
+        "replace": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_duplicate_candidate_cannot_inflate_the_comparative_influence_cohort",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_influence_excludes_a_rating_payload_that_no_longer_matches_its_checksum",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_single_model_influence_is_truthfully_insufficient",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_rejects_different_assessment_design_when_identity_is_supplied",
+        "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_requires_comparable_campaigns_and_never_changes_training"
+      ],
+      "calls": [
+        "TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope",
+        "episode.session_id.replace",
+        "replace",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingCampaignPlan",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingEpisodePlan",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingHyperparameters",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingMemberPlan",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+      ],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan",
+      "semantic_tags": [],
+      "signature": "(campaign, learning_rate)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "_training_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validate_tsh_calo_feasibility_assessment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "pytest.approx": "attribute",
+        "validate_tsh_calo_feasibility_assessment": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "pytest.approx",
+        "validate_tsh_calo_feasibility_assessment"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+      ],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_feasibility_assessment_is_measurement_not_binary_qualification",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "test_feasibility_assessment_is_measurement_not_binary_qualification",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validate_tsh_calo_feasibility_assessment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "pytest.raises": "attribute",
+        "validate_tsh_calo_feasibility_assessment": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "pytest.raises",
+        "validate_tsh_calo_feasibility_assessment"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_feasibility_assessment_checksum_rejects_posthoc_score_change",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 89,
+      "state_owner": "",
+      "symbol": "test_feasibility_assessment_checksum_rejects_posthoc_score_change",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_parameter_influence",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "_training_plan": "name",
+        "build_training_parameter_influence": "name",
+        "next": "name",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "_training_plan",
+        "build_training_parameter_influence",
+        "next",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+      ],
+      "doc": "",
+      "end_line": 130,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_requires_comparable_campaigns_and_never_changes_training",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "test_training_influence_requires_comparable_campaigns_and_never_changes_training",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_parameter_influence",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "_training_plan": "name",
+        "all": "name",
+        "build_training_parameter_influence": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "_training_plan",
+        "all",
+        "build_training_parameter_influence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_single_model_influence_is_truthfully_insufficient",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "test_single_model_influence_is_truthfully_insufficient",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_parameter_influence",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "_training_plan": "name",
+        "build_training_parameter_influence": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "_training_plan",
+        "build_training_parameter_influence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+      ],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_influence_excludes_a_rating_payload_that_no_longer_matches_its_checksum",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "test_influence_excludes_a_rating_payload_that_no_longer_matches_its_checksum",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_parameter_influence",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "_training_plan": "name",
+        "all": "name",
+        "build_training_parameter_influence": "name",
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "_training_plan",
+        "all",
+        "build_training_parameter_influence",
+        "len"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+      ],
+      "doc": "",
+      "end_line": 173,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_duplicate_candidate_cannot_inflate_the_comparative_influence_cohort",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 161,
+      "state_owner": "",
+      "symbol": "test_duplicate_candidate_cannot_inflate_the_comparative_influence_cohort",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_parameter_influence",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ratings",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._ratings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+        }
+      ],
+      "call_forms": {
+        "_ratings": "name",
+        "_training_plan": "name",
+        "any": "name",
+        "build_training_parameter_influence": "name",
+        "enumerate": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ratings",
+        "_training_plan",
+        "any",
+        "build_training_parameter_influence",
+        "enumerate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._ratings",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan"
+      ],
+      "doc": "",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_training_influence_rejects_different_assessment_design_when_identity_is_supplied",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 176,
+      "state_owner": "",
+      "symbol": "test_training_influence_rejects_different_assessment_design_when_identity_is_supplied",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 217,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_parameter_registry_classifies_training_and_environment_controls",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 208,
+      "state_owner": "",
+      "symbol": "test_parameter_registry_classifies_training_and_environment_controls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_binary_contrast",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast"
+        }
+      ],
+      "call_forms": {
+        "_binary_contrast": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_binary_contrast"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast"
+      ],
+      "doc": "",
+      "end_line": 227,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingEpisodePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingEpisodePlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "TSHCALOTrainingMemberPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingMemberPlan",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TSH_CALO_PARAMETER_REGISTRY": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.TSH_CALO_PARAMETER_REGISTRY",
+        "_binary_contrast": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence._binary_contrast",
+        "build_training_parameter_influence": "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence.build_training_parameter_influence",
+        "build_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.build_tsh_calo_feasibility_assessment",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "validate_tsh_calo_feasibility_assessment": "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment.validate_tsh_calo_feasibility_assessment"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_influence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_feasibility_and_influence",
+      "qualname": "tests.unit.test_tsh_calo_feasibility_and_influence.test_binary_parameter_influence_uses_group_contrast",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 220,
+      "state_owner": "",
+      "symbol": "test_binary_parameter_influence_uses_group_contrast",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,2677 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/optimizer.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_calo_v4.test_strict_benchmark_mode_blocks_historical_runtime_warm_start",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+        "tests.unit.test_v5_continuation.test_calo_exact_horizon_resume_uses_only_additional_physical_calls",
+        "tests.unit.test_v5_continuation.test_calo_interrupted_exact_resume_matches_uninterrupted_same_horizon"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 1213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "CALOOptimizer",
+      "tests": [
+        "tests/unit/test_calo_v4.py",
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v580_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v5_continuation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "normalise_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities"
+        }
+      ],
+      "call_forms": {
+        "normalise_probabilities": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [
+        "normalise_probabilities"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._normalise",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(values)",
+      "start_line": 71,
+      "state_owner": "",
+      "symbol": "_normalise",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._problem_compatibility_fingerprint",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_experience_repository",
+          "target": "calo_rpd_studio.learning.experience_repository.load_experience_repository"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "prior.items",
+          "target": "prior.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repository.calo_parameter_prior",
+          "target": "repository.calo_parameter_prior"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.problem.case.checksum",
+          "target": "self.problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "bool": "name",
+        "float": "name",
+        "int": "name",
+        "isinstance": "name",
+        "load_experience_repository": "name",
+        "np.clip": "attribute",
+        "parameters.get": "attribute",
+        "prior.items": "attribute",
+        "repository.calo_parameter_prior": "attribute",
+        "round": "name",
+        "self._problem_compatibility_fingerprint": "attribute",
+        "self.problem.case.checksum": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [
+        "ValueError",
+        "bool",
+        "float",
+        "int",
+        "isinstance",
+        "load_experience_repository",
+        "np.clip",
+        "parameters.get",
+        "prior.items",
+        "repository.calo_parameter_prior",
+        "round",
+        "self._problem_compatibility_fingerprint",
+        "self.problem.case.checksum",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint",
+        "calo_rpd_studio.learning.experience_repository.load_experience_repository"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._historical_learning_setup",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, parameters)",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "_historical_learning_setup",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOOptimizer._compatibility_jsonable",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._compatibility_jsonable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "closure_values.append",
+          "target": "closure_values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.isbuiltin",
+          "target": "inspect.isbuiltin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.isclass",
+          "target": "inspect.isclass"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.ismethod",
+          "target": "inspect.ismethod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_dataclass",
+          "target": "is_dataclass"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.item",
+          "target": "value.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.items",
+          "target": "value.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.tolist",
+          "target": "value.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vars",
+          "target": "vars"
+        }
+      ],
+      "call_forms": {
+        "CALOOptimizer._compatibility_jsonable": "attribute",
+        "ValueError": "name",
+        "asdict": "name",
+        "callable": "name",
+        "closure_values.append": "attribute",
+        "encode": "attribute",
+        "getattr": "name",
+        "hasattr": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "inspect.isbuiltin": "attribute",
+        "inspect.isclass": "attribute",
+        "inspect.ismethod": "attribute",
+        "is_dataclass": "name",
+        "isinstance": "name",
+        "json.dumps": "attribute",
+        "len": "name",
+        "list": "name",
+        "sorted": "name",
+        "str": "name",
+        "type": "name",
+        "value.item": "attribute",
+        "value.items": "attribute",
+        "value.tolist": "attribute",
+        "vars": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._compatibility_jsonable",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer._compatibility",
+        "tests.unit.test_v57_previous_audit_closure.test_callable_compatibility_fingerprint_includes_closure_values_and_code",
+        "tests.unit.test_v580_audit_closure.test_partial_callable_scientific_state_changes_exact_resume_fingerprint"
+      ],
+      "calls": [
+        "CALOOptimizer._compatibility_jsonable",
+        "ValueError",
+        "asdict",
+        "callable",
+        "closure_values.append",
+        "encode",
+        "getattr",
+        "hasattr",
+        "hashlib.sha256",
+        "hexdigest",
+        "inspect.isbuiltin",
+        "inspect.isclass",
+        "inspect.ismethod",
+        "is_dataclass",
+        "isinstance",
+        "json.dumps",
+        "len",
+        "list",
+        "sorted",
+        "str",
+        "type",
+        "value.item",
+        "value.items",
+        "value.tolist",
+        "vars"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._compatibility_jsonable"
+      ],
+      "doc": "Canonicalize scientific problem state for exact-resume compatibility hashing.",
+      "end_line": 234,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._compatibility_jsonable",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(value)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "_compatibility_jsonable",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v580_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scientific_problem_fingerprint",
+          "target": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+        }
+      ],
+      "call_forms": {
+        "scientific_problem_fingerprint": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._historical_learning_setup",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [
+        "scientific_problem_fingerprint"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      ],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 236,
+      "state_owner": "",
+      "symbol": "_problem_compatibility_fingerprint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._problem_compatibility_fingerprint",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.items",
+          "target": "parameters.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.problem.case.checksum",
+          "target": "self.problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "int": "name",
+        "parameters.items": "attribute",
+        "self._problem_compatibility_fingerprint": "attribute",
+        "self.problem.case.checksum": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._restore_base_checkpoint_state",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._save_run_checkpoint"
+      ],
+      "calls": [
+        "getattr",
+        "int",
+        "parameters.items",
+        "self._problem_compatibility_fingerprint",
+        "self.problem.case.checksum",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint"
+      ],
+      "doc": "",
+      "end_line": 257,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, parameters, controller)",
+      "start_line": 239,
+      "state_owner": "",
+      "symbol": "_checkpoint_compatibility",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._checkpoint_compatibility",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "save_exact_run_checkpoint",
+          "target": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.constraint_component_histories.items",
+          "target": "self.constraint_component_histories.items"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "list": "name",
+        "save_exact_run_checkpoint": "name",
+        "self._checkpoint_compatibility": "attribute",
+        "self.constraint_component_histories.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "list",
+        "save_exact_run_checkpoint",
+        "self._checkpoint_compatibility",
+        "self.constraint_component_histories.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility",
+        "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint"
+      ],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._save_run_checkpoint",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, path, parameters, controller, locals_payload)",
+      "start_line": 259,
+      "state_owner": "",
+      "symbol": "_save_run_checkpoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "base.get",
+          "target": "base.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._checkpoint_compatibility",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "base.get": "attribute",
+        "dict": "name",
+        "float": "name",
+        "int": "name",
+        "items": "attribute",
+        "list": "name",
+        "payload.get": "attribute",
+        "self._checkpoint_compatibility": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [
+        "RuntimeError",
+        "base.get",
+        "dict",
+        "float",
+        "int",
+        "items",
+        "list",
+        "payload.get",
+        "self._checkpoint_compatibility",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._checkpoint_compatibility"
+      ],
+      "doc": "",
+      "end_line": 320,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._restore_base_checkpoint_state",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, payload, parameters, controller)",
+      "start_line": 290,
+      "state_owner": "",
+      "symbol": "_restore_base_checkpoint_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Counter",
+          "target": "Counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ai_operator_probabilities.tolist",
+          "target": "ai_operator_probabilities.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assigned_groups.astype",
+          "target": "assigned_groups.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assigned_memory.astype",
+          "target": "assigned_memory.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assigned_operators.astype",
+          "target": "assigned_operators.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "boundary_archive.update",
+          "target": "boundary_archive.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cache.evaluate_requests",
+          "target": "cache.evaluate_requests"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScratchPool",
+          "target": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AdaptiveEpsilonController",
+          "target": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintBoundaryArchive",
+          "target": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "FeasibleEliteArchive",
+          "target": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_cognitive_state",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diversity",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "rule_based_regime_prior",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ContextualCredit",
+          "target": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "classify_contexts",
+          "target": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "diagnostic_history_template",
+          "target": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diagnostics",
+          "target": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DualLaneController",
+          "target": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "epsilon_sort_key",
+          "target": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExactEvaluationCache",
+          "target": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HierarchicalPrefixEliteMemory",
+          "target": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._historical_learning_setup",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._historical_learning_setup"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._normalise"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._problem_compatibility_fingerprint",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._restore_base_checkpoint_state",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._restore_base_checkpoint_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._save_run_checkpoint",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._save_run_checkpoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRuntimeContext",
+          "target": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_policy_vector",
+          "target": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "variable_group_concentration",
+          "target": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CognitivePrecisionEngine",
+          "target": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_exact_run_checkpoint",
+          "target": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SuccessMemory",
+          "target": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOTensorState.initialize",
+          "target": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.initialize"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "complete_transition",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_candidates",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_offspring",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "VariableGroupIntelligence",
+          "target": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint_payload_preloaded.get",
+          "target": "checkpoint_payload_preloaded.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint_runtime.get",
+          "target": "checkpoint_runtime.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cognitive.vector",
+          "target": "cognitive.vector"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controller.decide",
+          "target": "controller.decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controller.schema.get",
+          "target": "controller.schema.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.attempts.tolist",
+          "target": "credit.attempts.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.global_operator_probabilities",
+          "target": "credit.global_operator_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.success_rates",
+          "target": "credit.success_rates"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.successes.tolist",
+          "target": "credit.successes.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.operator_probabilities.copy",
+          "target": "decision.operator_probabilities.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.operator_probabilities.tolist",
+          "target": "decision.operator_probabilities.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.raw_parameter_action.tolist",
+          "target": "decision.raw_parameter_action.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.regime_probabilities.copy",
+          "target": "decision.regime_probabilities.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.regime_probabilities.tolist",
+          "target": "decision.regime_probabilities.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "derived_parameter_action.tolist",
+          "target": "derived_parameter_action.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "epsilon_controller.value",
+          "target": "epsilon_controller.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible_archive.update",
+          "target": "feasible_archive.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "full_policy_state.tolist",
+          "target": "full_policy_state.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.probabilities",
+          "target": "group_intelligence.probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "historical_repository.compatible_solutions",
+          "target": "historical_repository.compatible_solutions"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "historical_repository.payload.get",
+          "target": "historical_repository.payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.consensus",
+          "target": "hpem.consensus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.snapshot",
+          "target": "hpem.snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.update",
+          "target": "hpem.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem_snapshot.objectives.tolist",
+          "target": "hpem_snapshot.objectives.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "individual_regimes.astype",
+          "target": "individual_regimes.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lane_controller.assign",
+          "target": "lane_controller.assign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lane_controller.learning_fraction",
+          "target": "lane_controller.learning_fraction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lane_controller.memory_readiness",
+          "target": "lane_controller.memory_readiness"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "learning_lane_history.append",
+          "target": "learning_lane_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory_consensus_history.append",
+          "target": "memory_consensus_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory_readiness_history.append",
+          "target": "memory_readiness_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "new_diag.component_best.get",
+          "target": "new_diag.component_best.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "new_diag.component_mean.get",
+          "target": "new_diag.component_mean.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argmax",
+          "target": "np.argmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.bincount",
+          "target": "np.bincount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.quantile",
+          "target": "np.quantile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operator_success_history.append",
+          "target": "operator_success_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operator_usage_history.append",
+          "target": "operator_usage_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy_trajectory.append",
+          "target": "policy_trajectory.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision.active",
+          "target": "precision.active"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision_mask.astype",
+          "target": "precision_mask.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision_radius_history.append",
+          "target": "precision_radius_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "regime_history.append",
+          "target": "regime_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "regime_probabilities.tolist",
+          "target": "regime_probabilities.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.get",
+          "target": "restored.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reward_history.append",
+          "target": "reward_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scratch.get",
+          "target": "scratch.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.problem.case.checksum",
+          "target": "self.problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.choice",
+          "target": "self.rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.population.mean",
+          "target": "state.population.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.select_from_combined",
+          "target": "state.select_from_combined"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "usage.get",
+          "target": "usage.get"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "AdaptiveEpsilonController": "name",
+        "CALOTensorState.initialize": "attribute",
+        "CognitivePrecisionEngine": "name",
+        "ConstraintBoundaryArchive": "name",
+        "ContextualCredit": "name",
+        "Counter": "name",
+        "DualLaneController": "name",
+        "ExactEvaluationCache": "name",
+        "FeasibleEliteArchive": "name",
+        "HierarchicalPrefixEliteMemory": "name",
+        "PolicyRuntimeContext": "name",
+        "RuntimeError": "name",
+        "ScratchPool": "name",
+        "SuccessMemory": "name",
+        "ValueError": "name",
+        "VariableGroupIntelligence": "name",
+        "ai_operator_probabilities.tolist": "attribute",
+        "append": "attribute",
+        "assigned_groups.astype": "attribute",
+        "assigned_memory.astype": "attribute",
+        "assigned_operators.astype": "attribute",
+        "bool": "name",
+        "boundary_archive.update": "attribute",
+        "build_cognitive_state": "name",
+        "build_policy_vector": "name",
+        "cache.evaluate_requests": "attribute",
+        "checkpoint_payload_preloaded.get": "attribute",
+        "checkpoint_runtime.get": "attribute",
+        "classify_contexts": "name",
+        "cognitive.vector": "attribute",
+        "complete_transition": "name",
+        "controller.decide": "attribute",
+        "controller.schema.get": "attribute",
+        "copy": "attribute",
+        "credit.attempts.tolist": "attribute",
+        "credit.global_operator_probabilities": "attribute",
+        "credit.success_rates": "attribute",
+        "credit.successes.tolist": "attribute",
+        "decision.operator_probabilities.copy": "attribute",
+        "decision.operator_probabilities.tolist": "attribute",
+        "decision.raw_parameter_action.tolist": "attribute",
+        "decision.regime_probabilities.copy": "attribute",
+        "decision.regime_probabilities.tolist": "attribute",
+        "derived_parameter_action.tolist": "attribute",
+        "diagnostic_history_template": "name",
+        "dict": "name",
+        "enumerate": "name",
+        "epsilon_controller.value": "attribute",
+        "epsilon_sort_key": "name",
+        "evaluate_candidates": "name",
+        "feasible_archive.update": "attribute",
+        "float": "name",
+        "full_policy_state.tolist": "attribute",
+        "generate_offspring": "name",
+        "get": "attribute",
+        "getattr": "name",
+        "group_intelligence.probabilities": "attribute",
+        "historical_repository.compatible_solutions": "attribute",
+        "historical_repository.payload.get": "attribute",
+        "hpem.consensus": "attribute",
+        "hpem.snapshot": "attribute",
+        "hpem.update": "attribute",
+        "hpem_snapshot.objectives.tolist": "attribute",
+        "individual_regimes.astype": "attribute",
+        "int": "name",
+        "item.get": "attribute",
+        "lane_controller.assign": "attribute",
+        "lane_controller.learning_fraction": "attribute",
+        "lane_controller.memory_readiness": "attribute",
+        "learning_lane_history.append": "attribute",
+        "len": "name",
+        "list": "name",
+        "load_exact_run_checkpoint": "name",
+        "max": "name",
+        "memory_consensus_history.append": "attribute",
+        "memory_readiness_history.append": "attribute",
+        "min": "name",
+        "new_diag.component_best.get": "attribute",
+        "new_diag.component_mean.get": "attribute",
+        "np.any": "attribute",
+        "np.argmax": "attribute",
+        "np.asarray": "attribute",
+        "np.bincount": "attribute",
+        "np.clip": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.maximum": "attribute",
+        "np.mean": "attribute",
+        "np.quantile": "attribute",
+        "operator_success_history.append": "attribute",
+        "operator_usage_history.append": "attribute",
+        "parameters.get": "attribute",
+        "policy_trajectory.append": "attribute",
+        "population_diagnostics": "name",
+        "population_diversity": "name",
+        "precision.active": "attribute",
+        "precision_mask.astype": "attribute",
+        "precision_radius_history.append": "attribute",
+        "range": "name",
+        "regime_history.append": "attribute",
+        "regime_probabilities.tolist": "attribute",
+        "restored.get": "attribute",
+        "reward_history.append": "attribute",
+        "round": "name",
+        "rule_based_regime_prior": "name",
+        "scratch.get": "attribute",
+        "self._historical_learning_setup": "attribute",
+        "self._normalise": "attribute",
+        "self._problem_compatibility_fingerprint": "attribute",
+        "self._restore_base_checkpoint_state": "attribute",
+        "self._save_run_checkpoint": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.order": "attribute",
+        "self.problem.case.checksum": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "self.rng.choice": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "state.population.mean": "attribute",
+        "state.select_from_combined": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "time.perf_counter": "attribute",
+        "tolist": "attribute",
+        "usage.get": "attribute",
+        "variable_group_concentration": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "AdaptiveEpsilonController",
+        "CALOTensorState.initialize",
+        "CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive",
+        "ContextualCredit",
+        "Counter",
+        "DualLaneController",
+        "ExactEvaluationCache",
+        "FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory",
+        "PolicyRuntimeContext",
+        "RuntimeError",
+        "ScratchPool",
+        "SuccessMemory",
+        "ValueError",
+        "VariableGroupIntelligence",
+        "ai_operator_probabilities.tolist",
+        "append",
+        "assigned_groups.astype",
+        "assigned_memory.astype",
+        "assigned_operators.astype",
+        "bool",
+        "boundary_archive.update",
+        "build_cognitive_state",
+        "build_policy_vector",
+        "cache.evaluate_requests",
+        "checkpoint_payload_preloaded.get",
+        "checkpoint_runtime.get",
+        "classify_contexts",
+        "cognitive.vector",
+        "complete_transition",
+        "controller.decide",
+        "controller.schema.get",
+        "copy",
+        "credit.attempts.tolist",
+        "credit.global_operator_probabilities",
+        "credit.success_rates",
+        "credit.successes.tolist",
+        "decision.operator_probabilities.copy",
+        "decision.operator_probabilities.tolist",
+        "decision.raw_parameter_action.tolist",
+        "decision.regime_probabilities.copy",
+        "decision.regime_probabilities.tolist",
+        "derived_parameter_action.tolist",
+        "diagnostic_history_template",
+        "dict",
+        "enumerate",
+        "epsilon_controller.value",
+        "epsilon_sort_key",
+        "evaluate_candidates",
+        "feasible_archive.update",
+        "float",
+        "full_policy_state.tolist",
+        "generate_offspring",
+        "get",
+        "getattr",
+        "group_intelligence.probabilities",
+        "historical_repository.compatible_solutions",
+        "historical_repository.payload.get",
+        "hpem.consensus",
+        "hpem.snapshot",
+        "hpem.update",
+        "hpem_snapshot.objectives.tolist",
+        "individual_regimes.astype",
+        "int",
+        "item.get",
+        "lane_controller.assign",
+        "lane_controller.learning_fraction",
+        "lane_controller.memory_readiness",
+        "learning_lane_history.append",
+        "len",
+        "list",
+        "load_exact_run_checkpoint",
+        "max",
+        "memory_consensus_history.append",
+        "memory_readiness_history.append",
+        "min",
+        "new_diag.component_best.get",
+        "new_diag.component_mean.get",
+        "np.any",
+        "np.argmax",
+        "np.asarray",
+        "np.bincount",
+        "np.clip",
+        "np.full",
+        "np.isfinite",
+        "np.maximum",
+        "np.mean",
+        "np.quantile",
+        "operator_success_history.append",
+        "operator_usage_history.append",
+        "parameters.get",
+        "policy_trajectory.append",
+        "population_diagnostics",
+        "population_diversity",
+        "precision.active",
+        "precision_mask.astype",
+        "precision_radius_history.append",
+        "range",
+        "regime_history.append",
+        "regime_probabilities.tolist",
+        "restored.get",
+        "reward_history.append",
+        "round",
+        "rule_based_regime_prior",
+        "scratch.get",
+        "self._historical_learning_setup",
+        "self._normalise",
+        "self._problem_compatibility_fingerprint",
+        "self._restore_base_checkpoint_state",
+        "self._save_run_checkpoint",
+        "self.can_evaluate",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.order",
+        "self.problem.case.checksum",
+        "self.random_population",
+        "self.record",
+        "self.rng.choice",
+        "set",
+        "sorted",
+        "state.population.mean",
+        "state.select_from_combined",
+        "str",
+        "strip",
+        "time.perf_counter",
+        "tolist",
+        "usage.get",
+        "variable_group_concentration"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._historical_learning_setup",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._normalise",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._problem_compatibility_fingerprint",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._restore_base_checkpoint_state",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._save_run_checkpoint",
+        "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration",
+        "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.initialize",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence"
+      ],
+      "doc": "",
+      "end_line": 1213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "AdaptiveEpsilonController": "calo_rpd_studio.algorithms.calo.adaptive_epsilon.AdaptiveEpsilonController",
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.CONSTRAINT_COMPONENTS",
+        "CognitivePrecisionEngine": "calo_rpd_studio.algorithms.calo.precision_engine.CognitivePrecisionEngine",
+        "ConstraintBoundaryArchive": "calo_rpd_studio.algorithms.calo.archives.ConstraintBoundaryArchive",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "Counter": "collections.Counter",
+        "DualLaneController": "calo_rpd_studio.algorithms.calo.dual_lane_controller.DualLaneController",
+        "Enum": "enum.Enum",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "FeasibleEliteArchive": "calo_rpd_studio.algorithms.calo.archives.FeasibleEliteArchive",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OPERATOR_NAMES": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "Path": "pathlib.Path",
+        "PolicyRuntimeContext": "calo_rpd_studio.algorithms.calo.policy_schema.PolicyRuntimeContext",
+        "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+        "ScratchPool": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "VariableGroupIntelligence": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+        "classify_contexts": "calo_rpd_studio.algorithms.calo.contextual_credit.classify_contexts",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "diagnostic_history_template": "calo_rpd_studio.algorithms.calo.diagnostics.diagnostic_history_template",
+        "epsilon_sort_key": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_sort_key",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "functools": "functools",
+        "generate_offspring": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "hashlib": "hashlib",
+        "inspect": "inspect",
+        "is_dataclass": "dataclasses.is_dataclass",
+        "json": "json",
+        "load_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "normalise_probabilities": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+        "save_exact_run_checkpoint": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "variable_group_concentration": "calo_rpd_studio.algorithms.calo.policy_schema.variable_group_concentration"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".adaptive_epsilon",
+        ".ai_controller",
+        ".archives",
+        ".cognitive_state",
+        ".contextual_credit",
+        ".diagnostics",
+        ".dual_lane_controller",
+        ".environmental_selection",
+        ".evaluation_cache",
+        ".hierarchical_memory",
+        ".learning_operators",
+        ".policy_schema",
+        ".precision_engine",
+        ".run_checkpoint",
+        ".success_memory",
+        ".tensor_state",
+        ".transition_kernel",
+        ".variable_intelligence",
+        "__future__",
+        "calo_rpd_studio.accelerated.scratch_pool",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "collections",
+        "dataclasses",
+        "enum",
+        "functools",
+        "hashlib",
+        "inspect",
+        "json",
+        "numpy",
+        "pathlib",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.optimizer",
+      "qualname": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 322,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

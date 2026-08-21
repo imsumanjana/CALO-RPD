@@ -1,0 +1,62 @@
+{
+  "file": {
+    "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:791ba9bfb7115eeedfabfdf161d0f1f619f68251",
+    "content_sha256": "5d07aa42dcecf81fc4e9c4dd4ee8198ea3cbcc10b0b5fd3f1b0f689b5e6e0510",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "augment_extension_manifest": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_manifest",
+      "augment_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_plan",
+      "augment_root_manifest": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_root_manifest",
+      "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting",
+      "synchronize_training_progress": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.synchronize_training_progress"
+    },
+    "important_invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "imports": [
+      ".",
+      ".tsh_calo_evaluation_accounting",
+      "__future__",
+      "dataclasses",
+      "pathlib"
+    ],
+    "integration_layer": "public training-campaign boundary",
+    "internal_only": false,
+    "invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "calo-policy",
+    "parse_error": "",
+    "path": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+    "preferred_edit_target": true,
+    "public_surface": true,
+    "semantic_tags": [
+      "TSH-CALO",
+      "activation",
+      "policy-lifecycle",
+      "provenance",
+      "public-wrapper",
+      "qualification",
+      "training-campaign"
+    ],
+    "size_bytes": 6503,
+    "state_owner": "",
+    "symbol_count": 7
+  },
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+  "schema_version": 2
+}

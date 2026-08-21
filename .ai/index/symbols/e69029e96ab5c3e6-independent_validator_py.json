@@ -1,0 +1,1058 @@
+{
+  "path": "calo_rpd_studio/power_system/independent_validator.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._LOG",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator.CrossValidationResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "CrossValidationResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "np.abs": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "calls": [
+        "np.abs",
+        "np.asarray"
+      ],
+      "calls_resolved": [],
+      "doc": "Return wrapped angular differences in degrees.",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._angle_difference_deg",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(left, right)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_angle_difference_deg",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "int": "name",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator._allocate_aggregate_q_at_limit",
+        "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching"
+      ],
+      "calls": [
+        "astype",
+        "int",
+        "np.where"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._online_generator_rows",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(gen, bus_number)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "_online_generator_rows",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "totals.get",
+          "target": "totals.get"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "totals.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching",
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "totals.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._aggregate_q_by_bus",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(gen)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "_aggregate_q_by_bus",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_online_generator_rows",
+          "target": "calo_rpd_studio.power_system.independent_validator._online_generator_rows"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "_online_generator_rows": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.full": "attribute",
+        "np.maximum": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching"
+      ],
+      "calls": [
+        "_online_generator_rows",
+        "float",
+        "np.asarray",
+        "np.clip",
+        "np.full",
+        "np.maximum",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.independent_validator._online_generator_rows"
+      ],
+      "doc": "Independently distribute an aggregate PV limit across same-bus generators.",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._allocate_aggregate_q_at_limit",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(gen, bus_number, target_q)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "_allocate_aggregate_q_at_limit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PowerFlowOptions",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_aggregate_q_by_bus",
+          "target": "calo_rpd_studio.power_system.independent_validator._aggregate_q_by_bus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_allocate_aggregate_q_at_limit",
+          "target": "calo_rpd_studio.power_system.independent_validator._allocate_aggregate_q_at_limit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_online_generator_rows",
+          "target": "calo_rpd_studio.power_system.independent_validator._online_generator_rows"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.clone",
+          "target": "case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "options.validate",
+          "target": "options.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ppoption",
+          "target": "ppoption"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runpf",
+          "target": "runpf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solved_bus_map.items",
+          "target": "solved_bus_map.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solved_q.items",
+          "target": "solved_q.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "violations.append",
+          "target": "violations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "working.branch.copy",
+          "target": "working.branch.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "working.bus.copy",
+          "target": "working.bus.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "working.gen.copy",
+          "target": "working.gen.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "working.gencost.copy",
+          "target": "working.gencost.copy"
+        }
+      ],
+      "call_forms": {
+        "PowerFlowOptions": "name",
+        "_aggregate_q_by_bus": "name",
+        "_allocate_aggregate_q_at_limit": "name",
+        "_online_generator_rows": "name",
+        "astype": "attribute",
+        "case.clone": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.sum": "attribute",
+        "np.where": "attribute",
+        "options.validate": "attribute",
+        "ppoption": "name",
+        "range": "name",
+        "runpf": "name",
+        "solved_bus_map.items": "attribute",
+        "solved_q.items": "attribute",
+        "violations.append": "attribute",
+        "working.branch.copy": "attribute",
+        "working.bus.copy": "attribute",
+        "working.gen.copy": "attribute",
+        "working.gencost.copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "calls": [
+        "PowerFlowOptions",
+        "_aggregate_q_by_bus",
+        "_allocate_aggregate_q_at_limit",
+        "_online_generator_rows",
+        "astype",
+        "case.clone",
+        "enumerate",
+        "float",
+        "int",
+        "np.sum",
+        "np.where",
+        "options.validate",
+        "ppoption",
+        "range",
+        "runpf",
+        "solved_bus_map.items",
+        "solved_q.items",
+        "violations.append",
+        "working.branch.copy",
+        "working.bus.copy",
+        "working.gen.copy",
+        "working.gencost.copy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "calo_rpd_studio.power_system.independent_validator._aggregate_q_by_bus",
+        "calo_rpd_studio.power_system.independent_validator._allocate_aggregate_q_at_limit",
+        "calo_rpd_studio.power_system.independent_validator._online_generator_rows"
+      ],
+      "doc": "Solve with PYPOWER while matching the declared CALO-RPD PF/Q-limit settings.",
+      "end_line": 185,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, options)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "_run_pypower_with_pv_q_switching",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.exception",
+          "target": "_LOG.exception"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossValidationResult",
+          "target": "calo_rpd_studio.power_system.independent_validator.CrossValidationResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_aggregate_q_by_bus",
+          "target": "calo_rpd_studio.power_system.independent_validator._aggregate_q_by_bus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_angle_difference_deg",
+          "target": "calo_rpd_studio.power_system.independent_validator._angle_difference_deg"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_run_pypower_with_pv_q_switching",
+          "target": "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "CrossValidationResult": "name",
+        "_LOG.exception": "attribute",
+        "_aggregate_q_by_bus": "name",
+        "_angle_difference_deg": "name",
+        "_run_pypower_with_pv_q_switching": "name",
+        "abs": "name",
+        "astype": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "np.abs": "attribute",
+        "np.asarray": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.max": "attribute",
+        "np.sum": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._independent_validate",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.cross_validate",
+        "calo_rpd_studio.orpd.mathematical_reference._independent_validations",
+        "calo_rpd_studio.scripts.validate_cases.main",
+        "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower"
+      ],
+      "calls": [
+        "CrossValidationResult",
+        "_LOG.exception",
+        "_aggregate_q_by_bus",
+        "_angle_difference_deg",
+        "_run_pypower_with_pv_q_switching",
+        "abs",
+        "astype",
+        "enumerate",
+        "float",
+        "int",
+        "len",
+        "max",
+        "np.abs",
+        "np.asarray",
+        "np.count_nonzero",
+        "np.max",
+        "np.sum",
+        "set",
+        "sorted",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.independent_validator.CrossValidationResult",
+        "calo_rpd_studio.power_system.independent_validator._aggregate_q_by_bus",
+        "calo_rpd_studio.power_system.independent_validator._angle_difference_deg",
+        "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching"
+      ],
+      "doc": "Cross-check voltages, losses, final bus types, and aggregate generator Q against PYPOWER.",
+      "end_line": 300,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/independent_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "PF": "pypower.idx_brch.PF",
+        "PT": "pypower.idx_brch.PT",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "np": "numpy",
+        "ppoption": "pypower.ppoption.ppoption",
+        "pypower": "pypower",
+        "runpf": "pypower.runpf.runpf"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".ac_power_flow",
+        ".case_model",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "pypower",
+        "pypower.idx_brch",
+        "pypower.ppoption",
+        "pypower.runpf"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.independent_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.independent_validator",
+      "qualname": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, internal, power_flow_options, vm_tolerance, va_tolerance_deg, loss_tolerance_mw, q_tolerance_mvar)",
+      "start_line": 188,
+      "state_owner": "",
+      "symbol": "validate_against_pypower",
+      "tests": [
+        "tests/scientific/test_ieee_cases.py"
+      ]
+    }
+  ]
+}

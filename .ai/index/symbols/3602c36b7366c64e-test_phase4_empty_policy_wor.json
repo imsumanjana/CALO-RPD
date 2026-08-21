@@ -1,0 +1,914 @@
+{
+  "path": "tests/integration/test_phase4_empty_policy_workflow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "range": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_accepts_only_a_complete_a_to_e_binding_without_internal_fallback",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_rejects_experimental_change_f_even_with_a_complete_binding"
+      ],
+      "calls": [
+        "range",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding",
+      "semantic_tags": [],
+      "signature": "(policy_sha256)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_complete_tsh_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GoverningPolicyStatus",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.startswith",
+          "target": "key.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.synchronize_governing_policy_binding",
+          "target": "state.synchronize_governing_policy_binding"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "GoverningPolicyStatus": "name",
+        "any": "name",
+        "key.startswith": "attribute",
+        "state.synchronize_governing_policy_binding": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "GoverningPolicyStatus",
+        "any",
+        "key.startswith",
+        "state.synchronize_governing_policy_binding"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "calo_rpd_studio.app.state_manager.AppState"
+      ],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_empty_policy_state_forces_rule_only_calo_and_disables_tsh_policy_use",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "test_empty_policy_state_forces_rule_only_calo_and_disables_tsh_policy_use",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GoverningPolicyStatus",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.startswith",
+          "target": "key.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.synchronize_governing_policy_binding",
+          "target": "state.synchronize_governing_policy_binding"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "GoverningPolicyStatus": "name",
+        "any": "name",
+        "key.startswith": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "state.synchronize_governing_policy_binding": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "GoverningPolicyStatus",
+        "any",
+        "key.startswith",
+        "monkeypatch.setattr",
+        "state.synchronize_governing_policy_binding"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "calo_rpd_studio.app.state_manager.AppState"
+      ],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state.reject_binding",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "reject_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_governing_policy",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "evaluate_governing_policy": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "evaluate_governing_policy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+      ],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_incompatible_active_policy_readiness_fails_closed_without_exception",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 135,
+      "state_owner": "",
+      "symbol": "test_incompatible_active_policy_readiness_fails_closed_without_exception",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "config.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 167,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_is_executable_only_with_an_immutable_qualified_binding",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "test_tsh_calo_is_executable_only_with_an_immutable_qualified_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "default.validate",
+          "target": "default.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stale.validate",
+          "target": "stale.validate"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "default.validate": "attribute",
+        "pytest.raises": "attribute",
+        "stale.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "default.validate",
+        "pytest.raises",
+        "stale.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_default_and_loaded_primary_calo_are_fail_closed_to_rule_only_mode",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 170,
+      "state_owner": "",
+      "symbol": "test_default_and_loaded_primary_calo_are_fail_closed_to_rule_only_mode",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_tsh_binding",
+          "target": "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "_complete_tsh_binding": "name",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "_complete_tsh_binding",
+        "config.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_rejects_experimental_change_f_even_with_a_complete_binding",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 192,
+      "state_owner": "",
+      "symbol": "test_tsh_calo_rejects_experimental_change_f_even_with_a_complete_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_tsh_binding",
+          "target": "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "_complete_tsh_binding": "name",
+        "config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "_complete_tsh_binding",
+        "config.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+      ],
+      "doc": "",
+      "end_line": 211,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_accepts_only_a_complete_a_to_e_binding_without_internal_fallback",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 206,
+      "state_owner": "",
+      "symbol": "test_tsh_calo_accepts_only_a_complete_a_to_e_binding_without_internal_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_tsh_binding",
+          "target": "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "_complete_tsh_binding": "name",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "_complete_tsh_binding",
+        "config.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "tests.integration.test_phase4_empty_policy_workflow._complete_tsh_binding"
+      ],
+      "doc": "",
+      "end_line": 230,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 214,
+      "state_owner": "",
+      "symbol": "test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "intelligence.count",
+          "target": "intelligence.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "intelligence.count": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "intelligence.count",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 256,
+      "entry_point": false,
+      "file": "tests/integration/test_phase4_empty_policy_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GoverningPolicyStatus": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_phase4_empty_policy_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_phase4_empty_policy_workflow",
+      "qualname": "tests.integration.test_phase4_empty_policy_workflow.test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_surfaces",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 233,
+      "state_owner": "",
+      "symbol": "test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_surfaces",
+      "tests": []
+    }
+  ]
+}

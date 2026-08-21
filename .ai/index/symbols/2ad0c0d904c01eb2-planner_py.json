@@ -1,0 +1,485 @@
+{
+  "path": "calo_rpd_studio/portfolio/planner.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlan",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "PortfolioPlan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "join": "attribute",
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "join",
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlan.summary",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.portfolio.planner.PortfolioPlanner.apply_article_preset"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Algorithm identities requested by a preset without changing the submitted stage.",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.ArticlePresetRequirements",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "ArticlePresetRequirements",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Translate selected evidence into only the evaluations and stored fields it requires.",
+      "end_line": 217,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "PortfolioPlanner",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ArticlePresetRequirements",
+          "target": "calo_rpd_studio.portfolio.planner.ArticlePresetRequirements"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ArticlePresetRequirements": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool"
+      ],
+      "calls": [
+        "ArticlePresetRequirements",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.planner.ArticlePresetRequirements"
+      ],
+      "doc": "Apply output/evidence defaults and return algorithm requirements.",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.apply_article_preset",
+      "semantic_tags": [],
+      "signature": "(config, portfolio)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "apply_article_preset",
+      "tests": [
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OUTPUT_REQUIREMENTS.get",
+          "target": "OUTPUT_REQUIREMENTS.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioPlan",
+          "target": "calo_rpd_studio.portfolio.planner.PortfolioPlan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issubset",
+          "target": "issubset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.required_runs",
+          "target": "portfolio.required_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.validate",
+          "target": "portfolio.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.add",
+          "target": "required_fields.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.update",
+          "target": "required_fields.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "OUTPUT_REQUIREMENTS.get": "attribute",
+        "PortfolioPlan": "name",
+        "ValueError": "name",
+        "any": "name",
+        "bool": "name",
+        "getattr": "name",
+        "issubset": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "portfolio.required_runs": "attribute",
+        "portfolio.validate": "attribute",
+        "required_fields.add": "attribute",
+        "required_fields.update": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics"
+      ],
+      "calls": [
+        "OUTPUT_REQUIREMENTS.get",
+        "PortfolioPlan",
+        "ValueError",
+        "any",
+        "bool",
+        "getattr",
+        "issubset",
+        "len",
+        "list",
+        "max",
+        "portfolio.required_runs",
+        "portfolio.validate",
+        "required_fields.add",
+        "required_fields.update",
+        "set",
+        "sorted",
+        "str",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.planner.PortfolioPlan"
+      ],
+      "doc": "",
+      "end_line": 217,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/planner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        "__future__",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.planner",
+      "qualname": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan",
+      "semantic_tags": [],
+      "signature": "(config, portfolio, benchmark_blocks, algorithm_subset)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "plan",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py"
+      ]
+    }
+  ]
+}

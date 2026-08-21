@@ -1,0 +1,427 @@
+{
+  "path": "calo_rpd_studio/experiments/result_contracts.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/result_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "copy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.result_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.result_contracts",
+      "qualname": "calo_rpd_studio.experiments.result_contracts.INDIVIDUAL_RESULT_CONTRACT_SCHEMA",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "INDIVIDUAL_RESULT_CONTRACT_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/result_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "copy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.result_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.result_contracts",
+      "qualname": "calo_rpd_studio.experiments.result_contracts._BASE_REQUIRED_FIELDS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_BASE_REQUIRED_FIELDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_individual_result_contract",
+          "target": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outputs.append",
+          "target": "outputs.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.add",
+          "target": "required_fields.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.update",
+          "target": "required_fields.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "bool": "name",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "outputs.append": "attribute",
+        "required_fields.add": "attribute",
+        "required_fields.update": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "tuple": "name",
+        "validate_individual_result_contract": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload"
+      ],
+      "calls": [
+        "ValueError",
+        "bool",
+        "getattr",
+        "int",
+        "len",
+        "outputs.append",
+        "required_fields.add",
+        "required_fields.update",
+        "set",
+        "sorted",
+        "str",
+        "tuple",
+        "validate_individual_result_contract"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+      ],
+      "doc": "Return the deterministic direct-output contract for one individual experiment plan.",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/result_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "copy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.result_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.result_contracts",
+      "qualname": "calo_rpd_studio.experiments.result_contracts.build_individual_result_contract",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, algorithm_names)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "build_individual_result_contract",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "contract.get",
+          "target": "contract.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_fields.add",
+          "target": "expected_fields.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_fields.issubset",
+          "target": "expected_fields.issubset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_fields.update",
+          "target": "expected_fields.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "contract.get": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "expected_fields.add": "attribute",
+        "expected_fields.issubset": "attribute",
+        "expected_fields.update": "attribute",
+        "isinstance": "name",
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "set": "name",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate",
+        "calo_rpd_studio.experiments.result_contracts.build_individual_result_contract",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run"
+      ],
+      "calls": [
+        "ValueError",
+        "contract.get",
+        "deepcopy",
+        "dict",
+        "expected_fields.add",
+        "expected_fields.issubset",
+        "expected_fields.update",
+        "isinstance",
+        "join",
+        "len",
+        "list",
+        "set",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Validate and return a defensive copy of an individual result contract.",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/result_contracts.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "copy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.result_contracts",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.result_contracts",
+      "qualname": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(payload)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "validate_individual_result_contract",
+      "tests": []
+    }
+  ]
+}

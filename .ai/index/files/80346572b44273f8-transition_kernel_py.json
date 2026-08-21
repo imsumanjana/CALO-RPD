@@ -1,0 +1,77 @@
+{
+  "file": {
+    "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:407ddc81eb2091cbf9c426c7f7be47b010216036",
+    "content_sha256": "f4630201dde619f37ffb293fc667e25660c29c879b48dbcb61ea30f9e3891a92",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Callable": "typing.Callable",
+      "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+      "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+      "Sequence": "typing.Sequence",
+      "annotations": "__future__.annotations",
+      "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+      "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+      "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+      "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+      "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+      "dataclass": "dataclasses.dataclass",
+      "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+      "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+      "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+      "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+      "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+      "np": "numpy",
+      "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+      "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+      "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+    },
+    "important_invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "imports": [
+      ".cognitive_state",
+      ".diagnostics",
+      ".environmental_selection",
+      ".learning_operators",
+      ".operator_credit",
+      ".reward",
+      "__future__",
+      "calo_rpd_studio.orpd.feasibility_rules",
+      "dataclasses",
+      "numpy",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "calo-policy",
+    "parse_error": "",
+    "path": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "TSH-CALO",
+      "activation",
+      "policy-lifecycle",
+      "provenance",
+      "qualification"
+    ],
+    "size_bytes": 21413,
+    "state_owner": "",
+    "symbol_count": 16
+  },
+  "path": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+  "schema_version": 2
+}

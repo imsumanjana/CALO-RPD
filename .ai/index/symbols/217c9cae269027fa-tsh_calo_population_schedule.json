@@ -1,0 +1,1149 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.__init__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.from_state_dict",
+        "tests.unit.test_tsh_calo_population_schedule._enabled",
+        "tests.unit.test_tsh_calo_population_schedule.test_population_schedule_is_doubly_gated_and_disabled_by_default"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "PopulationScheduleConfig",
+      "tests": [
+        "tests/unit/test_tsh_calo_population_schedule.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig.design_hash"
+      ],
+      "calls": [
+        "ValueError",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.encode",
+          "target": "payload.encode"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "payload.encode": "attribute",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "payload.encode",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig.validate"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig.design_hash",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "design_hash",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule._ready",
+        "tests.unit.test_tsh_calo_population_schedule.test_every_preregistered_condition_can_falsify_contraction"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "PopulationScheduleMetrics",
+      "tests": [
+        "tests/unit/test_tsh_calo_population_schedule.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 67,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.decide",
+        "tests.unit.test_tsh_calo_population_schedule.test_disabled_schedule_cannot_apply_fabricated_contraction_decision"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "PopulationScheduleDecision",
+      "tests": [
+        "tests/unit/test_tsh_calo_population_schedule.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule.test_disabled_schedule_cannot_apply_fabricated_contraction_decision",
+        "tests.unit.test_tsh_calo_population_schedule.test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+        "tests.unit.test_tsh_calo_population_schedule.test_every_preregistered_condition_can_falsify_contraction",
+        "tests.unit.test_tsh_calo_population_schedule.test_population_schedule_is_doubly_gated_and_disabled_by_default",
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "ExperimentalPopulationSchedule",
+      "tests": [
+        "tests/unit/test_tsh_calo_population_schedule.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.validate",
+          "target": "self.config.validate"
+        }
+      ],
+      "call_forms": {
+        "PopulationScheduleConfig": "name",
+        "ValueError": "name",
+        "int": "name",
+        "self.config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PopulationScheduleConfig",
+        "ValueError",
+        "int",
+        "self.config.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+      ],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, initial_population, config)",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleDecision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.validate",
+          "target": "metrics.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.floor",
+          "target": "np.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reasons.append",
+          "target": "reasons.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.design_hash",
+          "target": "self.config.design_hash"
+        }
+      ],
+      "call_forms": {
+        "PopulationScheduleDecision": "name",
+        "int": "name",
+        "join": "attribute",
+        "max": "name",
+        "metrics.validate": "attribute",
+        "min": "name",
+        "np.floor": "attribute",
+        "reasons.append": "attribute",
+        "self.config.design_hash": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PopulationScheduleDecision",
+        "int",
+        "join",
+        "max",
+        "metrics.validate",
+        "min",
+        "np.floor",
+        "reasons.append",
+        "self.config.design_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision"
+      ],
+      "doc": "",
+      "end_line": 148,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.decide",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, metrics)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "decide",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "environmental_select",
+          "target": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.copy",
+          "target": "population.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.design_hash",
+          "target": "self.config.design_hash"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "environmental_select": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "population.copy": "attribute",
+        "self.config.design_hash": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "environmental_select",
+        "float",
+        "int",
+        "len",
+        "list",
+        "np.arange",
+        "np.asarray",
+        "population.copy",
+        "self.config.design_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select"
+      ],
+      "doc": "",
+      "end_line": 187,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.apply",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, decision, population, evaluations, epsilon, diversity_weight)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.design_hash",
+          "target": "self.config.design_hash"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "self.config.design_hash": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "self.config.design_hash"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 198,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.state_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "state_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.design_hash",
+          "target": "config.design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PopulationScheduleConfig": "name",
+        "ValueError": "name",
+        "cls": "name",
+        "config.design_hash": "attribute",
+        "dict": "name",
+        "int": "name",
+        "payload.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision"
+      ],
+      "calls": [
+        "PopulationScheduleConfig",
+        "ValueError",
+        "cls",
+        "config.design_hash",
+        "dict",
+        "int",
+        "payload.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+      ],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".environmental_selection",
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.from_state_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, payload)",
+      "start_line": 201,
+      "state_owner": "",
+      "symbol": "from_state_dict",
+      "tests": [
+        "tests/unit/test_tsh_calo_population_schedule.py"
+      ]
+    }
+  ]
+}

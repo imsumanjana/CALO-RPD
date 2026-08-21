@@ -1,0 +1,188 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "training extension/cumulative-accounting surface",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main",
+        "tests.unit.test_tsh_calo_generalization_guard.test_completed_extension_cannot_bypass_fresh_generalization_evidence",
+        "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+        "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Public extension runner; its campaign runner supplies synchronized counted-work status.",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core",
+        "annotations": "__future__.annotations",
+        "augment_extension_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_summary"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        ".tsh_calo_evaluation_accounting",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "qualification",
+        "resume",
+        "training-extension"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "IndependentTSHCALOTrainingExtension",
+      "tests": [
+        "tests/unit/test_tsh_calo_generalization_guard.py",
+        "tests/unit/test_tsh_calo_training_campaign.py"
+      ]
+    },
+    {
+      "architectural_boundary": "training extension/cumulative-accounting surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_core._canonical_sha256",
+          "target": "_core._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_core_extension_plan_summary",
+          "target": "_core_extension_plan_summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "augment_extension_summary",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.pop",
+          "target": "payload.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.execution_plan_sha256",
+          "target": "plan.execution_plan_sha256"
+        }
+      ],
+      "call_forms": {
+        "_core._canonical_sha256": "attribute",
+        "_core_extension_plan_summary": "name",
+        "augment_extension_summary": "name",
+        "int": "name",
+        "payload.pop": "attribute",
+        "plan.execution_plan_sha256": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main",
+        "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+        "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+        "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+        "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+        "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches"
+      ],
+      "calls": [
+        "_core._canonical_sha256",
+        "_core_extension_plan_summary",
+        "augment_extension_summary",
+        "int",
+        "payload.pop",
+        "plan.execution_plan_sha256"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_summary"
+      ],
+      "doc": "Return a readiness summary that discloses training, guard, and total counted work.",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_training_extension_core",
+        "annotations": "__future__.annotations",
+        "augment_extension_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.augment_extension_summary"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        ".tsh_calo_evaluation_accounting",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "evaluation-accounting",
+        "policy-lifecycle",
+        "provenance",
+        "qualification",
+        "resume",
+        "training-extension"
+      ],
+      "signature": "(plan, campaign_directory)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "extension_plan_summary",
+      "tests": [
+        "tests/unit/test_tsh_calo_training_campaign.py"
+      ]
+    }
+  ]
+}

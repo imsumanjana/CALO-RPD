@@ -1,0 +1,87 @@
+{
+  "path": "calo_rpd_studio/statistics/posthoc.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "enumerate": "name",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification._apply_holm",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._apply_holm",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter._pairwise_statistics",
+        "tests.unit.test_statistics.test_holm_correction_bounds"
+      ],
+      "calls": [
+        "enumerate",
+        "len",
+        "max",
+        "min",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "calo_rpd_studio/statistics/posthoc.py",
+      "implementation_core": false,
+      "import_bindings": {},
+      "important_invariants": [],
+      "imports": [],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.statistics.posthoc",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.statistics.posthoc",
+      "qualname": "calo_rpd_studio.statistics.posthoc.holm_correction",
+      "semantic_tags": [],
+      "signature": "(p_values)",
+      "start_line": 4,
+      "state_owner": "",
+      "symbol": "holm_correction",
+      "tests": [
+        "tests/unit/test_statistics.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_loader.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_validation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/independent_validator.py"
+    }
+  ],
+  "path": "calo_rpd_studio/scripts/validate_cases.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "argparse.ArgumentParser"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "calo_rpd_studio.power_system.case_validation.validate_case"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "p.add_argument"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "p.parse_args"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_cases.main",
+      "to": "print"
+    }
+  ]
+}

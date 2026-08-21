@@ -1,0 +1,1048 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.OPERATOR_NAMES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "OPERATOR_NAMES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        }
+      ],
+      "call_forms": {
+        "np.clip": "attribute",
+        "rng.random": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.contrastive_peer",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "np.clip",
+        "rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, pbest, r1, r2, rng, attraction, differential)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "feasible_elite_learning",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        }
+      ],
+      "call_forms": {
+        "np.clip": "attribute",
+        "rng.random": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "np.clip",
+        "rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, boundary, r1, r2, rng, attraction, differential)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "constraint_boundary_differential",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        }
+      ],
+      "call_forms": {
+        "np.abs": "attribute",
+        "np.clip": "attribute",
+        "rng.normal": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.teacher_guided",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "np.abs",
+        "np.clip",
+        "rng.normal"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, teacher, mean, rng, alpha, beta)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "cognitive_teacher_learning",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        }
+      ],
+      "call_forms": {
+        "np.clip": "attribute",
+        "rng.random": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.self_reflective_memory",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "np.clip",
+        "rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, personal, sampled_direction, rng, personal_weight, memory_weight)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "success_distribution_memory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.rint",
+          "target": "np.rint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.choice",
+          "target": "rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.integers",
+          "target": "rng.integers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "copy": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.rint": "attribute",
+        "rng.choice": "attribute",
+        "rng.integers": "attribute",
+        "rng.normal": "attribute",
+        "rng.random": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "tests.unit.test_calo_core_v2.test_mixed_variable_neighbourhood_moves_discrete_variable_on_lattice"
+      ],
+      "calls": [
+        "copy",
+        "getattr",
+        "int",
+        "len",
+        "max",
+        "np.asarray",
+        "np.clip",
+        "np.rint",
+        "rng.choice",
+        "rng.integers",
+        "rng.normal",
+        "rng.random",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, variables, rng, continuous_sigma, discrete_radius)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "mixed_variable_neighbourhood",
+      "tests": [
+        "tests/unit/test_calo_core_v2.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.mean",
+          "target": "population.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "population.mean": "attribute",
+        "rng.normal": "attribute",
+        "rng.random": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "len",
+        "np.asarray",
+        "np.clip",
+        "population.mean",
+        "rng.normal",
+        "rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(reference, population, rng, sigma)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "diversity_recovery",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "cognitive_teacher_learning",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning"
+        }
+      ],
+      "call_forms": {
+        "cognitive_teacher_learning": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "cognitive_teacher_learning"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.teacher_guided",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, best, mean, rng, alpha, beta)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "teacher_guided",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "feasible_elite_learning",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning"
+        }
+      ],
+      "call_forms": {
+        "feasible_elite_learning": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "feasible_elite_learning"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning"
+      ],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.contrastive_peer",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, better_peer, diverse_peer, rng, gamma, delta)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "contrastive_peer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "success_distribution_memory",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+        }
+      ],
+      "call_forms": {
+        "success_distribution_memory": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "success_distribution_memory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      ],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.self_reflective_memory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, personal, memory_direction, rng, eta, mu)",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "self_reflective_memory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        }
+      ],
+      "call_forms": {
+        "np.clip": "attribute",
+        "rng.normal": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.clip",
+        "rng.normal"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.adaptive_exploration",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(reference, rng, sigma)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "adaptive_exploration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        }
+      ],
+      "call_forms": {
+        "np.clip": "attribute",
+        "rng.normal": "attribute",
+        "rng.random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.clip",
+        "rng.normal",
+        "rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.feasibility_recovery",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, feasible_elite, low_violation, rng, intensity)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "feasibility_recovery",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "np.clip": "attribute",
+        "rng.normal": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "max",
+        "np.clip",
+        "rng.normal"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/learning_operators.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.learning_operators",
+      "qualname": "calo_rpd_studio.algorithms.calo.learning_operators.stagnation_escape",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(elite, rng, sigma)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "stagnation_escape",
+      "tests": []
+    }
+  ]
+}

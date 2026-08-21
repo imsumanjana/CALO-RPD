@@ -1,0 +1,353 @@
+{
+  "path": "tests/unit/test_v570_release_integrity.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tomllib.loads",
+          "target": "tomllib.loads"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "read_text": "attribute",
+        "resolve": "attribute",
+        "tomllib.loads": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "read_text",
+        "resolve",
+        "tomllib.loads"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_v570_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v570_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v570_release_integrity",
+      "qualname": "tests.unit.test_v570_release_integrity.test_release_identity_matches_pyproject_and_current_freeze_name",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "test_release_identity_matches_pyproject_and_current_freeze_name",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model_dir.glob",
+          "target": "model_dir.glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.name.endswith",
+          "target": "path.name.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "model_dir.glob": "attribute",
+        "path.name.endswith": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "model_dir.glob",
+        "path.name.endswith",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/unit/test_v570_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v570_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v570_release_integrity",
+      "qualname": "tests.unit.test_v570_release_integrity.test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+      ],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v570_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v570_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v570_release_integrity",
+      "qualname": "tests.unit.test_v570_release_integrity.test_missing_policy_never_constructs_an_untrained_fallback",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "test_missing_policy_never_constructs_an_untrained_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__import__",
+          "target": "__import__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_path.read_text",
+          "target": "freeze_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "loads",
+          "target": "loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "__import__": "name",
+        "any": "name",
+        "freeze_path.read_text": "attribute",
+        "loads": "attribute",
+        "resolve": "attribute",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "__import__",
+        "any",
+        "freeze_path.read_text",
+        "loads",
+        "resolve",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "tests/unit/test_v570_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v570_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v570_release_integrity",
+      "qualname": "tests.unit.test_v570_release_integrity.test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/cma_es.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    }
+  ],
+  "path": "tests/unit/test_cma_es.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.SphereProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.SphereProblem.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.SphereProblem.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.SphereProblem.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.SphereProblem.evaluate_population",
+      "to": "tests.unit.test_cma_es.SphereProblem.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.SphereProblem.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.SphereProblem.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "startswith"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+      "to": "tests.unit.test_cma_es.SphereProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "to": "run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+      "to": "tests.unit.test_cma_es.SphereProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_feasibility_first_ranks_are_dense_and_preserve_exact_ties",
+      "to": "calo_rpd_studio.algorithms.cma_es.feasibility_first_ranks"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_cma_es.test_feasibility_first_ranks_are_dense_and_preserve_exact_ties",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    }
+  ]
+}

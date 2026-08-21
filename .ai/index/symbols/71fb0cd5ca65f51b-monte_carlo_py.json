@@ -1,0 +1,74 @@
+{
+  "path": "calo_rpd_studio/robustness/monte_carlo.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioGeneratorConfig",
+          "target": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_load_scenarios",
+          "target": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+        }
+      ],
+      "call_forms": {
+        "ScenarioGeneratorConfig": "name",
+        "generate_load_scenarios": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ScenarioGeneratorConfig",
+        "generate_load_scenarios"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+      ],
+      "doc": "",
+      "end_line": 7,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/monte_carlo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario_generator"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.monte_carlo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.monte_carlo",
+      "qualname": "calo_rpd_studio.robustness.monte_carlo.generate_monte_carlo",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(count, seed, p_std, q_std)",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "generate_monte_carlo",
+      "tests": []
+    }
+  ]
+}

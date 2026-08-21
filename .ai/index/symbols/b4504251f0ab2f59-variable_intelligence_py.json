@@ -1,0 +1,910 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 7,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.GROUP_NAMES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "GROUP_NAMES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.N_GROUP_STATS",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "N_GROUP_STATS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.append",
+          "target": "groups.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.startswith",
+          "target": "name.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "groups.append": "attribute",
+        "lower": "attribute",
+        "name.startswith": "attribute",
+        "np.asarray": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.__init__"
+      ],
+      "calls": [
+        "getattr",
+        "groups.append",
+        "lower",
+        "name.startswith",
+        "np.asarray",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.infer_variable_groups",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(variables)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "infer_variable_groups",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.__init__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment._initialize_components"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "VariableGroupIntelligence",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "infer_variable_groups",
+          "target": "calo_rpd_studio.algorithms.calo.variable_intelligence.infer_variable_groups"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.bincount",
+          "target": "np.bincount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "infer_variable_groups": "name",
+        "int": "name",
+        "len": "name",
+        "np.bincount": "attribute",
+        "np.clip": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "infer_variable_groups",
+        "int",
+        "len",
+        "np.bincount",
+        "np.clip",
+        "np.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.infer_variable_groups"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, variables, n_regimes, decay)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.probabilities"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.available",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "available",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "available.astype",
+          "target": "available.astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.available",
+          "target": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.divide",
+          "target": "np.divide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros_like",
+          "target": "np.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "score.sum",
+          "target": "score.sum"
+        }
+      ],
+      "call_forms": {
+        "available.astype": "attribute",
+        "int": "name",
+        "np.any": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.divide": "attribute",
+        "np.full": "attribute",
+        "np.maximum": "attribute",
+        "np.where": "attribute",
+        "np.zeros_like": "attribute",
+        "score.sum": "attribute",
+        "self.available": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.choose"
+      ],
+      "calls": [
+        "available.astype",
+        "int",
+        "np.any",
+        "np.count_nonzero",
+        "np.divide",
+        "np.full",
+        "np.maximum",
+        "np.where",
+        "np.zeros_like",
+        "score.sum",
+        "self.available"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.available"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.probabilities",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, regime)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "probabilities",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argmax",
+          "target": "np.argmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.choice",
+          "target": "rng.choice"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "np.argmax": "attribute",
+        "rng.choice": "attribute",
+        "self.probabilities": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "np.argmax",
+        "rng.choice",
+        "self.probabilities"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.probabilities"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.choose",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, regime, rng, deterministic)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "choose",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "np.any": "attribute",
+        "np.ones": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "np.any",
+        "np.ones"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.mask",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, group, dimension)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "mask",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isposinf",
+          "target": "np.isposinf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.isposinf": "attribute",
+        "np.max": "attribute",
+        "np.mean": "attribute",
+        "np.where": "attribute",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "int",
+        "len",
+        "max",
+        "min",
+        "np.any",
+        "np.asarray",
+        "np.clip",
+        "np.count_nonzero",
+        "np.full",
+        "np.isfinite",
+        "np.isposinf",
+        "np.max",
+        "np.mean",
+        "np.where",
+        "range"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.variable_intelligence",
+      "qualname": "calo_rpd_studio.algorithms.calo.variable_intelligence.VariableGroupIntelligence.batch_update",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, regime, groups, successful, objective_gain, feasibility_gain, step_norm)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "batch_update",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,928 @@
+{
+  "path": "calo_rpd_studio/benchmarking/evidence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence.CampaignEvidence",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "CampaignEvidence",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence.CampaignEvidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence.CampaignEvidence.to_dict",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "data.get": "attribute",
+        "float": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "metadata.get": "attribute",
+        "row.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence"
+      ],
+      "calls": [
+        "bool",
+        "data.get",
+        "float",
+        "int",
+        "json.loads",
+        "metadata.get",
+        "row.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence._run_record",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(row)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_run_record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "descriptive_statistics",
+          "target": "calo_rpd_studio.statistics.descriptive.descriptive_statistics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isfinite",
+          "target": "isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "descriptive_statistics": "name",
+        "isfinite": "name",
+        "len": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence"
+      ],
+      "calls": [
+        "descriptive_statistics",
+        "isfinite",
+        "len",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.descriptive.descriptive_statistics"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence._algorithm_summary",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(records)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "_algorithm_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "by_algorithm.values",
+          "target": "by_algorithm.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isfinite",
+          "target": "isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rankdata",
+          "target": "rankdata"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.append",
+          "target": "values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "by_algorithm.values": "attribute",
+        "float": "name",
+        "isfinite": "name",
+        "list": "name",
+        "max": "name",
+        "rankdata": "name",
+        "values.append": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence"
+      ],
+      "calls": [
+        "abs",
+        "by_algorithm.values",
+        "float",
+        "isfinite",
+        "list",
+        "max",
+        "rankdata",
+        "values.append",
+        "zip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence._block_rank_values",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(by_algorithm)",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "_block_rank_values",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "algorithms.index",
+          "target": "algorithms.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "blocks.append",
+          "target": "blocks.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "by_run.setdefault",
+          "target": "by_run.setdefault"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CampaignEvidence",
+          "target": "calo_rpd_studio.benchmarking.evidence.CampaignEvidence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_algorithm_summary",
+          "target": "calo_rpd_studio.benchmarking.evidence._algorithm_summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_block_rank_values",
+          "target": "calo_rpd_studio.benchmarking.evidence._block_rank_values"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_run_record",
+          "target": "calo_rpd_studio.benchmarking.evidence._run_record"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cliffs_delta",
+          "target": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "holm_correction",
+          "target": "calo_rpd_studio.statistics.posthoc.holm_correction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible_candidates.append",
+          "target": "feasible_candidates.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible_rates.values",
+          "target": "feasible_rates.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "friedmanchisquare",
+          "target": "friedmanchisquare"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "global_statistics.get",
+          "target": "global_statistics.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "interpretations.append",
+          "target": "interpretations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "matrix.mean",
+          "target": "matrix.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "names.append",
+          "target": "names.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pairwise.items",
+          "target": "pairwise.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw_p.append",
+          "target": "raw_p.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "studentized_range.ppf",
+          "target": "studentized_range.ppf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_experiments.items",
+          "target": "task_experiments.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task_summaries.items",
+          "target": "task_summaries.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "test_rows.append",
+          "target": "test_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.catch_warnings",
+          "target": "warnings.catch_warnings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.simplefilter",
+          "target": "warnings.simplefilter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "wilcoxon",
+          "target": "wilcoxon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "CampaignEvidence": "name",
+        "_algorithm_summary": "name",
+        "_block_rank_values": "name",
+        "_run_record": "name",
+        "algorithms.index": "attribute",
+        "all": "name",
+        "append": "attribute",
+        "blocks.append": "attribute",
+        "bool": "name",
+        "by_run.setdefault": "attribute",
+        "cliffs_delta": "name",
+        "database.list_runs": "attribute",
+        "feasible_candidates.append": "attribute",
+        "feasible_rates.values": "attribute",
+        "float": "name",
+        "friedmanchisquare": "name",
+        "get": "attribute",
+        "global_statistics.get": "attribute",
+        "holm_correction": "name",
+        "interpretations.append": "attribute",
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "matrix.mean": "attribute",
+        "max": "name",
+        "min": "name",
+        "names.append": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.mean": "attribute",
+        "np.sqrt": "attribute",
+        "pairwise.items": "attribute",
+        "primary_algorithm_names": "name",
+        "range": "name",
+        "raw_p.append": "attribute",
+        "row.get": "attribute",
+        "sorted": "name",
+        "studentized_range.ppf": "attribute",
+        "task_experiments.items": "attribute",
+        "task_summaries.items": "attribute",
+        "test_rows.append": "attribute",
+        "warnings.catch_warnings": "attribute",
+        "warnings.simplefilter": "attribute",
+        "wilcoxon": "name",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.build",
+        "calo_rpd_studio.visualization.publication_evidence.plot_average_ranking",
+        "calo_rpd_studio.visualization.publication_evidence.plot_critical_difference_style",
+        "calo_rpd_studio.visualization.publication_evidence.plot_robustness_summary"
+      ],
+      "calls": [
+        "CampaignEvidence",
+        "_algorithm_summary",
+        "_block_rank_values",
+        "_run_record",
+        "algorithms.index",
+        "all",
+        "append",
+        "blocks.append",
+        "bool",
+        "by_run.setdefault",
+        "cliffs_delta",
+        "database.list_runs",
+        "feasible_candidates.append",
+        "feasible_rates.values",
+        "float",
+        "friedmanchisquare",
+        "get",
+        "global_statistics.get",
+        "holm_correction",
+        "interpretations.append",
+        "join",
+        "len",
+        "list",
+        "matrix.mean",
+        "max",
+        "min",
+        "names.append",
+        "np.asarray",
+        "np.isfinite",
+        "np.mean",
+        "np.sqrt",
+        "pairwise.items",
+        "primary_algorithm_names",
+        "range",
+        "raw_p.append",
+        "row.get",
+        "sorted",
+        "studentized_range.ppf",
+        "task_experiments.items",
+        "task_summaries.items",
+        "test_rows.append",
+        "warnings.catch_warnings",
+        "warnings.simplefilter",
+        "wilcoxon",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.evidence.CampaignEvidence",
+        "calo_rpd_studio.benchmarking.evidence._algorithm_summary",
+        "calo_rpd_studio.benchmarking.evidence._block_rank_values",
+        "calo_rpd_studio.benchmarking.evidence._run_record",
+        "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "calo_rpd_studio.statistics.posthoc.holm_correction"
+      ],
+      "doc": "",
+      "end_line": 263,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "cliffs_delta": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+        "dataclass": "dataclasses.dataclass",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "friedmanchisquare": "scipy.stats.friedmanchisquare",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "isfinite": "math.isfinite",
+        "json": "json",
+        "np": "numpy",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "rankdata": "scipy.stats.rankdata",
+        "studentized_range": "scipy.stats.studentized_range",
+        "warnings": "warnings",
+        "wilcoxon": "scipy.stats.wilcoxon"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.statistics.descriptive",
+        "calo_rpd_studio.statistics.effect_sizes",
+        "calo_rpd_studio.statistics.posthoc",
+        "dataclasses",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.evidence",
+      "qualname": "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(database, task_experiments, alpha, verified_only)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "build_campaign_evidence",
+      "tests": []
+    }
+  ]
+}

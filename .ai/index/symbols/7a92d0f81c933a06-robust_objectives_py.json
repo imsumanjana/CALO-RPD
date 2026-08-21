@@ -1,0 +1,760 @@
+{
+  "path": "calo_rpd_studio/robustness/robust_objectives.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.__post_init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "RobustAggregation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.__post_init__",
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "How scenario constraint violations define robust feasibility.",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "ConstraintAggregation",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "tests.unit.test_v57_previous_audit_closure.test_robust_feasibility_defaults_to_all_scenario_max_and_cannot_dilute_low_weight_violation",
+        "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "RobustObjectiveConfig",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintAggregation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustAggregation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.validate"
+        }
+      ],
+      "call_forms": {
+        "ConstraintAggregation": "name",
+        "RobustAggregation": "name",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ConstraintAggregation",
+        "RobustAggregation",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.validate"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.__post_init__"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._evaluate_population_direct",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "tests.unit.test_v57_previous_audit_closure.test_low_level_scenario_weights_reject_negative_nan_and_zero_sum"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite",
+        "np.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(weights)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "normalize_scenario_weights",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "weighted_cvar",
+          "target": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "normalize_scenario_weights",
+          "target": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "config.validate": "attribute",
+        "float": "name",
+        "normalize_scenario_weights": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.max": "attribute",
+        "np.sqrt": "attribute",
+        "np.sum": "attribute",
+        "weighted_cvar": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "calls": [
+        "ValueError",
+        "config.validate",
+        "float",
+        "normalize_scenario_weights",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "np.max",
+        "np.sqrt",
+        "np.sum",
+        "weighted_cvar"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(values, weights, config)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "aggregate_robust",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintAggregation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "normalize_scenario_weights",
+          "target": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "ConstraintAggregation": "name",
+        "ValueError": "name",
+        "config.validate": "attribute",
+        "float": "name",
+        "normalize_scenario_weights": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.max": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._evaluate_population_direct",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "tests.unit.test_v57_previous_audit_closure.test_robust_feasibility_defaults_to_all_scenario_max_and_cannot_dilute_low_weight_violation"
+      ],
+      "calls": [
+        "ConstraintAggregation",
+        "ValueError",
+        "config.validate",
+        "float",
+        "normalize_scenario_weights",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "np.max",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+      ],
+      "doc": "Aggregate scenario violations without silently diluting a violated scenario.",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/robust_objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".cvar",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.robust_objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.robust_objectives",
+      "qualname": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(violations, weights, config)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "aggregate_constraint_violation",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    }
+  ]
+}

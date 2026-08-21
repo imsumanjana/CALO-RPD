@@ -1,0 +1,254 @@
+{
+  "path": "calo_rpd_studio/results/solution_validator.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "audits.append",
+          "target": "audits.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_constraints",
+          "target": "calo_rpd_studio.orpd.constraints.evaluate_constraints"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_objective",
+          "target": "calo_rpd_studio.orpd.objectives.calculate_objective"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.components.get",
+          "target": "con.components.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_validation",
+          "target": "database.add_validation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_experiment",
+          "target": "database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_run",
+          "target": "database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isclose",
+          "target": "np.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.decoder.control_validity",
+          "target": "problem.decoder.control_validity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.decoder.decode",
+          "target": "problem.decoder.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate",
+          "target": "problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario.apply",
+          "target": "scenario.apply"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "KeyError": "name",
+        "abs": "name",
+        "all": "name",
+        "audits.append": "attribute",
+        "bool": "name",
+        "build_problem": "name",
+        "calculate_objective": "name",
+        "con.components.get": "attribute",
+        "database.add_validation": "attribute",
+        "database.get_experiment": "attribute",
+        "database.get_run": "attribute",
+        "evaluate_constraints": "name",
+        "float": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.isclose": "attribute",
+        "np.isfinite": "attribute",
+        "problem.decoder.control_validity": "attribute",
+        "problem.decoder.decode": "attribute",
+        "problem.evaluate": "attribute",
+        "run_ac_power_flow": "name",
+        "scenario.apply": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate"
+      ],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "KeyError",
+        "abs",
+        "all",
+        "audits.append",
+        "bool",
+        "build_problem",
+        "calculate_objective",
+        "con.components.get",
+        "database.add_validation",
+        "database.get_experiment",
+        "database.get_run",
+        "evaluate_constraints",
+        "float",
+        "int",
+        "json.loads",
+        "max",
+        "np.asarray",
+        "np.isclose",
+        "np.isfinite",
+        "problem.decoder.control_validity",
+        "problem.decoder.decode",
+        "problem.evaluate",
+        "run_ac_power_flow",
+        "scenario.apply"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/solution_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "json": "json",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.solution_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.solution_validator",
+      "qualname": "calo_rpd_studio.results.solution_validator.validate_stored_run",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(database, run_id, rtol, atol)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "validate_stored_run",
+      "tests": []
+    }
+  ]
+}

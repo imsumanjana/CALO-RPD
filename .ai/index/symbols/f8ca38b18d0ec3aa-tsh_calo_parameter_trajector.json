@@ -1,0 +1,291 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_trajectory.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_trajectory.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "annotations": "__future__.annotations",
+        "defaultdict": "collections.defaultdict",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        "__future__",
+        "collections",
+        "math",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory.TSH_CALO_PARAMETER_TRAJECTORY_SUMMARY_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "TSH_CALO_PARAMETER_TRAJECTORY_SUMMARY_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "by_parameter.get",
+          "target": "by_parameter.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "defaultdict",
+          "target": "defaultdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.corrcoef",
+          "target": "np.corrcoef"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.min",
+          "target": "np.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.std",
+          "target": "np.std"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.append",
+          "target": "parameters.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reward_associations.get",
+          "target": "reward_associations.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "append": "attribute",
+        "bool": "name",
+        "by_parameter.get": "attribute",
+        "defaultdict": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "math.isfinite": "attribute",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.corrcoef": "attribute",
+        "np.isfinite": "attribute",
+        "np.max": "attribute",
+        "np.mean": "attribute",
+        "np.min": "attribute",
+        "np.std": "attribute",
+        "parameters.append": "attribute",
+        "reward_associations.get": "attribute",
+        "row.get": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_parameter_trajectory.test_parameter_trajectory_summary_uses_scaled_values_and_reward"
+      ],
+      "calls": [
+        "ValueError",
+        "append",
+        "bool",
+        "by_parameter.get",
+        "defaultdict",
+        "enumerate",
+        "float",
+        "int",
+        "len",
+        "list",
+        "math.isfinite",
+        "np.all",
+        "np.asarray",
+        "np.corrcoef",
+        "np.isfinite",
+        "np.max",
+        "np.mean",
+        "np.min",
+        "np.std",
+        "parameters.append",
+        "reward_associations.get",
+        "row.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_trajectory.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "annotations": "__future__.annotations",
+        "defaultdict": "collections.defaultdict",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        "__future__",
+        "collections",
+        "math",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_trajectory.summarize_parameter_trajectory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(rows)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "summarize_parameter_trajectory",
+      "tests": [
+        "tests/unit/test_tsh_calo_parameter_trajectory.py"
+      ]
+    }
+  ]
+}

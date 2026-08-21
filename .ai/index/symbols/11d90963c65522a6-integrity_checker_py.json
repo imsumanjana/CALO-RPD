@@ -1,0 +1,109 @@
+{
+  "path": "calo_rpd_studio/results/integrity_checker.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issues.append",
+          "target": "issues.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "data.get": "attribute",
+        "float": "name",
+        "int": "name",
+        "issues.append": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate"
+      ],
+      "calls": [
+        "data.get",
+        "float",
+        "int",
+        "issues.append",
+        "json.loads",
+        "len",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/integrity_checker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "json": "json",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "json",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.integrity_checker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.integrity_checker",
+      "qualname": "calo_rpd_studio.results.integrity_checker.check_run_record",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(row)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "check_run_record",
+      "tests": []
+    }
+  ]
+}

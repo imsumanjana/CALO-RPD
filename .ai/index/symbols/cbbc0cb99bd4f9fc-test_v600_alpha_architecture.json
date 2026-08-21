@@ -1,0 +1,1398 @@
+{
+  "path": "tests/unit/test_v600_alpha_architecture.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologySnapshot",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ComputeTopologySnapshot": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots"
+      ],
+      "calls": [
+        "ComputeTopologySnapshot",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeTopologySnapshot"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._topology",
+      "semantic_tags": [],
+      "signature": "(devices, logical, physical, ram_gib, ram_used)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "_topology",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeDevice",
+          "target": "calo_rpd_studio.compute.topology.ComputeDevice"
+        }
+      ],
+      "call_forms": {
+        "ComputeDevice": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+        "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots"
+      ],
+      "calls": [
+        "ComputeDevice"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeDevice"
+      ],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._device",
+      "semantic_tags": [],
+      "signature": "(runtime_id, backend, runtime, full_branch, memory)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "migrate_legacy_workspace_index",
+          "target": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "workspace_index_for_key",
+          "target": "calo_rpd_studio.app.workspaces.workspace_index_for_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "workspace_key_for_index",
+          "target": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+        }
+      ],
+      "call_forms": {
+        "migrate_legacy_workspace_index": "name",
+        "workspace_index_for_key": "name",
+        "workspace_key_for_index": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "migrate_legacy_workspace_index",
+        "workspace_index_for_key",
+        "workspace_key_for_index"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      ],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_v600_workspace_order_and_legacy_migration_are_key_based",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "test_v600_workspace_order_and_legacy_migration_are_key_based",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v600_alpha_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v600_alpha_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "_device": "name",
+        "_topology": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "_device",
+        "_topology",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "tests.unit.test_v600_alpha_architecture._device",
+        "tests.unit.test_v600_alpha_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "test_safe80_profile_calculates_global_budget_and_validated_branch_slots",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v600_alpha_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "_topology": "name",
+        "calculate": "attribute",
+        "int": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "_topology",
+        "calculate",
+        "int"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "tests.unit.test_v600_alpha_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "test_safe80_host_allowance_is_80_percent_of_currently_available_ram",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v600_alpha_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v600_alpha_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "_device": "name",
+        "_topology": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "_device",
+        "_topology",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "tests.unit.test_v600_alpha_architecture._device",
+        "tests.unit.test_v600_alpha_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v600_alpha_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v600_alpha_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "_device": "name",
+        "_topology": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "_device",
+        "_topology",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "tests.unit.test_v600_alpha_architecture._device",
+        "tests.unit.test_v600_alpha_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 105,
+      "state_owner": "",
+      "symbol": "test_safe80_accelerator_memory_headroom_is_required_for_branch_admission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v600_alpha_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "_topology": "name",
+        "any": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "_topology",
+        "any",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "tests.unit.test_v600_alpha_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_safe80_memory_pressure_can_block_training_capacity",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 116,
+      "state_owner": "",
+      "symbol": "test_safe80_memory_pressure_can_block_training_capacity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Policy",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "_Policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture._Policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Policy.compatible_with",
+      "semantic_tags": [],
+      "signature": "(self, algorithm_id)",
+      "start_line": 142,
+      "state_owner": "",
+      "symbol": "compatible_with",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 162,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Registry",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "_Registry",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 150,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture._Registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Registry.__init__",
+      "semantic_tags": [],
+      "signature": "(self, records, checksum, reject_binding)",
+      "start_line": 147,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture._Registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Registry.list",
+      "semantic_tags": [],
+      "signature": "(self, include_archived)",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "list",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 156,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture._Registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Registry.inspect_checkpoint",
+      "semantic_tags": [],
+      "signature": "(self, path)",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "inspect_checkpoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 162,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture._Registry",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture._Registry.bind_to_experiment_config",
+      "semantic_tags": [],
+      "signature": "(self, policy_id, config, **_kwargs)",
+      "start_line": 158,
+      "state_owner": "",
+      "symbol": "bind_to_experiment_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_governing_policy",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Policy",
+          "target": "tests.unit.test_v600_alpha_architecture._Policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Registry",
+          "target": "tests.unit.test_v600_alpha_architecture._Registry"
+        }
+      ],
+      "call_forms": {
+        "_Policy": "name",
+        "_Registry": "name",
+        "evaluate_governing_policy": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_Policy",
+        "_Registry",
+        "evaluate_governing_policy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "tests.unit.test_v600_alpha_architecture._Policy",
+        "tests.unit.test_v600_alpha_architecture._Registry"
+      ],
+      "doc": "",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 165,
+      "state_owner": "",
+      "symbol": "test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_plan_branch_devices",
+          "target": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_plan_branch_devices": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_plan_branch_devices"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_beta_separates_total_branches_from_safe_concurrency",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 181,
+      "state_owner": "",
+      "symbol": "test_competitive_planner_beta_separates_total_branches_from_safe_concurrency",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_plan_branch_devices",
+          "target": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_plan_branch_devices": "name",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_plan_branch_devices",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 195,
+      "entry_point": false,
+      "file": "tests/unit/test_v600_alpha_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "_plan_branch_devices": "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_devices",
+        "annotations": "__future__.annotations",
+        "competitive": "calo_rpd_studio.algorithms.calo.competitive_training",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "migrate_legacy_workspace_index": "calo_rpd_studio.app.workspaces.migrate_legacy_workspace_index",
+        "pytest": "pytest",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.compute.topology",
+        "dataclasses",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v600_alpha_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v600_alpha_architecture",
+      "qualname": "tests.unit.test_v600_alpha_architecture.test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "test_competitive_planner_never_silently_falls_back_from_explicit_cuda",
+      "tests": []
+    }
+  ]
+}

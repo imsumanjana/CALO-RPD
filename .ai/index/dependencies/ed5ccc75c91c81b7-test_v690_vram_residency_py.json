@@ -1,0 +1,388 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/device_resident_orpd.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/vram_residency.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_lease.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/memory_budget.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    }
+  ],
+  "path": "tests/unit/test_v690_vram_residency.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency._lease_attempt",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency._lease_attempt",
+      "to": "lease.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency._lease_attempt",
+      "to": "queue.put"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency._root",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency._root",
+      "to": "resolve"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_available_vram_admission_includes_but_does_not_rebudget_existing_reservation",
+      "to": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_available_vram_admission_uses_free_not_total_capacity",
+      "to": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_available_vram_admission_uses_free_not_total_capacity",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "contender.join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "contender.start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "context.Process"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "context.Queue"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "first.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "multiprocessing.get_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "queue.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "second.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_device_lease_is_shared_in_process_and_exclusive_across_processes",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "FakeOutOfMemoryError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyStats"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "governor.run_microbatched"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "object.__new__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_minimum_cuda_microbatch_raises_typed_capacity_exhaustion_with_provenance",
+      "to": "throw"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+      "to": "restored.validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "governor.run_microbatched"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "np.array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent.evaluate_once",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_cpu_governor_is_transparent.evaluate_once",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_defaults_use_fixed_80_percent_of_currently_free_vram",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_defaults_use_fixed_80_percent_of_currently_free_vram",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_defaults_use_fixed_80_percent_of_currently_free_vram",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device",
+      "to": "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentBatch.concatenate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device",
+      "to": "pytest.importorskip"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device",
+      "to": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make",
+      "to": "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentBatch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make",
+      "to": "objective.clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make",
+      "to": "torch.tensor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make",
+      "to": "torch.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_device_batch_concatenation_stays_on_torch_device.make",
+      "to": "violation.clone"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_direct_non_80_percent_configuration_is_rejected",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_direct_non_80_percent_configuration_is_rejected",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_direct_non_80_percent_configuration_is_rejected",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_hot_loop_and_training_sources_avoid_per_step_host_scalar_reads",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_hot_loop_and_training_sources_avoid_per_step_host_scalar_reads",
+      "to": "tests.unit.test_v690_vram_residency._root"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyStats"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "governor.run_microbatched"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "np.array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "object.__new__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback.concatenate",
+      "to": "np.concatenate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback.evaluate_once",
+      "to": "FakeOutOfMemoryError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback.evaluate_once",
+      "to": "chunk.copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback.evaluate_once",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_oom_backoff_retries_on_accelerator_without_cpu_fallback.evaluate_once",
+      "to": "observed.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_vram_policy_rejects_unsafe_hard_100_percent",
+      "to": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_vram_policy_rejects_unsafe_hard_100_percent",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v690_vram_residency.test_v690_vram_policy_rejects_unsafe_hard_100_percent",
+      "to": "validate"
+    }
+  ]
+}

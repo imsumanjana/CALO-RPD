@@ -1,0 +1,1538 @@
+{
+  "path": "calo_rpd_studio/power_system/newton_raphson.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._LOG",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson.MAX_DENSE_FALLBACK_BUSES",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "MAX_DENSE_FALLBACK_BUSES",
+      "tests": [
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson.NewtonResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "NewtonResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Ephemeral final-state derivatives from one already-counted Newton solve.",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson.NewtonLinearization",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "NewtonLinearization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        }
+      ],
+      "call_forms": {
+        "np.conj": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization",
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      ],
+      "calls": [
+        "np.conj"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._mismatch",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, sbus, voltage, pvpq, pq)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "_mismatch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.angle",
+          "target": "np.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.block",
+          "target": "np.block"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.cos",
+          "target": "np.cos"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.diag",
+          "target": "np.diag"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ix_",
+          "target": "np.ix_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sin",
+          "target": "np.sin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ybus.toarray",
+          "target": "ybus.toarray"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "hasattr": "name",
+        "int": "name",
+        "len": "name",
+        "np.abs": "attribute",
+        "np.angle": "attribute",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "np.block": "attribute",
+        "np.conj": "attribute",
+        "np.cos": "attribute",
+        "np.diag": "attribute",
+        "np.ix_": "attribute",
+        "np.maximum": "attribute",
+        "np.sin": "attribute",
+        "ybus.toarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson._jacobian",
+        "tests.unit.test_v660_remaining_audit.test_c07_dense_newton_fallback_is_bounded_before_quadratic_allocation"
+      ],
+      "calls": [
+        "RuntimeError",
+        "hasattr",
+        "int",
+        "len",
+        "np.abs",
+        "np.angle",
+        "np.arange",
+        "np.asarray",
+        "np.block",
+        "np.conj",
+        "np.cos",
+        "np.diag",
+        "np.ix_",
+        "np.maximum",
+        "np.sin",
+        "ybus.toarray"
+      ],
+      "calls_resolved": [],
+      "doc": "Deterministic compatibility fallback for bounded-size systems only.",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._dense_jacobian",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, voltage, pvpq, pq)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "_dense_jacobian",
+      "tests": [
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.diag",
+          "target": "np.diag"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ybus.toarray",
+          "target": "ybus.toarray"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "hasattr": "name",
+        "int": "name",
+        "np.abs": "attribute",
+        "np.asarray": "attribute",
+        "np.conj": "attribute",
+        "np.diag": "attribute",
+        "np.maximum": "attribute",
+        "ybus.toarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson._power_derivatives"
+      ],
+      "calls": [
+        "RuntimeError",
+        "hasattr",
+        "int",
+        "np.abs",
+        "np.asarray",
+        "np.conj",
+        "np.diag",
+        "np.maximum",
+        "ybus.toarray"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._dense_power_derivatives",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, voltage)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "_dense_power_derivatives",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_dense_power_derivatives",
+          "target": "calo_rpd_studio.power_system.newton_raphson._dense_power_derivatives"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "conjugate",
+          "target": "conjugate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "csr_matrix",
+          "target": "csr_matrix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dS_dVa.tocsr",
+          "target": "dS_dVa.tocsr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dS_dVm.tocsr",
+          "target": "dS_dVm.tocsr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "diag_i.conjugate",
+          "target": "diag_i.conjugate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "diags",
+          "target": "diags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "_dense_power_derivatives": "name",
+        "conjugate": "attribute",
+        "csr_matrix": "name",
+        "dS_dVa.tocsr": "attribute",
+        "dS_dVm.tocsr": "attribute",
+        "diag_i.conjugate": "attribute",
+        "diags": "name",
+        "np.abs": "attribute",
+        "np.asarray": "attribute",
+        "np.maximum": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson._jacobian",
+        "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization"
+      ],
+      "calls": [
+        "_LOG.warning",
+        "_dense_power_derivatives",
+        "conjugate",
+        "csr_matrix",
+        "dS_dVa.tocsr",
+        "dS_dVm.tocsr",
+        "diag_i.conjugate",
+        "diags",
+        "np.abs",
+        "np.asarray",
+        "np.maximum",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.newton_raphson._dense_power_derivatives"
+      ],
+      "doc": "Return full MATPOWER-style complex voltage derivatives.",
+      "end_line": 133,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._power_derivatives",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, voltage)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "_power_derivatives",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hstack",
+          "target": "hstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "imag.tocsr",
+          "target": "imag.tocsr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issparse",
+          "target": "issparse"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.block",
+          "target": "np.block"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ix_",
+          "target": "np.ix_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "real.tocsr",
+          "target": "real.tocsr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vstack",
+          "target": "vstack"
+        }
+      ],
+      "call_forms": {
+        "hstack": "name",
+        "imag.tocsr": "attribute",
+        "issparse": "name",
+        "np.asarray": "attribute",
+        "np.block": "attribute",
+        "np.ix_": "attribute",
+        "real.tocsr": "attribute",
+        "vstack": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson._jacobian",
+        "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization"
+      ],
+      "calls": [
+        "hstack",
+        "imag.tocsr",
+        "issparse",
+        "np.asarray",
+        "np.block",
+        "np.ix_",
+        "real.tocsr",
+        "vstack"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._jacobian_from_derivatives",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(dS_dVa, dS_dVm, pvpq, pq)",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "_jacobian_from_derivatives",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_dense_jacobian",
+          "target": "calo_rpd_studio.power_system.newton_raphson._dense_jacobian"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_jacobian_from_derivatives",
+          "target": "calo_rpd_studio.power_system.newton_raphson._jacobian_from_derivatives"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_power_derivatives",
+          "target": "calo_rpd_studio.power_system.newton_raphson._power_derivatives"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "_dense_jacobian": "name",
+        "_jacobian_from_derivatives": "name",
+        "_power_derivatives": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson",
+        "tests.unit.test_v580_audit_closure.test_sparse_newton_jacobian_stays_sparse_when_scipy_is_available"
+      ],
+      "calls": [
+        "_LOG.warning",
+        "_dense_jacobian",
+        "_jacobian_from_derivatives",
+        "_power_derivatives",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.newton_raphson._dense_jacobian",
+        "calo_rpd_studio.power_system.newton_raphson._jacobian_from_derivatives",
+        "calo_rpd_studio.power_system.newton_raphson._power_derivatives"
+      ],
+      "doc": "Build MATPOWER-style dS/dVa,dS/dVm blocks without dense Ybus construction.",
+      "end_line": 175,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._jacobian",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, voltage, pvpq, pq)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "_jacobian",
+      "tests": [
+        "tests/unit/test_v580_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "NewtonLinearization",
+          "target": "calo_rpd_studio.power_system.newton_raphson.NewtonLinearization"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_jacobian_from_derivatives",
+          "target": "calo_rpd_studio.power_system.newton_raphson._jacobian_from_derivatives"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mismatch",
+          "target": "calo_rpd_studio.power_system.newton_raphson._mismatch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_power_derivatives",
+          "target": "calo_rpd_studio.power_system.newton_raphson._power_derivatives"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pq.copy",
+          "target": "pq.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pvpq.copy",
+          "target": "pvpq.copy"
+        }
+      ],
+      "call_forms": {
+        "NewtonLinearization": "name",
+        "_jacobian_from_derivatives": "name",
+        "_mismatch": "name",
+        "_power_derivatives": "name",
+        "astype": "attribute",
+        "np.asarray": "attribute",
+        "pq.copy": "attribute",
+        "pvpq.copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      ],
+      "calls": [
+        "NewtonLinearization",
+        "_jacobian_from_derivatives",
+        "_mismatch",
+        "_power_derivatives",
+        "astype",
+        "np.asarray",
+        "pq.copy",
+        "pvpq.copy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.newton_raphson.NewtonLinearization",
+        "calo_rpd_studio.power_system.newton_raphson._jacobian_from_derivatives",
+        "calo_rpd_studio.power_system.newton_raphson._mismatch",
+        "calo_rpd_studio.power_system.newton_raphson._power_derivatives"
+      ],
+      "doc": "Retain derivatives at the converged state without another power-flow solve.",
+      "end_line": 192,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, sbus, voltage, pv, pq)",
+      "start_line": 178,
+      "state_owner": "",
+      "symbol": "build_newton_linearization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "csr_matrix",
+          "target": "csr_matrix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issparse",
+          "target": "issparse"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "jacobian.toarray",
+          "target": "jacobian.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.errstate",
+          "target": "np.errstate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.solve",
+          "target": "np.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spsolve",
+          "target": "spsolve"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "csr_matrix": "name",
+        "hasattr": "name",
+        "issparse": "name",
+        "jacobian.toarray": "attribute",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.errstate": "attribute",
+        "np.isfinite": "attribute",
+        "np.linalg.solve": "attribute",
+        "spsolve": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      ],
+      "calls": [
+        "_LOG.debug",
+        "csr_matrix",
+        "hasattr",
+        "issparse",
+        "jacobian.toarray",
+        "np.all",
+        "np.asarray",
+        "np.errstate",
+        "np.isfinite",
+        "np.linalg.solve",
+        "spsolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 211,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson._solve_linear",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(jacobian, rhs)",
+      "start_line": 195,
+      "state_owner": "",
+      "symbol": "_solve_linear",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "NewtonResult",
+          "target": "calo_rpd_studio.power_system.newton_raphson.NewtonResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_jacobian",
+          "target": "calo_rpd_studio.power_system.newton_raphson._jacobian"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mismatch",
+          "target": "calo_rpd_studio.power_system.newton_raphson._mismatch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_solve_linear",
+          "target": "calo_rpd_studio.power_system.newton_raphson._solve_linear"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_newton_linearization",
+          "target": "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "history.append",
+          "target": "history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.angle",
+          "target": "np.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "va.copy",
+          "target": "va.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm.copy",
+          "target": "vm.copy"
+        }
+      ],
+      "call_forms": {
+        "NewtonResult": "name",
+        "_LOG.warning": "attribute",
+        "_jacobian": "name",
+        "_mismatch": "name",
+        "_solve_linear": "name",
+        "astype": "attribute",
+        "build_newton_linearization": "name",
+        "copy": "attribute",
+        "float": "name",
+        "history.append": "attribute",
+        "int": "name",
+        "len": "name",
+        "min": "name",
+        "np.abs": "attribute",
+        "np.all": "attribute",
+        "np.angle": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.exp": "attribute",
+        "np.isfinite": "attribute",
+        "np.max": "attribute",
+        "range": "name",
+        "va.copy": "attribute",
+        "vm.copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "NewtonResult",
+        "_LOG.warning",
+        "_jacobian",
+        "_mismatch",
+        "_solve_linear",
+        "astype",
+        "build_newton_linearization",
+        "copy",
+        "float",
+        "history.append",
+        "int",
+        "len",
+        "min",
+        "np.abs",
+        "np.all",
+        "np.angle",
+        "np.any",
+        "np.asarray",
+        "np.exp",
+        "np.isfinite",
+        "np.max",
+        "range",
+        "va.copy",
+        "vm.copy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.newton_raphson.NewtonResult",
+        "calo_rpd_studio.power_system.newton_raphson._jacobian",
+        "calo_rpd_studio.power_system.newton_raphson._mismatch",
+        "calo_rpd_studio.power_system.newton_raphson._solve_linear",
+        "calo_rpd_studio.power_system.newton_raphson.build_newton_linearization"
+      ],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/newton_raphson.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "csr_matrix": "scipy.sparse.csr_matrix",
+        "dataclass": "dataclasses.dataclass",
+        "diags": "scipy.sparse.diags",
+        "hstack": "scipy.sparse.hstack",
+        "issparse": "scipy.sparse.issparse",
+        "logging": "logging",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "vstack": "scipy.sparse.vstack"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "logging",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.newton_raphson",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.newton_raphson",
+      "qualname": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(ybus, sbus, v0, ref, pv, pq, tolerance, max_iterations, minimum_damping, retain_linearization)",
+      "start_line": 214,
+      "state_owner": "",
+      "symbol": "solve_newton_raphson",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    }
+  ]
+}

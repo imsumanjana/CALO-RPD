@@ -1,0 +1,1435 @@
+{
+  "path": "tests/unit/test_tsh_calo_physics_repair.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DecisionVariable",
+          "target": "calo_rpd_studio.orpd.decision_variables.DecisionVariable"
+        }
+      ],
+      "call_forms": {
+        "DecisionVariable": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_physics_repair.test_physics_repair_and_seventh_operator_are_disabled_by_default",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_singular_supplied_jacobian_records_failure_without_candidate"
+      ],
+      "calls": [
+        "DecisionVariable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.decision_variables.DecisionVariable"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair._variables",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_variables",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairContext",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.eye",
+          "target": "np.eye"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairContext": "name",
+        "dict": "name",
+        "np.asarray": "attribute",
+        "np.eye": "attribute",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_physics_repair.test_context_exposure_requires_residual_sensitivity_and_conditioning",
+        "tests.unit.test_tsh_calo_physics_repair.test_physics_repair_and_seventh_operator_are_disabled_by_default",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_singular_supplied_jacobian_records_failure_without_candidate"
+      ],
+      "calls": [
+        "PhysicsRepairContext",
+        "dict",
+        "np.asarray",
+        "np.eye",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+      ],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair._context",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_context",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "physics_repair_context_from_counted_evaluation",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.getsource",
+          "target": "inspect.getsource"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "inspect.getsource": "attribute",
+        "len": "name",
+        "np.full": "attribute",
+        "physics_repair_context_from_counted_evaluation": "name",
+        "problem.evaluate_with_context": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "inspect.getsource",
+        "len",
+        "np.full",
+        "physics_repair_context_from_counted_evaluation",
+        "problem.evaluate_with_context"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_counted_orpd_linearization_adapts_without_an_evaluator_call",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "test_counted_orpd_linearization_adapts_without_an_evaluator_call",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "physics_repair_context_is_usable",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        }
+      ],
+      "call_forms": {
+        "_context": "name",
+        "np.zeros": "attribute",
+        "physics_repair_context_is_usable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_context",
+        "np.zeros",
+        "physics_repair_context_is_usable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "tests.unit.test_tsh_calo_physics_repair._context"
+      ],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_context_exposure_requires_residual_sensitivity_and_conditioning",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "test_context_exposure_requires_residual_sensitivity_and_conditioning",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "physics_repair_context_from_counted_evaluation",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "physics_repair_context_is_usable",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "decode_discrete",
+          "target": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operator.propose",
+          "target": "operator.propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_with_context",
+          "target": "problem.evaluate_with_context"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "decode_discrete": "name",
+        "enumerate": "name",
+        "np.full": "attribute",
+        "operator.propose": "attribute",
+        "physics_repair_context_from_counted_evaluation": "name",
+        "physics_repair_context_is_usable": "name",
+        "problem.evaluate_with_context": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDProblem",
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "decode_discrete",
+        "enumerate",
+        "np.full",
+        "operator.propose",
+        "physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable",
+        "problem.evaluate_with_context"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask.from_control_groups",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "propose",
+          "target": "propose"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask.from_control_groups": "attribute",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "any": "attribute",
+        "bool": "name",
+        "np.asarray": "attribute",
+        "propose": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask.from_control_groups",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "any",
+        "bool",
+        "np.asarray",
+        "propose"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_physics_repair_and_seventh_operator_are_disabled_by_default",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 105,
+      "state_owner": "",
+      "symbol": "test_physics_repair_and_seventh_operator_are_disabled_by_default",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.getsource",
+          "target": "inspect.getsource"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operator.propose",
+          "target": "operator.propose"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "inspect.getsource": "attribute",
+        "np.asarray": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "operator.propose": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "inspect.getsource",
+        "np.asarray",
+        "np.testing.assert_allclose",
+        "operator.propose"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 129,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 116,
+      "state_owner": "",
+      "symbol": "test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "propose",
+          "target": "propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "np.asarray": "attribute",
+        "propose": "attribute",
+        "pytest.mark.parametrize": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "np.asarray",
+        "propose",
+        "pytest.mark.parametrize"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+      "semantic_tags": [],
+      "signature": "(context, reason)",
+      "start_line": 142,
+      "state_owner": "",
+      "symbol": "test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "propose",
+          "target": "propose"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "np.asarray": "attribute",
+        "np.zeros": "attribute",
+        "propose": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "np.asarray",
+        "np.zeros",
+        "propose"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 161,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_singular_supplied_jacobian_records_failure_without_candidate",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "test_singular_supplied_jacobian_records_failure_without_candidate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_physics_repair_proposal",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "propose",
+          "target": "propose"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "evaluate_physics_repair_proposal": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "propose": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "evaluate_physics_repair_proposal",
+        "len",
+        "np.asarray",
+        "propose"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 164,
+      "state_owner": "",
+      "symbol": "test_repair_proposal_requires_one_explicit_trusted_evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "calls.append": "attribute",
+        "copy": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.evaluate_requests",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer._evaluate_population_with_context"
+      ],
+      "calls": [
+        "calls.append",
+        "copy",
+        "np.asarray"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 172,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation.evaluator",
+      "semantic_tags": [],
+      "signature": "(population)",
+      "start_line": 170,
+      "state_owner": "",
+      "symbol": "evaluator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_physics_repair_proposal",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "object",
+          "target": "object"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "propose",
+          "target": "propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_context",
+          "target": "tests.unit.test_tsh_calo_physics_repair._context"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_variables",
+          "target": "tests.unit.test_tsh_calo_physics_repair._variables"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_context": "name",
+        "_variables": "name",
+        "evaluate_physics_repair_proposal": "name",
+        "np.asarray": "attribute",
+        "object": "name",
+        "propose": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_context",
+        "_variables",
+        "evaluate_physics_repair_proposal",
+        "np.asarray",
+        "object",
+        "propose",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_physics_repair._variables"
+      ],
+      "doc": "",
+      "end_line": 192,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "evaluate_physics_repair_proposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "inspect": "inspect",
+        "np": "numpy",
+        "physics_repair_context_from_counted_evaluation": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "physics_repair_context_is_usable": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.mixed_variable_handler",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_physics_repair",
+      "qualname": "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 183,
+      "state_owner": "",
+      "symbol": "test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+      "tests": []
+    }
+  ]
+}

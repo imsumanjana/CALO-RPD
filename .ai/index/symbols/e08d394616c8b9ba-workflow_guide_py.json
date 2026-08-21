@@ -1,0 +1,345 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/workflow_guide.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/workflow_guide.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.workflow_guide",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.workflow_guide",
+      "qualname": "calo_rpd_studio.gui.widgets.workflow_guide.WorkflowGuide",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "WorkflowGuide",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addLayout",
+          "target": "layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.instruction.setObjectName",
+          "target": "self.instruction.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.instruction.setWordWrap",
+          "target": "self.instruction.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_button.clicked.connect",
+          "target": "self.next_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_button.setObjectName",
+          "target": "self.next_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.step.setObjectName",
+          "target": "self.step.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text_layout.addWidget",
+          "target": "text_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text_layout.setContentsMargins",
+          "target": "text_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text_layout.setSpacing",
+          "target": "text_layout.setSpacing"
+        }
+      ],
+      "call_forms": {
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "layout.addLayout": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self.instruction.setObjectName": "attribute",
+        "self.instruction.setWordWrap": "attribute",
+        "self.next_button.clicked.connect": "attribute",
+        "self.next_button.setObjectName": "attribute",
+        "self.setObjectName": "attribute",
+        "self.step.setObjectName": "attribute",
+        "super": "name",
+        "text_layout.addWidget": "attribute",
+        "text_layout.setContentsMargins": "attribute",
+        "text_layout.setSpacing": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QVBoxLayout",
+        "__init__",
+        "layout.addLayout",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self.instruction.setObjectName",
+        "self.instruction.setWordWrap",
+        "self.next_button.clicked.connect",
+        "self.next_button.setObjectName",
+        "self.setObjectName",
+        "self.step.setObjectName",
+        "super",
+        "text_layout.addWidget",
+        "text_layout.setContentsMargins",
+        "text_layout.setSpacing"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/workflow_guide.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.workflow_guide.WorkflowGuide",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.workflow_guide",
+      "qualname": "calo_rpd_studio.gui.widgets.workflow_guide.WorkflowGuide.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, parent)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.instruction.setText",
+          "target": "self.instruction.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.instruction.setToolTip",
+          "target": "self.instruction.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_button.setEnabled",
+          "target": "self.next_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_button.setText",
+          "target": "self.next_button.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.step.setText",
+          "target": "self.step.setText"
+        }
+      ],
+      "call_forms": {
+        "self.instruction.setText": "attribute",
+        "self.instruction.setToolTip": "attribute",
+        "self.next_button.setEnabled": "attribute",
+        "self.next_button.setText": "attribute",
+        "self.step.setText": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.instruction.setText",
+        "self.instruction.setToolTip",
+        "self.next_button.setEnabled",
+        "self.next_button.setText",
+        "self.step.setText"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/workflow_guide.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.workflow_guide.WorkflowGuide",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.workflow_guide",
+      "qualname": "calo_rpd_studio.gui.widgets.workflow_guide.WorkflowGuide.set_guidance",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, step_text, instruction, button_text, enabled)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "set_guidance",
+      "tests": []
+    }
+  ]
+}

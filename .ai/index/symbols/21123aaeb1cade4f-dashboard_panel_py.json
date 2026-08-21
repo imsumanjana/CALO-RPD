@@ -1,0 +1,3780 @@
+{
+  "path": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel._LOG",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_compute"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel._bytes_text",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(value)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "_bytes_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.unit.test_scientist_gui_contract.test_dashboard_readiness_uses_scientist_facing_resource_language",
+        "tests.unit.test_scientist_gui_contract.test_failed_study_application_does_not_mutate_live_configuration",
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 877,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "DashboardPanel",
+      "tests": [
+        "tests/unit/test_scientist_gui_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QDoubleSpinBox",
+          "target": "QDoubleSpinBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFormLayout",
+          "target": "QFormLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGridLayout",
+          "target": "QGridLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QScrollArea",
+          "target": "QScrollArea"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTabWidget",
+          "target": "QTabWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTimer",
+          "target": "QTimer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "activity_metrics.addWidget",
+          "target": "activity_metrics.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._study_strength_changed",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._study_strength_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_compute",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_compute"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_governor",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_governor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_policy",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_training_plan",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_training_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DisclosurePanel",
+          "target": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "MetricCard",
+          "target": "calo_rpd_studio.gui.widgets.section_card.MetricCard"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SectionCard",
+          "target": "calo_rpd_studio.gui.widgets.section_card.SectionCard"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.available_cases",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "card.setSizePolicy",
+          "target": "card.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.layout_root.addLayout",
+          "target": "context.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_tab_layout.addStretch",
+          "target": "context_tab_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_tab_layout.addWidget",
+          "target": "context_tab_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_tab_layout.setContentsMargins",
+          "target": "context_tab_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context_tab_layout.setSpacing",
+          "target": "context_tab_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "divmod",
+          "target": "divmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.addWidget",
+          "target": "grid.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.setColumnStretch",
+          "target": "grid.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.setContentsMargins",
+          "target": "grid.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.setHorizontalSpacing",
+          "target": "grid.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.setVerticalSpacing",
+          "target": "grid.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "header.setSectionResizeMode",
+          "target": "header.setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.setObjectName",
+          "target": "key.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.addWidget",
+          "target": "metrics.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.setColumnStretch",
+          "target": "metrics.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.setHorizontalSpacing",
+          "target": "metrics.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.setVerticalSpacing",
+          "target": "metrics.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next_action_row.addWidget",
+          "target": "next_action_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_grid.addWidget",
+          "target": "queue_grid.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_grid.setColumnStretch",
+          "target": "queue_grid.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_grid.setHorizontalSpacing",
+          "target": "queue_grid.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_grid.setVerticalSpacing",
+          "target": "queue_grid.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness.layout_root.addLayout",
+          "target": "readiness.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness.layout_root.addWidget",
+          "target": "readiness.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness_tab_layout.addStretch",
+          "target": "readiness_tab_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness_tab_layout.addWidget",
+          "target": "readiness_tab_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness_tab_layout.setContentsMargins",
+          "target": "readiness_tab_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readiness_tab_layout.setSpacing",
+          "target": "readiness_tab_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recent.layout_root.addLayout",
+          "target": "recent.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recent_grid.addWidget",
+          "target": "recent_grid.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recent_grid.setColumnStretch",
+          "target": "recent_grid.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh_row.addWidget",
+          "target": "refresh_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._protection_timer.setInterval",
+          "target": "self._protection_timer.setInterval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._protection_timer.start",
+          "target": "self._protection_timer.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._protection_timer.timeout.connect",
+          "target": "self._protection_timer.timeout.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.apply_study_button.clicked.connect",
+          "target": "self.apply_study_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.apply_study_button.setObjectName",
+          "target": "self.apply_study_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.branch_metric.setSizePolicy",
+          "target": "self.branch_metric.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_note.setObjectName",
+          "target": "self.compute_note.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_note.setWordWrap",
+          "target": "self.compute_note.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body.setObjectName",
+          "target": "self.dashboard_body.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body.setSizePolicy",
+          "target": "self.dashboard_body.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body_layout.addLayout",
+          "target": "self.dashboard_body_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body_layout.addWidget",
+          "target": "self.dashboard_body_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body_layout.setContentsMargins",
+          "target": "self.dashboard_body_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_body_layout.setSpacing",
+          "target": "self.dashboard_body_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setFrameShape",
+          "target": "self.dashboard_scroll.setFrameShape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setHorizontalScrollBarPolicy",
+          "target": "self.dashboard_scroll.setHorizontalScrollBarPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setObjectName",
+          "target": "self.dashboard_scroll.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setVerticalScrollBarPolicy",
+          "target": "self.dashboard_scroll.setVerticalScrollBarPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setWidget",
+          "target": "self.dashboard_scroll.setWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_scroll.setWidgetResizable",
+          "target": "self.dashboard_scroll.setWidgetResizable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_tabs.addTab",
+          "target": "self.dashboard_tabs.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_tabs.setMinimumHeight",
+          "target": "self.dashboard_tabs.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_tabs.setObjectName",
+          "target": "self.dashboard_tabs.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.dashboard_tabs.setSizePolicy",
+          "target": "self.dashboard_tabs.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.horizontalHeader",
+          "target": "self.device_table.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setEditTriggers",
+          "target": "self.device_table.setEditTriggers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setHorizontalHeaderLabels",
+          "target": "self.device_table.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setMinimumHeight",
+          "target": "self.device_table.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setSelectionMode",
+          "target": "self.device_table.setSelectionMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setSizePolicy",
+          "target": "self.device_table.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.clicked.connect",
+          "target": "self.next_action_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setAccessibleName",
+          "target": "self.next_action_button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setObjectName",
+          "target": "self.next_action_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_card.layout_root.addLayout",
+          "target": "self.next_action_card.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_status.setAccessibleName",
+          "target": "self.next_action_status.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_status.setObjectName",
+          "target": "self.next_action_status.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_status.setWordWrap",
+          "target": "self.next_action_status.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.refresh_system_button.clicked.connect",
+          "target": "self.refresh_system_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.addItems",
+          "target": "self.study_case.addItems"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.currentIndexChanged.connect",
+          "target": "self.study_case.currentIndexChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.findText",
+          "target": "self.study_case.findText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.setCurrentIndex",
+          "target": "self.study_case.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setDecimals",
+          "target": "self.study_effect.setDecimals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setRange",
+          "target": "self.study_effect.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setSingleStep",
+          "target": "self.study_effect.setSingleStep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setToolTip",
+          "target": "self.study_effect.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setValue",
+          "target": "self.study_effect.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.valueChanged.connect",
+          "target": "self.study_effect.valueChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_guidance.setObjectName",
+          "target": "self.study_guidance.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_guidance.setWordWrap",
+          "target": "self.study_guidance.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setDecimals",
+          "target": "self.study_power.setDecimals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setRange",
+          "target": "self.study_power.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setSingleStep",
+          "target": "self.study_power.setSingleStep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setToolTip",
+          "target": "self.study_power.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setValue",
+          "target": "self.study_power.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.valueChanged.connect",
+          "target": "self.study_power.valueChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.addItem",
+          "target": "self.study_strength.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.currentData",
+          "target": "self.study_strength.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.currentIndexChanged.connect",
+          "target": "self.study_strength.currentIndexChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.setCurrentIndex",
+          "target": "self.study_strength.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.training_metric.setSizePolicy",
+          "target": "self.training_metric.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workspace_requested.emit",
+          "target": "self.workspace_requested.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.case_changed.connect",
+          "target": "state.case_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.compute_governor_changed.connect",
+          "target": "state.compute_governor_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.compute_profile_changed.connect",
+          "target": "state.compute_profile_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config_changed.connect",
+          "target": "state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_state_changed.connect",
+          "target": "state.policy_state_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_training_changed.connect",
+          "target": "state.policy_training_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_training_plan_changed.connect",
+          "target": "state.policy_training_plan_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.runs_changed.connect",
+          "target": "state.runs_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_grid.addWidget",
+          "target": "status_grid.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_grid.setColumnStretch",
+          "target": "status_grid.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_grid.setHorizontalSpacing",
+          "target": "status_grid.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_grid.setVerticalSpacing",
+          "target": "status_grid.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_form.addRow",
+          "target": "study_form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_setup.layout_root.addLayout",
+          "target": "study_setup.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_setup.layout_root.addWidget",
+          "target": "study_setup.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_tab_layout.addStretch",
+          "target": "study_tab_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_tab_layout.addWidget",
+          "target": "study_tab_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_tab_layout.setContentsMargins",
+          "target": "study_tab_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_queue.layout_root.addLayout",
+          "target": "training_queue.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_tab_layout.addStretch",
+          "target": "training_tab_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_tab_layout.addWidget",
+          "target": "training_tab_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_tab_layout.setContentsMargins",
+          "target": "training_tab_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "training_tab_layout.setSpacing",
+          "target": "training_tab_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.setObjectName",
+          "target": "value.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.setWordWrap",
+          "target": "value.setWordWrap"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.available_cases": "attribute",
+        "DisclosurePanel": "name",
+        "MetricCard": "name",
+        "QComboBox": "name",
+        "QDoubleSpinBox": "name",
+        "QFormLayout": "name",
+        "QGridLayout": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QScrollArea": "name",
+        "QTabWidget": "name",
+        "QTableWidget": "name",
+        "QTimer": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "SectionCard": "name",
+        "__init__": "attribute",
+        "activity_metrics.addWidget": "attribute",
+        "card.setSizePolicy": "attribute",
+        "context.layout_root.addLayout": "attribute",
+        "context_tab_layout.addStretch": "attribute",
+        "context_tab_layout.addWidget": "attribute",
+        "context_tab_layout.setContentsMargins": "attribute",
+        "context_tab_layout.setSpacing": "attribute",
+        "divmod": "name",
+        "enumerate": "name",
+        "float": "name",
+        "grid.addWidget": "attribute",
+        "grid.setColumnStretch": "attribute",
+        "grid.setContentsMargins": "attribute",
+        "grid.setHorizontalSpacing": "attribute",
+        "grid.setVerticalSpacing": "attribute",
+        "header.setSectionResizeMode": "attribute",
+        "key.setObjectName": "attribute",
+        "metrics.addWidget": "attribute",
+        "metrics.setColumnStretch": "attribute",
+        "metrics.setHorizontalSpacing": "attribute",
+        "metrics.setVerticalSpacing": "attribute",
+        "next_action_row.addWidget": "attribute",
+        "queue_grid.addWidget": "attribute",
+        "queue_grid.setColumnStretch": "attribute",
+        "queue_grid.setHorizontalSpacing": "attribute",
+        "queue_grid.setVerticalSpacing": "attribute",
+        "range": "name",
+        "readiness.layout_root.addLayout": "attribute",
+        "readiness.layout_root.addWidget": "attribute",
+        "readiness_tab_layout.addStretch": "attribute",
+        "readiness_tab_layout.addWidget": "attribute",
+        "readiness_tab_layout.setContentsMargins": "attribute",
+        "readiness_tab_layout.setSpacing": "attribute",
+        "recent.layout_root.addLayout": "attribute",
+        "recent_grid.addWidget": "attribute",
+        "recent_grid.setColumnStretch": "attribute",
+        "refresh_row.addWidget": "attribute",
+        "self._protection_timer.setInterval": "attribute",
+        "self._protection_timer.start": "attribute",
+        "self._protection_timer.timeout.connect": "attribute",
+        "self._study_strength_changed": "attribute",
+        "self.apply_study_button.clicked.connect": "attribute",
+        "self.apply_study_button.setObjectName": "attribute",
+        "self.branch_metric.setSizePolicy": "attribute",
+        "self.compute_note.setObjectName": "attribute",
+        "self.compute_note.setWordWrap": "attribute",
+        "self.dashboard_body.setObjectName": "attribute",
+        "self.dashboard_body.setSizePolicy": "attribute",
+        "self.dashboard_body_layout.addLayout": "attribute",
+        "self.dashboard_body_layout.addWidget": "attribute",
+        "self.dashboard_body_layout.setContentsMargins": "attribute",
+        "self.dashboard_body_layout.setSpacing": "attribute",
+        "self.dashboard_scroll.setFrameShape": "attribute",
+        "self.dashboard_scroll.setHorizontalScrollBarPolicy": "attribute",
+        "self.dashboard_scroll.setObjectName": "attribute",
+        "self.dashboard_scroll.setVerticalScrollBarPolicy": "attribute",
+        "self.dashboard_scroll.setWidget": "attribute",
+        "self.dashboard_scroll.setWidgetResizable": "attribute",
+        "self.dashboard_tabs.addTab": "attribute",
+        "self.dashboard_tabs.setMinimumHeight": "attribute",
+        "self.dashboard_tabs.setObjectName": "attribute",
+        "self.dashboard_tabs.setSizePolicy": "attribute",
+        "self.device_table.horizontalHeader": "attribute",
+        "self.device_table.setEditTriggers": "attribute",
+        "self.device_table.setHorizontalHeaderLabels": "attribute",
+        "self.device_table.setMinimumHeight": "attribute",
+        "self.device_table.setSelectionMode": "attribute",
+        "self.device_table.setSizePolicy": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.next_action_button.clicked.connect": "attribute",
+        "self.next_action_button.setAccessibleName": "attribute",
+        "self.next_action_button.setObjectName": "attribute",
+        "self.next_action_card.layout_root.addLayout": "attribute",
+        "self.next_action_status.setAccessibleName": "attribute",
+        "self.next_action_status.setObjectName": "attribute",
+        "self.next_action_status.setWordWrap": "attribute",
+        "self.refresh": "attribute",
+        "self.refresh_compute": "attribute",
+        "self.refresh_governor": "attribute",
+        "self.refresh_policy": "attribute",
+        "self.refresh_system_button.clicked.connect": "attribute",
+        "self.refresh_training_plan": "attribute",
+        "self.study_case.addItems": "attribute",
+        "self.study_case.currentIndexChanged.connect": "attribute",
+        "self.study_case.findText": "attribute",
+        "self.study_case.setCurrentIndex": "attribute",
+        "self.study_effect.setDecimals": "attribute",
+        "self.study_effect.setRange": "attribute",
+        "self.study_effect.setSingleStep": "attribute",
+        "self.study_effect.setToolTip": "attribute",
+        "self.study_effect.setValue": "attribute",
+        "self.study_effect.valueChanged.connect": "attribute",
+        "self.study_guidance.setObjectName": "attribute",
+        "self.study_guidance.setWordWrap": "attribute",
+        "self.study_power.setDecimals": "attribute",
+        "self.study_power.setRange": "attribute",
+        "self.study_power.setSingleStep": "attribute",
+        "self.study_power.setToolTip": "attribute",
+        "self.study_power.setValue": "attribute",
+        "self.study_power.valueChanged.connect": "attribute",
+        "self.study_strength.addItem": "attribute",
+        "self.study_strength.currentData": "attribute",
+        "self.study_strength.currentIndexChanged.connect": "attribute",
+        "self.study_strength.setCurrentIndex": "attribute",
+        "self.training_metric.setSizePolicy": "attribute",
+        "self.workspace_requested.emit": "attribute",
+        "state.case_changed.connect": "attribute",
+        "state.compute_governor_changed.connect": "attribute",
+        "state.compute_profile_changed.connect": "attribute",
+        "state.config_changed.connect": "attribute",
+        "state.policy_state_changed.connect": "attribute",
+        "state.policy_training_changed.connect": "attribute",
+        "state.policy_training_plan_changed.connect": "attribute",
+        "state.runs_changed.connect": "attribute",
+        "status_grid.addWidget": "attribute",
+        "status_grid.setColumnStretch": "attribute",
+        "status_grid.setHorizontalSpacing": "attribute",
+        "status_grid.setVerticalSpacing": "attribute",
+        "str": "name",
+        "study_form.addRow": "attribute",
+        "study_setup.layout_root.addLayout": "attribute",
+        "study_setup.layout_root.addWidget": "attribute",
+        "study_strength_plan": "name",
+        "study_tab_layout.addStretch": "attribute",
+        "study_tab_layout.addWidget": "attribute",
+        "study_tab_layout.setContentsMargins": "attribute",
+        "super": "name",
+        "training_queue.layout_root.addLayout": "attribute",
+        "training_tab_layout.addStretch": "attribute",
+        "training_tab_layout.addWidget": "attribute",
+        "training_tab_layout.setContentsMargins": "attribute",
+        "training_tab_layout.setSpacing": "attribute",
+        "value.setObjectName": "attribute",
+        "value.setWordWrap": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.available_cases",
+        "DisclosurePanel",
+        "MetricCard",
+        "QComboBox",
+        "QDoubleSpinBox",
+        "QFormLayout",
+        "QGridLayout",
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QScrollArea",
+        "QTabWidget",
+        "QTableWidget",
+        "QTimer",
+        "QVBoxLayout",
+        "QWidget",
+        "SectionCard",
+        "__init__",
+        "activity_metrics.addWidget",
+        "card.setSizePolicy",
+        "context.layout_root.addLayout",
+        "context_tab_layout.addStretch",
+        "context_tab_layout.addWidget",
+        "context_tab_layout.setContentsMargins",
+        "context_tab_layout.setSpacing",
+        "divmod",
+        "enumerate",
+        "float",
+        "grid.addWidget",
+        "grid.setColumnStretch",
+        "grid.setContentsMargins",
+        "grid.setHorizontalSpacing",
+        "grid.setVerticalSpacing",
+        "header.setSectionResizeMode",
+        "key.setObjectName",
+        "metrics.addWidget",
+        "metrics.setColumnStretch",
+        "metrics.setHorizontalSpacing",
+        "metrics.setVerticalSpacing",
+        "next_action_row.addWidget",
+        "queue_grid.addWidget",
+        "queue_grid.setColumnStretch",
+        "queue_grid.setHorizontalSpacing",
+        "queue_grid.setVerticalSpacing",
+        "range",
+        "readiness.layout_root.addLayout",
+        "readiness.layout_root.addWidget",
+        "readiness_tab_layout.addStretch",
+        "readiness_tab_layout.addWidget",
+        "readiness_tab_layout.setContentsMargins",
+        "readiness_tab_layout.setSpacing",
+        "recent.layout_root.addLayout",
+        "recent_grid.addWidget",
+        "recent_grid.setColumnStretch",
+        "refresh_row.addWidget",
+        "self._protection_timer.setInterval",
+        "self._protection_timer.start",
+        "self._protection_timer.timeout.connect",
+        "self._study_strength_changed",
+        "self.apply_study_button.clicked.connect",
+        "self.apply_study_button.setObjectName",
+        "self.branch_metric.setSizePolicy",
+        "self.compute_note.setObjectName",
+        "self.compute_note.setWordWrap",
+        "self.dashboard_body.setObjectName",
+        "self.dashboard_body.setSizePolicy",
+        "self.dashboard_body_layout.addLayout",
+        "self.dashboard_body_layout.addWidget",
+        "self.dashboard_body_layout.setContentsMargins",
+        "self.dashboard_body_layout.setSpacing",
+        "self.dashboard_scroll.setFrameShape",
+        "self.dashboard_scroll.setHorizontalScrollBarPolicy",
+        "self.dashboard_scroll.setObjectName",
+        "self.dashboard_scroll.setVerticalScrollBarPolicy",
+        "self.dashboard_scroll.setWidget",
+        "self.dashboard_scroll.setWidgetResizable",
+        "self.dashboard_tabs.addTab",
+        "self.dashboard_tabs.setMinimumHeight",
+        "self.dashboard_tabs.setObjectName",
+        "self.dashboard_tabs.setSizePolicy",
+        "self.device_table.horizontalHeader",
+        "self.device_table.setEditTriggers",
+        "self.device_table.setHorizontalHeaderLabels",
+        "self.device_table.setMinimumHeight",
+        "self.device_table.setSelectionMode",
+        "self.device_table.setSizePolicy",
+        "self.layout_root.addWidget",
+        "self.next_action_button.clicked.connect",
+        "self.next_action_button.setAccessibleName",
+        "self.next_action_button.setObjectName",
+        "self.next_action_card.layout_root.addLayout",
+        "self.next_action_status.setAccessibleName",
+        "self.next_action_status.setObjectName",
+        "self.next_action_status.setWordWrap",
+        "self.refresh",
+        "self.refresh_compute",
+        "self.refresh_governor",
+        "self.refresh_policy",
+        "self.refresh_system_button.clicked.connect",
+        "self.refresh_training_plan",
+        "self.study_case.addItems",
+        "self.study_case.currentIndexChanged.connect",
+        "self.study_case.findText",
+        "self.study_case.setCurrentIndex",
+        "self.study_effect.setDecimals",
+        "self.study_effect.setRange",
+        "self.study_effect.setSingleStep",
+        "self.study_effect.setToolTip",
+        "self.study_effect.setValue",
+        "self.study_effect.valueChanged.connect",
+        "self.study_guidance.setObjectName",
+        "self.study_guidance.setWordWrap",
+        "self.study_power.setDecimals",
+        "self.study_power.setRange",
+        "self.study_power.setSingleStep",
+        "self.study_power.setToolTip",
+        "self.study_power.setValue",
+        "self.study_power.valueChanged.connect",
+        "self.study_strength.addItem",
+        "self.study_strength.currentData",
+        "self.study_strength.currentIndexChanged.connect",
+        "self.study_strength.setCurrentIndex",
+        "self.training_metric.setSizePolicy",
+        "self.workspace_requested.emit",
+        "state.case_changed.connect",
+        "state.compute_governor_changed.connect",
+        "state.compute_profile_changed.connect",
+        "state.config_changed.connect",
+        "state.policy_state_changed.connect",
+        "state.policy_training_changed.connect",
+        "state.policy_training_plan_changed.connect",
+        "state.runs_changed.connect",
+        "status_grid.addWidget",
+        "status_grid.setColumnStretch",
+        "status_grid.setHorizontalSpacing",
+        "status_grid.setVerticalSpacing",
+        "str",
+        "study_form.addRow",
+        "study_setup.layout_root.addLayout",
+        "study_setup.layout_root.addWidget",
+        "study_strength_plan",
+        "study_tab_layout.addStretch",
+        "study_tab_layout.addWidget",
+        "study_tab_layout.setContentsMargins",
+        "super",
+        "training_queue.layout_root.addLayout",
+        "training_tab_layout.addStretch",
+        "training_tab_layout.addWidget",
+        "training_tab_layout.setContentsMargins",
+        "training_tab_layout.setSpacing",
+        "value.setObjectName",
+        "value.setWordWrap"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._study_strength_changed",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_compute",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_governor",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_training_plan",
+        "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+      ],
+      "doc": "",
+      "end_line": 440,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setAccessibleDescription",
+          "target": "self.next_action_button.setAccessibleDescription"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setAccessibleName",
+          "target": "self.next_action_button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setEnabled",
+          "target": "self.next_action_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setText",
+          "target": "self.next_action_button.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_button.setToolTip",
+          "target": "self.next_action_button.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_status.setText",
+          "target": "self.next_action_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.next_action_status.setToolTip",
+          "target": "self.next_action_status.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.next_action_button.setAccessibleDescription": "attribute",
+        "self.next_action_button.setAccessibleName": "attribute",
+        "self.next_action_button.setEnabled": "attribute",
+        "self.next_action_button.setText": "attribute",
+        "self.next_action_button.setToolTip": "attribute",
+        "self.next_action_status.setText": "attribute",
+        "self.next_action_status.setToolTip": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "self.next_action_button.setAccessibleDescription",
+        "self.next_action_button.setAccessibleName",
+        "self.next_action_button.setEnabled",
+        "self.next_action_button.setText",
+        "self.next_action_button.setToolTip",
+        "self.next_action_status.setText",
+        "self.next_action_status.setToolTip",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 456,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.set_next_action",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title, detail, workspace_key, enabled)",
+      "start_line": 442,
+      "state_owner": "",
+      "symbol": "set_next_action",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.history_storage_summary",
+          "target": "self.state.database.history_storage_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage_metric.set_metric",
+          "target": "self.storage_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.get",
+          "target": "summary.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "self.state.database.history_storage_summary": "attribute",
+        "self.state.resume_service.unfinished": "attribute",
+        "self.storage_metric.set_metric": "attribute",
+        "setText": "attribute",
+        "str": "name",
+        "summary.get": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh"
+      ],
+      "calls": [
+        "getattr",
+        "int",
+        "len",
+        "self.state.database.history_storage_summary",
+        "self.state.resume_service.unfinished",
+        "self.storage_metric.set_metric",
+        "setText",
+        "str",
+        "summary.get",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 491,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_recent_work",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 458,
+      "state_owner": "",
+      "symbol": "refresh_recent_work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.guidance",
+          "target": "plan.guidance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.currentText",
+          "target": "self.study_case.currentText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.value",
+          "target": "self.study_effect.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_guidance.setText",
+          "target": "self.study_guidance.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.value",
+          "target": "self.study_power.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.currentData",
+          "target": "self.study_strength.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "plan.guidance": "attribute",
+        "self.study_case.currentText": "attribute",
+        "self.study_effect.value": "attribute",
+        "self.study_guidance.setText": "attribute",
+        "self.study_power.value": "attribute",
+        "self.study_strength.currentData": "attribute",
+        "str": "name",
+        "study_strength_plan": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._study_strength_changed"
+      ],
+      "calls": [
+        "plan.guidance",
+        "self.study_case.currentText",
+        "self.study_effect.value",
+        "self.study_guidance.setText",
+        "self.study_power.value",
+        "self.study_strength.currentData",
+        "str",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "doc": "",
+      "end_line": 502,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 493,
+      "state_owner": "",
+      "symbol": "_refresh_study_guidance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._refresh_study_guidance",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.blockSignals",
+          "target": "self.study_effect.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setEnabled",
+          "target": "self.study_effect.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.setValue",
+          "target": "self.study_effect.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.blockSignals",
+          "target": "self.study_power.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setEnabled",
+          "target": "self.study_power.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.setValue",
+          "target": "self.study_power.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.currentData",
+          "target": "self.study_strength.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "self._refresh_study_guidance": "attribute",
+        "self.study_effect.blockSignals": "attribute",
+        "self.study_effect.setEnabled": "attribute",
+        "self.study_effect.setValue": "attribute",
+        "self.study_power.blockSignals": "attribute",
+        "self.study_power.setEnabled": "attribute",
+        "self.study_power.setValue": "attribute",
+        "self.study_strength.currentData": "attribute",
+        "str": "name",
+        "study_strength_plan": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__"
+      ],
+      "calls": [
+        "float",
+        "self._refresh_study_guidance",
+        "self.study_effect.blockSignals",
+        "self.study_effect.setEnabled",
+        "self.study_effect.setValue",
+        "self.study_power.blockSignals",
+        "self.study_power.setEnabled",
+        "self.study_power.setValue",
+        "self.study_strength.currentData",
+        "str",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance"
+      ],
+      "doc": "",
+      "end_line": 516,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._study_strength_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 504,
+      "state_owner": "",
+      "symbol": "_study_strength_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_study_strength",
+          "target": "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_study_protocol_change",
+          "target": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._refresh_study_guidance",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_case",
+          "target": "calo_rpd_studio.power_system.case_validation.validate_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.validate",
+          "target": "candidate.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.set_case",
+          "target": "self.state.set_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.finish",
+          "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_case.currentText",
+          "target": "self.study_case.currentText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_effect.value",
+          "target": "self.study_effect.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_power.value",
+          "target": "self.study_power.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_strength.currentData",
+          "target": "self.study_strength.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "QMessageBox.information": "attribute",
+        "ValueError": "name",
+        "apply_study_strength": "name",
+        "bool": "name",
+        "candidate.validate": "attribute",
+        "deepcopy": "name",
+        "getattr": "name",
+        "join": "attribute",
+        "self._refresh_study_guidance": "attribute",
+        "self.state.set_case": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "self.state.update_config": "attribute",
+        "self.study_case.currentText": "attribute",
+        "self.study_effect.value": "attribute",
+        "self.study_power.value": "attribute",
+        "self.study_strength.currentData": "attribute",
+        "show_error": "name",
+        "str": "name",
+        "summarize_study_protocol_change": "name",
+        "validate_case": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "QMessageBox.information",
+        "ValueError",
+        "apply_study_strength",
+        "bool",
+        "candidate.validate",
+        "deepcopy",
+        "getattr",
+        "join",
+        "self._refresh_study_guidance",
+        "self.state.set_case",
+        "self.state.task_status.finish",
+        "self.state.update_config",
+        "self.study_case.currentText",
+        "self.study_effect.value",
+        "self.study_power.value",
+        "self.study_strength.currentData",
+        "show_error",
+        "str",
+        "summarize_study_protocol_change",
+        "validate_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._refresh_study_guidance",
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+        "calo_rpd_studio.power_system.case_validation.validate_case"
+      ],
+      "doc": "",
+      "end_line": 572,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 518,
+      "state_owner": "",
+      "symbol": "_apply_study_protocol",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.sample_compute_governor",
+          "target": "self.state.sample_compute_governor"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "getattr": "name",
+        "self.state.sample_compute_governor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_LOG.warning",
+        "getattr",
+        "self.state.sample_compute_governor"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 583,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._sample_live_protection",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 574,
+      "state_owner": "",
+      "symbol": "_sample_live_protection",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state_text.replace",
+          "target": "state_text.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "title",
+          "target": "title"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "getattr": "name",
+        "join": "attribute",
+        "setText": "attribute",
+        "state_text.replace": "attribute",
+        "str": "name",
+        "title": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_compute"
+      ],
+      "calls": [
+        "bool",
+        "getattr",
+        "join",
+        "setText",
+        "state_text.replace",
+        "str",
+        "title",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 608,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_governor",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 585,
+      "state_owner": "",
+      "symbol": "refresh_governor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.refresh_system_button.setEnabled",
+          "target": "self.refresh_system_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.refresh_compute_profile",
+          "target": "self.state.refresh_compute_profile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.fail",
+          "target": "self.state.task_status.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.finish",
+          "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.system_metric.set_metric",
+          "target": "self.system_metric.set_metric"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "getattr": "name",
+        "self.refresh_system_button.setEnabled": "attribute",
+        "self.state.refresh_compute_profile": "attribute",
+        "self.state.task_status.fail": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "self.system_metric.set_metric": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "getattr",
+        "self.refresh_system_button.setEnabled",
+        "self.state.refresh_compute_profile",
+        "self.state.task_status.fail",
+        "self.state.task_status.finish",
+        "self.system_metric.set_metric",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 628,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._request_compute_refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 610,
+      "state_owner": "",
+      "symbol": "_request_compute_refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_governor",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_governor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_bytes_text",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel._bytes_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "live_device.get",
+          "target": "live_device.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "live_snapshot.get",
+          "target": "live_snapshot.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "roles.append",
+          "target": "roles.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.branch_metric.set_metric",
+          "target": "self.branch_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_note.setText",
+          "target": "self.compute_note.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setItem",
+          "target": "self.device_table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.device_table.setRowCount",
+          "target": "self.device_table.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.system_metric.set_metric",
+          "target": "self.system_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "_bytes_text": "name",
+        "dict": "name",
+        "enumerate": "name",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "live_device.get": "attribute",
+        "live_snapshot.get": "attribute",
+        "max": "name",
+        "next": "name",
+        "roles.append": "attribute",
+        "row.get": "attribute",
+        "self.branch_metric.set_metric": "attribute",
+        "self.compute_note.setText": "attribute",
+        "self.device_table.setItem": "attribute",
+        "self.device_table.setRowCount": "attribute",
+        "self.refresh_governor": "attribute",
+        "self.system_metric.set_metric": "attribute",
+        "setText": "attribute",
+        "str": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "_bytes_text",
+        "dict",
+        "enumerate",
+        "float",
+        "getattr",
+        "int",
+        "join",
+        "len",
+        "list",
+        "live_device.get",
+        "live_snapshot.get",
+        "max",
+        "next",
+        "roles.append",
+        "row.get",
+        "self.branch_metric.set_metric",
+        "self.compute_note.setText",
+        "self.device_table.setItem",
+        "self.device_table.setRowCount",
+        "self.refresh_governor",
+        "self.system_metric.set_metric",
+        "setText",
+        "str",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_governor",
+        "calo_rpd_studio.gui.panels.dashboard_panel._bytes_text"
+      ],
+      "doc": "",
+      "end_line": 751,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_compute",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 630,
+      "state_owner": "",
+      "symbol": "refresh_compute",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_training_plan",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_training_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.refresh_system_button.setEnabled",
+          "target": "self.refresh_system_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.training_metric.set_metric",
+          "target": "self.training_metric.set_metric"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.refresh_system_button.setEnabled": "attribute",
+        "self.refresh_training_plan": "attribute",
+        "self.training_metric.set_metric": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "self.refresh_system_button.setEnabled",
+        "self.refresh_training_plan",
+        "self.training_metric.set_metric"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_training_plan"
+      ],
+      "doc": "",
+      "end_line": 759,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.set_training_exclusive_mode",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, active, detail)",
+      "start_line": 753,
+      "state_owner": "",
+      "symbol": "set_training_exclusive_mode",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.append",
+          "target": "assignments.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.setText",
+          "target": "label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resource_plan.get",
+          "target": "resource_plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.training_labels.values",
+          "target": "self.training_labels.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.training_metric.set_metric",
+          "target": "self.training_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "slot.get",
+          "target": "slot.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "assignments.append": "attribute",
+        "bool": "name",
+        "dict": "name",
+        "getattr": "name",
+        "int": "name",
+        "join": "attribute",
+        "label.setText": "attribute",
+        "list": "name",
+        "plan.get": "attribute",
+        "resource_plan.get": "attribute",
+        "row.get": "attribute",
+        "self.training_labels.values": "attribute",
+        "self.training_metric.set_metric": "attribute",
+        "setText": "attribute",
+        "slot.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.set_training_exclusive_mode"
+      ],
+      "calls": [
+        "assignments.append",
+        "bool",
+        "dict",
+        "getattr",
+        "int",
+        "join",
+        "label.setText",
+        "list",
+        "plan.get",
+        "resource_plan.get",
+        "row.get",
+        "self.training_labels.values",
+        "self.training_metric.set_metric",
+        "setText",
+        "slot.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 824,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_training_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 761,
+      "state_owner": "",
+      "symbol": "refresh_training_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "governing_policy_user_message",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_metric.set_metric",
+          "target": "self.policy_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.governing_policy_status",
+          "target": "self.state.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        }
+      ],
+      "call_forms": {
+        "governing_policy_user_message": "name",
+        "self.policy_metric.set_metric": "attribute",
+        "self.state.governing_policy_status": "attribute",
+        "setText": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh"
+      ],
+      "calls": [
+        "governing_policy_user_message",
+        "self.policy_metric.set_metric",
+        "self.state.governing_policy_status",
+        "setText"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+      ],
+      "doc": "",
+      "end_line": 835,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 826,
+      "state_owner": "",
+      "symbol": "refresh_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_policy",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_recent_work",
+          "target": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_recent_work"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_case",
+          "target": "calo_rpd_studio.power_system.network_metrics.summarize_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.data_metric.set_metric",
+          "target": "self.data_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiments",
+          "target": "self.state.database.list_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_runs",
+          "target": "self.state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.verified_metric.set_metric",
+          "target": "self.verified_metric.set_metric"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setText",
+          "target": "setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "self.data_metric.set_metric": "attribute",
+        "self.refresh_policy": "attribute",
+        "self.refresh_recent_work": "attribute",
+        "self.state.database.list_experiments": "attribute",
+        "self.state.database.list_runs": "attribute",
+        "self.verified_metric.set_metric": "attribute",
+        "setText": "attribute",
+        "str": "name",
+        "sum": "name",
+        "summarize_case": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__"
+      ],
+      "calls": [
+        "join",
+        "len",
+        "list",
+        "self.data_metric.set_metric",
+        "self.refresh_policy",
+        "self.refresh_recent_work",
+        "self.state.database.list_experiments",
+        "self.state.database.list_runs",
+        "self.verified_metric.set_metric",
+        "setText",
+        "str",
+        "sum",
+        "summarize_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_recent_work",
+        "calo_rpd_studio.power_system.network_metrics.summarize_case"
+      ],
+      "doc": "",
+      "end_line": 877,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/dashboard_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "DisclosurePanel": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+        "MetricCard": "calo_rpd_studio.gui.widgets.section_card.MetricCard",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "deepcopy": "copy.deepcopy",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.experiments.study_strength",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.disclosure",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.network_metrics",
+        "copy",
+        "logging"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.dashboard_panel",
+      "qualname": "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 837,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    }
+  ]
+}

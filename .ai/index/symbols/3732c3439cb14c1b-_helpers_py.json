@@ -1,0 +1,178 @@
+{
+  "path": "calo_rpd_studio/algorithms/_helpers.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "better": "name",
+        "copy": "attribute",
+        "enumerate": "name",
+        "list": "name",
+        "np.asarray": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "better",
+        "copy",
+        "enumerate",
+        "list",
+        "np.asarray",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better"
+      ],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/_helpers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "gamma": "math.gamma",
+        "np": "numpy",
+        "pi": "math.pi",
+        "sin": "math.sin"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms._helpers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms._helpers",
+      "qualname": "calo_rpd_studio.algorithms._helpers.greedy_replace",
+      "semantic_tags": [],
+      "signature": "(pop, evals, candidates, candidate_evals)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "greedy_replace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "gamma",
+          "target": "gamma"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sin",
+          "target": "sin"
+        }
+      ],
+      "call_forms": {
+        "gamma": "name",
+        "np.abs": "attribute",
+        "rng.normal": "attribute",
+        "sin": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.flower_pollination.FlowerPollinationOptimizer.run"
+      ],
+      "calls": [
+        "gamma",
+        "np.abs",
+        "rng.normal",
+        "sin"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/_helpers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "gamma": "math.gamma",
+        "np": "numpy",
+        "pi": "math.pi",
+        "sin": "math.sin"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms._helpers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms._helpers",
+      "qualname": "calo_rpd_studio.algorithms._helpers.levy_flight",
+      "semantic_tags": [],
+      "signature": "(rng, shape, beta)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "levy_flight",
+      "tests": []
+    }
+  ]
+}

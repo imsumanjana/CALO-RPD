@@ -1,0 +1,567 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/ai_controller.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/competitive_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/evaluation_cache.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_network.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_qualification.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/constraints.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/objectives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/variable_decoder.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ybus.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/contingencies.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/robust_objectives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/scenario.py"
+    }
+  ],
+  "path": "tests/unit/test_v590_scientific_closure.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure._BoxProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure._BoxProblem.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure._BoxProblem.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure._BoxProblem.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+      "to": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+      "to": "calo_rpd_studio.orpd.constraints.branch_angle_limit_violation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+      "to": "toy_case.clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification._grade"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+      "to": "dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "np.vstack"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "toy_case.clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+      "to": "v.name.startswith"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_objective_config_fails_fast",
+      "to": "calo_rpd_studio.orpd.objectives.ObjectiveConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_objective_config_fails_fast",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_objective_config_fails_fast",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast",
+      "to": "validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_n_minus_one_bundles_include_intact_base_by_default",
+      "to": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_n_minus_one_bundles_include_intact_base_by_default",
+      "to": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "calo_rpd_studio.algorithms.calo.training.save_deployable_policy_snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "controller.decide"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "environment.state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "environment.step"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "str"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Case"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "torch.manual_seed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+      "to": "training_rewards.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate_population",
+      "to": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_noninferiority_uses_one_sided_holm_adjusted_evidence",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_noninferiority_uses_one_sided_holm_adjusted_evidence",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification._apply_holm"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_noninferiority_uses_one_sided_holm_adjusted_evidence",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_noninferiority_uses_one_sided_holm_adjusted_evidence",
+      "to": "out.values"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_policy_qualification_scientific_thresholds_fail_fast",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_policy_qualification_scientific_thresholds_fail_fast",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_policy_qualification_scientific_thresholds_fail_fast",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_policy_qualification_scientific_thresholds_fail_fast",
+      "to": "validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "cache.evaluate_requests"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "direct.evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "tests.unit.test_v590_scientific_closure._BoxOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+      "to": "tests.unit.test_v590_scientific_closure._BoxProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_scenario_transform_rejects_structural_identity_changes",
+      "to": "apply"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_scenario_transform_rejects_structural_identity_changes",
+      "to": "calo_rpd_studio.robustness.scenario.Scenario"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_scenario_transform_rejects_structural_identity_changes",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_scenario_transform_rejects_structural_identity_changes.change_dimensions",
+      "to": "copy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "calo_rpd_studio.algorithms.calo.competitive_training.recover_competitive_session"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "manifest.read_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "manifest.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "output.with_suffix"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "recovery_dir.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_stale_competitive_recovery_refuses_newer_authority",
+      "to": "write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_variable_config_fails_fast_for_invalid_tap_science",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_variable_config_fails_fast_for_invalid_tap_science",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v590_scientific_closure.test_yf_yt_are_direct_sparse_branch_incidence_matrices",
+      "to": "calo_rpd_studio.power_system.ybus.build_ybus"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_yf_yt_are_direct_sparse_branch_incidence_matrices",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_yf_yt_are_direct_sparse_branch_incidence_matrices",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v590_scientific_closure.test_yf_yt_are_direct_sparse_branch_incidence_matrices",
+      "to": "np.count_nonzero"
+    }
+  ]
+}

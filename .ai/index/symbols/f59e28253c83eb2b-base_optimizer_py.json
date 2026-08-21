@@ -1,0 +1,1676 @@
+{
+  "path": "calo_rpd_studio/algorithms/base_optimizer.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.validate_batch_evaluations"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A batch evaluator violated exact candidate cardinality or identity ordering.",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.EvaluationBatchInvariantError",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "EvaluationBatchInvariantError",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "int": "name",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "int",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.EvaluationBatchInvariantError",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.EvaluationBatchInvariantError.__init__",
+      "semantic_tags": [],
+      "signature": "(self, reason, submitted, returned)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvaluationBatchInvariantError",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.EvaluationBatchInvariantError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identities.append",
+          "target": "identities.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "EvaluationBatchInvariantError": "name",
+        "all": "name",
+        "any": "name",
+        "dict": "name",
+        "enumerate": "name",
+        "getattr": "name",
+        "identities.append": "attribute",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "np.array_equal": "attribute",
+        "np.asarray": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._eval_pop"
+      ],
+      "calls": [
+        "EvaluationBatchInvariantError",
+        "all",
+        "any",
+        "dict",
+        "enumerate",
+        "getattr",
+        "identities.append",
+        "int",
+        "len",
+        "list",
+        "np.array_equal",
+        "np.asarray",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.EvaluationBatchInvariantError"
+      ],
+      "doc": "Validate a complete ordered batch before any function evaluation is registered.",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.validate_batch_evaluations",
+      "semantic_tags": [],
+      "signature": "(population, evaluations)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "validate_batch_evaluations",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.__init__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._calo_optimizer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "tests.regression.test_seed_reproducibility.test_seed_tuple_and_optimizer_reproducibility",
+        "tests.unit.test_algorithms.test_all_primary_algorithms_smoke",
+        "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work",
+        "tests.unit.test_calo_v4.test_strict_benchmark_mode_blocks_historical_runtime_warm_start",
+        "tests.unit.test_calo_v4.test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh",
+        "tests.unit.test_cma_es.test_cma_es_is_seed_reproducible_and_uses_official_reference_engine",
+        "tests.unit.test_cma_es.test_cma_es_partial_budget_is_evaluated_but_not_used_for_covariance_update",
+        "tests.unit.test_convergence_semantics.test_feasible_objective_and_violation_histories_are_separate_and_monotonic",
+        "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+        "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+        "tests.unit.test_tsh_calo_optimizer._run",
+        "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+        "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+        "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+        "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+        "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+        "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered",
+        "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+        "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+        "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache",
+        "tests.unit.test_v5_continuation.test_calo_exact_horizon_resume_uses_only_additional_physical_calls",
+        "tests.unit.test_v5_continuation.test_calo_interrupted_exact_resume_matches_uninterrupted_same_horizon"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "OptimizerConfig",
+      "tests": [
+        "tests/regression/test_seed_reproducibility.py",
+        "tests/unit/test_algorithms.py",
+        "tests/unit/test_calo_v4.py",
+        "tests/unit/test_cma_es.py",
+        "tests/unit/test_convergence_semantics.py",
+        "tests/unit/test_lshade.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v34_release_blockers.py",
+        "tests/unit/test_v3_accelerated_backend.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v5_continuation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v120_phase2_contracts.test_batch_cardinality_fails_before_any_fe_is_registered",
+        "tests.unit.test_v120_phase2_contracts.test_reordered_batch_identity_fails_before_any_fe_is_registered"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Shared optimizer mechanics and scientifically explicit convergence telemetry.",
+      "end_line": 296,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "BaseOptimizer",
+      "tests": [
+        "tests/unit/test_convergence_semantics.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "float": "name",
+        "int": "name",
+        "np.random.default_rng": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "float",
+        "int",
+        "np.random.default_rng"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.__init__",
+      "semantic_tags": [],
+      "signature": "(self, problem, config, seed, progress_callback, cancel_callback)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_callback",
+          "target": "self.cancel_callback"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.cancel_callback": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population"
+      ],
+      "calls": [
+        "bool",
+        "self.cancel_callback"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.cancelled",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.cancelled",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.cancelled"
+        }
+      ],
+      "call_forms": {
+        "self.cancelled": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population"
+      ],
+      "calls": [
+        "self.cancelled"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.cancelled"
+      ],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate",
+      "semantic_tags": [],
+      "signature": "(self, n)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "can_evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.not_equal",
+          "target": "np.not_equal"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.isfinite": "attribute",
+        "np.not_equal": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population"
+      ],
+      "calls": [
+        "int",
+        "np.any",
+        "np.asarray",
+        "np.clip",
+        "np.count_nonzero",
+        "np.isfinite",
+        "np.not_equal"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._repair_to_bounds",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "_repair_to_bounds",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clipped.copy",
+          "target": "clipped.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "better": "name",
+        "clipped.copy": "attribute",
+        "float": "name",
+        "int": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population"
+      ],
+      "calls": [
+        "better",
+        "clipped.copy",
+        "float",
+        "int",
+        "min",
+        "np.asarray",
+        "np.clip",
+        "np.isfinite"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better"
+      ],
+      "doc": "Account for one already-computed candidate evaluation.",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation",
+      "semantic_tags": [],
+      "signature": "(self, clipped, ev)",
+      "start_line": 134,
+      "state_owner": "",
+      "symbol": "_register_evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._register_evaluation",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._repair_to_bounds",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._repair_to_bounds"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.can_evaluate",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.problem.evaluate",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self._register_evaluation": "attribute",
+        "self._repair_to_bounds": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.problem.evaluate": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population"
+      ],
+      "calls": [
+        "self._register_evaluation",
+        "self._repair_to_bounds",
+        "self.can_evaluate",
+        "self.problem.evaluate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._repair_to_bounds",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate"
+      ],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "batch_evaluator",
+          "target": "batch_evaluator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._register_evaluation",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._repair_to_bounds",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._repair_to_bounds"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.can_evaluate",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.cancelled",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.cancelled"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.problem.evaluate",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_batch_evaluations",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.validate_batch_evaluations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "batch_evaluator": "name",
+        "callable": "name",
+        "getattr": "name",
+        "int": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "out.append": "attribute",
+        "self._register_evaluation": "attribute",
+        "self._repair_to_bounds": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.cancelled": "attribute",
+        "self.problem.evaluate": "attribute",
+        "validate_batch_evaluations": "name",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "batch_evaluator",
+        "callable",
+        "getattr",
+        "int",
+        "max",
+        "np.asarray",
+        "out.append",
+        "self._register_evaluation",
+        "self._repair_to_bounds",
+        "self.can_evaluate",
+        "self.cancelled",
+        "self.problem.evaluate",
+        "validate_batch_evaluations",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._register_evaluation",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer._repair_to_bounds",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.can_evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.cancelled",
+        "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate",
+        "calo_rpd_studio.algorithms.base_optimizer.validate_batch_evaluations"
+      ],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, pop)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.random",
+          "target": "self.rng.random"
+        }
+      ],
+      "call_forms": {
+        "self.rng.random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.rng.random"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.random_population",
+      "semantic_tags": [],
+      "signature": "(self, n)",
+      "start_line": 188,
+      "state_owner": "",
+      "symbol": "random_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "components.get",
+          "target": "components.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.best_constraint_violation_history.append",
+          "target": "self.best_constraint_violation_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.best_feasible_objective_history.append",
+          "target": "self.best_feasible_objective_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.constraint_component_histories.setdefault",
+          "target": "self.constraint_component_histories.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluation_history.append",
+          "target": "self.evaluation_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.history.append",
+          "target": "self.history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress_callback",
+          "target": "self.progress_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "append": "attribute",
+        "components.get": "attribute",
+        "dict": "name",
+        "float": "name",
+        "get": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "np.isfinite": "attribute",
+        "self.best_constraint_violation_history.append": "attribute",
+        "self.best_feasible_objective_history.append": "attribute",
+        "self.constraint_component_histories.setdefault": "attribute",
+        "self.evaluation_history.append": "attribute",
+        "self.history.append": "attribute",
+        "self.progress_callback": "attribute",
+        "set": "name",
+        "sorted": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "append",
+        "components.get",
+        "dict",
+        "float",
+        "get",
+        "getattr",
+        "int",
+        "np.isfinite",
+        "self.best_constraint_violation_history.append",
+        "self.best_feasible_objective_history.append",
+        "self.constraint_component_histories.setdefault",
+        "self.evaluation_history.append",
+        "self.history.append",
+        "self.progress_callback",
+        "set",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 239,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.record",
+      "semantic_tags": [],
+      "signature": "(self, extra)",
+      "start_line": 191,
+      "state_owner": "",
+      "symbol": "record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "sort_key",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "range": "name",
+        "sort_key": "name",
+        "sorted": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "range",
+        "sort_key",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "doc": "",
+      "end_line": 242,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.order",
+      "semantic_tags": [],
+      "signature": "(self, evaluations)",
+      "start_line": 241,
+      "state_owner": "",
+      "symbol": "order",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 245,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 244,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerResult",
+          "target": "calo_rpd_studio.algorithms.result.OptimizerResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "md.setdefault",
+          "target": "md.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.best_vector.copy",
+          "target": "self.best_vector.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.constraint_component_histories.items",
+          "target": "self.constraint_component_histories.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.problem.solution_state",
+          "target": "self.problem.solution_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "OptimizerResult": "name",
+        "RuntimeError": "name",
+        "bool": "name",
+        "copy": "attribute",
+        "dict": "name",
+        "float": "name",
+        "int": "name",
+        "list": "name",
+        "max": "name",
+        "md.setdefault": "attribute",
+        "np.asarray": "attribute",
+        "self.best_vector.copy": "attribute",
+        "self.constraint_component_histories.items": "attribute",
+        "self.problem.solution_state": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerResult",
+        "RuntimeError",
+        "bool",
+        "copy",
+        "dict",
+        "float",
+        "int",
+        "list",
+        "max",
+        "md.setdefault",
+        "np.asarray",
+        "self.best_vector.copy",
+        "self.constraint_component_histories.items",
+        "self.problem.solution_state",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.result.OptimizerResult"
+      ],
+      "doc": "",
+      "end_line": 296,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/base_optimizer.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".result",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.base_optimizer",
+      "qualname": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer.finalize",
+      "semantic_tags": [],
+      "signature": "(self, population, reason, metadata, started)",
+      "start_line": 247,
+      "state_owner": "",
+      "symbol": "finalize",
+      "tests": []
+    }
+  ]
+}

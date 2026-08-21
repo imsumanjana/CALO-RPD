@@ -1,0 +1,507 @@
+{
+  "path": "calo_rpd_studio/accelerated/torch_decoder.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Decode continuous and discrete controls on the selected PyTorch device.",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_decoder",
+      "qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "TorchVariableDecoder",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_decoder",
+      "qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, reference_decoder, device, dtype)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_decoder",
+      "qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.dimension",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "dimension",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "columns.append",
+          "target": "columns.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lattice.numel",
+          "target": "lattice.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "long",
+          "target": "long"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.clamp",
+          "target": "torch.clamp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.empty",
+          "target": "torch.empty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.floor",
+          "target": "torch.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.stack",
+          "target": "torch.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "z.unsqueeze",
+          "target": "z.unsqueeze"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "columns.append": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "lattice.numel": "attribute",
+        "long": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.clamp": "attribute",
+        "torch.empty": "attribute",
+        "torch.floor": "attribute",
+        "torch.stack": "attribute",
+        "tuple": "name",
+        "z.unsqueeze": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.decode_batch"
+      ],
+      "calls": [
+        "ValueError",
+        "columns.append",
+        "enumerate",
+        "float",
+        "lattice.numel",
+        "long",
+        "torch.as_tensor",
+        "torch.clamp",
+        "torch.empty",
+        "torch.floor",
+        "torch.stack",
+        "tuple",
+        "z.unsqueeze"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_decoder",
+      "qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.decode_values",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "decode_values",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.decode_values",
+          "target": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.decode_values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cases.append",
+          "target": "cases.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoded.detach",
+          "target": "decoded.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "physical.append",
+          "target": "physical.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.bus_index_map",
+          "target": "self.case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.clone",
+          "target": "self.case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "case.bus_index_map": "attribute",
+        "cases.append": "attribute",
+        "cpu": "attribute",
+        "decoded.detach": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "np.where": "attribute",
+        "physical.append": "attribute",
+        "self.case.bus_index_map": "attribute",
+        "self.case.clone": "attribute",
+        "self.decode_values": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "astype",
+        "case.bus_index_map",
+        "cases.append",
+        "cpu",
+        "decoded.detach",
+        "float",
+        "int",
+        "np.asarray",
+        "np.where",
+        "physical.append",
+        "self.case.bus_index_map",
+        "self.case.clone",
+        "self.decode_values",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.decode_values"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_decoder",
+      "qualname": "calo_rpd_studio.accelerated.torch_decoder.TorchVariableDecoder.decode_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "decode_batch",
+      "tests": []
+    }
+  ]
+}

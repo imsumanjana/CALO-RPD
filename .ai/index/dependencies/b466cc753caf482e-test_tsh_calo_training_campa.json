@@ -1,0 +1,1391 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/__init__.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_training_campaign.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign._factory",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign._model_states",
+      "to": "states.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign._model_states",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign._plan",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingCampaignPlan"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign._plan",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingEpisodePlan"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign._plan",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingMemberPlan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign._plan",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "plan.training_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "plan.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "replace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_builtin_architecture_plan_needs_no_legacy_governance_receipts",
+      "to": "validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption.interrupt_status_write",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption.interrupt_status_write",
+      "to": "PermissionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption.interrupt_status_write",
+      "to": "original_write_json"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_can_resume_safe_infrastructure_write_interruption.interrupt_status_write",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "TSHCALOTrainingCampaignPlan.from_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "event_names.count"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "plan.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "plan.seed_manifest_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "plan.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "restored.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "restored.seed_manifest_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_freezes_plan_and_exports_only_unqualified_candidates",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign._write_json"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "campaign._write_status"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "campaign.resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "output.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "plan.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_refuses_resume_inside_uncommitted_cuda_window",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "auto.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "auto.scientific_design_hash"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "cpu.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "cpu.scientific_design_hash"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "replace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority",
+      "to": "validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "status_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "status_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_campaign_resume_rejects_checkpoint_status_mismatch",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "count"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "expected_state.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "expected_state.keys"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "resumed_state.keys"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "splitlines"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "tests.unit.test_tsh_calo_training_campaign._model_states"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "torch.testing.assert_close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan",
+      "to": "zip"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan.pause_at_next_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan.pause_at_next_checkpoint",
+      "to": "plan.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "any"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "endswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "read_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "tests.unit.test_tsh_calo_training_campaign._model_states"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "torch.equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_completed_campaign_can_add_repeatable_finite_authenticated_extensions",
+      "to": "zip"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "campaign._build_problem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "replace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.__init__",
+      "to": "captured.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.evaluate_population_with_context",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_default_cuda_campaign_builds_no_fallback_accelerated_problem.FakeAcceleratedProblem.evaluate_with_context",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "acceptance_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "calo_rpd_studio.scripts.accept_development_freeze._canonical_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "calo_rpd_studio.scripts.create_development_freeze_candidate.development_source_contract"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "freeze.INTERFACE_FILES.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "freeze.INTERFACE_FILES.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "record"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "sorted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_exact_training_eligible_freeze_report",
+      "to": "train_tsh_calo.validate_development_freeze_for_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "extension_loaded.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "loaded.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "plan.execution_plan_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "plan.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "plan_path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "train_tsh_calo.load_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_explicit_training_command_requires_frozen_clean_source",
+      "to": "train_tsh_calo.validate_repository_for_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "stored_plan_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "stored_plan_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_blocks_added_or_removed_training_parameter_fields",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "calo_rpd_studio.scripts.train_tsh_calo.main"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "capsys.readouterr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "stored_plan_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "stored_plan_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_reserved_plan_writer_metadata",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.tsh_calo_training_compatibility_contract"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "manifest_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "manifest_path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "status_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "status_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "campaign.start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "glob"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry.failing_factory",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry.failing_factory.failed_evaluator",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "expected_state.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "expected_state.keys"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "resumed_state.keys"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "tests.unit.test_tsh_calo_training_campaign._model_states"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "torch.testing.assert_close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_interrupted_campaign_resumes_exactly_from_authenticated_session",
+      "to": "zip"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_pause_request_is_idempotent_and_bound_to_running_campaign.request_twice",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "manifest.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "manifest_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "manifest_path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "status_path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "status_path.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard",
+      "to": "plan.training_config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_preflights_the_same_training_resource_guard",
+      "to": "train_tsh_calo.validate_training_resources"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated",
+      "to": "train_tsh_calo.validate_training_resources"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_readiness_resource_failure_is_not_reported_as_validated.reject",
+      "to": "MemoryError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "capsys.readouterr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "line.removeprefix"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "line.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "out.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_cli_emits_machine_readable_checkpoint_progress",
+      "to": "train_tsh_calo.emit_training_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "extension.start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "start_or_resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "tests.unit.test_tsh_calo_training_campaign._factory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint",
+      "to": "tests.unit.test_tsh_calo_training_campaign._plan"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_tsh_calo_training_campaign.test_training_extension_pauses_and_resumes_at_authenticated_checkpoint.pause_extension",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.request_tsh_calo_training_pause"
+    }
+  ]
+}

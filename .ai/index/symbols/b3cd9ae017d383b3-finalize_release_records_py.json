@@ -1,0 +1,2662 @@
+{
+  "path": "calo_rpd_studio/scripts/finalize_release_records.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.AUTHORIZATION_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "AUTHORIZATION_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.METADATA_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "METADATA_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.SOURCE_MANIFEST_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "SOURCE_MANIFEST_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._SHA256",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "_SHA256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._DECISION_ID",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "_DECISION_ID",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._HASH_ROW",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_HASH_ROW",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._PHASE5_RESULT_IDS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "_PHASE5_RESULT_IDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._utcnow",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "_utcnow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records._complete_source_manifest",
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records",
+        "calo_rpd_studio.scripts.finalize_release_records.validate_authorization"
+      ],
+      "calls": [
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records._complete_source_manifest",
+        "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run",
+        "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest",
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._sha256_file",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "_sha256_file",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "path.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records._validate_phase5_run",
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records",
+        "tests.unit.test_v120_phase5_release_preparation.test_final_record_json_loader_requires_an_object"
+      ],
+      "calls": [
+        "ValueError",
+        "isinstance",
+        "json.loads",
+        "path.read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "Load an evidence JSON object while rejecting arrays, scalars, and malformed input.",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._load_json_object",
+      "semantic_tags": [],
+      "signature": "(path, label)",
+      "start_line": 109,
+      "state_owner": "",
+      "symbol": "_load_json_object",
+      "tests": [
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_HASH_ROW.fullmatch",
+          "target": "_HASH_ROW.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.is_file",
+          "target": "manifest.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.is_symlink",
+          "target": "manifest.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.read_text",
+          "target": "manifest.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "match.groups",
+          "target": "match.groups"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative.is_absolute",
+          "target": "relative.is_absolute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative_text.replace",
+          "target": "relative_text.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.rglob",
+          "target": "root.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run.resolve",
+          "target": "run.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unresolved.is_symlink",
+          "target": "unresolved.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unresolved.resolve",
+          "target": "unresolved.resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "_HASH_ROW.fullmatch": "attribute",
+        "_sha256_file": "name",
+        "as_posix": "attribute",
+        "manifest.is_file": "attribute",
+        "manifest.is_symlink": "attribute",
+        "manifest.read_text": "attribute",
+        "match.groups": "attribute",
+        "path.is_file": "attribute",
+        "path.relative_to": "attribute",
+        "relative.is_absolute": "attribute",
+        "relative_text.replace": "attribute",
+        "root.rglob": "attribute",
+        "run.resolve": "attribute",
+        "set": "name",
+        "splitlines": "attribute",
+        "unresolved.is_symlink": "attribute",
+        "unresolved.resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run",
+        "calo_rpd_studio.scripts.finalize_release_records._validate_phase5_run"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "_HASH_ROW.fullmatch",
+        "_sha256_file",
+        "as_posix",
+        "manifest.is_file",
+        "manifest.is_symlink",
+        "manifest.read_text",
+        "match.groups",
+        "path.is_file",
+        "path.relative_to",
+        "relative.is_absolute",
+        "relative_text.replace",
+        "root.rglob",
+        "run.resolve",
+        "set",
+        "splitlines",
+        "unresolved.is_symlink",
+        "unresolved.resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+      ],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest",
+      "semantic_tags": [],
+      "signature": "(run, manifest_name)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "_verify_directory_hash_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_load_json_object",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._load_json_object"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_verify_directory_hash_manifest",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.get",
+          "target": "summary.get"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "_load_json_object": "name",
+        "_verify_directory_hash_manifest": "name",
+        "any": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "resolve": "attribute",
+        "row.get": "attribute",
+        "set": "name",
+        "str": "name",
+        "summary.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "_load_json_object",
+        "_verify_directory_hash_manifest",
+        "any",
+        "expanduser",
+        "isinstance",
+        "len",
+        "resolve",
+        "row.get",
+        "set",
+        "str",
+        "summary.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._load_json_object",
+        "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest"
+      ],
+      "doc": "",
+      "end_line": 179,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._validate_phase5_run",
+      "semantic_tags": [],
+      "signature": "(run_directory)",
+      "start_line": 156,
+      "state_owner": "",
+      "symbol": "_validate_phase5_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_acceptance_receipt",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_phase5_run",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._validate_phase5_run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_verify_directory_hash_manifest",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "combined.get",
+          "target": "combined.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase4.get",
+          "target": "phase4.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase5.get",
+          "target": "phase5.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase5_summary.get",
+          "target": "phase5_summary.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "_sha256_file": "name",
+        "_validate_phase5_run": "name",
+        "_verify_directory_hash_manifest": "name",
+        "any": "name",
+        "build_acceptance_receipt": "name",
+        "combined.get": "attribute",
+        "dict": "name",
+        "phase4.get": "attribute",
+        "phase5.get": "attribute",
+        "phase5_summary.get": "attribute",
+        "resolve": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "_sha256_file",
+        "_validate_phase5_run",
+        "_verify_directory_hash_manifest",
+        "any",
+        "build_acceptance_receipt",
+        "combined.get",
+        "dict",
+        "phase4.get",
+        "phase5.get",
+        "phase5_summary.get",
+        "resolve",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "calo_rpd_studio.scripts.finalize_release_records._sha256_file",
+        "calo_rpd_studio.scripts.finalize_release_records._validate_phase5_run",
+        "calo_rpd_studio.scripts.finalize_release_records._verify_directory_hash_manifest"
+      ],
+      "doc": "",
+      "end_line": 218,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run",
+      "semantic_tags": [],
+      "signature": "(combined_path, combined, decision_id)",
+      "start_line": 182,
+      "state_owner": "",
+      "symbol": "_validate_combined_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.main",
+        "tests.unit.test_v120_phase5_release_preparation.test_disabled_final_record_template_cannot_generate_release_records"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 236,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.disabled_authorization_template",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 221,
+      "state_owner": "",
+      "symbol": "disabled_authorization_template",
+      "tests": [
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "payload.items",
+          "target": "payload.items"
+        }
+      ],
+      "call_forms": {
+        "payload.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.validate_authorization"
+      ],
+      "calls": [
+        "payload.items"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 240,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._authorization_stable",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 239,
+      "state_owner": "",
+      "symbol": "_authorization_stable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PermissionError",
+          "target": "PermissionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_DECISION_ID.fullmatch",
+          "target": "_DECISION_ID.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_SHA256.fullmatch",
+          "target": "_SHA256.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authorization.get",
+          "target": "authorization.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_authorization_stable",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._authorization_stable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PermissionError": "name",
+        "ValueError": "name",
+        "_DECISION_ID.fullmatch": "attribute",
+        "_SHA256.fullmatch": "attribute",
+        "_authorization_stable": "name",
+        "_canonical_sha256": "name",
+        "authorization.get": "attribute",
+        "lower": "attribute",
+        "re.fullmatch": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records",
+        "tests.unit.test_v120_phase5_release_preparation.test_disabled_final_record_template_cannot_generate_release_records"
+      ],
+      "calls": [
+        "PermissionError",
+        "ValueError",
+        "_DECISION_ID.fullmatch",
+        "_SHA256.fullmatch",
+        "_authorization_stable",
+        "_canonical_sha256",
+        "authorization.get",
+        "lower",
+        "re.fullmatch",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._authorization_stable",
+        "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 268,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.validate_authorization",
+      "semantic_tags": [],
+      "signature": "(authorization)",
+      "start_line": 243,
+      "state_owner": "",
+      "symbol": "validate_authorization",
+      "tests": [
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_symlink",
+          "target": "path.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.stat",
+          "target": "path.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.append",
+          "target": "records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative.replace",
+          "target": "relative.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.stderr.strip",
+          "target": "result.stderr.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.stdout.splitlines",
+          "target": "result.stdout.splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_sha256_file": "name",
+        "len": "name",
+        "path.is_file": "attribute",
+        "path.is_symlink": "attribute",
+        "path.relative_to": "attribute",
+        "path.stat": "attribute",
+        "records.append": "attribute",
+        "relative.replace": "attribute",
+        "resolve": "attribute",
+        "result.stderr.strip": "attribute",
+        "result.stdout.splitlines": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "subprocess.run": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "_canonical_sha256",
+        "_sha256_file",
+        "len",
+        "path.is_file",
+        "path.is_symlink",
+        "path.relative_to",
+        "path.stat",
+        "records.append",
+        "relative.replace",
+        "resolve",
+        "result.stderr.strip",
+        "result.stdout.splitlines",
+        "sorted",
+        "str",
+        "subprocess.run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256",
+        "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+      ],
+      "doc": "",
+      "end_line": 303,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._complete_source_manifest",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 271,
+      "state_owner": "",
+      "symbol": "_complete_source_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "PermissionError",
+          "target": "PermissionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authorization.get",
+          "target": "authorization.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance_matches_freeze",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_release_preparation",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_release_preparation_evidence",
+          "target": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_source_manifest",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._complete_source_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_load_json_object",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._load_json_object"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._sha256_file"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utcnow",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._utcnow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_combined_run",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_authorization",
+          "target": "calo_rpd_studio.scripts.finalize_release_records.validate_authorization"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_scope_decision",
+          "target": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "combined.get",
+          "target": "combined.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comparisons.items",
+          "target": "comparisons.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decision.get",
+          "target": "decision.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.to_dict",
+          "target": "identity.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase4.get",
+          "target": "phase4.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "phase5.get",
+          "target": "phase5.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "preparation.get",
+          "target": "preparation.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "preparation_identity.get",
+          "target": "preparation_identity.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "preparation_scope.get",
+          "target": "preparation_scope.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "transition.get",
+          "target": "transition.get"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "PermissionError": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_complete_source_manifest": "name",
+        "_load_json_object": "name",
+        "_sha256_file": "name",
+        "_utcnow": "name",
+        "_validate_combined_run": "name",
+        "acceptance_matches_freeze": "name",
+        "authorization.get": "attribute",
+        "bool": "name",
+        "combined.get": "attribute",
+        "comparisons.items": "attribute",
+        "decision.get": "attribute",
+        "dict": "name",
+        "expanduser": "attribute",
+        "identity.to_dict": "attribute",
+        "phase4.get": "attribute",
+        "phase5.get": "attribute",
+        "preparation.get": "attribute",
+        "preparation_identity.get": "attribute",
+        "preparation_scope.get": "attribute",
+        "resolve": "attribute",
+        "resolve_source_identity": "name",
+        "str": "name",
+        "transition.get": "attribute",
+        "validate_authorization": "name",
+        "validate_development_freeze_candidate": "name",
+        "validate_release_preparation": "name",
+        "validate_scope_decision": "name",
+        "verify_release_preparation_evidence": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.main"
+      ],
+      "calls": [
+        "Path",
+        "PermissionError",
+        "RuntimeError",
+        "ValueError",
+        "_canonical_sha256",
+        "_complete_source_manifest",
+        "_load_json_object",
+        "_sha256_file",
+        "_utcnow",
+        "_validate_combined_run",
+        "acceptance_matches_freeze",
+        "authorization.get",
+        "bool",
+        "combined.get",
+        "comparisons.items",
+        "decision.get",
+        "dict",
+        "expanduser",
+        "identity.to_dict",
+        "phase4.get",
+        "phase5.get",
+        "preparation.get",
+        "preparation_identity.get",
+        "preparation_scope.get",
+        "resolve",
+        "resolve_source_identity",
+        "str",
+        "transition.get",
+        "validate_authorization",
+        "validate_development_freeze_candidate",
+        "validate_release_preparation",
+        "validate_scope_decision",
+        "verify_release_preparation_evidence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence",
+        "calo_rpd_studio.scripts.finalize_release_records._canonical_sha256",
+        "calo_rpd_studio.scripts.finalize_release_records._complete_source_manifest",
+        "calo_rpd_studio.scripts.finalize_release_records._load_json_object",
+        "calo_rpd_studio.scripts.finalize_release_records._sha256_file",
+        "calo_rpd_studio.scripts.finalize_release_records._utcnow",
+        "calo_rpd_studio.scripts.finalize_release_records._validate_combined_run",
+        "calo_rpd_studio.scripts.finalize_release_records.validate_authorization",
+        "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision"
+      ],
+      "doc": "",
+      "end_line": 418,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.build_final_records",
+      "semantic_tags": [],
+      "signature": "(source_root, combined_summary_path, release_preparation_path, release_evidence_root, scope_decision_path, phase4_acceptance_path, post_transition_freeze_path, authorization_path, scope_evidence_root)",
+      "start_line": 306,
+      "state_owner": "",
+      "symbol": "build_final_records",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.open",
+          "target": "destination.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.expanduser",
+          "target": "path.expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.fileno",
+          "target": "stream.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "destination.open": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "json.dumps": "attribute",
+        "os.fsync": "attribute",
+        "path.expanduser": "attribute",
+        "resolve": "attribute",
+        "stream.fileno": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.finalize_release_records.main"
+      ],
+      "calls": [
+        "FileExistsError",
+        "destination.open",
+        "destination.parent.mkdir",
+        "json.dumps",
+        "os.fsync",
+        "path.expanduser",
+        "resolve",
+        "stream.fileno",
+        "stream.flush",
+        "stream.write"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 431,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records._write_exclusive",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 421,
+      "state_owner": "",
+      "symbol": "_write_exclusive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path.cwd",
+          "target": "Path.cwd"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_exclusive",
+          "target": "calo_rpd_studio.scripts.finalize_release_records._write_exclusive"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_final_records",
+          "target": "calo_rpd_studio.scripts.finalize_release_records.build_final_records"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "disabled_authorization_template",
+          "target": "calo_rpd_studio.scripts.finalize_release_records.disabled_authorization_template"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "commands.add_parser",
+          "target": "commands.add_parser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "generate.add_argument",
+          "target": "generate.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_subparsers",
+          "target": "parser.add_subparsers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "template.add_argument",
+          "target": "template.add_argument"
+        }
+      ],
+      "call_forms": {
+        "Path.cwd": "attribute",
+        "_write_exclusive": "name",
+        "argparse.ArgumentParser": "attribute",
+        "build_final_records": "name",
+        "commands.add_parser": "attribute",
+        "disabled_authorization_template": "name",
+        "generate.add_argument": "attribute",
+        "parser.add_subparsers": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "template.add_argument": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path.cwd",
+        "_write_exclusive",
+        "argparse.ArgumentParser",
+        "build_final_records",
+        "commands.add_parser",
+        "disabled_authorization_template",
+        "generate.add_argument",
+        "parser.add_subparsers",
+        "parser.parse_args",
+        "print",
+        "template.add_argument"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.finalize_release_records._write_exclusive",
+        "calo_rpd_studio.scripts.finalize_release_records.build_final_records",
+        "calo_rpd_studio.scripts.finalize_release_records.disabled_authorization_template"
+      ],
+      "doc": "",
+      "end_line": 468,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/finalize_release_records.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "subprocess": "subprocess",
+        "timezone": "datetime.timezone",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "validate_release_preparation": "calo_rpd_studio.scripts.create_release_preparation.validate_release_preparation",
+        "validate_scope_decision": "calo_rpd_studio.scripts.release_policy_scope.validate_scope_decision",
+        "verify_release_preparation_evidence": "calo_rpd_studio.scripts.create_release_preparation.verify_release_preparation_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_release_preparation",
+        "calo_rpd_studio.scripts.release_policy_scope",
+        "calo_rpd_studio.version",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.finalize_release_records",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.finalize_release_records",
+      "qualname": "calo_rpd_studio.scripts.finalize_release_records.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 434,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,1855 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "PhysicsRepairStatus",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+        "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+        "tests.unit.test_tsh_calo_physics_repair._context",
+        "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Linearization retained by an already-counted converged evaluator call.",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "PhysicsRepairContext",
+      "tests": [
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_tsh_calo_runtime_transition.py",
+        "tests/unit/test_tsh_calo_training_environment.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.__init__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment._initialize_components",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_singular_supplied_jacobian_records_failure_without_candidate",
+        "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+        "tests.unit.test_tsh_calo_runtime_transition.test_shielded_physics_selection_fails_closed_if_context_disappears"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "PhysicsRepairConfig",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_tsh_calo_runtime_transition.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.propose",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._masked"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "PhysicsRepairProposal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.CountedPhysicsRepairEvaluation",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "CountedPhysicsRepairEvaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairProposal",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairProposal": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.propose"
+      ],
+      "calls": [
+        "PhysicsRepairProposal",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._masked",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(context, reason)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "_masked",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "issparse",
+          "target": "issparse"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.solve",
+          "target": "np.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spsolve",
+          "target": "spsolve"
+        }
+      ],
+      "call_forms": {
+        "issparse": "name",
+        "np.asarray": "attribute",
+        "np.linalg.solve": "attribute",
+        "spsolve": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.propose"
+      ],
+      "calls": [
+        "issparse",
+        "np.asarray",
+        "np.linalg.solve",
+        "spsolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._dense_or_sparse_solve",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(matrix, rhs)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "_dense_or_sparse_solve",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "getattr": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._snap_declared_lattice",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._trust_bounded_lattice_candidate"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "getattr",
+        "np.asarray",
+        "np.clip",
+        "np.isfinite",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._normalized_lattice",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(variable)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "_normalized_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_lattice",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._normalized_lattice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argmin",
+          "target": "np.argmin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "_normalized_lattice": "name",
+        "copy": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "np.abs": "attribute",
+        "np.argmin": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._trust_bounded_lattice_candidate"
+      ],
+      "calls": [
+        "_normalized_lattice",
+        "copy",
+        "enumerate",
+        "float",
+        "np.abs",
+        "np.argmin",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._normalized_lattice"
+      ],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._snap_declared_lattice",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(candidate, variables)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "_snap_declared_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_lattice",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._normalized_lattice"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_snap_declared_lattice",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._snap_declared_lattice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "continuous.append",
+          "target": "continuous.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "discrete.append",
+          "target": "discrete.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "_normalized_lattice": "name",
+        "_snap_declared_lattice": "name",
+        "abs": "name",
+        "continuous.append": "attribute",
+        "copy": "attribute",
+        "discrete.append": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "max": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.linalg.norm": "attribute",
+        "np.sqrt": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.propose"
+      ],
+      "calls": [
+        "_normalized_lattice",
+        "_snap_declared_lattice",
+        "abs",
+        "continuous.append",
+        "copy",
+        "discrete.append",
+        "enumerate",
+        "float",
+        "max",
+        "min",
+        "np.asarray",
+        "np.clip",
+        "np.linalg.norm",
+        "np.sqrt",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._normalized_lattice",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._snap_declared_lattice"
+      ],
+      "doc": "Admit whole lattice moves first, then spend the remaining norm on continuous controls.",
+      "end_line": 157,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._trust_bounded_lattice_candidate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(current, proposed, control_direction, variables, trust_radius)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "_trust_bounded_lattice_candidate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment._initialize_components",
+        "tests.unit.test_tsh_calo_physics_repair.test_physics_repair_and_seventh_operator_are_disabled_by_default",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_masks_unavailable_unconverged_or_ill_conditioned_context",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_uses_supplied_linearization_is_trust_bounded_and_snaps_lattice",
+        "tests.unit.test_tsh_calo_physics_repair.test_singular_supplied_jacobian_records_failure_without_candidate",
+        "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+        "tests.unit.test_tsh_calo_runtime_transition.test_shielded_physics_selection_fails_closed_if_context_disappears"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Map supplied converged linearization residuals to a bounded control proposal.",
+      "end_line": 263,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 160,
+      "state_owner": "",
+      "symbol": "PhysicsRepairOperator",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_tsh_calo_runtime_transition.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.validate",
+          "target": "self.config.validate"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "self.config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "self.config.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+      ],
+      "doc": "",
+      "end_line": 165,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, config)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FloatingPointError",
+          "target": "FloatingPointError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairProposal",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_dense_or_sparse_solve",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._dense_or_sparse_solve"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_masked",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._masked"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_trust_bounded_lattice_candidate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._trust_bounded_lattice_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.lstsq",
+          "target": "np.linalg.lstsq"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "FloatingPointError": "name",
+        "PhysicsRepairProposal": "name",
+        "_dense_or_sparse_solve": "name",
+        "_masked": "name",
+        "_trust_bounded_lattice_candidate": "name",
+        "float": "name",
+        "getattr": "name",
+        "len": "name",
+        "min": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute",
+        "np.linalg.lstsq": "attribute",
+        "np.linalg.norm": "attribute",
+        "str": "name",
+        "time.perf_counter": "attribute",
+        "tuple": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "FloatingPointError",
+        "PhysicsRepairProposal",
+        "_dense_or_sparse_solve",
+        "_masked",
+        "_trust_bounded_lattice_candidate",
+        "float",
+        "getattr",
+        "len",
+        "min",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.clip",
+        "np.isfinite",
+        "np.linalg.lstsq",
+        "np.linalg.norm",
+        "str",
+        "time.perf_counter",
+        "tuple",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._dense_or_sparse_solve",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._masked",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair._trust_bounded_lattice_candidate"
+      ],
+      "doc": "",
+      "end_line": 263,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator.propose",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, current, context, variables)",
+      "start_line": 167,
+      "state_owner": "",
+      "symbol": "propose",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairContext",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evaluation_context.primary_converged_scenario",
+          "target": "evaluation_context.primary_converged_scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairContext": "name",
+        "bool": "name",
+        "evaluation_context.primary_converged_scenario": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "np.asarray": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.observe",
+        "tests.unit.test_tsh_calo_physics_repair.test_counted_orpd_linearization_adapts_without_an_evaluator_call",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice"
+      ],
+      "calls": [
+        "PhysicsRepairContext",
+        "bool",
+        "evaluation_context.primary_converged_scenario",
+        "float",
+        "getattr",
+        "np.asarray",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+      ],
+      "doc": "Adapt the selected ephemeral ORPD linearization without a solver or evaluator call.",
+      "end_line": 286,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_from_counted_evaluation",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(evaluation_context)",
+      "start_line": 266,
+      "state_owner": "",
+      "symbol": "physics_repair_context_from_counted_evaluation",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "float": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.linalg.norm": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.observe",
+        "tests.unit.test_tsh_calo_physics_repair.test_context_exposure_requires_residual_sensitivity_and_conditioning",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice"
+      ],
+      "calls": [
+        "bool",
+        "float",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "np.linalg.norm"
+      ],
+      "calls_resolved": [],
+      "doc": "Conservatively gate operator exposure before the policy can select Change E.",
+      "end_line": 319,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.physics_repair_context_is_usable",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(context, maximum_condition_number)",
+      "start_line": 289,
+      "state_owner": "",
+      "symbol": "physics_repair_context_is_usable",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_candidates",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CountedPhysicsRepairEvaluation",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.CountedPhysicsRepairEvaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "CountedPhysicsRepairEvaluation": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "evaluate_candidates": "name",
+        "int": "name",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_evaluation_fails_closed_on_budget_or_incomplete_evaluator",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation"
+      ],
+      "calls": [
+        "CountedPhysicsRepairEvaluation",
+        "RuntimeError",
+        "ValueError",
+        "evaluate_candidates",
+        "int",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.CountedPhysicsRepairEvaluation"
+      ],
+      "doc": "Require the same trusted evaluator and one explicit FE for a repair proposal.",
+      "end_line": 344,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Enum": "enum.Enum",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_candidates": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+        "issparse": "scipy.sparse.issparse",
+        "np": "numpy",
+        "spsolve": "scipy.sparse.linalg.spsolve",
+        "time": "time"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".transition_kernel",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(proposal, evaluator, remaining_evaluations)",
+      "start_line": 322,
+      "state_owner": "",
+      "symbol": "evaluate_physics_repair_proposal",
+      "tests": [
+        "tests/unit/test_tsh_calo_physics_repair.py"
+      ]
+    }
+  ]
+}

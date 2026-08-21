@@ -1,0 +1,1649 @@
+{
+  "path": "calo_rpd_studio/app/state_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager._LOG",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "AppState",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.application.main",
+        "calo_rpd_studio.scripts.validate_packaged_gui.validate_packaged_gui",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render",
+        "calo_rpd_studio.scripts.validate_phase3_workspace_accessibility.validate_workspace_accessibility",
+        "calo_rpd_studio.scripts.validate_phase6_gui_contracts.validate",
+        "tests.gui.test_ci_visual_smoke.test_main_scientist_workspace_renders_to_nonempty_image",
+        "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+        "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+        "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+        "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+        "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+        "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+        "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+        "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+        "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+        "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+        "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+        "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+        "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+        "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+        "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+        "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+        "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+        "tests.gui.test_guided_workflow.test_policy_free_submitted_stage_keeps_individual_case_setup_available",
+        "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
+        "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
+        "tests.gui.test_history_manager.test_history_manager_is_available_from_application_settings",
+        "tests.gui.test_phase6_ribbon_workspace._window",
+        "tests.gui.test_results_review_navigation.test_results_explorer_selects_full_row_and_emits_validation_request",
+        "tests.gui.test_workspace_execution_ui.test_durable_workspace_pause_enables_individual_setup_but_keeps_resume",
+        "tests.gui.test_workspace_execution_ui.test_individual_audit_uses_direct_result_contract_without_portfolio_planner",
+        "tests.gui.test_workspace_execution_ui.test_individual_audited_plan_ignores_mutable_algorithm_draft_drift",
+        "tests.gui.test_workspace_execution_ui.test_individual_setup_is_editable_without_workspace_portfolio_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_individual_staging_blocks_workspace_stage_and_resume",
+        "tests.gui.test_workspace_execution_ui.test_inline_study_panels_preserve_prerequisites_and_completion_signals",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_empty_study_filter_as_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_missing_stage_as_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+        "tests.gui.test_workspace_execution_ui.test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed",
+        "tests.gui.test_workspace_execution_ui.test_study_recommendation_hydration_is_non_persistent_until_apply",
+        "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
+        "tests.gui.test_workspace_execution_ui.test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not",
+        "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing",
+        "tests.gui.test_workspace_tabbed_layouts.test_configuration_workspaces_use_accessible_section_tabs",
+        "tests.gui.test_workspace_tabbed_layouts.test_portfolio_requested_outputs_fill_the_visible_tree_width",
+        "tests.integration.test_phase4_empty_policy_workflow.test_empty_policy_state_forces_rule_only_calo_and_disables_tsh_policy_use",
+        "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+        "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+        "tests.unit.test_scientist_gui_contract.test_dashboard_readiness_uses_scientist_facing_resource_language",
+        "tests.unit.test_scientist_gui_contract.test_experiment_workspace_has_only_two_scientist_compute_modes",
+        "tests.unit.test_scientist_gui_contract.test_failed_study_application_does_not_mutate_live_configuration",
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language",
+        "tests.unit.test_scientist_gui_contract.test_policy_workspace_omits_internal_training_and_validation_modes",
+        "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 238,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "AppState",
+      "symbol": "AppState",
+      "tests": [
+        "tests/gui/test_ci_visual_smoke.py",
+        "tests/gui/test_gui_startup.py",
+        "tests/gui/test_guided_workflow.py",
+        "tests/gui/test_history_manager.py",
+        "tests/gui/test_phase6_ribbon_workspace.py",
+        "tests/gui/test_results_review_navigation.py",
+        "tests/gui/test_workspace_execution_ui.py",
+        "tests/gui/test_workspace_tabbed_layouts.py",
+        "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/integration/test_workspace_execution_control.py",
+        "tests/unit/test_scientist_gui_contract.py",
+        "tests/unit/test_v680_policy_independence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRegistry",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionControlService",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.synchronize_governing_policy_binding",
+          "target": "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TaskStatus",
+          "target": "calo_rpd_studio.app.task_status.TaskStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologyService",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResumeService",
+          "target": "calo_rpd_studio.resume.service.ResumeService"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.resume_service.recover_after_restart",
+          "target": "self.resume_service.recover_after_restart"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "ComputeTopologyService": "name",
+        "ExecutionControlService": "name",
+        "ExperimentConfig": "name",
+        "PolicyRegistry": "name",
+        "ResultDatabase": "name",
+        "ResumeService": "name",
+        "SafeResourceBudgetEngine": "name",
+        "TaskStatus": "name",
+        "__init__": "attribute",
+        "self.resume_service.recover_after_restart": "attribute",
+        "self.synchronize_governing_policy_binding": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ComputeTopologyService",
+        "ExecutionControlService",
+        "ExperimentConfig",
+        "PolicyRegistry",
+        "ResultDatabase",
+        "ResumeService",
+        "SafeResourceBudgetEngine",
+        "TaskStatus",
+        "__init__",
+        "self.resume_service.recover_after_restart",
+        "self.synchronize_governing_policy_binding",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding",
+        "calo_rpd_studio.app.task_status.TaskStatus",
+        "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.resume.service.ResumeService"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.__init__",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, database_path)",
+      "start_line": 33,
+      "state_owner": "AppState",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AdaptiveComputeGovernor",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GovernorConfig",
+          "target": "calo_rpd_studio.compute.governor.GovernorConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_budget_engine.calculate",
+          "target": "self.compute_budget_engine.calculate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_governor.sample",
+          "target": "self.compute_governor.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_governor_changed.emit",
+          "target": "self.compute_governor_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_profile_changed.emit",
+          "target": "self.compute_profile_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_topology_service.scan",
+          "target": "self.compute_topology_service.scan"
+        }
+      ],
+      "call_forms": {
+        "AdaptiveComputeGovernor": "name",
+        "GovernorConfig": "name",
+        "RuntimeError": "name",
+        "float": "name",
+        "self.compute_budget_engine.calculate": "attribute",
+        "self.compute_governor.sample": "attribute",
+        "self.compute_governor_changed.emit": "attribute",
+        "self.compute_profile_changed.emit": "attribute",
+        "self.compute_topology_service.scan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AdaptiveComputeGovernor",
+        "GovernorConfig",
+        "RuntimeError",
+        "float",
+        "self.compute_budget_engine.calculate",
+        "self.compute_governor.sample",
+        "self.compute_governor_changed.emit",
+        "self.compute_profile_changed.emit",
+        "self.compute_topology_service.scan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "calo_rpd_studio.compute.governor.GovernorConfig"
+      ],
+      "doc": "Refresh the authoritative hardware map and Safe-80 protection profile.",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.refresh_compute_profile",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 57,
+      "state_owner": "AppState",
+      "symbol": "refresh_compute_profile",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AdaptiveComputeGovernor",
+          "target": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GovernorConfig",
+          "target": "calo_rpd_studio.compute.governor.GovernorConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_governor.sample",
+          "target": "self.compute_governor.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.compute_governor_changed.emit",
+          "target": "self.compute_governor_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "AdaptiveComputeGovernor": "name",
+        "GovernorConfig": "name",
+        "dict": "name",
+        "float": "name",
+        "get": "attribute",
+        "int": "name",
+        "max": "name",
+        "self.compute_governor.sample": "attribute",
+        "self.compute_governor_changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AdaptiveComputeGovernor",
+        "GovernorConfig",
+        "dict",
+        "float",
+        "get",
+        "int",
+        "max",
+        "self.compute_governor.sample",
+        "self.compute_governor_changed.emit"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "calo_rpd_studio.compute.governor.GovernorConfig"
+      ],
+      "doc": "Refresh live protection telemetry without changing the authoritative hardware identity.",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.sample_compute_governor",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, active_branches)",
+      "start_line": 85,
+      "state_owner": "AppState",
+      "symbol": "sample_compute_governor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_training_changed.emit",
+          "target": "self.policy_training_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.policy_training_changed.emit": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.policy_training_changed.emit",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.begin_policy_training",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, detail)",
+      "start_line": 108,
+      "state_owner": "AppState",
+      "symbol": "begin_policy_training",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_training_changed.emit",
+          "target": "self.policy_training_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.policy_training_changed.emit": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.policy_training_changed.emit",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.end_policy_training",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, detail)",
+      "start_line": 113,
+      "state_owner": "AppState",
+      "symbol": "end_policy_training",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_training_plan_changed.emit",
+          "target": "self.policy_training_plan_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "self.policy_training_plan_changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "self.policy_training_plan_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.update_policy_training_plan",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, payload)",
+      "start_line": 118,
+      "state_owner": "AppState",
+      "symbol": "update_policy_training_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_governing_policy",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+        }
+      ],
+      "call_forms": {
+        "evaluate_governing_policy": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.notify_policy_state_changed",
+        "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding"
+      ],
+      "calls": [
+        "evaluate_governing_policy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.governing_policy_status",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 122,
+      "state_owner": "AppState",
+      "symbol": "governing_policy_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calo_parameters.pop",
+          "target": "calo_parameters.pop"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.state_manager.AppState.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.algorithm_parameters.get",
+          "target": "self.config.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_registry.bind_to_experiment_config",
+          "target": "self.policy_registry.bind_to_experiment_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tsh_parameters.get",
+          "target": "tsh_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tsh_parameters.pop",
+          "target": "tsh_parameters.pop"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "bool": "name",
+        "calo_parameters.pop": "attribute",
+        "dict": "name",
+        "getattr": "name",
+        "self.config.algorithm_parameters.get": "attribute",
+        "self.governing_policy_status": "attribute",
+        "self.policy_registry.bind_to_experiment_config": "attribute",
+        "tsh_parameters.get": "attribute",
+        "tsh_parameters.pop": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.__init__",
+        "calo_rpd_studio.app.state_manager.AppState.notify_policy_state_changed"
+      ],
+      "calls": [
+        "_LOG.warning",
+        "bool",
+        "calo_parameters.pop",
+        "dict",
+        "getattr",
+        "self.config.algorithm_parameters.get",
+        "self.governing_policy_status",
+        "self.policy_registry.bind_to_experiment_config",
+        "tsh_parameters.get",
+        "tsh_parameters.pop"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState.governing_policy_status"
+      ],
+      "doc": "Make the active governing policy the global binding for new experiments.",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, status)",
+      "start_line": 125,
+      "state_owner": "AppState",
+      "symbol": "synchronize_governing_policy_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.state_manager.AppState.governing_policy_status"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.synchronize_governing_policy_binding",
+          "target": "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.update_config",
+          "target": "calo_rpd_studio.app.state_manager.AppState.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_state_changed.emit",
+          "target": "self.policy_state_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.governing_policy_status": "attribute",
+        "self.policy_state_changed.emit": "attribute",
+        "self.synchronize_governing_policy_binding": "attribute",
+        "self.update_config": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.governing_policy_status",
+        "self.policy_state_changed.emit",
+        "self.synchronize_governing_policy_binding",
+        "self.update_config"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState.governing_policy_status",
+        "calo_rpd_studio.app.state_manager.AppState.synchronize_governing_policy_binding",
+        "calo_rpd_studio.app.state_manager.AppState.update_config"
+      ],
+      "doc": "",
+      "end_line": 221,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.notify_policy_state_changed",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 216,
+      "state_owner": "AppState",
+      "symbol": "notify_policy_state_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.config_changed.emit",
+          "target": "self.config_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.config_changed.emit": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.notify_policy_state_changed"
+      ],
+      "calls": [
+        "self.config_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 224,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.update_config",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 223,
+      "state_owner": "AppState",
+      "symbol": "update_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.execution_control.controller",
+          "target": "self.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.execution_state_changed.emit",
+          "target": "self.execution_state_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.execution_control.controller": "attribute",
+        "self.execution_state_changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.execution_control.controller",
+        "self.execution_state_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 229,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.notify_execution_state_changed",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 226,
+      "state_owner": "AppState",
+      "symbol": "notify_execution_state_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_changed.emit",
+          "target": "self.case_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.case_changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.case_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 234,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.set_case",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, case)",
+      "start_line": 231,
+      "state_owner": "AppState",
+      "symbol": "set_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "shared desktop/application workflow state",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme_changed.emit",
+          "target": "self.theme_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.theme_changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.theme_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 238,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/state_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AdaptiveComputeGovernor": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ExecutionControlService": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GovernorConfig": "calo_rpd_studio.compute.governor.GovernorConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "QObject": "PyQt6.QtCore.QObject",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TaskStatus": "calo_rpd_studio.app.task_status.TaskStatus",
+        "evaluate_governing_policy": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "logging": "logging",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".execution_control",
+        ".task_status",
+        "PyQt6.QtCore",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.compute.governor",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.resume.service",
+        "logging"
+      ],
+      "integration_layer": "application state services and scientist-facing UI",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.state_manager.AppState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.state_manager",
+      "qualname": "calo_rpd_studio.app.state_manager.AppState.set_theme",
+      "semantic_tags": [
+        "AppState",
+        "PyQt",
+        "authoritative-state",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, theme)",
+      "start_line": 236,
+      "state_owner": "AppState",
+      "symbol": "set_theme",
+      "tests": []
+    }
+  ]
+}

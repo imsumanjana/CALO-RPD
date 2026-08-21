@@ -1,0 +1,1475 @@
+{
+  "path": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TSHCALOTrainingCampaignPlan.from_dict",
+          "target": "TSHCALOTrainingCampaignPlan.from_dict"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOGeneralizationGuardConfig",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_generalization_guard_core.TSHCALOGeneralizationGuardConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.to_dict",
+          "target": "plan.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_dict",
+          "target": "to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.get",
+          "target": "values.get"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOGeneralizationGuardConfig": "name",
+        "TSHCALOTrainingCampaignPlan.from_dict": "attribute",
+        "dict": "name",
+        "isinstance": "name",
+        "plan.to_dict": "attribute",
+        "to_dict": "attribute",
+        "values.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard"
+      ],
+      "calls": [
+        "TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan.from_dict",
+        "dict",
+        "isinstance",
+        "plan.to_dict",
+        "to_dict",
+        "values.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_generalization_guard_core.TSHCALOGeneralizationGuardConfig"
+      ],
+      "doc": "Return a validated new-plan payload with a visible default guard when none is declared.",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel._guarded_new_plan_payload",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "_guarded_new_plan_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TSHCALOTrainingCampaignPlan.from_dict",
+          "target": "TSHCALOTrainingCampaignPlan.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_evaluation_accounting",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingCampaignPlan.from_dict": "attribute",
+        "bool": "name",
+        "isinstance": "name",
+        "plan_training_evaluation_accounting": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._configuration_changed",
+        "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._refresh_preview"
+      ],
+      "calls": [
+        "TSHCALOTrainingCampaignPlan.from_dict",
+        "bool",
+        "isinstance",
+        "plan_training_evaluation_accounting"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      ],
+      "doc": "Return ordinary-language readiness text from the canonical plan ledger.",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel._plan_accounting_text",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "_plan_accounting_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "accounting.get",
+          "target": "accounting.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "displayed.get",
+          "target": "displayed.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "accounting.get": "attribute",
+        "dict": "name",
+        "displayed.get": "attribute",
+        "int": "name",
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._apply_training_progress"
+      ],
+      "calls": [
+        "accounting.get",
+        "dict",
+        "displayed.get",
+        "int",
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "Map compatibility fields to the explicit counted totals used by rendered progress text.",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel._display_accounting_event",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(event)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "_display_accounting_event",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "accounting.get",
+          "target": "accounting.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.extend",
+          "target": "candidates.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "glob",
+          "target": "glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.get",
+          "target": "manifest.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest_path.is_file",
+          "target": "manifest_path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest_path.read_text",
+          "target": "manifest_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_path.is_file",
+          "target": "status_path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_path.read_text",
+          "target": "status_path.read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "accounting.get": "attribute",
+        "candidates.extend": "attribute",
+        "dict": "name",
+        "expanduser": "attribute",
+        "glob": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "manifest.get": "attribute",
+        "manifest_path.is_file": "attribute",
+        "manifest_path.read_text": "attribute",
+        "sorted": "name",
+        "status.get": "attribute",
+        "status_path.is_file": "attribute",
+        "status_path.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary.saved_campaigns"
+      ],
+      "calls": [
+        "Path",
+        "accounting.get",
+        "candidates.extend",
+        "dict",
+        "expanduser",
+        "glob",
+        "isinstance",
+        "json.loads",
+        "manifest.get",
+        "manifest_path.is_file",
+        "manifest_path.read_text",
+        "sorted",
+        "status.get",
+        "status_path.is_file",
+        "status_path.read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "Read the newest completed manifest ledger without accepting an incomplete child segment.",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel._latest_manifest_accounting",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(campaign_directory)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "_latest_manifest_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary.saved_campaigns"
+      ],
+      "calls": [
+        "int",
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel._nonnegative_int",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(value)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "_nonnegative_int",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_tsh_calo_generalization_integration._new_model",
+        "tests.gui.test_tsh_calo_generalization_integration.test_new_gui_plan_enables_guard_but_exact_saved_identity_is_preserved",
+        "tests.unit.test_phase6_command_and_native_contracts.test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs",
+        "tests.unit.test_phase6_command_and_native_contracts.test_independent_training_arguments_keep_check_and_start_separate",
+        "tests.unit.test_phase6_command_and_native_contracts.test_rule_based_calo_remains_an_ordinary_algorithm_not_a_training_input"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Build new scientist plans with the guard while preserving exact saved-plan identity.",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 127,
+      "state_owner": "",
+      "symbol": "TrainingLaunchModel",
+      "tests": [
+        "tests/gui/test_tsh_calo_generalization_integration.py",
+        "tests/unit/test_phase6_command_and_native_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_guarded_new_plan_payload",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._guarded_new_plan_payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_guarded_new_plan_payload": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel.create_plan",
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel.load_plan"
+      ],
+      "calls": [
+        "_guarded_new_plan_payload",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel._guarded_new_plan_payload"
+      ],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "_apply_new_plan_guard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._apply_new_plan_guard",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "load_plan",
+          "target": "load_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.blockSignals",
+          "target": "self.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "load_plan": "attribute",
+        "self._apply_new_plan_guard": "attribute",
+        "self.blockSignals": "attribute",
+        "self.changed.emit": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "load_plan",
+        "self._apply_new_plan_guard",
+        "self.blockSignals",
+        "self.changed.emit",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard"
+      ],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel.load_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, preserve_identity)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "load_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._apply_new_plan_guard",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "create_plan",
+          "target": "create_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.blockSignals",
+          "target": "self.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "create_plan": "attribute",
+        "dict": "name",
+        "self._apply_new_plan_guard": "attribute",
+        "self.blockSignals": "attribute",
+        "self.changed.emit": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "create_plan",
+        "dict",
+        "self._apply_new_plan_guard",
+        "self.blockSignals",
+        "self.changed.emit",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel._apply_new_plan_guard"
+      ],
+      "doc": "",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingLaunchModel.create_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, campaign_id, development_cases, member_count, master_seed, population_size, max_evaluations, requested_device, allow_cpu_fallback, training)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "create_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_phase6_ribbon_workspace._window",
+        "tests.gui.test_tsh_calo_generalization_integration.test_saved_campaign_library_exposes_latest_cumulative_counted_work",
+        "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_refresh_invalidates_cached_file_observations",
+        "tests.unit.test_phase6_command_and_native_contracts.test_training_model_library_scans_default_and_explicit_locations"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Expose training-only, learning-health, and total counted work for every saved campaign.",
+      "end_line": 226,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 181,
+      "state_owner": "",
+      "symbol": "TrainingModelLibrary",
+      "tests": [
+        "tests/gui/test_phase6_ribbon_workspace.py",
+        "tests/gui/test_tsh_calo_generalization_integration.py",
+        "tests/unit/test_phase6_command_and_native_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "accounting.get",
+          "target": "accounting.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_latest_manifest_accounting",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._latest_manifest_accounting"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_nonnegative_int",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._nonnegative_int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "progress.get",
+          "target": "progress.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved_campaigns",
+          "target": "saved_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "_latest_manifest_accounting": "name",
+        "_nonnegative_int": "name",
+        "accounting.get": "attribute",
+        "dict": "name",
+        "progress.get": "attribute",
+        "row.get": "attribute",
+        "rows.append": "attribute",
+        "saved_campaigns": "attribute",
+        "super": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_latest_manifest_accounting",
+        "_nonnegative_int",
+        "accounting.get",
+        "dict",
+        "progress.get",
+        "row.get",
+        "rows.append",
+        "saved_campaigns",
+        "super",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel._latest_manifest_accounting",
+        "calo_rpd_studio.gui.panels.independent_training_panel._nonnegative_int"
+      ],
+      "doc": "",
+      "end_line": 226,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary.saved_campaigns",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 184,
+      "state_owner": "",
+      "symbol": "saved_campaigns",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_tsh_calo_generalization_integration.test_rendered_training_panel_discloses_guard_and_uses_counted_completion_total"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Render the same canonical accounting used by the campaign and extension contracts.",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 229,
+      "state_owner": "",
+      "symbol": "IndependentTrainingPanel",
+      "tests": [
+        "tests/gui/test_tsh_calo_generalization_integration.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_configuration_changed",
+          "target": "_configuration_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan_accounting_text",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._plan_accounting_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_summary.setText",
+          "target": "self.plan_summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_summary.text",
+          "target": "self.plan_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_configuration_changed": "attribute",
+        "_plan_accounting_text": "name",
+        "self.plan_summary.setText": "attribute",
+        "self.plan_summary.text": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_configuration_changed",
+        "_plan_accounting_text",
+        "self.plan_summary.setText",
+        "self.plan_summary.text",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel._plan_accounting_text"
+      ],
+      "doc": "",
+      "end_line": 236,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._configuration_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, values)",
+      "start_line": 232,
+      "state_owner": "",
+      "symbol": "_configuration_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_refresh_preview",
+          "target": "_refresh_preview"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan_accounting_text",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._plan_accounting_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_preview.setPlainText",
+          "target": "self.command_preview.setPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_preview.toPlainText",
+          "target": "self.command_preview.toPlainText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_plan_accounting_text": "name",
+        "_refresh_preview": "attribute",
+        "self.command_preview.setPlainText": "attribute",
+        "self.command_preview.toPlainText": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_plan_accounting_text",
+        "_refresh_preview",
+        "self.command_preview.setPlainText",
+        "self.command_preview.toPlainText",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel._plan_accounting_text"
+      ],
+      "doc": "",
+      "end_line": 244,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._refresh_preview",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 238,
+      "state_owner": "",
+      "symbol": "_refresh_preview",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_apply_training_progress",
+          "target": "_apply_training_progress"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_display_accounting_event",
+          "target": "calo_rpd_studio.gui.panels.independent_training_panel._display_accounting_event"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_apply_training_progress": "attribute",
+        "_display_accounting_event": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_apply_training_progress",
+        "_display_accounting_event",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.independent_training_panel._display_accounting_event"
+      ],
+      "doc": "",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/independent_training_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TSHCALOGeneralizationGuardConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.TSHCALOGeneralizationGuardConfig",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "_core": "calo_rpd_studio.gui.panels._independent_training_panel_core",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "plan_training_evaluation_accounting": "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting.plan_training_evaluation_accounting"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_evaluation_accounting",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.independent_training_panel",
+      "qualname": "calo_rpd_studio.gui.panels.independent_training_panel.IndependentTrainingPanel._apply_training_progress",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, event)",
+      "start_line": 246,
+      "state_owner": "",
+      "symbol": "_apply_training_progress",
+      "tests": []
+    }
+  ]
+}

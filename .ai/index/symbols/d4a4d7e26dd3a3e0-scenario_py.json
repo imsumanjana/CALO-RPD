@@ -1,0 +1,373 @@
+{
+  "path": "calo_rpd_studio/robustness/scenario.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+        "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "calo_rpd_studio.robustness.load_uncertainty.load_scale_scenario",
+        "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "tests.unit.test_orpd_counted_evaluation_context.test_context_retention_uses_exactly_the_existing_scenario_solver_calls",
+        "tests.unit.test_tsh_calo_runtime_context._scenarios",
+        "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+        "tests.unit.test_v57_previous_audit_closure.test_scenario_is_immutable_and_validates_weight",
+        "tests.unit.test_v590_scientific_closure.test_scenario_transform_rejects_structural_identity_changes"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "Callable": "typing.Callable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario",
+      "qualname": "calo_rpd_studio.robustness.scenario.Scenario",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "Scenario",
+      "tests": [
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_tsh_calo_runtime_context.py",
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "object.__setattr__",
+          "target": "object.__setattr__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "TypeError": "name",
+        "ValueError": "name",
+        "callable": "name",
+        "float": "name",
+        "math.isfinite": "attribute",
+        "object.__setattr__": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TypeError",
+        "ValueError",
+        "callable",
+        "float",
+        "math.isfinite",
+        "object.__setattr__",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "Callable": "typing.Callable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario.Scenario",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario",
+      "qualname": "calo_rpd_studio.robustness.scenario.Scenario.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isclose",
+          "target": "math.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.transform",
+          "target": "self.transform"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.clone",
+          "target": "source.clone"
+        }
+      ],
+      "call_forms": {
+        "TypeError": "name",
+        "ValueError": "name",
+        "any": "name",
+        "astype": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "hasattr": "name",
+        "math.isclose": "attribute",
+        "math.isfinite": "attribute",
+        "np.all": "attribute",
+        "np.array_equal": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "self.transform": "attribute",
+        "source.clone": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TypeError",
+        "ValueError",
+        "any",
+        "astype",
+        "float",
+        "getattr",
+        "hasattr",
+        "math.isclose",
+        "math.isfinite",
+        "np.all",
+        "np.array_equal",
+        "np.asarray",
+        "np.isfinite",
+        "self.transform",
+        "source.clone"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "Callable": "typing.Callable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario.Scenario",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario",
+      "qualname": "calo_rpd_studio.robustness.scenario.Scenario.apply",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, case, copy_base)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    }
+  ]
+}

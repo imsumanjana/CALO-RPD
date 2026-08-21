@@ -1,0 +1,95 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_shield.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/__init__.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_device_equivalence.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence._result",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence._result",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence._result",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence._result",
+      "to": "torch.tensor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_device_equivalence_evidence_refuses_overwrite",
+      "to": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_device_equivalence_evidence_refuses_overwrite",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_numeric_comparison_fails_closed_on_shape_nonfinite_and_tolerance",
+      "to": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_policy_comparison_requires_exact_actions_and_bounded_numerics",
+      "to": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_device_equivalence.test_policy_comparison_requires_exact_actions_and_bounded_numerics",
+      "to": "tests.unit.test_tsh_calo_device_equivalence._result"
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "path": "calo_rpd_studio/scripts/run_benchmark.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.add_argument",
+          "target": "p.add_argument"
+        }
+      ],
+      "call_forms": {
+        "argparse.ArgumentParser": "attribute",
+        "p.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "tests.unit.test_v120_phase2_contracts.test_cli_and_final_campaign_expose_the_same_purpose_and_device_vocabulary"
+      ],
+      "calls": [
+        "argparse.ArgumentParser",
+        "p.add_argument"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_benchmark.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_parallel_resilient": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "run_sequential_resilient": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.parallel_runner",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_benchmark",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_benchmark",
+      "qualname": "calo_rpd_studio.scripts.run_benchmark.parser",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "parser",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "a.algorithms.split",
+          "target": "a.algorithms.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_sequential_resilient",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_parallel_resilient",
+          "target": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parser",
+          "target": "calo_rpd_studio.scripts.run_benchmark.parser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_failure",
+          "target": "db.add_failure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_run",
+          "target": "db.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parse_args",
+          "target": "parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.save_arrays",
+          "target": "store.save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "x.strip",
+          "target": "x.strip"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.load": "attribute",
+        "Path": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "a.algorithms.split": "attribute",
+        "bool": "name",
+        "collect_provenance": "name",
+        "config.validate": "attribute",
+        "db.add_failure": "attribute",
+        "db.add_run": "attribute",
+        "db.create_experiment": "attribute",
+        "parse_args": "attribute",
+        "parser": "name",
+        "print": "name",
+        "resolve": "attribute",
+        "resolve_config_for_entrypoint": "name",
+        "run_parallel_resilient": "name",
+        "run_sequential_resilient": "name",
+        "store.save_arrays": "attribute",
+        "str": "name",
+        "x.strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.load",
+        "Path",
+        "ResultDatabase",
+        "ResultStore",
+        "a.algorithms.split",
+        "bool",
+        "collect_provenance",
+        "config.validate",
+        "db.add_failure",
+        "db.add_run",
+        "db.create_experiment",
+        "parse_args",
+        "parser",
+        "print",
+        "resolve",
+        "resolve_config_for_entrypoint",
+        "run_parallel_resilient",
+        "run_sequential_resilient",
+        "store.save_arrays",
+        "str",
+        "x.strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load",
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "calo_rpd_studio.scripts.run_benchmark.parser"
+      ],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_benchmark.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "run_parallel_resilient": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "run_sequential_resilient": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.parallel_runner",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_benchmark",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_benchmark",
+      "qualname": "calo_rpd_studio.scripts.run_benchmark.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

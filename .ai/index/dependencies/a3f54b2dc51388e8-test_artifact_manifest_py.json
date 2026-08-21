@@ -1,0 +1,92 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/generate_artifact_manifest.py"
+    }
+  ],
+  "path": "tests/unit/test_artifact_manifest.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "output.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "to": "write_bytes"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_empty_stage",
+      "to": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_empty_stage",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "link.symlink_to"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "pytest.skip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "stage.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "to": "target.write_text"
+    }
+  ]
+}

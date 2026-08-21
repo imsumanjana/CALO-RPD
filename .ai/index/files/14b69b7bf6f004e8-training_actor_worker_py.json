@@ -1,0 +1,58 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:bdd5fcf338d3ab8f7c5bf5acf7752b42c2c77a56",
+    "content_sha256": "c8788486a84ea9b07689c3fd5d346617866783f4ce0b86775a43b51f09484829",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "annotations": "__future__.annotations",
+      "argparse": "argparse",
+      "collect_actor_lane_payload": "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+      "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+      "torch": "torch",
+      "traceback": "traceback",
+      "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+      "calo_rpd_studio.compute.persistent_training_actor",
+      "pathlib",
+      "torch",
+      "traceback"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/training_actor_worker.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 2406,
+    "state_owner": "",
+    "symbol_count": 2
+  },
+  "path": "calo_rpd_studio/compute/training_actor_worker.py",
+  "schema_version": 2
+}

@@ -1,0 +1,57 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:6f3a4deb1a9e6c97399718f8609c68d0dcab2359",
+    "content_sha256": "bafa33a29e31bc9b37fdaeb52cd670e18387dba8248a24ab76ac2723e83b2fd7",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+      "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+      "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+      "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+      "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+      "Iterable": "typing.Iterable",
+      "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+      "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+      "annotations": "__future__.annotations",
+      "dataclass": "dataclasses.dataclass"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      ".topology",
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/training_resources.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 12433,
+    "state_owner": "",
+    "symbol_count": 9
+  },
+  "path": "calo_rpd_studio/compute/training_resources.py",
+  "schema_version": 2
+}

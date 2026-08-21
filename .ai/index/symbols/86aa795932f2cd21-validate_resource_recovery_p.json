@@ -1,0 +1,2303 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "_MIB",
+      "tests": [
+        "tests/unit/test_resource_recovery_evidence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "min": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe",
+        "tests.unit.test_resource_recovery_evidence.test_pressure_probe_is_bounded_by_fraction_and_absolute_ceiling",
+        "tests.unit.test_resource_recovery_evidence.test_pressure_probe_rejects_unsafe_or_unusable_requests"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "float",
+        "int",
+        "min"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a deliberately conservative physical-allocation probe size.",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+      "semantic_tags": [],
+      "signature": "(free_bytes, fraction, maximum_mib)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_bounded_pressure_bytes",
+      "tests": [
+        "tests/unit/test_resource_recovery_evidence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "int": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe",
+        "tests.unit.test_resource_recovery_evidence.test_recovery_tolerance_is_explicit_and_never_negative"
+      ],
+      "calls": [
+        "ValueError",
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+      "semantic_tags": [],
+      "signature": "(free_bytes_before, free_bytes_after, tolerance_mib)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_recovery_within_tolerance",
+      "tests": [
+        "tests/unit/test_resource_recovery_evidence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "admission_before.to_dict",
+          "target": "admission_before.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "admission_during.to_dict",
+          "target": "admission_during.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_bounded_pressure_bytes",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_recovery_within_tolerance",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "gc.collect",
+          "target": "gc.collect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pressure.fill_",
+          "target": "pressure.fill_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.empty_cache",
+          "target": "torch.cuda.empty_cache"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.empty",
+          "target": "torch.empty"
+        }
+      ],
+      "call_forms": {
+        "_bounded_pressure_bytes": "name",
+        "_recovery_within_tolerance": "name",
+        "admission_before.to_dict": "attribute",
+        "admission_during.to_dict": "attribute",
+        "bool": "name",
+        "calculate_available_memory_admission": "name",
+        "gc.collect": "attribute",
+        "int": "name",
+        "max": "name",
+        "pressure.fill_": "attribute",
+        "time.sleep": "attribute",
+        "torch.cuda.empty_cache": "attribute",
+        "torch.cuda.mem_get_info": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "torch.device": "attribute",
+        "torch.empty": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery.main"
+      ],
+      "calls": [
+        "_bounded_pressure_bytes",
+        "_recovery_within_tolerance",
+        "admission_before.to_dict",
+        "admission_during.to_dict",
+        "bool",
+        "calculate_available_memory_admission",
+        "gc.collect",
+        "int",
+        "max",
+        "pressure.fill_",
+        "time.sleep",
+        "torch.cuda.empty_cache",
+        "torch.cuda.mem_get_info",
+        "torch.cuda.synchronize",
+        "torch.device",
+        "torch.empty"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe",
+      "semantic_tags": [],
+      "signature": "(device, fraction, maximum_mib, recovery_tolerance_mib)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "_pressure_probe",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "build_problem": "name",
+        "config.validate": "attribute",
+        "int": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+      ],
+      "calls": [
+        "ExperimentConfig",
+        "build_problem",
+        "config.validate",
+        "int",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem",
+      "semantic_tags": [],
+      "signature": "(case_name, device, seed, batch_size)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "_build_cuda_problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "governor.close",
+          "target": "governor.close"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "governor.close": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+      ],
+      "calls": [
+        "getattr",
+        "governor.close"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 133,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._close_problem",
+      "semantic_tags": [],
+      "signature": "(problem)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "_close_problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "batch.metadata.get",
+          "target": "batch.metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_cuda_problem",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_close_problem",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._close_problem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "locals",
+          "target": "locals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population_tensor",
+          "target": "problem.evaluate_population_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "residency.get",
+          "target": "residency.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_build_cuda_problem": "name",
+        "_close_problem": "name",
+        "batch.metadata.get": "attribute",
+        "bool": "name",
+        "dict": "name",
+        "getattr": "name",
+        "int": "name",
+        "locals": "name",
+        "np.random.default_rng": "attribute",
+        "problem.evaluate_population_tensor": "attribute",
+        "random": "attribute",
+        "residency.get": "attribute",
+        "startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery.main",
+        "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom"
+      ],
+      "calls": [
+        "RuntimeError",
+        "_build_cuda_problem",
+        "_close_problem",
+        "batch.metadata.get",
+        "bool",
+        "dict",
+        "getattr",
+        "int",
+        "locals",
+        "np.random.default_rng",
+        "problem.evaluate_population_tensor",
+        "random",
+        "residency.get",
+        "startswith",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem",
+        "calo_rpd_studio.scripts.validate_resource_recovery._close_problem"
+      ],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe",
+      "semantic_tags": [],
+      "signature": "(device, case_name, seed, candidates, batch_size)",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "_staged_host_probe",
+      "tests": [
+        "tests/unit/test_resource_recovery_evidence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "original_upload",
+          "target": "original_upload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.OutOfMemoryError",
+          "target": "torch.OutOfMemoryError"
+        }
+      ],
+      "call_forms": {
+        "original_upload": "name",
+        "torch.OutOfMemoryError": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "original_upload",
+        "torch.OutOfMemoryError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe.controlled_initial_upload_oom",
+      "semantic_tags": [],
+      "signature": "(population)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "controlled_initial_upload_oom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "VramResidencyGovernor",
+          "target": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "VramResidencyPolicy",
+          "target": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected.detach",
+          "target": "expected.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "governor.close",
+          "target": "governor.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "governor.run_microbatched",
+          "target": "governor.run_microbatched"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.sum",
+          "target": "population.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to",
+          "target": "to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.arange",
+          "target": "torch.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.equal",
+          "target": "torch.equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.detach",
+          "target": "values.detach"
+        }
+      ],
+      "call_forms": {
+        "VramResidencyGovernor": "name",
+        "VramResidencyPolicy": "name",
+        "bool": "name",
+        "expected.detach": "attribute",
+        "governor.close": "attribute",
+        "governor.run_microbatched": "attribute",
+        "int": "name",
+        "metadata.get": "attribute",
+        "population.sum": "attribute",
+        "reshape": "attribute",
+        "to": "attribute",
+        "torch.arange": "attribute",
+        "torch.cat": "attribute",
+        "torch.equal": "attribute",
+        "values.detach": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery.main"
+      ],
+      "calls": [
+        "VramResidencyGovernor",
+        "VramResidencyPolicy",
+        "bool",
+        "expected.detach",
+        "governor.close",
+        "governor.run_microbatched",
+        "int",
+        "metadata.get",
+        "population.sum",
+        "reshape",
+        "to",
+        "torch.arange",
+        "torch.cat",
+        "torch.equal",
+        "values.detach"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy"
+      ],
+      "doc": "Exercise the real CUDA governor with a clearly labelled injected OOM boundary.",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe",
+      "semantic_tags": [],
+      "signature": "(device)",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "_controlled_oom_backoff_probe",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "chunk.to",
+          "target": "chunk.to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.OutOfMemoryError",
+          "target": "torch.OutOfMemoryError"
+        }
+      ],
+      "call_forms": {
+        "calls.append": "attribute",
+        "chunk.to": "attribute",
+        "int": "name",
+        "sum": "attribute",
+        "torch.OutOfMemoryError": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "calls.append",
+        "chunk.to",
+        "int",
+        "sum",
+        "torch.OutOfMemoryError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 208,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe.evaluate_once",
+      "semantic_tags": [],
+      "signature": "(chunk)",
+      "start_line": 204,
+      "state_owner": "",
+      "symbol": "evaluate_once",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_cuda_problem",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_close_problem",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._close_problem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population",
+          "target": "problem.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population_tensor",
+          "target": "problem.evaluate_population_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovered.metadata.get",
+          "target": "recovered.metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recovery_residency.get",
+          "target": "recovery_residency.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_build_cuda_problem": "name",
+        "_close_problem": "name",
+        "all": "name",
+        "bool": "name",
+        "dict": "name",
+        "get": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "np.random.default_rng": "attribute",
+        "problem.evaluate_population": "attribute",
+        "problem.evaluate_population_tensor": "attribute",
+        "random": "attribute",
+        "recovered.metadata.get": "attribute",
+        "recovery_residency.get": "attribute",
+        "row.get": "attribute",
+        "startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery.main"
+      ],
+      "calls": [
+        "RuntimeError",
+        "_build_cuda_problem",
+        "_close_problem",
+        "all",
+        "bool",
+        "dict",
+        "get",
+        "getattr",
+        "int",
+        "len",
+        "np.random.default_rng",
+        "problem.evaluate_population",
+        "problem.evaluate_population_tensor",
+        "random",
+        "recovered.metadata.get",
+        "recovery_residency.get",
+        "row.get",
+        "startswith",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem",
+        "calo_rpd_studio.scripts.validate_resource_recovery._close_problem"
+      ],
+      "doc": "",
+      "end_line": 292,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe",
+      "semantic_tags": [],
+      "signature": "(device, case_name, seed, batch_size)",
+      "start_line": 240,
+      "state_owner": "",
+      "symbol": "_controlled_cpu_restart_and_cuda_recovery_probe",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CudaCapacityExhausted",
+          "target": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted"
+        }
+      ],
+      "call_forms": {
+        "CudaCapacityExhausted": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CudaCapacityExhausted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted"
+      ],
+      "doc": "",
+      "end_line": 259,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe.controlled_exhaustion",
+      "semantic_tags": [],
+      "signature": "(_population)",
+      "start_line": 251,
+      "state_owner": "",
+      "symbol": "controlled_exhaustion",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExclusiveDeviceLease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lease.close",
+          "target": "lease.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result_queue.put",
+          "target": "result_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "ExclusiveDeviceLease": "name",
+        "lease.close": "attribute",
+        "result_queue.put": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExclusiveDeviceLease",
+        "lease.close",
+        "result_queue.put",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+      ],
+      "doc": "",
+      "end_line": 304,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._lease_attempt",
+      "semantic_tags": [],
+      "signature": "(device, root, result_queue)",
+      "start_line": 295,
+      "state_owner": "",
+      "symbol": "_lease_attempt",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "context.Process",
+          "target": "context.Process"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.Queue",
+          "target": "context.Queue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.is_alive",
+          "target": "process.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.join",
+          "target": "process.join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.start",
+          "target": "process.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "process.terminate",
+          "target": "process.terminate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result_queue.get",
+          "target": "result_queue.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "context.Process": "attribute",
+        "context.Queue": "attribute",
+        "process.is_alive": "attribute",
+        "process.join": "attribute",
+        "process.start": "attribute",
+        "process.terminate": "attribute",
+        "result_queue.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe"
+      ],
+      "calls": [
+        "context.Process",
+        "context.Queue",
+        "process.is_alive",
+        "process.join",
+        "process.start",
+        "process.terminate",
+        "result_queue.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 320,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._child_lease_result",
+      "semantic_tags": [],
+      "signature": "(context, device, root)",
+      "start_line": 307,
+      "state_owner": "",
+      "symbol": "_child_lease_result",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExclusiveDeviceLease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_child_lease_result",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._child_lease_result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "multiprocessing.get_context",
+          "target": "multiprocessing.get_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "owner.close",
+          "target": "owner.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.TemporaryDirectory",
+          "target": "tempfile.TemporaryDirectory"
+        }
+      ],
+      "call_forms": {
+        "ExclusiveDeviceLease": "name",
+        "_child_lease_result": "name",
+        "bool": "name",
+        "multiprocessing.get_context": "attribute",
+        "owner.close": "attribute",
+        "str": "name",
+        "tempfile.TemporaryDirectory": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_resource_recovery.main"
+      ],
+      "calls": [
+        "ExclusiveDeviceLease",
+        "_child_lease_result",
+        "bool",
+        "multiprocessing.get_context",
+        "owner.close",
+        "str",
+        "tempfile.TemporaryDirectory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.scripts.validate_resource_recovery._child_lease_result"
+      ],
+      "doc": "",
+      "end_line": 341,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe",
+      "semantic_tags": [],
+      "signature": "(device)",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "_cross_process_lease_probe",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_device",
+          "target": "calo_rpd_studio.accelerated.device.resolve_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_evidence_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_runtime_snapshot",
+          "target": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.scripts.validate_accelerator._utc_now"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_new_evidence",
+          "target": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_controlled_cpu_restart_and_cuda_recovery_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_controlled_oom_backoff_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_cross_process_lease_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_pressure_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_staged_host_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.exists",
+          "target": "destination.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.startswith",
+          "target": "selected.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_controlled_cpu_restart_and_cuda_recovery_probe": "name",
+        "_controlled_oom_backoff_probe": "name",
+        "_cross_process_lease_probe": "name",
+        "_pressure_probe": "name",
+        "_runtime_snapshot": "name",
+        "_staged_host_probe": "name",
+        "_utc_now": "name",
+        "_write_new_evidence": "name",
+        "all": "name",
+        "argparse.ArgumentParser": "attribute",
+        "bool": "name",
+        "destination.exists": "attribute",
+        "float": "name",
+        "get": "attribute",
+        "int": "name",
+        "lower": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "resolve_device": "name",
+        "resolve_evidence_source_identity": "name",
+        "selected.startswith": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "FileExistsError",
+        "Path",
+        "RuntimeError",
+        "ValueError",
+        "_controlled_cpu_restart_and_cuda_recovery_probe",
+        "_controlled_oom_backoff_probe",
+        "_cross_process_lease_probe",
+        "_pressure_probe",
+        "_runtime_snapshot",
+        "_staged_host_probe",
+        "_utc_now",
+        "_write_new_evidence",
+        "all",
+        "argparse.ArgumentParser",
+        "bool",
+        "destination.exists",
+        "float",
+        "get",
+        "int",
+        "lower",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "resolve_device",
+        "resolve_evidence_source_identity",
+        "selected.startswith",
+        "str",
+        "strip",
+        "torch.cuda.is_available",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.device.resolve_device",
+        "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "calo_rpd_studio.scripts.validate_resource_recovery._controlled_cpu_restart_and_cuda_recovery_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._controlled_oom_backoff_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._cross_process_lease_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe",
+        "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+      ],
+      "doc": "",
+      "end_line": 488,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_resource_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CudaCapacityExhausted": "calo_rpd_studio.accelerated.vram_residency.CudaCapacityExhausted",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "VramResidencyGovernor": "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor",
+        "VramResidencyPolicy": "calo_rpd_studio.accelerated.vram_residency.VramResidencyPolicy",
+        "_runtime_snapshot": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "_utc_now": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+        "_write_new_evidence": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "gc": "gc",
+        "multiprocessing": "multiprocessing",
+        "np": "numpy",
+        "queue": "queue",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_evidence_source_identity": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity",
+        "tempfile": "tempfile",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.accelerated.vram_residency",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.scripts.validate_accelerator",
+        "gc",
+        "multiprocessing",
+        "numpy",
+        "pathlib",
+        "queue",
+        "tempfile",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+      "qualname": "calo_rpd_studio.scripts.validate_resource_recovery.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 344,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

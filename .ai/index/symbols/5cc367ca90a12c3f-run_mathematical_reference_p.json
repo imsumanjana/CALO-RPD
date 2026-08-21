@@ -1,0 +1,1095 @@
+{
+  "path": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.REFERENCE_EVIDENCE_ENVELOPE_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "REFERENCE_EVIDENCE_ENVELOPE_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference._read_mapping",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference._sha256",
+      "semantic_tags": [],
+      "signature": "(data)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference._sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cast",
+          "target": "cast"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_bytes",
+          "target": "path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.suffix.lower",
+          "target": "path.suffix.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.decode",
+          "target": "raw.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "TypeError": "name",
+        "_sha256": "name",
+        "cast": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "path.read_bytes": "attribute",
+        "path.suffix.lower": "attribute",
+        "raw.decode": "attribute",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem"
+      ],
+      "calls": [
+        "TypeError",
+        "_sha256",
+        "cast",
+        "isinstance",
+        "json.loads",
+        "path.read_bytes",
+        "path.suffix.lower",
+        "raw.decode",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.run_mathematical_reference._sha256"
+      ],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference._read_mapping",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_read_mapping",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_scenarios",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_read_mapping",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference._read_mapping"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate_policy_development",
+          "target": "config.validate_policy_development"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ExperimentConfig.from_dict": "attribute",
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "Path": "name",
+        "ValueError": "name",
+        "_read_mapping": "name",
+        "build_scenarios": "name",
+        "config.validate_policy_development": "attribute",
+        "int": "name",
+        "join": "attribute",
+        "protected_holdout_matches": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.main",
+        "tests.unit.test_mathematical_reference.test_reference_cli_inputs_are_hashed_strict_and_protected_cases_fail_closed"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "ExperimentConfig.from_dict",
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "Path",
+        "ValueError",
+        "_read_mapping",
+        "build_scenarios",
+        "config.validate_policy_development",
+        "int",
+        "join",
+        "protected_holdout_matches"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+        "calo_rpd_studio.scripts.run_mathematical_reference._read_mapping"
+      ],
+      "doc": "Load only the scientific task definition on the trusted CPU reference path.",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+      "semantic_tags": [],
+      "signature": "(config_path, scenario_seed)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "load_reference_problem",
+      "tests": [
+        "tests/unit/test_mathematical_reference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference._sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.decode",
+          "target": "raw.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_bytes",
+          "target": "source.read_bytes"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "TypeError": "name",
+        "ValueError": "name",
+        "_sha256": "name",
+        "int": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "np.asarray": "attribute",
+        "raw.decode": "attribute",
+        "source.read_bytes": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.main",
+        "tests.unit.test_mathematical_reference.test_reference_cli_inputs_are_hashed_strict_and_protected_cases_fail_closed"
+      ],
+      "calls": [
+        "Path",
+        "TypeError",
+        "ValueError",
+        "_sha256",
+        "int",
+        "isinstance",
+        "json.loads",
+        "np.asarray",
+        "raw.decode",
+        "source.read_bytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.run_mathematical_reference._sha256"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+      "semantic_tags": [],
+      "signature": "(path, dimension)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "load_start_vector",
+      "tests": [
+        "tests/unit/test_mathematical_reference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.open",
+          "target": "destination.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.fileno",
+          "target": "stream.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "Path": "name",
+        "destination.open": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "encode": "attribute",
+        "json.dumps": "attribute",
+        "os.fsync": "attribute",
+        "stream.fileno": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.main",
+        "tests.unit.test_mathematical_reference.test_reference_evidence_writer_is_new_file_only"
+      ],
+      "calls": [
+        "FileExistsError",
+        "Path",
+        "destination.open",
+        "destination.parent.mkdir",
+        "encode",
+        "json.dumps",
+        "os.fsync",
+        "stream.fileno",
+        "stream.flush",
+        "stream.write"
+      ],
+      "calls_resolved": [],
+      "doc": "Write one evidence envelope durably and refuse replacement.",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "write_reference_evidence",
+      "tests": [
+        "tests/unit/test_mathematical_reference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command.add_argument",
+          "target": "command.add_argument"
+        }
+      ],
+      "call_forms": {
+        "argparse.ArgumentParser": "attribute",
+        "command.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.main"
+      ],
+      "calls": [
+        "argparse.ArgumentParser",
+        "command.add_argument"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 125,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.parser",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "parser",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path.cwd",
+          "target": "Path.cwd"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "SystemExit",
+          "target": "SystemExit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SLSQPReferenceOptions",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_exhaustive_finite_lattice_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_slsqp_continuous_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_reference_problem",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_start_vector",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parser",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.parser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_reference_evidence",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parse_args",
+          "target": "parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.case.checksum",
+          "target": "problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.sha256",
+          "target": "report.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.to_dict",
+          "target": "report.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_identity.to_dict",
+          "target": "source_identity.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path.cwd": "attribute",
+        "SLSQPReferenceOptions": "name",
+        "SystemExit": "name",
+        "int": "name",
+        "load_reference_problem": "name",
+        "load_start_vector": "name",
+        "parse_args": "attribute",
+        "parser": "name",
+        "print": "name",
+        "problem.case.checksum": "attribute",
+        "report.sha256": "attribute",
+        "report.to_dict": "attribute",
+        "resolve_source_identity": "name",
+        "solve_exhaustive_finite_lattice_reference": "name",
+        "solve_slsqp_continuous_reference": "name",
+        "source_identity.to_dict": "attribute",
+        "str": "name",
+        "write_reference_evidence": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path.cwd",
+        "SLSQPReferenceOptions",
+        "SystemExit",
+        "int",
+        "load_reference_problem",
+        "load_start_vector",
+        "parse_args",
+        "parser",
+        "print",
+        "problem.case.checksum",
+        "report.sha256",
+        "report.to_dict",
+        "resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference",
+        "source_identity.to_dict",
+        "str",
+        "write_reference_evidence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "calo_rpd_studio.scripts.run_mathematical_reference.parser",
+        "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      ],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/run_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "Path": "pathlib.Path",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "cast": "typing.cast",
+        "hashlib": "hashlib",
+        "json": "json",
+        "np": "numpy",
+        "os": "os",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.run_mathematical_reference",
+      "qualname": "calo_rpd_studio.scripts.run_mathematical_reference.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

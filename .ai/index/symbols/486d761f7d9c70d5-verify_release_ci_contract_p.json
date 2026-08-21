@@ -1,0 +1,343 @@
+{
+  "path": "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "qualname": "calo_rpd_studio.scripts.verify_release_ci_contract.REQUIRED_JOBS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "REQUIRED_JOBS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "qualname": "calo_rpd_studio.scripts.verify_release_ci_contract.REQUIRED_SOURCE_TOKENS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "REQUIRED_SOURCE_TOKENS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.as_posix",
+          "target": "path.as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "physical.get",
+          "target": "physical.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "isinstance": "name",
+        "path.as_posix": "attribute",
+        "path.resolve": "attribute",
+        "payload.get": "attribute",
+        "physical.get": "attribute",
+        "read_text": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_release_ci_contract.main",
+        "tests.unit.test_v120_phase5_release_preparation.test_release_ci_contract_covers_required_jobs_and_boundaries"
+      ],
+      "calls": [
+        "ValueError",
+        "isinstance",
+        "path.as_posix",
+        "path.resolve",
+        "payload.get",
+        "physical.get",
+        "read_text",
+        "set",
+        "sorted",
+        "str",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "qualname": "calo_rpd_studio.scripts.verify_release_ci_contract.verify",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "verify",
+      "tests": [
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "arguments.output.parent.mkdir",
+          "target": "arguments.output.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "arguments.output.write_text",
+          "target": "arguments.output.write_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify",
+          "target": "calo_rpd_studio.scripts.verify_release_ci_contract.verify"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "argparse.ArgumentParser": "attribute",
+        "arguments.output.parent.mkdir": "attribute",
+        "arguments.output.write_text": "attribute",
+        "json.dumps": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "verify": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "argparse.ArgumentParser",
+        "arguments.output.parent.mkdir",
+        "arguments.output.write_text",
+        "json.dumps",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "verify"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_release_ci_contract.verify"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_release_ci_contract",
+      "qualname": "calo_rpd_studio.scripts.verify_release_ci_contract.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

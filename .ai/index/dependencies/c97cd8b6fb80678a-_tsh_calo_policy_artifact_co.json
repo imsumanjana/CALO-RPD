@@ -1,0 +1,690 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_generalization_guard.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_receipt.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_identity.py"
+    }
+  ],
+  "path": "calo_rpd_studio/algorithms/calo/_tsh_calo_policy_artifact_core.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "any"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_generalization_guard_core.validate_generalization_guard_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "guard_payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "self.source_commit.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "self.training_run_id.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+      "to": "strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "identities.add"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "member.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "provenance.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "row.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact.post_development_eligible",
+      "to": "strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256",
+      "to": "strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._training_provenance_payload",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._training_provenance_payload",
+      "to": "payload.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._validated_feature_flags",
+      "to": "flags.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "artifact.training_provenance.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "artifacts.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "calo_rpd_studio.ai.model_io.durable_torch_save"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "calo_rpd_studio.ai.model_io.load_checkpoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "expanduser"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "metadata.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "metadata.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "payloads.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "resolve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.assemble_tsh_calo_ensemble_candidate",
+      "to": "zip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "TypeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "asdict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._training_provenance_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._validated_feature_flags"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload",
+      "to": "provenance.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "member.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "provenance.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "receipt_hashes.add"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.count_tsh_calo_candidate_training_evaluations",
+      "to": "validated.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "architecture.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.ai.model_io.load_checkpoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._is_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core._training_provenance_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo.policy_schema.infer_checkpoint_schema"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "expanduser"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "flags.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "member.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "metadata.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "provenance.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "resolve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "schema.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "source_hashes.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate",
+      "to": "training_run_ids.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "calo_rpd_studio.ai.model_io.load_checkpoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "network.eval"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "network.load_state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_candidate",
+      "to": "to"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "calo_rpd_studio.ai.model_io.load_checkpoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "network.eval"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "network.load_state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "networks.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+      "to": "to"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "calo_rpd_studio.ai.model_io.durable_torch_save"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.build_tsh_calo_candidate_payload"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "expanduser"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.save_tsh_calo_candidate",
+      "to": "resolve"
+    }
+  ]
+}

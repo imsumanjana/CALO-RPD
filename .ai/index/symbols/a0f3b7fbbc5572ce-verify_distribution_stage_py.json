@@ -1,0 +1,648 @@
+{
+  "path": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage._REQUIRED_SOURCE_FILES",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "_REQUIRED_SOURCE_FILES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        }
+      ],
+      "call_forms": {
+        "enumerate": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_distribution_stage._validate_member"
+      ],
+      "calls": [
+        "enumerate"
+      ],
+      "calls_resolved": [],
+      "doc": "Distinguish root evidence directories from the application validation package.",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage._contains_local_validation_content",
+      "semantic_tags": [],
+      "signature": "(parts)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "_contains_local_validation_content",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PurePosixPath",
+          "target": "PurePosixPath"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_contains_local_validation_content",
+          "target": "calo_rpd_studio.scripts.verify_distribution_stage._contains_local_validation_content"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lowered.endswith",
+          "target": "lowered.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.replace",
+          "target": "name.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "normalized.lower",
+          "target": "normalized.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "part.casefold",
+          "target": "part.casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "part.endswith",
+          "target": "part.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_absolute",
+          "target": "path.is_absolute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "PurePosixPath": "name",
+        "ValueError": "name",
+        "_contains_local_validation_content": "name",
+        "any": "name",
+        "lowered.endswith": "attribute",
+        "name.replace": "attribute",
+        "normalized.lower": "attribute",
+        "part.casefold": "attribute",
+        "part.endswith": "attribute",
+        "path.is_absolute": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_distribution_stage._source_relative",
+        "tests.unit.test_distribution_contract.test_distribution_member_gate_allows_application_validation_package",
+        "tests.unit.test_distribution_contract.test_distribution_member_gate_rejects_validation_and_generated_training_formats"
+      ],
+      "calls": [
+        "PurePosixPath",
+        "ValueError",
+        "_contains_local_validation_content",
+        "any",
+        "lowered.endswith",
+        "name.replace",
+        "normalized.lower",
+        "part.casefold",
+        "part.endswith",
+        "path.is_absolute",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_distribution_stage._contains_local_validation_content"
+      ],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage._validate_member",
+      "semantic_tags": [],
+      "signature": "(name)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "_validate_member",
+      "tests": [
+        "tests/unit/test_distribution_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PurePosixPath",
+          "target": "PurePosixPath"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_member",
+          "target": "calo_rpd_studio.scripts.verify_distribution_stage._validate_member"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "PurePosixPath": "name",
+        "_validate_member": "name",
+        "as_posix": "attribute",
+        "len": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_distribution_stage.verify_stage"
+      ],
+      "calls": [
+        "PurePosixPath",
+        "_validate_member",
+        "as_posix",
+        "len"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_distribution_stage._validate_member"
+      ],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage._source_relative",
+      "semantic_tags": [],
+      "signature": "(name, sdist)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "_source_relative",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.getmembers",
+          "target": "archive.getmembers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.getnames",
+          "target": "archive.getnames"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.namelist",
+          "target": "archive.namelist"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_source_relative",
+          "target": "calo_rpd_studio.scripts.verify_distribution_stage._source_relative"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.is_file",
+          "target": "item.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.islnk",
+          "target": "member.islnk"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.issym",
+          "target": "member.issym"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.startswith",
+          "target": "name.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "project.read_text",
+          "target": "project.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.glob",
+          "target": "root.glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.is_dir",
+          "target": "root.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.iterdir",
+          "target": "root.iterdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.resolve",
+          "target": "stage.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tarfile.open",
+          "target": "tarfile.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tomllib.loads",
+          "target": "tomllib.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_source_relative": "name",
+        "archive.getmembers": "attribute",
+        "archive.getnames": "attribute",
+        "archive.namelist": "attribute",
+        "item.is_file": "attribute",
+        "len": "name",
+        "member.islnk": "attribute",
+        "member.issym": "attribute",
+        "name.startswith": "attribute",
+        "project.read_text": "attribute",
+        "root.glob": "attribute",
+        "root.is_dir": "attribute",
+        "root.iterdir": "attribute",
+        "sorted": "name",
+        "stage.resolve": "attribute",
+        "str": "name",
+        "tarfile.open": "attribute",
+        "tomllib.loads": "attribute",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_distribution_stage.main"
+      ],
+      "calls": [
+        "ValueError",
+        "_source_relative",
+        "archive.getmembers",
+        "archive.getnames",
+        "archive.namelist",
+        "item.is_file",
+        "len",
+        "member.islnk",
+        "member.issym",
+        "name.startswith",
+        "project.read_text",
+        "root.glob",
+        "root.is_dir",
+        "root.iterdir",
+        "sorted",
+        "stage.resolve",
+        "str",
+        "tarfile.open",
+        "tomllib.loads",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_distribution_stage._source_relative"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage.verify_stage",
+      "semantic_tags": [],
+      "signature": "(stage, project)",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "verify_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_stage",
+          "target": "calo_rpd_studio.scripts.verify_distribution_stage.verify_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "argparse.ArgumentParser": "attribute",
+        "json.dumps": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "verify_stage": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "argparse.ArgumentParser",
+        "json.dumps",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "verify_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_distribution_stage.verify_stage"
+      ],
+      "doc": "",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_distribution_stage.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "tarfile": "tarfile",
+        "tomllib": "tomllib",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "tarfile",
+        "tomllib",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_distribution_stage",
+      "qualname": "calo_rpd_studio.scripts.verify_distribution_stage.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "path": "calo_rpd_studio/algorithms/grasshopper.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/grasshopper.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.grasshopper",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.grasshopper",
+      "qualname": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "GrasshopperOptimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        }
+      ],
+      "call_forms": {
+        "np.exp": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer.run"
+      ],
+      "calls": [
+        "np.exp"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/grasshopper.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.grasshopper",
+      "qualname": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer._social_interaction",
+      "semantic_tags": [],
+      "signature": "(distance, f, length_scale)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "_social_interaction",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._social_interaction",
+          "target": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer._social_interaction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros_like",
+          "target": "np.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "np.clip": "attribute",
+        "np.linalg.norm": "attribute",
+        "np.zeros": "attribute",
+        "np.zeros_like": "attribute",
+        "range": "name",
+        "self._social_interaction": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.order": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "max",
+        "min",
+        "np.clip",
+        "np.linalg.norm",
+        "np.zeros",
+        "np.zeros_like",
+        "range",
+        "self._social_interaction",
+        "self.can_evaluate",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.order",
+        "self.random_population",
+        "self.record",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer._social_interaction"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/grasshopper.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.grasshopper",
+      "qualname": "calo_rpd_studio.algorithms.grasshopper.GrasshopperOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

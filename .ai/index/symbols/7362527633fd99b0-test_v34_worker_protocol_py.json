@@ -1,0 +1,248 @@
+{
+  "path": "tests/unit/test_v34_worker_protocol.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "BytesIO",
+          "target": "BytesIO"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.seek",
+          "target": "stream.seek"
+        }
+      ],
+      "call_forms": {
+        "BytesIO": "name",
+        "read_frame": "name",
+        "stream.seek": "attribute",
+        "write_frame": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BytesIO",
+        "read_frame",
+        "stream.seek",
+        "write_frame"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      ],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_worker_protocol.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BytesIO": "io.BytesIO",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "struct": "struct",
+        "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.persistent_training_actor",
+        "io",
+        "pytest",
+        "struct"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_worker_protocol",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_worker_protocol",
+      "qualname": "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_persistent_actor_round_trips_multiple_progress_frames",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "BytesIO",
+          "target": "BytesIO"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.seek",
+          "target": "stream.seek"
+        }
+      ],
+      "call_forms": {
+        "BytesIO": "name",
+        "read_frame": "name",
+        "stream.seek": "attribute",
+        "write_frame": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BytesIO",
+        "read_frame",
+        "stream.seek",
+        "write_frame"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      ],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_worker_protocol.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BytesIO": "io.BytesIO",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "struct": "struct",
+        "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.persistent_training_actor",
+        "io",
+        "pytest",
+        "struct"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_worker_protocol",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_worker_protocol",
+      "qualname": "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "test_training_actor_round_trips_dictionary_frame",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "BytesIO",
+          "target": "BytesIO"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "struct.pack",
+          "target": "struct.pack"
+        }
+      ],
+      "call_forms": {
+        "BytesIO": "name",
+        "pytest.raises": "attribute",
+        "read_frame": "name",
+        "struct.pack": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BytesIO",
+        "pytest.raises",
+        "read_frame",
+        "struct.pack"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_worker_protocol.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BytesIO": "io.BytesIO",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "read_frame": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+        "struct": "struct",
+        "write_frame": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.persistent_training_actor",
+        "io",
+        "pytest",
+        "struct"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_worker_protocol",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_worker_protocol",
+      "qualname": "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "test_worker_protocol_rejects_oversized_frames",
+      "tests": []
+    }
+  ]
+}

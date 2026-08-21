@@ -1,0 +1,3018 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/topology_context.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "BUS_FEATURE_DIM",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "BRANCH_FEATURE_DIM",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "CONTROL_FEATURE_DIM",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "SCENARIO_FEATURE_DIM",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ascontiguousarray",
+          "target": "np.ascontiguousarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "len": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.ascontiguousarray": "attribute",
+        "np.isfinite": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState.validate",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState.validate",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+      ],
+      "calls": [
+        "ValueError",
+        "any",
+        "len",
+        "np.all",
+        "np.asarray",
+        "np.ascontiguousarray",
+        "np.isfinite",
+        "zip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context._finite_array",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(name, value, shape)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "_finite_array",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.measured_scenario_descriptors",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Declared scenario context; every numeric field must be known by the caller.",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "ScenarioDescriptor",
+      "tests": [
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "np.all",
+        "np.asarray",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor.as_array",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "as_array",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "tests.unit.test_tsh_calo_topology_context._permuted",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_state_rejects_nonfinite_features_and_unknown_bus_indices"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "TopologyGraphState",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_array",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control_bus_index.max",
+          "target": "control_bus_index.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control_bus_index.min",
+          "target": "control_bus_index.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "edge_index.max",
+          "target": "edge_index.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "edge_index.min",
+          "target": "edge_index.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.max",
+          "target": "groups.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.min",
+          "target": "groups.min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.issubdtype",
+          "target": "np.issubdtype"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_finite_array": "name",
+        "control_bus_index.max": "attribute",
+        "control_bus_index.min": "attribute",
+        "edge_index.max": "attribute",
+        "edge_index.min": "attribute",
+        "groups.max": "attribute",
+        "groups.min": "attribute",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.issubdtype": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "_finite_array",
+        "control_bus_index.max",
+        "control_bus_index.min",
+        "edge_index.max",
+        "edge_index.min",
+        "groups.max",
+        "groups.min",
+        "len",
+        "np.asarray",
+        "np.issubdtype"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+      ],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.build_runtime_topology_policy_context",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "TSH-CALO state: frozen aggregate cognition plus structured graph context.",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "TopologyAwarePolicyState",
+      "tests": [
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.topology.validate",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_array",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+        }
+      ],
+      "call_forms": {
+        "_finite_array": "name",
+        "self.topology.validate": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState.validate"
+      ],
+      "calls": [
+        "_finite_array",
+        "self.topology.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState.validate",
+        "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+      ],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward_prepared"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 167,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyEncoding",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "TopologyEncoding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.prepare"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Validated topology tensors retained on one execution device across policy epochs.",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.PreparedTopologyGraphState",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 171,
+      "state_owner": "",
+      "symbol": "PreparedTopologyGraphState",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "case.bus_index_map": "attribute",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "np.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+      ],
+      "calls": [
+        "case.bus_index_map",
+        "float",
+        "int",
+        "max",
+        "np.zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 197,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context._aggregate_generators",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(case)",
+      "start_line": 183,
+      "state_owner": "",
+      "symbol": "_aggregate_generators",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoder.formulation_manifest",
+          "target": "decoder.formulation_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "append": "name",
+        "bool": "name",
+        "case.bus_index_map": "attribute",
+        "decoder.formulation_manifest": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "len": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+      ],
+      "calls": [
+        "ValueError",
+        "append",
+        "bool",
+        "case.bus_index_map",
+        "decoder.formulation_manifest",
+        "getattr",
+        "int",
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 259,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context._control_rows",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(case, decoder, normalized_controls)",
+      "start_line": 200,
+      "state_owner": "",
+      "symbol": "_control_rows",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "attachments.append",
+          "target": "attachments.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.append",
+          "target": "groups.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "labels.append",
+          "target": "labels.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        }
+      ],
+      "call_forms": {
+        "attachments.append": "attribute",
+        "float": "name",
+        "groups.append": "attribute",
+        "int": "name",
+        "labels.append": "attribute",
+        "len": "name",
+        "max": "name",
+        "rows.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "attachments.append",
+        "float",
+        "groups.append",
+        "int",
+        "labels.append",
+        "len",
+        "max",
+        "rows.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 227,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context._control_rows",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context._control_rows.append",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(group, first_bus, second_bus, discrete, label)",
+      "start_line": 209,
+      "state_owner": "",
+      "symbol": "append",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "T.reshape",
+          "target": "T.reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "branch_indices.append",
+          "target": "branch_indices.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyGraphState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_aggregate_generators",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context._aggregate_generators"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_control_rows",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context._control_rows"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_array",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "directed_edges.append",
+          "target": "directed_edges.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "edge_rows.append",
+          "target": "edge_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.as_array",
+          "target": "item.as_array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.column_stack",
+          "target": "np.column_stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solved.bus_index_map",
+          "target": "solved.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "T.reshape": "attribute",
+        "TopologyGraphState": "name",
+        "ValueError": "name",
+        "_aggregate_generators": "name",
+        "_control_rows": "name",
+        "_finite_array": "name",
+        "bool": "name",
+        "branch_indices.append": "attribute",
+        "directed_edges.append": "attribute",
+        "edge_rows.append": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "item.as_array": "attribute",
+        "max": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.column_stack": "attribute",
+        "np.maximum": "attribute",
+        "np.vstack": "attribute",
+        "reshape": "attribute",
+        "solved.bus_index_map": "attribute",
+        "state.validate": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context.build_runtime_topology_policy_context",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "calls": [
+        "T.reshape",
+        "TopologyGraphState",
+        "ValueError",
+        "_aggregate_generators",
+        "_control_rows",
+        "_finite_array",
+        "bool",
+        "branch_indices.append",
+        "directed_edges.append",
+        "edge_rows.append",
+        "enumerate",
+        "float",
+        "int",
+        "item.as_array",
+        "max",
+        "np.any",
+        "np.asarray",
+        "np.column_stack",
+        "np.maximum",
+        "np.vstack",
+        "reshape",
+        "solved.bus_index_map",
+        "state.validate",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "calo_rpd_studio.algorithms.calo.topology_context._aggregate_generators",
+        "calo_rpd_studio.algorithms.calo.topology_context._control_rows",
+        "calo_rpd_studio.algorithms.calo.topology_context._finite_array"
+      ],
+      "doc": "Build graph context solely from an already-counted converged power-flow result.",
+      "end_line": 357,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(case, decoder, normalized_controls, power_flow_result, scenario_descriptors)",
+      "start_line": 262,
+      "state_owner": "",
+      "symbol": "build_topology_graph_state",
+      "tests": [
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork.__init__",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Dependency-light message-passing encoder with invariant graph/group pooling.",
+      "end_line": 455,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 360,
+      "state_owner": "",
+      "symbol": "TopologyContextEncoder",
+      "tests": [
+        "tests/unit/test_tsh_calo_topology_context.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Linear",
+          "target": "nn.Linear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Sequential",
+          "target": "nn.Sequential"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Tanh",
+          "target": "nn.Tanh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "__init__": "attribute",
+        "int": "name",
+        "nn.Linear": "attribute",
+        "nn.Sequential": "attribute",
+        "nn.Tanh": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "__init__",
+        "int",
+        "nn.Linear",
+        "nn.Sequential",
+        "nn.Tanh",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 378,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, hidden_dim, message_passing_steps)",
+      "start_line": 363,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "values.mean",
+          "target": "values.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.new_zeros",
+          "target": "values.new_zeros"
+        }
+      ],
+      "call_forms": {
+        "values.mean": "attribute",
+        "values.new_zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward_prepared"
+      ],
+      "calls": [
+        "values.mean",
+        "values.new_zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 384,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder._mean_rows",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(values)",
+      "start_line": 381,
+      "state_owner": "",
+      "symbol": "_mean_rows",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PreparedTopologyGraphState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.PreparedTopologyGraphState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.parameters",
+          "target": "self.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        }
+      ],
+      "call_forms": {
+        "PreparedTopologyGraphState": "name",
+        "next": "name",
+        "self.parameters": "attribute",
+        "state.validate": "attribute",
+        "torch.as_tensor": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward"
+      ],
+      "calls": [
+        "PreparedTopologyGraphState",
+        "next",
+        "self.parameters",
+        "state.validate",
+        "torch.as_tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.PreparedTopologyGraphState"
+      ],
+      "doc": "Validate once and upload one graph once for a resident multi-epoch update.",
+      "end_line": 402,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.prepare",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, state)",
+      "start_line": 386,
+      "state_owner": "",
+      "symbol": "prepare",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "aggregate.index_add_",
+          "target": "aggregate.index_add_"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._mean_rows",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder._mean_rows"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyEncoding",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyEncoding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.clamp_min",
+          "target": "counts.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.index_add_",
+          "target": "counts.index_add_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "degree.clamp_min",
+          "target": "degree.clamp_min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "degree.index_add_",
+          "target": "degree.index_add_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.index_add_",
+          "target": "groups.index_add_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nodes.new_zeros",
+          "target": "nodes.new_zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.control_encoder",
+          "target": "self.control_encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.control_update",
+          "target": "self.control_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.edge_encoder",
+          "target": "self.edge_encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.graph_fusion",
+          "target": "self.graph_fusion"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.message",
+          "target": "self.message"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.node_encoder",
+          "target": "self.node_encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.node_update",
+          "target": "self.node_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.scenario_encoder",
+          "target": "self.scenario_encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unsqueeze",
+          "target": "unsqueeze"
+        }
+      ],
+      "call_forms": {
+        "TopologyEncoding": "name",
+        "aggregate.index_add_": "attribute",
+        "counts.clamp_min": "attribute",
+        "counts.index_add_": "attribute",
+        "degree.clamp_min": "attribute",
+        "degree.index_add_": "attribute",
+        "groups.index_add_": "attribute",
+        "len": "name",
+        "nodes.new_zeros": "attribute",
+        "range": "name",
+        "self._mean_rows": "attribute",
+        "self.control_encoder": "attribute",
+        "self.control_update": "attribute",
+        "self.edge_encoder": "attribute",
+        "self.graph_fusion": "attribute",
+        "self.message": "attribute",
+        "self.node_encoder": "attribute",
+        "self.node_update": "attribute",
+        "self.scenario_encoder": "attribute",
+        "torch.cat": "attribute",
+        "torch.ones": "attribute",
+        "torch.zeros": "attribute",
+        "torch.zeros_like": "attribute",
+        "unsqueeze": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward"
+      ],
+      "calls": [
+        "TopologyEncoding",
+        "aggregate.index_add_",
+        "counts.clamp_min",
+        "counts.index_add_",
+        "degree.clamp_min",
+        "degree.index_add_",
+        "groups.index_add_",
+        "len",
+        "nodes.new_zeros",
+        "range",
+        "self._mean_rows",
+        "self.control_encoder",
+        "self.control_update",
+        "self.edge_encoder",
+        "self.graph_fusion",
+        "self.message",
+        "self.node_encoder",
+        "self.node_update",
+        "self.scenario_encoder",
+        "torch.cat",
+        "torch.ones",
+        "torch.zeros",
+        "torch.zeros_like",
+        "unsqueeze"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder._mean_rows",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyEncoding"
+      ],
+      "doc": "Encode an already resident graph without another host conversion or validation sync.",
+      "end_line": 452,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward_prepared",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, state)",
+      "start_line": 404,
+      "state_owner": "",
+      "symbol": "forward_prepared",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.forward_prepared",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward_prepared"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.prepare",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.prepare"
+        }
+      ],
+      "call_forms": {
+        "self.forward_prepared": "attribute",
+        "self.prepare": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.forward_prepared",
+        "self.prepare"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward_prepared",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.prepare"
+      ],
+      "doc": "",
+      "end_line": 455,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ANGMAX": "calo_rpd_studio.power_system.case_model.ANGMAX",
+        "ANGMIN": "calo_rpd_studio.power_system.case_model.ANGMIN",
+        "BASE_KV": "calo_rpd_studio.power_system.case_model.BASE_KV",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "ControlGroup": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.ControlGroup",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "PD": "calo_rpd_studio.power_system.case_model.PD",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "QMIN": "calo_rpd_studio.power_system.case_model.QMIN",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "Sequence": "typing.Sequence",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "nn": "torch.nn",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".tsh_calo_schema",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.topology_context",
+      "qualname": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder.forward",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, state)",
+      "start_line": 454,
+      "state_owner": "",
+      "symbol": "forward",
+      "tests": []
+    }
+  ]
+}

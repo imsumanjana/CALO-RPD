@@ -1,0 +1,250 @@
+{
+  "path": "calo_rpd_studio/algorithms/mtla_de.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/mtla_de.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.mtla_de",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.mtla_de",
+      "qualname": "calo_rpd_studio.algorithms.mtla_de.MTLADEOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "MTLADEOptimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.mean",
+          "target": "p.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.parameters.get",
+          "target": "self.config.parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate",
+          "target": "self.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.choice",
+          "target": "self.rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.integers",
+          "target": "self.rng.integers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.normal",
+          "target": "self.rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.random",
+          "target": "self.rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "better": "name",
+        "enumerate": "name",
+        "float": "name",
+        "len": "name",
+        "np.clip": "attribute",
+        "np.where": "attribute",
+        "p.mean": "attribute",
+        "range": "name",
+        "self.can_evaluate": "attribute",
+        "self.config.parameters.get": "attribute",
+        "self.evaluate": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.order": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "self.rng.choice": "attribute",
+        "self.rng.integers": "attribute",
+        "self.rng.normal": "attribute",
+        "self.rng.random": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "better",
+        "enumerate",
+        "float",
+        "len",
+        "np.clip",
+        "np.where",
+        "p.mean",
+        "range",
+        "self.can_evaluate",
+        "self.config.parameters.get",
+        "self.evaluate",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.order",
+        "self.random_population",
+        "self.record",
+        "self.rng.choice",
+        "self.rng.integers",
+        "self.rng.normal",
+        "self.rng.random",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/mtla_de.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.mtla_de.MTLADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.mtla_de",
+      "qualname": "calo_rpd_studio.algorithms.mtla_de.MTLADEOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

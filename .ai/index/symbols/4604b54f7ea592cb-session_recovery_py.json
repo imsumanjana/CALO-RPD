@@ -1,0 +1,1340 @@
+{
+  "path": "calo_rpd_studio/app/session_recovery.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SESSION_RECOVERY_SCHEMA",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "SESSION_RECOVERY_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.__init__",
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery._utc_now",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "()",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_utc_now",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal._seal",
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.verify_payload"
+      ],
+      "calls": [
+        "encode",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery._canonical_bytes",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_canonical_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "handle.fileno",
+          "target": "handle.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.flush",
+          "target": "handle.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dump",
+          "target": "json.dump"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.close",
+          "target": "os.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fdopen",
+          "target": "os.fdopen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.open",
+          "target": "os.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.path.exists",
+          "target": "os.path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.replace",
+          "target": "os.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.unlink",
+          "target": "os.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.parent.mkdir",
+          "target": "path.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.mkstemp",
+          "target": "tempfile.mkstemp"
+        }
+      ],
+      "call_forms": {
+        "handle.fileno": "attribute",
+        "handle.flush": "attribute",
+        "json.dump": "attribute",
+        "os.close": "attribute",
+        "os.fdopen": "attribute",
+        "os.fsync": "attribute",
+        "os.open": "attribute",
+        "os.path.exists": "attribute",
+        "os.replace": "attribute",
+        "os.unlink": "attribute",
+        "path.parent.mkdir": "attribute",
+        "str": "name",
+        "tempfile.mkstemp": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+      ],
+      "calls": [
+        "handle.fileno",
+        "handle.flush",
+        "json.dump",
+        "os.close",
+        "os.fdopen",
+        "os.fsync",
+        "os.open",
+        "os.path.exists",
+        "os.replace",
+        "os.unlink",
+        "path.parent.mkdir",
+        "str",
+        "tempfile.mkstemp"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery._atomic_json",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(path, payload)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_atomic_json",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoverySnapshot",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "SessionRecoverySnapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        }
+      ],
+      "call_forms": {
+        "dict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "dict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoverySnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoverySnapshot.as_dict",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "as_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_phase6_ribbon_workspace._window",
+        "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Maintain one crash-detection snapshot for the GUI/application session.",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 89,
+      "state_owner": "",
+      "symbol": "SessionRecoveryJournal",
+      "tests": [
+        "tests/gui/test_phase6_ribbon_workspace.py",
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.app.session_recovery._utc_now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_utc_now": "name",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_utc_now",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery._utc_now"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, root)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "body.pop",
+          "target": "body.pop"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_bytes",
+          "target": "calo_rpd_studio.app.session_recovery._canonical_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        }
+      ],
+      "call_forms": {
+        "_canonical_bytes": "name",
+        "body.pop": "attribute",
+        "dict": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+      ],
+      "calls": [
+        "_canonical_bytes",
+        "body.pop",
+        "dict",
+        "hashlib.sha256",
+        "hexdigest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery._canonical_bytes"
+      ],
+      "doc": "",
+      "end_line": 103,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal._seal",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "_seal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "body.pop",
+          "target": "body.pop"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_bytes",
+          "target": "calo_rpd_studio.app.session_recovery._canonical_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_canonical_bytes": "name",
+        "body.pop": "attribute",
+        "dict": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "payload.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.previous_unclean",
+        "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable"
+      ],
+      "calls": [
+        "_canonical_bytes",
+        "body.pop",
+        "dict",
+        "hashlib.sha256",
+        "hexdigest",
+        "payload.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery._canonical_bytes"
+      ],
+      "doc": "",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.verify_payload",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "verify_payload",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.verify_payload",
+          "target": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.verify_payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.exists",
+          "target": "self.path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.read_text",
+          "target": "self.path.read_text"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "payload.get": "attribute",
+        "self.path.exists": "attribute",
+        "self.path.read_text": "attribute",
+        "self.verify_payload": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "isinstance",
+        "json.loads",
+        "payload.get",
+        "self.path.exists",
+        "self.path.read_text",
+        "self.verify_payload"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.verify_payload"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.previous_unclean",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 115,
+      "state_owner": "",
+      "symbol": "previous_unclean",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.update",
+          "target": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+        }
+      ],
+      "call_forms": {
+        "self.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+      ],
+      "doc": "",
+      "end_line": 129,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.begin",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace_ui)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "begin",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._seal",
+          "target": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal._seal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_atomic_json",
+          "target": "calo_rpd_studio.app.session_recovery._atomic_json"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.app.session_recovery._utc_now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_atomic_json": "name",
+        "_utc_now": "name",
+        "bool": "name",
+        "dict": "name",
+        "self._seal": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.begin",
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.mark_clean"
+      ],
+      "calls": [
+        "_atomic_json",
+        "_utc_now",
+        "bool",
+        "dict",
+        "self._seal",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal._seal",
+        "calo_rpd_studio.app.session_recovery._atomic_json",
+        "calo_rpd_studio.app.session_recovery._utc_now"
+      ],
+      "doc": "",
+      "end_line": 156,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace_ui, experiment_id, policy_training_active, governing_policy_sha256, compute_profile_fingerprint, clean_shutdown)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "update",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.update",
+          "target": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+        }
+      ],
+      "call_forms": {
+        "self.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.update"
+      ],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/session_recovery.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tempfile": "tempfile",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.session_recovery",
+      "qualname": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.mark_clean",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, **kwargs)",
+      "start_line": 158,
+      "state_owner": "",
+      "symbol": "mark_clean",
+      "tests": []
+    }
+  ]
+}

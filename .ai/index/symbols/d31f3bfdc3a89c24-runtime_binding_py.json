@@ -1,0 +1,140 @@
+{
+  "path": "calo_rpd_studio/continuation/runtime_binding.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ch.isalnum",
+          "target": "ch.isalnum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.get",
+          "target": "values.get"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ch.isalnum": "attribute",
+        "dict": "name",
+        "getattr": "name",
+        "int": "name",
+        "join": "attribute",
+        "max": "name",
+        "parameters.get": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "values.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "tests.unit.test_v5_continuation.test_revision_scoped_run_checkpoint_paths_never_overwrite_prior_revision"
+      ],
+      "calls": [
+        "Path",
+        "ch.isalnum",
+        "dict",
+        "getattr",
+        "int",
+        "join",
+        "max",
+        "parameters.get",
+        "str",
+        "strip",
+        "values.get"
+      ],
+      "calls_resolved": [],
+      "doc": "Bind CALO's exact checkpoint/resume paths for *item* and return ``config``.",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/continuation/runtime_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "function",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.continuation.runtime_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.continuation.runtime_binding",
+      "qualname": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(config, item)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "bind_exact_run_checkpoint",
+      "tests": [
+        "tests/unit/test_v5_continuation.py"
+      ]
+    }
+  ]
+}

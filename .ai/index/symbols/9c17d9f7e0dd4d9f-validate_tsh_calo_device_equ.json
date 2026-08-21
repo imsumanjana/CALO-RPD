@@ -1,0 +1,2061 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.DEVELOPMENT_CASES",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "DEVELOPMENT_CASES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.EVIDENCE_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "EVIDENCE_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._utc_now",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "_utc_now",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encoded.encode",
+          "target": "encoded.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encoded.encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main"
+      ],
+      "calls": [
+        "encoded.encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._canonical_sha256",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.exists",
+          "target": "destination.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "Path": "name",
+        "destination.exists": "attribute",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "expanduser": "attribute",
+        "json.dumps": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_device_equivalence.test_device_equivalence_evidence_refuses_overwrite"
+      ],
+      "calls": [
+        "FileExistsError",
+        "Path",
+        "destination.exists",
+        "durable_write_bytes",
+        "encode",
+        "expanduser",
+        "json.dumps",
+        "resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_write_new_json",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "RuntimeError": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "RuntimeError",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+      "semantic_tags": [],
+      "signature": "(case_name)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "_build_policy_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calibration.validate",
+          "target": "calibration.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OODCalibration",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "topology_ood_signature",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "matrix.mean",
+          "target": "matrix.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "matrix.std",
+          "target": "matrix.std"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.square",
+          "target": "np.square"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "OODCalibration": "name",
+        "calibration.validate": "attribute",
+        "float": "name",
+        "len": "name",
+        "matrix.mean": "attribute",
+        "matrix.std": "attribute",
+        "max": "name",
+        "np.max": "attribute",
+        "np.mean": "attribute",
+        "np.sqrt": "attribute",
+        "np.square": "attribute",
+        "np.stack": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute",
+        "topology_ood_signature": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic"
+      ],
+      "calls": [
+        "OODCalibration",
+        "calibration.validate",
+        "float",
+        "len",
+        "matrix.mean",
+        "matrix.std",
+        "max",
+        "np.max",
+        "np.mean",
+        "np.sqrt",
+        "np.square",
+        "np.stack",
+        "np.where",
+        "np.zeros",
+        "topology_ood_signature"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+      ],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration",
+      "semantic_tags": [],
+      "signature": "(states)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "_fit_development_calibration",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "first.astype",
+          "target": "first.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.astype",
+          "target": "second.astype"
+        }
+      ],
+      "call_forms": {
+        "first.astype": "attribute",
+        "float": "name",
+        "np.abs": "attribute",
+        "np.asarray": "attribute",
+        "np.max": "attribute",
+        "second.astype": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison"
+      ],
+      "calls": [
+        "first.astype",
+        "float",
+        "np.abs",
+        "np.asarray",
+        "np.max",
+        "second.astype"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 103,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._maximum_absolute_difference",
+      "semantic_tags": [],
+      "signature": "(left, right)",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "_maximum_absolute_difference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_maximum_absolute_difference",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._maximum_absolute_difference"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.astype",
+          "target": "first.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.allclose",
+          "target": "np.allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.astype",
+          "target": "second.astype"
+        }
+      ],
+      "call_forms": {
+        "_maximum_absolute_difference": "name",
+        "bool": "name",
+        "first.astype": "attribute",
+        "np.all": "attribute",
+        "np.allclose": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "second.astype": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results",
+        "tests.unit.test_tsh_calo_device_equivalence.test_numeric_comparison_fails_closed_on_shape_nonfinite_and_tolerance"
+      ],
+      "calls": [
+        "_maximum_absolute_difference",
+        "bool",
+        "first.astype",
+        "np.all",
+        "np.allclose",
+        "np.asarray",
+        "np.isfinite",
+        "second.astype"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._maximum_absolute_difference"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison",
+      "semantic_tags": [],
+      "signature": "(left, right, rtol, atol)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "_numeric_comparison",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numpy",
+          "target": "numpy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.detach",
+          "target": "value.detach"
+        }
+      ],
+      "call_forms": {
+        "cpu": "attribute",
+        "numpy": "attribute",
+        "value.detach": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results"
+      ],
+      "calls": [
+        "cpu",
+        "numpy",
+        "value.detach"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._tensor_values",
+      "semantic_tags": [],
+      "signature": "(value)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "_tensor_values",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_numeric_comparison",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tensor_values",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._tensor_values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comparisons.values",
+          "target": "comparisons.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exact.values",
+          "target": "exact.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_numeric_comparison": "name",
+        "_tensor_values": "name",
+        "all": "name",
+        "any": "name",
+        "bool": "name",
+        "comparisons.values": "attribute",
+        "exact.values": "attribute",
+        "np.array_equal": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+        "tests.unit.test_tsh_calo_device_equivalence.test_policy_comparison_requires_exact_actions_and_bounded_numerics"
+      ],
+      "calls": [
+        "RuntimeError",
+        "_numeric_comparison",
+        "_tensor_values",
+        "all",
+        "any",
+        "bool",
+        "comparisons.values",
+        "exact.values",
+        "np.array_equal"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._tensor_values"
+      ],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results",
+      "semantic_tags": [],
+      "signature": "(cpu_result, cuda_result, rtol, atol)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "_compare_results",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOInferenceController",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ood_calibration_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOInferenceController": "name",
+        "ood_calibration_sha256": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main"
+      ],
+      "calls": [
+        "TSHCALOInferenceController",
+        "ood_calibration_sha256"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+      ],
+      "doc": "",
+      "end_line": 234,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._controller",
+      "semantic_tags": [],
+      "signature": "(binding, calibration, authority, device, seed)",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "_controller",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.run_id.strip",
+          "target": "args.run_id.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "QualificationCandidateAuthority",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask.from_control_groups",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "inspect_tsh_calo_candidate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_candidate_binding",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafetyEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SlidingWindowContextualBandit",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ood_calibration_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "topology_ood_signature",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_policy_state",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_compare_results",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_controller",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fit_development_calibration",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._utc_now"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_new_json",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu_controller.decide",
+          "target": "cpu_controller.decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cuda_controller.decide",
+          "target": "cuda_controller.decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.parameters",
+          "target": "network.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ascontiguousarray",
+          "target": "np.ascontiguousarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.append",
+          "target": "records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tobytes",
+          "target": "tobytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.current_device",
+          "target": "torch.cuda.current_device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.max_memory_allocated",
+          "target": "torch.cuda.max_memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.memory_allocated",
+          "target": "torch.cuda.memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.reset_peak_memory_stats",
+          "target": "torch.cuda.reset_peak_memory_stats"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask.from_control_groups": "attribute",
+        "QualificationCandidateAuthority": "name",
+        "RuntimeError": "name",
+        "SafetyEnvelope": "name",
+        "SlidingWindowContextualBandit": "name",
+        "ValueError": "name",
+        "_build_policy_state": "name",
+        "_candidate_binding": "name",
+        "_canonical_sha256": "name",
+        "_compare_results": "name",
+        "_controller": "name",
+        "_fit_development_calibration": "name",
+        "_utc_now": "name",
+        "_write_new_json": "name",
+        "all": "name",
+        "argparse.ArgumentParser": "attribute",
+        "args.run_id.strip": "attribute",
+        "asdict": "name",
+        "bool": "name",
+        "cpu_controller.decide": "attribute",
+        "cuda_controller.decide": "attribute",
+        "float": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "inspect_tsh_calo_candidate": "name",
+        "int": "name",
+        "json.dumps": "attribute",
+        "len": "name",
+        "list": "name",
+        "lower": "attribute",
+        "network.parameters": "attribute",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "np.ascontiguousarray": "attribute",
+        "ood_calibration_sha256": "name",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "records.append": "attribute",
+        "resolve_source_identity": "name",
+        "set": "name",
+        "startswith": "attribute",
+        "str": "name",
+        "tobytes": "attribute",
+        "topology_ood_signature": "name",
+        "torch.cuda.current_device": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.max_memory_allocated": "attribute",
+        "torch.cuda.memory_allocated": "attribute",
+        "torch.cuda.reset_peak_memory_stats": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "tuple": "name",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask.from_control_groups",
+        "QualificationCandidateAuthority",
+        "RuntimeError",
+        "SafetyEnvelope",
+        "SlidingWindowContextualBandit",
+        "ValueError",
+        "_build_policy_state",
+        "_candidate_binding",
+        "_canonical_sha256",
+        "_compare_results",
+        "_controller",
+        "_fit_development_calibration",
+        "_utc_now",
+        "_write_new_json",
+        "all",
+        "argparse.ArgumentParser",
+        "args.run_id.strip",
+        "asdict",
+        "bool",
+        "cpu_controller.decide",
+        "cuda_controller.decide",
+        "float",
+        "hashlib.sha256",
+        "hexdigest",
+        "inspect_tsh_calo_candidate",
+        "int",
+        "json.dumps",
+        "len",
+        "list",
+        "lower",
+        "network.parameters",
+        "np.arange",
+        "np.asarray",
+        "np.ascontiguousarray",
+        "ood_calibration_sha256",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "records.append",
+        "resolve_source_identity",
+        "set",
+        "startswith",
+        "str",
+        "tobytes",
+        "topology_ood_signature",
+        "torch.cuda.current_device",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available",
+        "torch.cuda.max_memory_allocated",
+        "torch.cuda.memory_allocated",
+        "torch.cuda.reset_peak_memory_stats",
+        "torch.cuda.synchronize",
+        "tuple",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._canonical_sha256",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._controller",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._utc_now",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+      ],
+      "doc": "",
+      "end_line": 393,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "QualificationCandidateAuthority": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOInferenceController": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "_candidate_binding": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._candidate_binding",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "asdict": "dataclasses.asdict",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "inspect_tsh_calo_candidate": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate",
+        "json": "json",
+        "np": "numpy",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence",
+      "qualname": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 237,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,508 @@
+{
+  "path": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.parameters",
+          "target": "network.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.state_dict",
+          "target": "network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameter.fill_",
+          "target": "parameter.fill_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.no_grad",
+          "target": "torch.no_grad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        }
+      ],
+      "call_forms": {
+        "CALOPolicyNetwork": "name",
+        "network.parameters": "attribute",
+        "network.state_dict": "attribute",
+        "parameter.fill_": "attribute",
+        "torch.no_grad": "attribute",
+        "torch.save": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_cache_is_content_addressed_even_when_path_size_and_mtime_match"
+      ],
+      "calls": [
+        "CALOPolicyNetwork",
+        "network.parameters",
+        "network.state_dict",
+        "parameter.fill_",
+        "torch.no_grad",
+        "torch.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "Path": "pathlib.Path",
+        "PolicyInferenceTimeout": "calo_rpd_studio.algorithms.calo.ai_controller.PolicyInferenceTimeout",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_POLICY_BROKER_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_BROKER_CACHE",
+        "_POLICY_NETWORK_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_NETWORK_CACHE",
+        "_PolicyInferenceBroker": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "os": "os",
+        "pytest": "pytest",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "numpy",
+        "os",
+        "pathlib",
+        "pytest",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "qualname": "tests.unit.test_v541_policy_cache_broker_hardening._save_policy",
+      "semantic_tags": [],
+      "signature": "(path, fill)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_save_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_POLICY_BROKER_CACHE.clear",
+          "target": "_POLICY_BROKER_CACHE.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_POLICY_NETWORK_CACHE.clear",
+          "target": "_POLICY_NETWORK_CACHE.clear"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.stat",
+          "target": "checkpoint.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.utime",
+          "target": "os.utime"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_save_policy",
+          "target": "tests.unit.test_v541_policy_cache_broker_hardening._save_policy"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "_POLICY_BROKER_CACHE.clear": "attribute",
+        "_POLICY_NETWORK_CACHE.clear": "attribute",
+        "_save_policy": "name",
+        "checkpoint.stat": "attribute",
+        "os.utime": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "_POLICY_BROKER_CACHE.clear",
+        "_POLICY_NETWORK_CACHE.clear",
+        "_save_policy",
+        "checkpoint.stat",
+        "os.utime"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "tests.unit.test_v541_policy_cache_broker_hardening._save_policy"
+      ],
+      "doc": "",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "Path": "pathlib.Path",
+        "PolicyInferenceTimeout": "calo_rpd_studio.algorithms.calo.ai_controller.PolicyInferenceTimeout",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_POLICY_BROKER_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_BROKER_CACHE",
+        "_POLICY_NETWORK_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_NETWORK_CACHE",
+        "_PolicyInferenceBroker": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "os": "os",
+        "pytest": "pytest",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "numpy",
+        "os",
+        "pathlib",
+        "pytest",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_cache_is_content_addressed_even_when_path_size_and_mtime_match",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_policy_cache_is_content_addressed_even_when_path_size_and_mtime_match",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "StallingPolicy",
+          "target": "StallingPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.close",
+          "target": "broker.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.infer",
+          "target": "broker.infer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_PolicyInferenceBroker",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "StallingPolicy": "name",
+        "_PolicyInferenceBroker": "name",
+        "broker.close": "attribute",
+        "broker.infer": "attribute",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute",
+        "time.monotonic": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "StallingPolicy",
+        "_PolicyInferenceBroker",
+        "broker.close",
+        "broker.infer",
+        "np.zeros",
+        "pytest.raises",
+        "time.monotonic",
+        "torch.device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker"
+      ],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "Path": "pathlib.Path",
+        "PolicyInferenceTimeout": "calo_rpd_studio.algorithms.calo.ai_controller.PolicyInferenceTimeout",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_POLICY_BROKER_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_BROKER_CACHE",
+        "_POLICY_NETWORK_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_NETWORK_CACHE",
+        "_PolicyInferenceBroker": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "os": "os",
+        "pytest": "pytest",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "numpy",
+        "os",
+        "pathlib",
+        "pytest",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_broker_times_out_instead_of_waiting_forever",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 71,
+      "state_owner": "",
+      "symbol": "test_policy_broker_times_out_instead_of_waiting_forever",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "Path": "pathlib.Path",
+        "PolicyInferenceTimeout": "calo_rpd_studio.algorithms.calo.ai_controller.PolicyInferenceTimeout",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_POLICY_BROKER_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_BROKER_CACHE",
+        "_POLICY_NETWORK_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_NETWORK_CACHE",
+        "_PolicyInferenceBroker": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "os": "os",
+        "pytest": "pytest",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "numpy",
+        "os",
+        "pathlib",
+        "pytest",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_broker_times_out_instead_of_waiting_forever",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_broker_times_out_instead_of_waiting_forever.StallingPolicy",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "StallingPolicy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "time.sleep",
+          "target": "time.sleep"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "time.sleep": "attribute",
+        "torch.ones": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "time.sleep",
+        "torch.ones",
+        "torch.zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "tests/unit/test_v541_policy_cache_broker_hardening.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "Path": "pathlib.Path",
+        "PolicyInferenceTimeout": "calo_rpd_studio.algorithms.calo.ai_controller.PolicyInferenceTimeout",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_POLICY_BROKER_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_BROKER_CACHE",
+        "_POLICY_NETWORK_CACHE": "calo_rpd_studio.algorithms.calo.ai_controller._POLICY_NETWORK_CACHE",
+        "_PolicyInferenceBroker": "calo_rpd_studio.algorithms.calo.ai_controller._PolicyInferenceBroker",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "os": "os",
+        "pytest": "pytest",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "numpy",
+        "os",
+        "pathlib",
+        "pytest",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_broker_times_out_instead_of_waiting_forever.StallingPolicy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v541_policy_cache_broker_hardening",
+      "qualname": "tests.unit.test_v541_policy_cache_broker_hardening.test_policy_broker_times_out_instead_of_waiting_forever.StallingPolicy.forward",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "forward",
+      "tests": []
+    }
+  ]
+}

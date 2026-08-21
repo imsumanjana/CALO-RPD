@@ -1,0 +1,3194 @@
+{
+  "path": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_empty_study_filter_as_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_missing_stage_as_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+        "tests.gui.test_workspace_execution_ui.test_study_recommendation_hydration_is_non_persistent_until_apply",
+        "tests.gui.test_workspace_execution_ui.test_workspace_staging_freezes_individual_and_portfolio_editing",
+        "tests.gui.test_workspace_tabbed_layouts.test_portfolio_requested_outputs_fill_the_visible_tree_width",
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 589,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "PortfolioManagerPanel",
+      "tests": [
+        "tests/gui/test_workspace_execution_ui.py",
+        "tests/gui/test_workspace_tabbed_layouts.py",
+        "tests/unit/test_scientist_gui_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QCheckBox",
+          "target": "QCheckBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFormLayout",
+          "target": "QFormLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLineEdit",
+          "target": "QLineEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTreeWidget",
+          "target": "QTreeWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTreeWidgetItem",
+          "target": "QTreeWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_actions.addStretch",
+          "target": "algorithm_actions.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_actions.addWidget",
+          "target": "algorithm_actions.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_layout.addLayout",
+          "target": "algorithm_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_layout.addWidget",
+          "target": "algorithm_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_layout.setContentsMargins",
+          "target": "algorithm_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "algorithm_layout.setSpacing",
+          "target": "algorithm_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "apply_button.clicked.connect",
+          "target": "apply_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "apply_button.setObjectName",
+          "target": "apply_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.addStretch",
+          "target": "buttons.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.addWidget",
+          "target": "buttons.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PageHeader",
+          "target": "calo_rpd_studio.gui.widgets.page_header.PageHeader"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceTabs",
+          "target": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "categories",
+          "target": "calo_rpd_studio.portfolio.catalog.categories"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.flags",
+          "target": "child.flags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.setCheckState",
+          "target": "child.setCheckState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.setData",
+          "target": "child.setData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.setFlags",
+          "target": "child.setFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clear.clicked.connect",
+          "target": "clear.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clear_algorithms.clicked.connect",
+          "target": "clear_algorithms.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "definition_layout.addWidget",
+          "target": "definition_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "definition_layout.setContentsMargins",
+          "target": "definition_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "definition_layout.setSpacing",
+          "target": "definition_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "explanation.setWordWrap",
+          "target": "explanation.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "horizontalAdvance",
+          "target": "horizontalAdvance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_form.addRow",
+          "target": "output_form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_header.resizeSection",
+          "target": "output_header.resizeSection"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_header.setMinimumSectionSize",
+          "target": "output_header.setMinimumSectionSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_header.setSectionResizeMode",
+          "target": "output_header.setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_header.setStretchLastSection",
+          "target": "output_header.setStretchLastSection"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_layout.addLayout",
+          "target": "output_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_layout.addWidget",
+          "target": "output_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_layout.setContentsMargins",
+          "target": "output_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_item.addChild",
+          "target": "parent_item.addChild"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_item.flags",
+          "target": "parent_item.flags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_item.setExpanded",
+          "target": "parent_item.setExpanded"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_item.setFlags",
+          "target": "parent_item.setFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_layout.addLayout",
+          "target": "plan_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_layout.addWidget",
+          "target": "plan_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_layout.setContentsMargins",
+          "target": "plan_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "preview.clicked.connect",
+          "target": "preview.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "select_defaults.clicked.connect",
+          "target": "select_defaults.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "select_row.addStretch",
+          "target": "select_row.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "select_row.addWidget",
+          "target": "select_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.header",
+          "target": "self.algorithm_filter.header"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.itemChanged.connect",
+          "target": "self.algorithm_filter.itemChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.setAccessibleName",
+          "target": "self.algorithm_filter.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.setHeaderLabels",
+          "target": "self.algorithm_filter.setHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.setObjectName",
+          "target": "self.algorithm_filter.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_stage_status.setObjectName",
+          "target": "self.algorithm_stage_status.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_stage_status.setWordWrap",
+          "target": "self.algorithm_stage_status.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.goal_summary.setPlaceholderText",
+          "target": "self.goal_summary.setPlaceholderText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.goal_summary.textChanged.connect",
+          "target": "self.goal_summary.textChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.addItem",
+          "target": "self.kind.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.open_study.clicked.connect",
+          "target": "self.open_study.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.open_study.setEnabled",
+          "target": "self.open_study.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.addTopLevelItem",
+          "target": "self.outputs.addTopLevelItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.fontMetrics",
+          "target": "self.outputs.fontMetrics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.header",
+          "target": "self.outputs.header"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.itemChanged.connect",
+          "target": "self.outputs.itemChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.setAccessibleName",
+          "target": "self.outputs.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.setAlternatingRowColors",
+          "target": "self.outputs.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.setHeaderLabels",
+          "target": "self.outputs.setHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.setObjectName",
+          "target": "self.outputs.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_detail.setTextInteractionFlags",
+          "target": "self.plan_detail.setTextInteractionFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_detail.setWordWrap",
+          "target": "self.plan_detail.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_summary.setWordWrap",
+          "target": "self.plan_summary.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.preset.addItem",
+          "target": "self.preset.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.addItem",
+          "target": "self.profile.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.require_validation.setChecked",
+          "target": "self.require_validation.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.add_section",
+          "target": "self.section_tabs.add_section"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.setMinimumHeight",
+          "target": "self.section_tabs.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.config_changed.connect",
+          "target": "self.state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_state_changed.connect",
+          "target": "self.state.execution_state_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.addItem",
+          "target": "self.storage.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setSectionResizeMode",
+          "target": "setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_form.addRow",
+          "target": "study_form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "use_all_algorithms.clicked.connect",
+          "target": "use_all_algorithms.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.currentIndexChanged.connect",
+          "target": "widget.currentIndexChanged.connect"
+        }
+      ],
+      "call_forms": {
+        "PageHeader": "name",
+        "QCheckBox": "name",
+        "QComboBox": "name",
+        "QFormLayout": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QLineEdit": "name",
+        "QPushButton": "name",
+        "QTreeWidget": "name",
+        "QTreeWidgetItem": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "WorkspaceTabs": "name",
+        "__init__": "attribute",
+        "algorithm_actions.addStretch": "attribute",
+        "algorithm_actions.addWidget": "attribute",
+        "algorithm_layout.addLayout": "attribute",
+        "algorithm_layout.addWidget": "attribute",
+        "algorithm_layout.setContentsMargins": "attribute",
+        "algorithm_layout.setSpacing": "attribute",
+        "apply_button.clicked.connect": "attribute",
+        "apply_button.setObjectName": "attribute",
+        "buttons.addStretch": "attribute",
+        "buttons.addWidget": "attribute",
+        "categories": "name",
+        "child.flags": "attribute",
+        "child.setCheckState": "attribute",
+        "child.setData": "attribute",
+        "child.setFlags": "attribute",
+        "clear.clicked.connect": "attribute",
+        "clear_algorithms.clicked.connect": "attribute",
+        "definition_layout.addWidget": "attribute",
+        "definition_layout.setContentsMargins": "attribute",
+        "definition_layout.setSpacing": "attribute",
+        "explanation.setWordWrap": "attribute",
+        "horizontalAdvance": "attribute",
+        "items": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "max": "name",
+        "output_form.addRow": "attribute",
+        "output_header.resizeSection": "attribute",
+        "output_header.setMinimumSectionSize": "attribute",
+        "output_header.setSectionResizeMode": "attribute",
+        "output_header.setStretchLastSection": "attribute",
+        "output_layout.addLayout": "attribute",
+        "output_layout.addWidget": "attribute",
+        "output_layout.setContentsMargins": "attribute",
+        "parent_item.addChild": "attribute",
+        "parent_item.flags": "attribute",
+        "parent_item.setExpanded": "attribute",
+        "parent_item.setFlags": "attribute",
+        "plan_layout.addLayout": "attribute",
+        "plan_layout.addWidget": "attribute",
+        "plan_layout.setContentsMargins": "attribute",
+        "preview.clicked.connect": "attribute",
+        "select_defaults.clicked.connect": "attribute",
+        "select_row.addStretch": "attribute",
+        "select_row.addWidget": "attribute",
+        "self.algorithm_filter.header": "attribute",
+        "self.algorithm_filter.itemChanged.connect": "attribute",
+        "self.algorithm_filter.setAccessibleName": "attribute",
+        "self.algorithm_filter.setHeaderLabels": "attribute",
+        "self.algorithm_filter.setObjectName": "attribute",
+        "self.algorithm_stage_status.setObjectName": "attribute",
+        "self.algorithm_stage_status.setWordWrap": "attribute",
+        "self.goal_summary.setPlaceholderText": "attribute",
+        "self.goal_summary.textChanged.connect": "attribute",
+        "self.kind.addItem": "attribute",
+        "self.open_study.clicked.connect": "attribute",
+        "self.open_study.setEnabled": "attribute",
+        "self.outputs.addTopLevelItem": "attribute",
+        "self.outputs.fontMetrics": "attribute",
+        "self.outputs.header": "attribute",
+        "self.outputs.itemChanged.connect": "attribute",
+        "self.outputs.setAccessibleName": "attribute",
+        "self.outputs.setAlternatingRowColors": "attribute",
+        "self.outputs.setHeaderLabels": "attribute",
+        "self.outputs.setObjectName": "attribute",
+        "self.plan_detail.setTextInteractionFlags": "attribute",
+        "self.plan_detail.setWordWrap": "attribute",
+        "self.plan_summary.setWordWrap": "attribute",
+        "self.preset.addItem": "attribute",
+        "self.profile.addItem": "attribute",
+        "self.refresh": "attribute",
+        "self.refresh_plan": "attribute",
+        "self.require_validation.setChecked": "attribute",
+        "self.section_tabs.add_section": "attribute",
+        "self.section_tabs.setMinimumHeight": "attribute",
+        "self.state.config_changed.connect": "attribute",
+        "self.state.execution_state_changed.connect": "attribute",
+        "self.storage.addItem": "attribute",
+        "setSectionResizeMode": "attribute",
+        "study_form.addRow": "attribute",
+        "super": "name",
+        "use_all_algorithms.clicked.connect": "attribute",
+        "widget.currentIndexChanged.connect": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PageHeader",
+        "QCheckBox",
+        "QComboBox",
+        "QFormLayout",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QLineEdit",
+        "QPushButton",
+        "QTreeWidget",
+        "QTreeWidgetItem",
+        "QVBoxLayout",
+        "QWidget",
+        "WorkspaceTabs",
+        "__init__",
+        "algorithm_actions.addStretch",
+        "algorithm_actions.addWidget",
+        "algorithm_layout.addLayout",
+        "algorithm_layout.addWidget",
+        "algorithm_layout.setContentsMargins",
+        "algorithm_layout.setSpacing",
+        "apply_button.clicked.connect",
+        "apply_button.setObjectName",
+        "buttons.addStretch",
+        "buttons.addWidget",
+        "categories",
+        "child.flags",
+        "child.setCheckState",
+        "child.setData",
+        "child.setFlags",
+        "clear.clicked.connect",
+        "clear_algorithms.clicked.connect",
+        "definition_layout.addWidget",
+        "definition_layout.setContentsMargins",
+        "definition_layout.setSpacing",
+        "explanation.setWordWrap",
+        "horizontalAdvance",
+        "items",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "max",
+        "output_form.addRow",
+        "output_header.resizeSection",
+        "output_header.setMinimumSectionSize",
+        "output_header.setSectionResizeMode",
+        "output_header.setStretchLastSection",
+        "output_layout.addLayout",
+        "output_layout.addWidget",
+        "output_layout.setContentsMargins",
+        "parent_item.addChild",
+        "parent_item.flags",
+        "parent_item.setExpanded",
+        "parent_item.setFlags",
+        "plan_layout.addLayout",
+        "plan_layout.addWidget",
+        "plan_layout.setContentsMargins",
+        "preview.clicked.connect",
+        "select_defaults.clicked.connect",
+        "select_row.addStretch",
+        "select_row.addWidget",
+        "self.algorithm_filter.header",
+        "self.algorithm_filter.itemChanged.connect",
+        "self.algorithm_filter.setAccessibleName",
+        "self.algorithm_filter.setHeaderLabels",
+        "self.algorithm_filter.setObjectName",
+        "self.algorithm_stage_status.setObjectName",
+        "self.algorithm_stage_status.setWordWrap",
+        "self.goal_summary.setPlaceholderText",
+        "self.goal_summary.textChanged.connect",
+        "self.kind.addItem",
+        "self.open_study.clicked.connect",
+        "self.open_study.setEnabled",
+        "self.outputs.addTopLevelItem",
+        "self.outputs.fontMetrics",
+        "self.outputs.header",
+        "self.outputs.itemChanged.connect",
+        "self.outputs.setAccessibleName",
+        "self.outputs.setAlternatingRowColors",
+        "self.outputs.setHeaderLabels",
+        "self.outputs.setObjectName",
+        "self.plan_detail.setTextInteractionFlags",
+        "self.plan_detail.setWordWrap",
+        "self.plan_summary.setWordWrap",
+        "self.preset.addItem",
+        "self.profile.addItem",
+        "self.refresh",
+        "self.refresh_plan",
+        "self.require_validation.setChecked",
+        "self.section_tabs.add_section",
+        "self.section_tabs.setMinimumHeight",
+        "self.state.config_changed.connect",
+        "self.state.execution_state_changed.connect",
+        "self.storage.addItem",
+        "setSectionResizeMode",
+        "study_form.addRow",
+        "super",
+        "use_all_algorithms.clicked.connect",
+        "widget.currentIndexChanged.connect"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "calo_rpd_studio.portfolio.catalog.categories"
+      ],
+      "doc": "",
+      "end_line": 245,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTreeWidgetItem",
+          "target": "QTreeWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issubset",
+          "target": "issubset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.checkState",
+          "target": "item.checkState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.flags",
+          "target": "item.flags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setCheckState",
+          "target": "item.setCheckState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setFlags",
+          "target": "item.setFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._algorithm_items.clear",
+          "target": "self._algorithm_items.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._algorithm_items.items",
+          "target": "self._algorithm_items.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.addTopLevelItem",
+          "target": "self.algorithm_filter.addTopLevelItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.blockSignals",
+          "target": "self.algorithm_filter.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.clear",
+          "target": "self.algorithm_filter.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_stage_status.setText",
+          "target": "self.algorithm_stage_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_active_portfolio_goal",
+          "target": "self.state.database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_plan",
+          "target": "self.state.execution_control.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.algorithm_parameters.get",
+          "target": "stage.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workspace_plan.get",
+          "target": "workspace_plan.get"
+        }
+      ],
+      "call_forms": {
+        "QTreeWidgetItem": "name",
+        "get": "attribute",
+        "issubset": "attribute",
+        "item.checkState": "attribute",
+        "item.flags": "attribute",
+        "item.setCheckState": "attribute",
+        "item.setFlags": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "self._algorithm_items.clear": "attribute",
+        "self._algorithm_items.items": "attribute",
+        "self.algorithm_filter.addTopLevelItem": "attribute",
+        "self.algorithm_filter.blockSignals": "attribute",
+        "self.algorithm_filter.clear": "attribute",
+        "self.algorithm_stage_status.setText": "attribute",
+        "self.state.database.get_active_portfolio_goal": "attribute",
+        "self.state.execution_control.active_plan": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "set": "name",
+        "stage.algorithm_parameters.get": "attribute",
+        "str": "name",
+        "tuple": "name",
+        "workspace_plan.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh"
+      ],
+      "calls": [
+        "QTreeWidgetItem",
+        "get",
+        "issubset",
+        "item.checkState",
+        "item.flags",
+        "item.setCheckState",
+        "item.setFlags",
+        "json.dumps",
+        "len",
+        "self._algorithm_items.clear",
+        "self._algorithm_items.items",
+        "self.algorithm_filter.addTopLevelItem",
+        "self.algorithm_filter.blockSignals",
+        "self.algorithm_filter.clear",
+        "self.algorithm_stage_status.setText",
+        "self.state.database.get_active_portfolio_goal",
+        "self.state.execution_control.active_plan",
+        "self.state.execution_control.active_stage",
+        "set",
+        "stage.algorithm_parameters.get",
+        "str",
+        "tuple",
+        "workspace_plan.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 314,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._refresh_algorithm_stage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 247,
+      "state_owner": "",
+      "symbol": "_refresh_algorithm_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.checkState",
+          "target": "item.checkState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._algorithm_items.items",
+          "target": "self._algorithm_items.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "item.checkState": "attribute",
+        "self._algorithm_items.items": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "calls": [
+        "item.checkState",
+        "self._algorithm_items.items",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 321,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_study_algorithms",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 316,
+      "state_owner": "",
+      "symbol": "_selected_study_algorithms",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.config.to_dict",
+          "target": "self.state.config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "parameters.get": "attribute",
+        "payload.get": "attribute",
+        "self.state.config.to_dict": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "calls": [
+        "dict",
+        "parameters.get",
+        "payload.get",
+        "self.state.config.to_dict",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 332,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._stage_matches_current_config",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, stage)",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "_stage_matches_current_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setCheckState",
+          "target": "item.setCheckState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._algorithm_items.values",
+          "target": "self._algorithm_items.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.blockSignals",
+          "target": "self.algorithm_filter.blockSignals"
+        }
+      ],
+      "call_forms": {
+        "item.setCheckState": "attribute",
+        "self._algorithm_items.values": "attribute",
+        "self.algorithm_filter.blockSignals": "attribute",
+        "self.refresh_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "item.setCheckState",
+        "self._algorithm_items.values",
+        "self.algorithm_filter.blockSignals",
+        "self.refresh_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "doc": "",
+      "end_line": 341,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._use_all_staged_algorithms",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 334,
+      "state_owner": "",
+      "symbol": "_use_all_staged_algorithms",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setCheckState",
+          "target": "item.setCheckState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._algorithm_items.values",
+          "target": "self._algorithm_items.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_filter.blockSignals",
+          "target": "self.algorithm_filter.blockSignals"
+        }
+      ],
+      "call_forms": {
+        "item.setCheckState": "attribute",
+        "self._algorithm_items.values": "attribute",
+        "self.algorithm_filter.blockSignals": "attribute",
+        "self.refresh_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "item.setCheckState",
+        "self._algorithm_items.values",
+        "self.algorithm_filter.blockSignals",
+        "self.refresh_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "doc": "",
+      "end_line": 350,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._clear_study_filter",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 343,
+      "state_owner": "",
+      "symbol": "_clear_study_filter",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.checkState",
+          "target": "item.checkState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._items.items",
+          "target": "self._items.items"
+        }
+      ],
+      "call_forms": {
+        "item.checkState": "attribute",
+        "self._items.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config"
+      ],
+      "calls": [
+        "item.checkState",
+        "self._items.items"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 355,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_outputs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 352,
+      "state_owner": "",
+      "symbol": "_selected_outputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.setCheckState",
+          "target": "item.setCheckState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._items.items",
+          "target": "self._items.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.outputs.blockSignals",
+          "target": "self.outputs.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "item.setCheckState": "attribute",
+        "self._items.items": "attribute",
+        "self.outputs.blockSignals": "attribute",
+        "set": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._clear_outputs",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._select_recommended",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh"
+      ],
+      "calls": [
+        "item.setCheckState",
+        "self._items.items",
+        "self.outputs.blockSignals",
+        "set"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 366,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, keys)",
+      "start_line": 357,
+      "state_owner": "",
+      "symbol": "_set_outputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_outputs",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioKind",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioKind"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.currentData",
+          "target": "self.kind.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PortfolioKind": "name",
+        "self._set_outputs": "attribute",
+        "self.kind.currentData": "attribute",
+        "self.refresh_plan": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioKind",
+        "self._set_outputs",
+        "self.kind.currentData",
+        "self.refresh_plan",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "calo_rpd_studio.portfolio.models.PortfolioKind"
+      ],
+      "doc": "",
+      "end_line": 378,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._select_recommended",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 368,
+      "state_owner": "",
+      "symbol": "_select_recommended",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_outputs",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        }
+      ],
+      "call_forms": {
+        "self._set_outputs": "attribute",
+        "self.refresh_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._set_outputs",
+        "self.refresh_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "doc": "",
+      "end_line": 382,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._clear_outputs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 380,
+      "state_owner": "",
+      "symbol": "_clear_outputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioKind",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioKind"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.currentData",
+          "target": "self.kind.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.findData",
+          "target": "self.profile.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.setCurrentIndex",
+          "target": "self.profile.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.setEnabled",
+          "target": "self.profile.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.findData",
+          "target": "self.storage.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.setCurrentIndex",
+          "target": "self.storage.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PortfolioKind": "name",
+        "self.kind.currentData": "attribute",
+        "self.profile.findData": "attribute",
+        "self.profile.setCurrentIndex": "attribute",
+        "self.profile.setEnabled": "attribute",
+        "self.refresh_plan": "attribute",
+        "self.storage.findData": "attribute",
+        "self.storage.setCurrentIndex": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh"
+      ],
+      "calls": [
+        "PortfolioKind",
+        "self.kind.currentData",
+        "self.profile.findData",
+        "self.profile.setCurrentIndex",
+        "self.profile.setEnabled",
+        "self.refresh_plan",
+        "self.storage.findData",
+        "self.storage.setCurrentIndex",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "calo_rpd_studio.portfolio.models.PortfolioKind"
+      ],
+      "doc": "",
+      "end_line": 394,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._controls_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *_args)",
+      "start_line": 384,
+      "state_owner": "",
+      "symbol": "_controls_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_outputs",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ArticlePreset",
+          "target": "calo_rpd_studio.portfolio.models.ArticlePreset"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvidenceProfile",
+          "target": "calo_rpd_studio.portfolio.models.EvidenceProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioKind",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioKind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "StorageProfile",
+          "target": "calo_rpd_studio.portfolio.models.StorageProfile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.goal_summary.text",
+          "target": "self.goal_summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.currentData",
+          "target": "self.kind.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.preset.currentData",
+          "target": "self.preset.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.currentData",
+          "target": "self.profile.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.require_validation.isChecked",
+          "target": "self.require_validation.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.currentData",
+          "target": "self.storage.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ArticlePreset": "name",
+        "EvidenceProfile": "name",
+        "PortfolioConfig": "name",
+        "PortfolioKind": "name",
+        "StorageProfile": "name",
+        "bool": "name",
+        "getattr": "name",
+        "int": "name",
+        "self._selected_outputs": "attribute",
+        "self.goal_summary.text": "attribute",
+        "self.kind.currentData": "attribute",
+        "self.preset.currentData": "attribute",
+        "self.profile.currentData": "attribute",
+        "self.require_validation.isChecked": "attribute",
+        "self.storage.currentData": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+      ],
+      "calls": [
+        "ArticlePreset",
+        "EvidenceProfile",
+        "PortfolioConfig",
+        "PortfolioKind",
+        "StorageProfile",
+        "bool",
+        "getattr",
+        "int",
+        "self._selected_outputs",
+        "self.goal_summary.text",
+        "self.kind.currentData",
+        "self.preset.currentData",
+        "self.profile.currentData",
+        "self.require_validation.isChecked",
+        "self.storage.currentData",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_outputs",
+        "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "calo_rpd_studio.portfolio.models.StorageProfile"
+      ],
+      "doc": "",
+      "end_line": 419,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 396,
+      "state_owner": "",
+      "symbol": "_build_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._build_config",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_study_algorithms",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_study_algorithms"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._stage_matches_current_config",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._stage_matches_current_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "log_technical_error",
+          "target": "calo_rpd_studio.gui.user_feedback.log_technical_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_detail.clear",
+          "target": "self.plan_detail.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_detail.setText",
+          "target": "self.plan_detail.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_summary.setText",
+          "target": "self.plan_summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "join": "attribute",
+        "log_technical_error": "name",
+        "self._build_config": "attribute",
+        "self._selected_study_algorithms": "attribute",
+        "self._stage_matches_current_config": "attribute",
+        "self.plan_detail.clear": "attribute",
+        "self.plan_detail.setText": "attribute",
+        "self.plan_summary.setText": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.__init__",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._clear_outputs",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._clear_study_filter",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._controls_changed",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._select_recommended",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._use_all_staged_algorithms",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply"
+      ],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "join",
+        "log_technical_error",
+        "self._build_config",
+        "self._selected_study_algorithms",
+        "self._stage_matches_current_config",
+        "self.plan_detail.clear",
+        "self.plan_detail.setText",
+        "self.plan_summary.setText",
+        "self.state.execution_control.active_stage",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_study_algorithms",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._stage_matches_current_config",
+        "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+      ],
+      "doc": "",
+      "end_line": 487,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 421,
+      "state_owner": "",
+      "symbol": "refresh_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._controls_changed",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._controls_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._refresh_algorithm_stage",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._refresh_algorithm_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_outputs",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_stage_status.setText",
+          "target": "self.algorithm_stage_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_stage_status.text",
+          "target": "self.algorithm_stage_status.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.goal_summary.setText",
+          "target": "self.goal_summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.findData",
+          "target": "self.kind.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.setCurrentIndex",
+          "target": "self.kind.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.open_study.setEnabled",
+          "target": "self.open_study.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.open_study.setVisible",
+          "target": "self.open_study.setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.preset.findData",
+          "target": "self.preset.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.preset.setCurrentIndex",
+          "target": "self.preset.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.findData",
+          "target": "self.profile.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.profile.setCurrentIndex",
+          "target": "self.profile.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.require_validation.setChecked",
+          "target": "self.require_validation.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.setEnabled",
+          "target": "self.section_tabs.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_active_portfolio_goal",
+          "target": "self.state.database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_plan",
+          "target": "self.state.execution_control.active_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.controller",
+          "target": "self.state.execution_control.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.findData",
+          "target": "self.storage.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.storage.setCurrentIndex",
+          "target": "self.storage.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PortfolioConfig": "name",
+        "bool": "name",
+        "getattr": "name",
+        "list": "name",
+        "max": "name",
+        "self._controls_changed": "attribute",
+        "self._refresh_algorithm_stage": "attribute",
+        "self._set_outputs": "attribute",
+        "self.algorithm_stage_status.setText": "attribute",
+        "self.algorithm_stage_status.text": "attribute",
+        "self.goal_summary.setText": "attribute",
+        "self.kind.findData": "attribute",
+        "self.kind.setCurrentIndex": "attribute",
+        "self.open_study.setEnabled": "attribute",
+        "self.open_study.setVisible": "attribute",
+        "self.preset.findData": "attribute",
+        "self.preset.setCurrentIndex": "attribute",
+        "self.profile.findData": "attribute",
+        "self.profile.setCurrentIndex": "attribute",
+        "self.require_validation.setChecked": "attribute",
+        "self.section_tabs.setEnabled": "attribute",
+        "self.state.database.get_active_portfolio_goal": "attribute",
+        "self.state.execution_control.active_plan": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "self.state.execution_control.controller": "attribute",
+        "self.storage.findData": "attribute",
+        "self.storage.setCurrentIndex": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.__init__"
+      ],
+      "calls": [
+        "PortfolioConfig",
+        "bool",
+        "getattr",
+        "list",
+        "max",
+        "self._controls_changed",
+        "self._refresh_algorithm_stage",
+        "self._set_outputs",
+        "self.algorithm_stage_status.setText",
+        "self.algorithm_stage_status.text",
+        "self.goal_summary.setText",
+        "self.kind.findData",
+        "self.kind.setCurrentIndex",
+        "self.open_study.setEnabled",
+        "self.open_study.setVisible",
+        "self.preset.findData",
+        "self.preset.setCurrentIndex",
+        "self.profile.findData",
+        "self.profile.setCurrentIndex",
+        "self.require_validation.setChecked",
+        "self.section_tabs.setEnabled",
+        "self.state.database.get_active_portfolio_goal",
+        "self.state.execution_control.active_plan",
+        "self.state.execution_control.active_stage",
+        "self.state.execution_control.controller",
+        "self.storage.findData",
+        "self.storage.setCurrentIndex",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._controls_changed",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._refresh_algorithm_stage",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._set_outputs",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig"
+      ],
+      "doc": "",
+      "end_line": 529,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 489,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._build_config",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_study_algorithms",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_study_algorithms"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._stage_matches_current_config",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._stage_matches_current_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_plan",
+          "target": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvidenceProfile",
+          "target": "calo_rpd_studio.portfolio.models.EvidenceProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioKind",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioKind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "StorageProfile",
+          "target": "calo_rpd_studio.portfolio.models.StorageProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_detail.setText",
+          "target": "self.plan_detail.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.stage_completed.emit",
+          "target": "self.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.replace_portfolio_goal",
+          "target": "self.state.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "EvidenceProfile": "name",
+        "PortfolioGoalPlanner.create": "attribute",
+        "PortfolioKind": "name",
+        "StorageProfile": "name",
+        "ValueError": "name",
+        "bool": "name",
+        "join": "attribute",
+        "list": "name",
+        "self._build_config": "attribute",
+        "self._selected_study_algorithms": "attribute",
+        "self._stage_matches_current_config": "attribute",
+        "self.plan_detail.setText": "attribute",
+        "self.refresh_plan": "attribute",
+        "self.stage_completed.emit": "attribute",
+        "self.state.database.replace_portfolio_goal": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "self.state.update_config": "attribute",
+        "show_error": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "EvidenceProfile",
+        "PortfolioGoalPlanner.create",
+        "PortfolioKind",
+        "StorageProfile",
+        "ValueError",
+        "bool",
+        "join",
+        "list",
+        "self._build_config",
+        "self._selected_study_algorithms",
+        "self._stage_matches_current_config",
+        "self.plan_detail.setText",
+        "self.refresh_plan",
+        "self.stage_completed.emit",
+        "self.state.database.replace_portfolio_goal",
+        "self.state.execution_control.active_stage",
+        "self.state.notify_execution_state_changed",
+        "self.state.update_config",
+        "show_error",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._selected_study_algorithms",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._stage_matches_current_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "calo_rpd_studio.portfolio.models.StorageProfile",
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+      ],
+      "doc": "",
+      "end_line": 589,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/portfolio_manager_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "DEFAULT_EXPERIMENT_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+        "DEFAULT_SINGLE_RUN_OUTPUTS": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTreeWidget": "PyQt6.QtWidgets.QTreeWidget",
+        "QTreeWidgetItem": "PyQt6.QtWidgets.QTreeWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "categories": "calo_rpd_studio.portfolio.catalog.categories",
+        "json": "json",
+        "log_technical_error": "calo_rpd_studio.gui.user_feedback.log_technical_error",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.portfolio.catalog",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.study_planning",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.portfolio_manager_panel",
+      "qualname": "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 531,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/learning/experience_repository.py"
+    }
+  ],
+  "path": "tests/unit/test_historical_policy_pretraining.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "calo_rpd_studio.algorithms.calo.training.train_policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "calo_rpd_studio.learning.experience_repository._repository_checksum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "repository_path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "to": "torch.load"
+    }
+  ]
+}

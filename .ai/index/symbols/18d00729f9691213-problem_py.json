@@ -1,0 +1,3634 @@
+{
+  "path": "calo_rpd_studio/orpd/problem.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.COUNTED_CONTROL_LINEARIZATION_SCHEMA",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 24,
+      "state_owner": "ORPDProblem",
+      "symbol": "COUNTED_CONTROL_LINEARIZATION_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.MAX_RETAINED_CONDITION_DIMENSION",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "ORPDProblem",
+      "symbol": "MAX_RETAINED_CONDITION_DIMENSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.algorithms.calo.competitive_training._exact_development_problem",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "tests.unit.test_mathematical_reference._all_discrete_problem",
+        "tests.unit.test_orpd_counted_evaluation_context.test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "ORPDProblem",
+      "symbol": "ORPDProblemConfig",
+      "tests": [
+        "tests/unit/test_mathematical_reference.py",
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.constraint_tolerances.validate",
+          "target": "self.constraint_tolerances.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.objective.validate",
+          "target": "self.objective.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.power_flow.validate",
+          "target": "self.power_flow.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.robust.validate",
+          "target": "self.robust.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.variables.validate",
+          "target": "self.variables.validate"
+        }
+      ],
+      "call_forms": {
+        "self.constraint_tolerances.validate": "attribute",
+        "self.objective.validate": "attribute",
+        "self.power_flow.validate": "attribute",
+        "self.robust.validate": "attribute",
+        "self.variables.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.constraint_tolerances.validate",
+        "self.objective.validate",
+        "self.power_flow.validate",
+        "self.robust.validate",
+        "self.variables.validate"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 38,
+      "state_owner": "ORPDProblem",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentBatch._materialize",
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._evaluate_population_direct",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "tests.regression.test_seed_reproducibility.P.evaluate",
+        "tests.unit.test_algorithms.SphereProblem.evaluate",
+        "tests.unit.test_calo.test_cognitive_state_and_policy",
+        "tests.unit.test_calo_core_v2._ev",
+        "tests.unit.test_calo_v4._ev",
+        "tests.unit.test_calo_v41_runtime_guards._Problem.evaluate_population",
+        "tests.unit.test_cma_es.SphereProblem.evaluate",
+        "tests.unit.test_cma_es.test_feasibility_first_ranks_are_dense_and_preserve_exact_ties",
+        "tests.unit.test_lshade.SphereProblem.evaluate",
+        "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter",
+        "tests.unit.test_orpd.test_feasibility_first_rule",
+        "tests.unit.test_v120_phase2_contracts._evaluation",
+        "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent",
+        "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+        "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+        "tests.unit.test_v590_scientific_closure._BoxProblem.evaluate",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step._Sphere.evaluate",
+        "tests.unit.test_v5_continuation.CheckpointSphere.evaluate",
+        "tests.unit.test_v660_remaining_audit.test_c03_m04_m05_one_feasibility_tolerance_and_one_ordering"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.Evaluation",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 47,
+      "state_owner": "ORPDProblem",
+      "symbol": "Evaluation",
+      "tests": [
+        "tests/regression/test_seed_reproducibility.py",
+        "tests/unit/test_algorithms.py",
+        "tests/unit/test_calo.py",
+        "tests/unit/test_calo_core_v2.py",
+        "tests/unit/test_calo_v4.py",
+        "tests/unit/test_calo_v41_runtime_guards.py",
+        "tests/unit/test_cma_es.py",
+        "tests/unit/test_lshade.py",
+        "tests/unit/test_orpd.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v34_release_blockers.py",
+        "tests/unit/test_v3_accelerated_backend.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v5_continuation.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "One already-counted scenario solve retained outside serializable result metadata.",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ScenarioEvaluationContext",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 59,
+      "state_owner": "ORPDProblem",
+      "symbol": "ScenarioEvaluationContext",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Proposal-only control sensitivity derived from one counted converged solve.",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDControlLinearization",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 69,
+      "state_owner": "ORPDProblem",
+      "symbol": "ORPDControlLinearization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Ephemeral solver context for topology/sensitivity consumers; never an extra evaluation.",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 82,
+      "state_owner": "ORPDProblem",
+      "symbol": "ORPDEvaluationContext",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.name.lower",
+          "target": "item.name.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "bool": "name",
+        "float": "name",
+        "getattr": "name",
+        "item.name.lower": "attribute",
+        "max": "name",
+        "next": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_control_linearization",
+        "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_power_flow"
+      ],
+      "calls": [
+        "ValueError",
+        "bool",
+        "float",
+        "getattr",
+        "item.name.lower",
+        "max",
+        "next"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 88,
+      "state_owner": "ORPDProblem",
+      "symbol": "primary_converged_scenario",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.primary_converged_scenario",
+          "target": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+        }
+      ],
+      "call_forms": {
+        "self.primary_converged_scenario": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.primary_converged_scenario"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_power_flow",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 100,
+      "state_owner": "ORPDProblem",
+      "symbol": "primary_converged_power_flow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.primary_converged_scenario",
+          "target": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "self.primary_converged_scenario": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "self.primary_converged_scenario"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+      ],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_control_linearization",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 103,
+      "state_owner": "ORPDProblem",
+      "symbol": "primary_control_linearization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._build_problem",
+        "calo_rpd_studio.algorithms.calo.competitive_training._exact_development_problem",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+        "tests.unit.test_mathematical_reference._all_discrete_problem",
+        "tests.unit.test_mathematical_reference.test_continuous_relaxation_changes_only_lattice_semantics",
+        "tests.unit.test_mathematical_reference.test_exhaustive_reference_rejects_continuous_or_oversized_tasks",
+        "tests.unit.test_mathematical_reference.test_slsqp_rejects_ambiguous_or_invalid_start",
+        "tests.unit.test_mathematical_reference.test_slsqp_report_separates_local_relaxation_from_mixed_incumbent",
+        "tests.unit.test_orpd.test_decoder_and_problem",
+        "tests.unit.test_orpd_counted_evaluation_context.test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+        "tests.unit.test_orpd_counted_evaluation_context.test_context_fails_closed_when_no_counted_scenario_converged",
+        "tests.unit.test_orpd_counted_evaluation_context.test_context_retention_uses_exactly_the_existing_scenario_solver_calls",
+        "tests.unit.test_orpd_counted_evaluation_context.test_counted_linearization_identity_and_values_are_deterministic",
+        "tests.unit.test_orpd_counted_evaluation_context.test_ordinary_evaluate_remains_value_equivalent_and_does_not_retain_context",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+        "tests.unit.test_tsh_calo_generalization_guard._factory",
+        "tests.unit.test_tsh_calo_optimizer.test_counted_physics_context_exposes_change_e_without_hidden_fe",
+        "tests.unit.test_tsh_calo_optimizer.test_exact_resume_matches_uninterrupted_stochastic_policy_run",
+        "tests.unit.test_tsh_calo_optimizer.test_experimental_population_schedule_cannot_enter_fixed_production_path",
+        "tests.unit.test_tsh_calo_optimizer.test_mid_batch_cancellation_records_every_completed_scenario_call",
+        "tests.unit.test_tsh_calo_optimizer.test_policy_preflight_blocks_before_any_power_experiment",
+        "tests.unit.test_tsh_calo_optimizer.test_qualified_activated_ensemble_drives_counted_end_to_end_run",
+        "tests.unit.test_tsh_calo_optimizer.test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo",
+        "tests.unit.test_tsh_calo_physics_repair.test_counted_orpd_linearization_adapts_without_an_evaluator_call",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+        "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_builder_contains_no_solver_call",
+        "tests.unit.test_tsh_calo_runtime_context.test_runtime_context_uses_measured_scenario_stress_and_counted_base_solve",
+        "tests.unit.test_tsh_calo_runtime_context.test_structural_zero_reactive_load_is_encoded_as_unchanged",
+        "tests.unit.test_tsh_calo_runtime_context.test_unknown_scenario_role_is_explicitly_neutral_not_ood_claim",
+        "tests.unit.test_tsh_calo_training_campaign._factory",
+        "tests.unit.test_tsh_calo_training_campaign.test_failed_campaign_retains_accounting_and_cannot_retry.failing_factory",
+        "tests.unit.test_tsh_calo_training_environment.test_action_assignment_mismatch_fails_before_an_evaluation",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_environment_collects_only_canonical_transitions",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_resume_replays_pending_observation_and_transition_exactly",
+        "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve",
+        "tests.unit.test_tsh_calo_training_environment.test_loaded_protected_case_identity_is_rejected_even_under_alias",
+        "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset",
+        "tests.unit.test_tsh_calo_training_session._session",
+        "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+        "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+        "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+        "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+        "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+        "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 603,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 110,
+      "state_owner": "ORPDProblem",
+      "symbol": "ORPDProblem",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_mathematical_reference.py",
+        "tests/unit/test_orpd.py",
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+        "tests/unit/test_tsh_calo_generalization_guard.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_tsh_calo_runtime_context.py",
+        "tests/unit/test_tsh_calo_training_campaign.py",
+        "tests/unit/test_tsh_calo_training_environment.py",
+        "tests/unit/test_tsh_calo_training_session.py",
+        "tests/unit/test_v33_cuda_resident.py",
+        "tests/unit/test_v3_accelerated_backend.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.clone",
+          "target": "case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblemConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "Scenario": "name",
+        "ValueError": "name",
+        "case.clone": "attribute",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblemConfig",
+        "ORPDVariableDecoder",
+        "Scenario",
+        "ValueError",
+        "case.clone",
+        "list"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, case, config, scenarios)",
+      "start_line": 111,
+      "state_owner": "ORPDProblem",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem.dimension",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 122,
+      "state_owner": "ORPDProblem",
+      "symbol": "dimension",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._evaluate",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+        }
+      ],
+      "call_forms": {
+        "self._evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._evaluate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 125,
+      "state_owner": "ORPDProblem",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._evaluate",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self._evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "self._evaluate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "doc": "Evaluate once and retain the exact scenario solves without rerunning power flow.",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate_with_context",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized, retain_control_linearization)",
+      "start_line": 133,
+      "state_owner": "ORPDProblem",
+      "symbol": "evaluate_with_context",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "reshape": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+      ],
+      "calls": [
+        "np.asarray",
+        "reshape"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(matrix, vector)",
+      "start_line": 150,
+      "state_owner": "ORPDProblem",
+      "symbol": "_matrix_vector",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.toarray",
+          "target": "selected.toarray"
+        }
+      ],
+      "call_forms": {
+        "hasattr": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "reshape": "attribute",
+        "selected.toarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing"
+      ],
+      "calls": [
+        "hasattr",
+        "int",
+        "np.asarray",
+        "reshape",
+        "selected.toarray"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(derivative, rows, column)",
+      "start_line": 154,
+      "state_owner": "ORPDProblem",
+      "symbol": "_selected_complex_derivative",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "angle_position.get",
+          "target": "angle_position.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "append_constraint",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_ybus",
+          "target": "calo_rpd_studio.power_system.ybus.build_ybus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "complex",
+          "target": "complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dS_dVa.toarray",
+          "target": "dS_dVa.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dS_dVm.toarray",
+          "target": "dS_dVm.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.hstack",
+          "target": "np.hstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.lstsq",
+          "target": "np.linalg.lstsq"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.real",
+          "target": "np.real"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf.case.bus_index_map",
+          "target": "pf.case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "angle_position.get": "attribute",
+        "append_constraint": "name",
+        "astype": "attribute",
+        "build_ybus": "name",
+        "complex": "name",
+        "dS_dVa.toarray": "attribute",
+        "dS_dVm.toarray": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "hasattr": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.conj": "attribute",
+        "np.full": "attribute",
+        "np.hstack": "attribute",
+        "np.linalg.lstsq": "attribute",
+        "np.maximum": "attribute",
+        "np.real": "attribute",
+        "np.sum": "attribute",
+        "np.vstack": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute",
+        "pf.case.bus_index_map": "attribute",
+        "reshape": "attribute",
+        "set": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+      ],
+      "calls": [
+        "abs",
+        "angle_position.get",
+        "append_constraint",
+        "astype",
+        "build_ybus",
+        "complex",
+        "dS_dVa.toarray",
+        "dS_dVm.toarray",
+        "enumerate",
+        "float",
+        "hasattr",
+        "int",
+        "len",
+        "max",
+        "np.asarray",
+        "np.conj",
+        "np.full",
+        "np.hstack",
+        "np.linalg.lstsq",
+        "np.maximum",
+        "np.real",
+        "np.sum",
+        "np.vstack",
+        "np.where",
+        "np.zeros",
+        "pf.case.bus_index_map",
+        "reshape",
+        "set",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+        "calo_rpd_studio.power_system.ybus.build_ybus"
+      ],
+      "doc": "",
+      "end_line": 348,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, pf, linearization)",
+      "start_line": 160,
+      "state_owner": "ORPDProblem",
+      "symbol": "_constraint_state_correction",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "residuals.append",
+          "target": "residuals.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "float": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.linalg.norm": "attribute",
+        "reshape": "attribute",
+        "residuals.append": "attribute",
+        "rows.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction"
+      ],
+      "calls": [
+        "abs",
+        "float",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "np.linalg.norm",
+        "reshape",
+        "residuals.append",
+        "rows.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 194,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(row, residual)",
+      "start_line": 184,
+      "state_owner": "ORPDProblem",
+      "symbol": "append_constraint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_complex_derivative",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "complex",
+          "target": "complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf.case.bus_index_map",
+          "target": "pf.case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pq_position.get",
+          "target": "pq_position.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.decoder.relaxed_control_derivatives",
+          "target": "self.decoder.relaxed_control_derivatives"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "complex": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.conj": "attribute",
+        "np.deg2rad": "attribute",
+        "np.exp": "attribute",
+        "np.isfinite": "attribute",
+        "np.zeros": "attribute",
+        "pf.case.bus_index_map": "attribute",
+        "pq_position.get": "attribute",
+        "self._selected_complex_derivative": "attribute",
+        "self.decoder.relaxed_control_derivatives": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+      ],
+      "calls": [
+        "abs",
+        "complex",
+        "enumerate",
+        "float",
+        "int",
+        "len",
+        "np.asarray",
+        "np.conj",
+        "np.deg2rad",
+        "np.exp",
+        "np.isfinite",
+        "np.zeros",
+        "pf.case.bus_index_map",
+        "pq_position.get",
+        "self._selected_complex_derivative",
+        "self.decoder.relaxed_control_derivatives"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative"
+      ],
+      "doc": "",
+      "end_line": 402,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, pf, linearization)",
+      "start_line": 350,
+      "state_owner": "ORPDProblem",
+      "symbol": "_control_forcing",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issparse",
+          "target": "issparse"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "jacobian.toarray",
+          "target": "jacobian.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.solve",
+          "target": "np.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spsolve",
+          "target": "spsolve"
+        }
+      ],
+      "call_forms": {
+        "hasattr": "name",
+        "issparse": "name",
+        "jacobian.toarray": "attribute",
+        "np.asarray": "attribute",
+        "np.linalg.solve": "attribute",
+        "spsolve": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+      ],
+      "calls": [
+        "hasattr",
+        "issparse",
+        "jacobian.toarray",
+        "np.asarray",
+        "np.linalg.solve",
+        "spsolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 416,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(jacobian, forcing)",
+      "start_line": 405,
+      "state_owner": "ORPDProblem",
+      "symbol": "_solve_control_sensitivity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "COUNTED_CONTROL_LINEARIZATION_SCHEMA.encode",
+          "target": "COUNTED_CONTROL_LINEARIZATION_SCHEMA.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDControlLinearization",
+          "target": "calo_rpd_studio.orpd.problem.ORPDControlLinearization"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._constraint_state_correction",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._control_forcing",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._matrix_vector",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._solve_control_sensitivity",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "jacobian.toarray",
+          "target": "jacobian.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ascontiguousarray",
+          "target": "np.ascontiguousarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.cond",
+          "target": "np.linalg.cond"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tobytes",
+          "target": "tobytes"
+        }
+      ],
+      "call_forms": {
+        "COUNTED_CONTROL_LINEARIZATION_SCHEMA.encode": "attribute",
+        "ORPDControlLinearization": "name",
+        "bool": "name",
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "encode": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "hasattr": "name",
+        "hashlib.sha256": "attribute",
+        "int": "name",
+        "jacobian.toarray": "attribute",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.ascontiguousarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.linalg.cond": "attribute",
+        "self._constraint_state_correction": "attribute",
+        "self._control_forcing": "attribute",
+        "self._matrix_vector": "attribute",
+        "self._solve_control_sensitivity": "attribute",
+        "str": "name",
+        "tobytes": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+      ],
+      "calls": [
+        "COUNTED_CONTROL_LINEARIZATION_SCHEMA.encode",
+        "ORPDControlLinearization",
+        "bool",
+        "digest.hexdigest",
+        "digest.update",
+        "encode",
+        "float",
+        "getattr",
+        "hasattr",
+        "hashlib.sha256",
+        "int",
+        "jacobian.toarray",
+        "np.all",
+        "np.asarray",
+        "np.ascontiguousarray",
+        "np.isfinite",
+        "np.linalg.cond",
+        "self._constraint_state_correction",
+        "self._control_forcing",
+        "self._matrix_vector",
+        "self._solve_control_sensitivity",
+        "str",
+        "tobytes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDControlLinearization",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity"
+      ],
+      "doc": "",
+      "end_line": 456,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized, scenario, pf)",
+      "start_line": 418,
+      "state_owner": "ORPDProblem",
+      "symbol": "_build_control_linearization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_constraints",
+          "target": "calo_rpd_studio.orpd.constraints.evaluate_constraints"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_objective",
+          "target": "calo_rpd_studio.orpd.objectives.calculate_objective"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDEvaluationContext",
+          "target": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._build_control_linearization",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioEvaluationContext",
+          "target": "calo_rpd_studio.orpd.problem.ScenarioEvaluationContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_constraint_violation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_robust",
+          "target": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "normalize_scenario_weights",
+          "target": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comp_acc.items",
+          "target": "comp_acc.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comp_acc.setdefault",
+          "target": "comp_acc.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.components.items",
+          "target": "con.components.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "constraint_acc.items",
+          "target": "constraint_acc.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "constraint_acc.setdefault",
+          "target": "constraint_acc.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "obj.components.items",
+          "target": "obj.components.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "retained_scenarios.append",
+          "target": "retained_scenarios.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario.apply",
+          "target": "scenario.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario_constraint_components.append",
+          "target": "scenario_constraint_components.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario_values.append",
+          "target": "scenario_values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.decoder.decode_reusable",
+          "target": "self.decoder.decode_reusable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.append",
+          "target": "values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "violations.append",
+          "target": "violations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.append",
+          "target": "weights.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "z.astype",
+          "target": "z.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "z.copy",
+          "target": "z.copy"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "ORPDEvaluationContext": "name",
+        "ScenarioEvaluationContext": "name",
+        "aggregate_constraint_violation": "name",
+        "aggregate_robust": "name",
+        "append": "attribute",
+        "calculate_objective": "name",
+        "comp_acc.items": "attribute",
+        "comp_acc.setdefault": "attribute",
+        "con.components.items": "attribute",
+        "constraint_acc.items": "attribute",
+        "constraint_acc.setdefault": "attribute",
+        "dict": "name",
+        "evaluate_constraints": "name",
+        "float": "name",
+        "len": "name",
+        "normalize_scenario_weights": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute",
+        "np.sqrt": "attribute",
+        "np.sum": "attribute",
+        "obj.components.items": "attribute",
+        "retained_scenarios.append": "attribute",
+        "run_ac_power_flow": "name",
+        "scenario.apply": "attribute",
+        "scenario_constraint_components.append": "attribute",
+        "scenario_values.append": "attribute",
+        "self._build_control_linearization": "attribute",
+        "self.decoder.decode_reusable": "attribute",
+        "str": "name",
+        "tolist": "attribute",
+        "tuple": "name",
+        "values.append": "attribute",
+        "violations.append": "attribute",
+        "weights.append": "attribute",
+        "z.astype": "attribute",
+        "z.copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate_with_context"
+      ],
+      "calls": [
+        "Evaluation",
+        "ORPDEvaluationContext",
+        "ScenarioEvaluationContext",
+        "aggregate_constraint_violation",
+        "aggregate_robust",
+        "append",
+        "calculate_objective",
+        "comp_acc.items",
+        "comp_acc.setdefault",
+        "con.components.items",
+        "constraint_acc.items",
+        "constraint_acc.setdefault",
+        "dict",
+        "evaluate_constraints",
+        "float",
+        "len",
+        "normalize_scenario_weights",
+        "np.all",
+        "np.asarray",
+        "np.clip",
+        "np.isfinite",
+        "np.sqrt",
+        "np.sum",
+        "obj.components.items",
+        "retained_scenarios.append",
+        "run_ac_power_flow",
+        "scenario.apply",
+        "scenario_constraint_components.append",
+        "scenario_values.append",
+        "self._build_control_linearization",
+        "self.decoder.decode_reusable",
+        "str",
+        "tolist",
+        "tuple",
+        "values.append",
+        "violations.append",
+        "weights.append",
+        "z.astype",
+        "z.copy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "calo_rpd_studio.orpd.problem.Evaluation",
+        "calo_rpd_studio.orpd.problem.ORPDEvaluationContext",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+        "calo_rpd_studio.orpd.problem.ScenarioEvaluationContext",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+      ],
+      "doc": "",
+      "end_line": 547,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized, retain_context, retain_control_linearization)",
+      "start_line": 458,
+      "state_owner": "ORPDProblem",
+      "symbol": "_evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientific ORPD evaluation",
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "evaluate_constraints",
+          "target": "calo_rpd_studio.orpd.constraints.evaluate_constraints"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_objective",
+          "target": "calo_rpd_studio.orpd.objectives.calculate_objective"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "kessel_glavitsch_l_index",
+          "target": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.imag",
+          "target": "np.imag"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.real",
+          "target": "np.real"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf.branch.loading_percent.tolist",
+          "target": "pf.branch.loading_percent.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf.va_deg.tolist",
+          "target": "pf.va_deg.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf.vm_pu.tolist",
+          "target": "pf.vm_pu.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rec.update",
+          "target": "rec.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.append",
+          "target": "records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sc.apply",
+          "target": "sc.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.checksum",
+          "target": "self.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.decoder.decode_reusable",
+          "target": "self.decoder.decode_reusable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "z.tolist",
+          "target": "z.tolist"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "bool": "name",
+        "calculate_objective": "name",
+        "dict": "name",
+        "evaluate_constraints": "name",
+        "float": "name",
+        "int": "name",
+        "kessel_glavitsch_l_index": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.imag": "attribute",
+        "np.real": "attribute",
+        "np.where": "attribute",
+        "pf.branch.loading_percent.tolist": "attribute",
+        "pf.va_deg.tolist": "attribute",
+        "pf.vm_pu.tolist": "attribute",
+        "rec.update": "attribute",
+        "records.append": "attribute",
+        "run_ac_power_flow": "name",
+        "sc.apply": "attribute",
+        "self.case.checksum": "attribute",
+        "self.decoder.decode_reusable": "attribute",
+        "tolist": "attribute",
+        "z.tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "astype",
+        "bool",
+        "calculate_objective",
+        "dict",
+        "evaluate_constraints",
+        "float",
+        "int",
+        "kessel_glavitsch_l_index",
+        "np.asarray",
+        "np.clip",
+        "np.imag",
+        "np.real",
+        "np.where",
+        "pf.branch.loading_percent.tolist",
+        "pf.va_deg.tolist",
+        "pf.vm_pu.tolist",
+        "rec.update",
+        "records.append",
+        "run_ac_power_flow",
+        "sc.apply",
+        "self.case.checksum",
+        "self.decoder.decode_reusable",
+        "tolist",
+        "z.tolist"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+      ],
+      "doc": "",
+      "end_line": 603,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/problem.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "aggregate_constraint_violation": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation",
+        "aggregate_robust": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_objective": "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "dataclass": "dataclasses.dataclass",
+        "evaluate_constraints": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "field": "dataclasses.field",
+        "hashlib": "hashlib",
+        "issparse": "scipy.sparse.issparse",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "spsolve": "scipy.sparse.linalg.spsolve"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraints",
+        ".objectives",
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "scipy.sparse",
+        "scipy.sparse.linalg",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.problem.ORPDProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.orpd.problem",
+      "qualname": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "semantic_tags": [
+        "ORPD",
+        "ORPDProblem",
+        "constraints",
+        "counted-evaluation-context",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 549,
+      "state_owner": "ORPDProblem",
+      "symbol": "solution_state",
+      "tests": []
+    }
+  ]
+}

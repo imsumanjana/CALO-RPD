@@ -1,0 +1,149 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/torch_orpd.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    }
+  ],
+  "path": "tests/unit/test_v3_accelerated_backend.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate_population",
+      "to": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.SphereProblem.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "problem.evaluate_population"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "to": "random"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "parameters.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "to": "tests.unit.test_v3_accelerated_backend.SphereProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "to": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "to": "np.random.default_rng"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "to": "random"
+    }
+  ]
+}

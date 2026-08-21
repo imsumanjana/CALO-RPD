@@ -1,0 +1,167 @@
+{
+  "path": "calo_rpd_studio/app/task_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/task_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QThreadPool": "PyQt6.QtCore.QThreadPool"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.task_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.task_manager",
+      "qualname": "calo_rpd_studio.app.task_manager.TaskManager",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "TaskManager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QThreadPool.globalInstance",
+          "target": "QThreadPool.globalInstance"
+        }
+      ],
+      "call_forms": {
+        "QThreadPool.globalInstance": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QThreadPool.globalInstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 8,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/task_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QThreadPool": "PyQt6.QtCore.QThreadPool"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.task_manager.TaskManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.task_manager",
+      "qualname": "calo_rpd_studio.app.task_manager.TaskManager.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.pool.activeThreadCount",
+          "target": "self.pool.activeThreadCount"
+        }
+      ],
+      "call_forms": {
+        "self.pool.activeThreadCount": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.pool.activeThreadCount"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/task_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QThreadPool": "PyQt6.QtCore.QThreadPool"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.task_manager.TaskManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.task_manager",
+      "qualname": "calo_rpd_studio.app.task_manager.TaskManager.active_count",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "active_count",
+      "tests": []
+    }
+  ]
+}

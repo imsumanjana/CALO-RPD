@@ -1,0 +1,260 @@
+{
+  "path": "calo_rpd_studio/visualization/font_preflight.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/font_preflight.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "font_manager": "matplotlib.font_manager",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "functools",
+        "matplotlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.font_preflight",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.font_preflight",
+      "qualname": "calo_rpd_studio.visualization.font_preflight.DEFAULT_FALLBACK",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "DEFAULT_FALLBACK",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "font_manager.findfont",
+          "target": "font_manager.findfont"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lru_cache",
+          "target": "lru_cache"
+        }
+      ],
+      "call_forms": {
+        "font_manager.findfont": "attribute",
+        "lru_cache": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "calo_rpd_studio.visualization.font_preflight.resolve_font"
+      ],
+      "calls": [
+        "font_manager.findfont",
+        "lru_cache"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/font_preflight.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "font_manager": "matplotlib.font_manager",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "functools",
+        "matplotlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.font_preflight",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.font_preflight",
+      "qualname": "calo_rpd_studio.visualization.font_preflight.font_available",
+      "semantic_tags": [],
+      "signature": "(family)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "font_available",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "font_available",
+          "target": "calo_rpd_studio.visualization.font_preflight.font_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lru_cache",
+          "target": "lru_cache"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "font_available": "name",
+        "lru_cache": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+        "calo_rpd_studio.visualization.plot_manager.PlotManager._update_legend",
+        "calo_rpd_studio.visualization.plot_manager.PlotManager.apply"
+      ],
+      "calls": [
+        "font_available",
+        "lru_cache",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.font_preflight.font_available"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/font_preflight.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "font_manager": "matplotlib.font_manager",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "functools",
+        "matplotlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.font_preflight",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.font_preflight",
+      "qualname": "calo_rpd_studio.visualization.font_preflight.resolve_font",
+      "semantic_tags": [],
+      "signature": "(family, fallback)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "resolve_font",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "font_available",
+          "target": "calo_rpd_studio.visualization.font_preflight.font_available"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_font",
+          "target": "calo_rpd_studio.visualization.font_preflight.resolve_font"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "font_available": "name",
+        "resolve_font": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.build"
+      ],
+      "calls": [
+        "bool",
+        "font_available",
+        "resolve_font"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.font_preflight.font_available",
+        "calo_rpd_studio.visualization.font_preflight.resolve_font"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/visualization/font_preflight.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "font_manager": "matplotlib.font_manager",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "functools",
+        "matplotlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.visualization.font_preflight",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.visualization.font_preflight",
+      "qualname": "calo_rpd_studio.visualization.font_preflight.font_resolution_manifest",
+      "semantic_tags": [],
+      "signature": "(requested)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "font_resolution_manifest",
+      "tests": []
+    }
+  ]
+}

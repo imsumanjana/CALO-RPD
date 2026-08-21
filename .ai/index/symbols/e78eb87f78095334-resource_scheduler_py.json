@@ -1,0 +1,4159 @@
+{
+  "path": "calo_rpd_studio/compute/resource_scheduler.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler._LOG",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler._WARNED_TELEMETRY_KEYS",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_WARNED_TELEMETRY_KEYS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler._WARN_LOCK",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "_WARN_LOCK",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_WARNED_TELEMETRY_KEYS.add",
+          "target": "_WARNED_TELEMETRY_KEYS.add"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "_WARNED_TELEMETRY_KEYS.add": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+      ],
+      "calls": [
+        "_LOG.warning",
+        "_WARNED_TELEMETRY_KEYS.add"
+      ],
+      "calls_resolved": [],
+      "doc": "Rate-limit optional telemetry warnings across all ResourceMonitor instances.",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler._warn_once",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(key, message, *args)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_warn_once",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+        "tests.unit.test_prerequisites_and_resources._snapshot",
+        "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+        "tests.unit.test_prerequisites_and_resources.test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+        "tests.unit.test_v120_phase2_contracts._cuda",
+        "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+        "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "One accelerator device visible to a supported runtime.",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "DeviceSnapshot",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v620_rc_final.py",
+        "tests/unit/test_v670_hardware_mapping.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.sample",
+        "tests.unit.test_prerequisites_and_resources._snapshot",
+        "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+        "tests.unit.test_prerequisites_and_resources.test_cpu_admission_uses_available_ram_not_cpu_utilization",
+        "tests.unit.test_v120_phase2_contracts._snapshot",
+        "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+        "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+        "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+        "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Host and accelerator state sampled for admission decisions.",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "ResourceSnapshot",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v620_rc_final.py",
+        "tests/unit/test_v670_hardware_mapping.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "next": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_available",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_memory_percent",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_name",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_utilization"
+      ],
+      "calls": [
+        "next"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "_first_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._first_cuda",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+        }
+      ],
+      "call_forms": {
+        "self._first_cuda": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._first_cuda"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_available",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "gpu_available",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._first_cuda",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "self._first_cuda": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "self._first_cuda"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_utilization",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "gpu_utilization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._first_cuda",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "self._first_cuda": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "self._first_cuda"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+      ],
+      "doc": "",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_memory_percent",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "gpu_memory_percent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._first_cuda",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+        }
+      ],
+      "call_forms": {
+        "self._first_cuda": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._first_cuda"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot._first_cuda"
+      ],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.gpu_name",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 109,
+      "state_owner": "",
+      "symbol": "gpu_name",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.by_backend",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self, backend)",
+      "start_line": 113,
+      "state_owner": "",
+      "symbol": "by_backend",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "next": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "next"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot.get",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self, device_id)",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "get",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+        "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor.__init__",
+        "calo_rpd_studio.compute.topology.ComputeTopologyService.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.__init__",
+        "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+        "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Discover CUDA resources and cache moderately expensive telemetry probes.",
+      "end_line": 479,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 122,
+      "state_owner": "",
+      "symbol": "ResourceMonitor",
+      "tests": [
+        "tests/unit/test_v670_hardware_mapping.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.cpu_percent",
+          "target": "psutil.cpu_percent"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shutil.which",
+          "target": "shutil.which"
+        }
+      ],
+      "call_forms": {
+        "psutil.cpu_percent": "attribute",
+        "shutil.which": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "psutil.cpu_percent",
+        "shutil.which"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 129,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 125,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "torch.cuda.is_available": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+      ],
+      "calls": [
+        "bool",
+        "torch.cuda.is_available"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.torch_cuda_available",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "()",
+      "start_line": 132,
+      "state_owner": "",
+      "symbol": "torch_cuda_available",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "_nvidia_product_id",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._nvidia_product_id"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "_optional_float",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._optional_float"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "_row_for",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._row_for"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.torch_cuda_available",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.torch_cuda_available"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_warn_once",
+          "target": "calo_rpd_studio.compute.resource_scheduler._warn_once"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.append",
+          "target": "candidate.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.split",
+          "target": "line.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "part.strip",
+          "target": "part.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.stdout.splitlines",
+          "target": "result.stdout.splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshots.append",
+          "target": "snapshots.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.device_count",
+          "target": "torch.cuda.device_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_properties",
+          "target": "torch.cuda.get_device_properties"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.utilization",
+          "target": "torch.cuda.utilization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "updated.append",
+          "target": "updated.append"
+        }
+      ],
+      "call_forms": {
+        "DeviceSnapshot": "name",
+        "_nvidia_product_id": "name",
+        "_optional_float": "name",
+        "_row_for": "name",
+        "_warn_once": "name",
+        "candidate.append": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "line.split": "attribute",
+        "line.strip": "attribute",
+        "max": "name",
+        "part.strip": "attribute",
+        "range": "name",
+        "result.stdout.splitlines": "attribute",
+        "row.get": "attribute",
+        "self.torch_cuda_available": "attribute",
+        "snapshots.append": "attribute",
+        "str": "name",
+        "subprocess.run": "attribute",
+        "time.monotonic": "attribute",
+        "torch.cuda.device_count": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.get_device_properties": "attribute",
+        "torch.cuda.mem_get_info": "attribute",
+        "torch.cuda.utilization": "attribute",
+        "tuple": "name",
+        "type": "name",
+        "updated.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.sample"
+      ],
+      "calls": [
+        "DeviceSnapshot",
+        "_nvidia_product_id",
+        "_optional_float",
+        "_row_for",
+        "_warn_once",
+        "candidate.append",
+        "enumerate",
+        "float",
+        "getattr",
+        "int",
+        "join",
+        "len",
+        "line.split",
+        "line.strip",
+        "max",
+        "part.strip",
+        "range",
+        "result.stdout.splitlines",
+        "row.get",
+        "self.torch_cuda_available",
+        "snapshots.append",
+        "str",
+        "subprocess.run",
+        "time.monotonic",
+        "torch.cuda.device_count",
+        "torch.cuda.get_device_name",
+        "torch.cuda.get_device_properties",
+        "torch.cuda.mem_get_info",
+        "torch.cuda.utilization",
+        "tuple",
+        "type",
+        "updated.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._nvidia_product_id",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._optional_float",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._row_for",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.torch_cuda_available",
+        "calo_rpd_studio.compute.resource_scheduler._warn_once"
+      ],
+      "doc": "",
+      "end_line": 428,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "_sample_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.lower",
+          "target": "text.lower"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "str": "name",
+        "strip": "attribute",
+        "text.lower": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+      ],
+      "calls": [
+        "float",
+        "str",
+        "strip",
+        "text.lower"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 339,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._optional_float",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(raw)",
+      "start_line": 332,
+      "state_owner": "",
+      "symbol": "_optional_float",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "replace": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._row_for"
+      ],
+      "calls": [
+        "lower",
+        "replace",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 344,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._norm_pci",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(value)",
+      "start_line": 341,
+      "state_owner": "",
+      "symbol": "_norm_pci",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "_norm_pci",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._norm_pci"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.hardware_uuid.strip",
+          "target": "snapshot.hardware_uuid.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.name.lower",
+          "target": "snapshot.name.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "_norm_pci": "name",
+        "len": "name",
+        "lower": "attribute",
+        "row.get": "attribute",
+        "snapshot.hardware_uuid.strip": "attribute",
+        "snapshot.name.lower": "attribute",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+      ],
+      "calls": [
+        "_norm_pci",
+        "len",
+        "lower",
+        "row.get",
+        "snapshot.hardware_uuid.strip",
+        "snapshot.name.lower",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._norm_pci"
+      ],
+      "doc": "",
+      "end_line": 369,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._row_for",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(snapshot)",
+      "start_line": 346,
+      "state_owner": "",
+      "symbol": "_row_for",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.upper",
+          "target": "text.upper"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "upper",
+          "target": "upper"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "len": "name",
+        "lower": "attribute",
+        "replace": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "text.upper": "attribute",
+        "upper": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+      ],
+      "calls": [
+        "all",
+        "len",
+        "lower",
+        "replace",
+        "str",
+        "strip",
+        "text.upper",
+        "upper"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 376,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda._nvidia_product_id",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(raw)",
+      "start_line": 371,
+      "state_owner": "",
+      "symbol": "_nvidia_product_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "fallback.append",
+          "target": "fallback.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.items",
+          "target": "groups.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "preferred.append",
+          "target": "preferred.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sensors",
+          "target": "sensors"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "callable": "name",
+        "fallback.append": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "groups.items": "attribute",
+        "lower": "attribute",
+        "max": "name",
+        "preferred.append": "attribute",
+        "sensors": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.sample"
+      ],
+      "calls": [
+        "any",
+        "callable",
+        "fallback.append",
+        "float",
+        "getattr",
+        "groups.items",
+        "lower",
+        "max",
+        "preferred.append",
+        "sensors"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a trustworthy host CPU/package temperature when the OS exposes one.",
+      "end_line": 464,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._cpu_temperature_c",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "()",
+      "start_line": 431,
+      "state_owner": "",
+      "symbol": "_cpu_temperature_c",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._cpu_temperature_c",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._cpu_temperature_c"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._sample_cuda",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.cpu_percent",
+          "target": "psutil.cpu_percent"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.virtual_memory",
+          "target": "psutil.virtual_memory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ResourceSnapshot": "name",
+        "float": "name",
+        "int": "name",
+        "psutil.cpu_percent": "attribute",
+        "psutil.virtual_memory": "attribute",
+        "self._cpu_temperature_c": "attribute",
+        "self._sample_cuda": "attribute",
+        "time.monotonic": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ResourceSnapshot",
+        "float",
+        "int",
+        "psutil.cpu_percent",
+        "psutil.virtual_memory",
+        "self._cpu_temperature_c",
+        "self._sample_cuda",
+        "time.monotonic",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._cpu_temperature_c",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor._sample_cuda",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+      ],
+      "doc": "",
+      "end_line": 479,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor.sample",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 466,
+      "state_owner": "",
+      "symbol": "sample",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "getattr": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+        "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation"
+      ],
+      "calls": [
+        "bool",
+        "getattr",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Return whether a planned v3 item is accelerator-compatible.",
+      "end_line": 494,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(mode, item)",
+      "start_line": 482,
+      "state_owner": "",
+      "symbol": "item_uses_calo_ai",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential"
+      ],
+      "calls": [
+        "lower",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 498,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.backend_allows_accelerators",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(execution_backend)",
+      "start_line": 497,
+      "state_owner": "",
+      "symbol": "backend_allows_accelerators",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "calculate_available_memory_admission": "name",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+        "tests.unit.test_prerequisites_and_resources.test_cpu_admission_uses_available_ram_not_cpu_utilization",
+        "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps"
+      ],
+      "calls": [
+        "calculate_available_memory_admission",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "Admit CPU work from a frozen 80%-of-currently-available RAM envelope.",
+      "end_line": 520,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(snapshot, active_cpu_jobs, max_jobs)",
+      "start_line": 501,
+      "state_owner": "",
+      "symbol": "cpu_admission_allowed",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "calculate_available_memory_admission": "name",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+        "tests.unit.test_prerequisites_and_resources.test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+        "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps"
+      ],
+      "calls": [
+        "calculate_available_memory_admission",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "Admit CUDA work from a frozen 80%-of-currently-free VRAM envelope.",
+      "end_line": 540,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(device, active_jobs, max_jobs)",
+      "start_line": 523,
+      "state_owner": "",
+      "symbol": "accelerator_admission_allowed",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "snapshot.by_backend",
+          "target": "snapshot.by_backend"
+        }
+      ],
+      "call_forms": {
+        "snapshot.by_backend": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+        "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices"
+      ],
+      "calls": [
+        "snapshot.by_backend"
+      ],
+      "calls_resolved": [],
+      "doc": "Return accelerators in the default scientific execution priority order.",
+      "end_line": 545,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(snapshot)",
+      "start_line": 543,
+      "state_owner": "",
+      "symbol": "prioritized_accelerators",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Automatic CUDA-first lane plan for one experiment.",
+      "end_line": 573,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 549,
+      "state_owner": "",
+      "symbol": "WeightedAllocationSummary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 566,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary.requested_text",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 565,
+      "state_owner": "",
+      "symbol": "requested_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 573,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary.effective_text",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 569,
+      "state_owner": "",
+      "symbol": "effective_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "counts.get",
+          "target": "counts.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.values",
+          "target": "counts.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.items",
+          "target": "raw.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "counts.get": "attribute",
+        "counts.values": "attribute",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "range": "name",
+        "raw.items": "attribute",
+        "sorted": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.weighted_worker_slots"
+      ],
+      "calls": [
+        "counts.get",
+        "counts.values",
+        "int",
+        "len",
+        "max",
+        "range",
+        "raw.items",
+        "sorted",
+        "sum"
+      ],
+      "calls_resolved": [],
+      "doc": "Allocate an integer total according to percentage weights using largest remainders.",
+      "end_line": 595,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler._largest_remainder_counts",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(total, weighted_lanes)",
+      "start_line": 576,
+      "state_owner": "",
+      "symbol": "_largest_remainder_counts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.get",
+          "target": "assignments.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.values",
+          "target": "assignments.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WeightedAllocationSummary",
+          "target": "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "WeightedAllocationSummary": "name",
+        "assignments.get": "attribute",
+        "assignments.values": "attribute",
+        "bool": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._populate_queue_for_config",
+        "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+        "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+        "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+        "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+        "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+        "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda"
+      ],
+      "calls": [
+        "WeightedAllocationSummary",
+        "assignments.get",
+        "assignments.values",
+        "bool",
+        "int",
+        "len",
+        "list",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.WeightedAllocationSummary"
+      ],
+      "doc": "Pre-assign every compatible job to CUDA when available, otherwise CPU.",
+      "end_line": 630,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(plan, mode, cuda_available)",
+      "start_line": 598,
+      "state_owner": "",
+      "symbol": "build_weighted_lane_plan",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py",
+        "tests/unit/test_v33_cuda_resident.py"
+      ]
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_largest_remainder_counts",
+          "target": "calo_rpd_studio.compute.resource_scheduler._largest_remainder_counts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.get",
+          "target": "counts.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.values",
+          "target": "counts.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "_largest_remainder_counts": "name",
+        "counts.get": "attribute",
+        "counts.values": "attribute",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted"
+      ],
+      "calls": [
+        "_largest_remainder_counts",
+        "counts.get",
+        "counts.values",
+        "int",
+        "len",
+        "max",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler._largest_remainder_counts"
+      ],
+      "doc": "Create concurrent lane caps while keeping at least one slot for each non-empty lane.",
+      "end_line": 659,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.weighted_worker_slots",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(total_workers, summary)",
+      "start_line": 633,
+      "state_owner": "",
+      "symbol": "weighted_worker_slots",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.build_throughput_lane_plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Measured-throughput plan for the complete v3.4 optimizer campaign.",
+      "end_line": 688,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "",
+      "start_line": 663,
+      "state_owner": "",
+      "symbol": "ThroughputAllocationSummary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 674,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary.effective_text",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 673,
+      "state_owner": "",
+      "symbol": "effective_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lane.upper",
+          "target": "lane.upper"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.lane_throughputs.get",
+          "target": "self.lane_throughputs.get"
+        }
+      ],
+      "call_forms": {
+        "join": "attribute",
+        "lane.upper": "attribute",
+        "self.lane_throughputs.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "join",
+        "lane.upper",
+        "self.lane_throughputs.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 688,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary.throughput_text",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(self)",
+      "start_line": 677,
+      "state_owner": "",
+      "symbol": "throughput_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.values",
+          "target": "assignments.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "measured_throughput_allocation",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ThroughputAllocationSummary",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.get",
+          "target": "counts.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lane_throughputs.get",
+          "target": "lane_throughputs.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "remaining.get",
+          "target": "remaining.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throughputs.get",
+          "target": "throughputs.get"
+        }
+      ],
+      "call_forms": {
+        "ThroughputAllocationSummary": "name",
+        "assignments.values": "attribute",
+        "bool": "name",
+        "counts.get": "attribute",
+        "dict": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "lane_throughputs.get": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "measured_throughput_allocation": "name",
+        "remaining.get": "attribute",
+        "sum": "name",
+        "throughputs.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [
+        "ThroughputAllocationSummary",
+        "assignments.values",
+        "bool",
+        "counts.get",
+        "dict",
+        "enumerate",
+        "float",
+        "int",
+        "lane_throughputs.get",
+        "len",
+        "list",
+        "max",
+        "measured_throughput_allocation",
+        "remaining.get",
+        "sum",
+        "throughputs.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "calo_rpd_studio.compute.resource_scheduler.ThroughputAllocationSummary"
+      ],
+      "doc": "Allocate all v3.4 jobs in proportion to measured candidate-evaluation throughput.",
+      "end_line": 739,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.build_throughput_lane_plan",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(plan, mode, lane_throughputs, cuda_available)",
+      "start_line": 691,
+      "state_owner": "",
+      "symbol": "build_throughput_lane_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "compute admission and device scheduling",
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "active_jobs.items",
+          "target": "active_jobs.items"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "largest_remainder_counts",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.get",
+          "target": "counts.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counts.values",
+          "target": "counts.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summary.lane_throughputs.get",
+          "target": "summary.lane_throughputs.get"
+        }
+      ],
+      "call_forms": {
+        "active_jobs.items": "attribute",
+        "counts.get": "attribute",
+        "counts.values": "attribute",
+        "int": "name",
+        "largest_remainder_counts": "name",
+        "len": "name",
+        "max": "name",
+        "sum": "name",
+        "summary.lane_throughputs.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [
+        "active_jobs.items",
+        "counts.get",
+        "counts.values",
+        "int",
+        "largest_remainder_counts",
+        "len",
+        "max",
+        "sum",
+        "summary.lane_throughputs.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts"
+      ],
+      "doc": "Allocate concurrent worker slots from the measured lane capacities.",
+      "end_line": 770,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/resource_scheduler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+        "logging": "logging",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "os": "os",
+        "psutil": "psutil",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "os",
+        "psutil",
+        "shutil",
+        "subprocess",
+        "threading",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.resource_scheduler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.compute.resource_scheduler",
+      "qualname": "calo_rpd_studio.compute.resource_scheduler.throughput_worker_slots",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission",
+        "resource-scheduler"
+      ],
+      "signature": "(total_workers, summary)",
+      "start_line": 742,
+      "state_owner": "",
+      "symbol": "throughput_worker_slots",
+      "tests": []
+    }
+  ]
+}

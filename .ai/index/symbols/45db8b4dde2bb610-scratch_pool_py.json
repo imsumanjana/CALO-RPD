@@ -1,0 +1,357 @@
+{
+  "path": "calo_rpd_studio/accelerated/scratch_pool.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/scratch_pool.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.scratch_pool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.scratch_pool",
+      "qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "ScratchPool",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/scratch_pool.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.scratch_pool",
+      "qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "buffer.fill",
+          "target": "buffer.fill"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._buffers.get",
+          "target": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.dtype",
+          "target": "np.dtype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty",
+          "target": "np.empty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "buffer.fill": "attribute",
+        "int": "name",
+        "np.dtype": "attribute",
+        "np.empty": "attribute",
+        "self._buffers.get": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.get"
+      ],
+      "calls": [
+        "buffer.fill",
+        "int",
+        "np.dtype",
+        "np.empty",
+        "self._buffers.get",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.get"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/scratch_pool.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.scratch_pool",
+      "qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.get",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, name, shape, dtype, clear)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "get",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._buffers.values",
+          "target": "self._buffers.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "self._buffers.values": "attribute",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "self._buffers.values",
+        "sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/scratch_pool.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.scratch_pool",
+      "qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.allocated_bytes",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "allocated_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._buffers.clear",
+          "target": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.clear"
+        }
+      ],
+      "call_forms": {
+        "self._buffers.clear": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.clear"
+      ],
+      "calls": [
+        "self._buffers.clear"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.clear"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/scratch_pool.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.scratch_pool",
+      "qualname": "calo_rpd_studio.accelerated.scratch_pool.ScratchPool.clear",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "clear",
+      "tests": []
+    }
+  ]
+}

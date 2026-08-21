@@ -1,0 +1,269 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/session_recovery.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/workspaces.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/governor.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/scientific_equivalence.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/soak.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/topology.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/validation/gui_contract.py"
+    }
+  ],
+  "path": "tests/unit/test_v620_rc_final.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final._profile",
+      "to": "calo_rpd_studio.compute.topology.ComputeProtectionProfile"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.verify"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "recorder.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_dependency_light_gui_contract",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_dependency_light_gui_contract",
+      "to": "calo_rpd_studio.validation.gui_contract.validate_gui_contract"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_dependency_light_gui_contract",
+      "to": "resolve"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "calo_rpd_studio.compute.governor.GovernorConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "governor.evaluate_snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_detects_device_power_and_temperature",
+      "to": "tests.unit.test_v620_rc_final._profile"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+      "to": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+      "to": "calo_rpd_studio.compute.governor.GovernorConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+      "to": "governor.evaluate_snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_hysteresis_and_red_safe_stop",
+      "to": "tests.unit.test_v620_rc_final._profile"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "calo_rpd_studio.compute.governor.GovernorConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "governor.evaluate_snapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "r.lower"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_governor_uses_actual_temperature_only_when_present",
+      "to": "tests.unit.test_v620_rc_final._profile"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order",
+      "to": "calo_rpd_studio.compute.scientific_equivalence.BranchScientificIdentity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order",
+      "to": "calo_rpd_studio.compute.scientific_equivalence.scheduling_equivalent"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_scheduling_equivalence_ignores_wall_clock_order",
+      "to": "reversed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable",
+      "to": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable",
+      "to": "calo_rpd_studio.app.session_recovery.SessionRecoveryJournal.verify_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable",
+      "to": "journal.begin"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable",
+      "to": "journal.mark_clean"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_session_recovery_is_integrity_sealed_and_clean_shutdown_is_not_recoverable",
+      "to": "journal.previous_unclean"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification",
+      "to": "calo_rpd_studio.compute.soak.HardwareSoakRunner"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification",
+      "to": "calo_rpd_studio.compute.soak.SoakConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification",
+      "to": "is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification",
+      "to": "run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_soak_telemetry_summary_reports_only_observed_sensors",
+      "to": "calo_rpd_studio.compute.soak._summarize_telemetry"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v620_rc_final.test_soak_telemetry_summary_reports_only_observed_sensors",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v620_rc_final.test_workspace_migration_v59_v61_and_unknown",
+      "to": "calo_rpd_studio.app.workspaces.migrate_workspace_ui"
+    }
+  ]
+}

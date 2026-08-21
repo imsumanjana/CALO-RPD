@@ -1,0 +1,1600 @@
+{
+  "path": "tests/unit/test_calo_v4.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name"
+      },
+      "called_by": [
+        "tests.unit.test_calo_v4.CountingSphere.evaluate",
+        "tests.unit.test_calo_v4.test_hpem_duplicate_detection_follows_discrete_decoder_lattice",
+        "tests.unit.test_calo_v4.test_hpem_rejects_infeasible_and_near_duplicate_elites",
+        "tests.unit.test_calo_v4.test_hpem_uses_one_canonical_best7_store_and_four_prefix_summaries",
+        "tests.unit.test_calo_v4.test_persistent_personal_best_is_not_reset_by_environmental_selection"
+      ],
+      "calls": [
+        "Evaluation",
+        "float"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4._ev",
+      "semantic_tags": [],
+      "signature": "(value, violation)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_ev",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work",
+        "tests.unit.test_calo_v4.test_strict_benchmark_mode_blocks_historical_runtime_warm_start",
+        "tests.unit.test_calo_v4.test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.CountingSphere",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "CountingSphere",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.CountingSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.CountingSphere.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ev",
+          "target": "tests.unit.test_calo_v4._ev"
+        }
+      ],
+      "call_forms": {
+        "_ev": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_calo_v4.CountingSphere.evaluate_population"
+      ],
+      "calls": [
+        "_ev",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_calo_v4._ev"
+      ],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.CountingSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.CountingSphere.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_calo_v4.CountingSphere.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_calo_v4.CountingSphere.evaluate"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.CountingSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.CountingSphere.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.CountingSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.CountingSphere.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "HierarchicalPrefixEliteMemory",
+          "target": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.hierarchy",
+          "target": "hpem.hierarchy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.update",
+          "target": "hpem.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ev",
+          "target": "tests.unit.test_calo_v4._ev"
+        }
+      ],
+      "call_forms": {
+        "HierarchicalPrefixEliteMemory": "name",
+        "_ev": "name",
+        "float": "name",
+        "hpem.hierarchy": "attribute",
+        "hpem.update": "attribute",
+        "np.random.default_rng": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "range": "name",
+        "rng.random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "HierarchicalPrefixEliteMemory",
+        "_ev",
+        "float",
+        "hpem.hierarchy",
+        "hpem.update",
+        "np.random.default_rng",
+        "np.testing.assert_allclose",
+        "range",
+        "rng.random"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "tests.unit.test_calo_v4._ev"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_hpem_uses_one_canonical_best7_store_and_four_prefix_summaries",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_hpem_uses_one_canonical_best7_store_and_four_prefix_summaries",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HierarchicalPrefixEliteMemory",
+          "target": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.update",
+          "target": "hpem.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ev",
+          "target": "tests.unit.test_calo_v4._ev"
+        }
+      ],
+      "call_forms": {
+        "HierarchicalPrefixEliteMemory": "name",
+        "_ev": "name",
+        "all": "name",
+        "hpem.update": "attribute",
+        "len": "name",
+        "np.asarray": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "HierarchicalPrefixEliteMemory",
+        "_ev",
+        "all",
+        "hpem.update",
+        "len",
+        "np.asarray",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "tests.unit.test_calo_v4._ev"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_hpem_rejects_infeasible_and_near_duplicate_elites",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_hpem_rejects_infeasible_and_near_duplicate_elites",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CALOTensorState.initialize",
+          "target": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.initialize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.personal_best.copy",
+          "target": "state.personal_best.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.select_from_combined",
+          "target": "state.select_from_combined"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ev",
+          "target": "tests.unit.test_calo_v4._ev"
+        }
+      ],
+      "call_forms": {
+        "CALOTensorState.initialize": "attribute",
+        "_ev": "name",
+        "list": "name",
+        "np.asarray": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.vstack": "attribute",
+        "state.personal_best.copy": "attribute",
+        "state.select_from_combined": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOTensorState.initialize",
+        "_ev",
+        "list",
+        "np.asarray",
+        "np.testing.assert_allclose",
+        "np.vstack",
+        "state.personal_best.copy",
+        "state.select_from_combined"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.initialize",
+        "tests.unit.test_calo_v4._ev"
+      ],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_persistent_personal_best_is_not_reset_by_environmental_selection",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "test_persistent_personal_best_is_not_reset_by_environmental_selection",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "a.batch_update",
+          "target": "a.batch_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "b.batch_update",
+          "target": "b.batch_update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ContextualCredit",
+          "target": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "ContextualCredit": "name",
+        "a.batch_update": "attribute",
+        "b.batch_update": "attribute",
+        "dict": "name",
+        "np.asarray": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ContextualCredit",
+        "a.batch_update",
+        "b.batch_update",
+        "dict",
+        "np.asarray",
+        "np.testing.assert_allclose",
+        "np.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_contextual_credit_batch_update_is_order_invariant",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "test_contextual_credit_batch_update_is_order_invariant",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "params.update",
+          "target": "params.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CountingSphere",
+          "target": "tests.unit.test_calo_v4.CountingSphere"
+        }
+      ],
+      "call_forms": {
+        "CountingSphere": "name",
+        "OptimizerConfig": "name",
+        "create_optimizer": "name",
+        "dict": "name",
+        "np.testing.assert_allclose": "attribute",
+        "params.update": "attribute",
+        "pytest.approx": "attribute",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CountingSphere",
+        "OptimizerConfig",
+        "create_optimizer",
+        "dict",
+        "np.testing.assert_allclose",
+        "params.update",
+        "pytest.approx",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_calo_v4.CountingSphere"
+      ],
+      "doc": "",
+      "end_line": 133,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CountingSphere",
+          "target": "tests.unit.test_calo_v4.CountingSphere"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "DuplicateCALO",
+          "target": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work.DuplicateCALO"
+        }
+      ],
+      "call_forms": {
+        "CountingSphere": "name",
+        "DuplicateCALO": "name",
+        "OptimizerConfig": "name",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CountingSphere",
+        "DuplicateCALO",
+        "OptimizerConfig",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "tests.unit.test_calo_v4.CountingSphere",
+        "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work.DuplicateCALO"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 139,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work.DuplicateCALO",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "DuplicateCALO",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        }
+      ],
+      "call_forms": {
+        "np.full": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.full"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 139,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work.DuplicateCALO",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_exact_cache_counts_duplicate_requests_but_reuses_physical_solver_work.DuplicateCALO.random_population",
+      "semantic_tags": [],
+      "signature": "(self, n)",
+      "start_line": 138,
+      "state_owner": "",
+      "symbol": "random_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOOptimizer",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CountingSphere",
+          "target": "tests.unit.test_calo_v4.CountingSphere"
+        }
+      ],
+      "call_forms": {
+        "CALOOptimizer": "name",
+        "CountingSphere": "name",
+        "OptimizerConfig": "name",
+        "pytest.raises": "attribute",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOOptimizer",
+        "CountingSphere",
+        "OptimizerConfig",
+        "pytest.raises",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "tests.unit.test_calo_v4.CountingSphere"
+      ],
+      "doc": "",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_strict_benchmark_mode_blocks_historical_runtime_warm_start",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "test_strict_benchmark_mode_blocks_historical_runtime_warm_start",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "HierarchicalPrefixEliteMemory",
+          "target": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DecisionVariable",
+          "target": "calo_rpd_studio.orpd.decision_variables.DecisionVariable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.update",
+          "target": "hpem.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ev",
+          "target": "tests.unit.test_calo_v4._ev"
+        }
+      ],
+      "call_forms": {
+        "DecisionVariable": "name",
+        "HierarchicalPrefixEliteMemory": "name",
+        "_ev": "name",
+        "hpem.update": "attribute",
+        "len": "name",
+        "np.asarray": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "DecisionVariable",
+        "HierarchicalPrefixEliteMemory",
+        "_ev",
+        "hpem.update",
+        "len",
+        "np.asarray",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "tests.unit.test_calo_v4._ev"
+      ],
+      "doc": "",
+      "end_line": 185,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_hpem_duplicate_detection_follows_discrete_decoder_lattice",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 171,
+      "state_owner": "",
+      "symbol": "test_hpem_duplicate_detection_follows_discrete_decoder_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ContextualCredit",
+          "target": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.batch_update",
+          "target": "credit.batch_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "ContextualCredit": "name",
+        "credit.batch_update": "attribute",
+        "np.asarray": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ContextualCredit",
+        "credit.batch_update",
+        "np.asarray",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v4.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOTensorState": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+        "ContextualCredit": "calo_rpd_studio.algorithms.calo.contextual_credit.ContextualCredit",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "HierarchicalPrefixEliteMemory": "calo_rpd_studio.algorithms.calo.hierarchical_memory.HierarchicalPrefixEliteMemory",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.contextual_credit",
+        "calo_rpd_studio.algorithms.calo.hierarchical_memory",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.tensor_state",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.decision_variables",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v4",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v4",
+      "qualname": "tests.unit.test_calo_v4.test_contextual_credit_attributes_batch_outcomes_to_individual_regimes",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 188,
+      "state_owner": "",
+      "symbol": "test_contextual_credit_attributes_batch_outcomes_to_individual_regimes",
+      "tests": []
+    }
+  ]
+}

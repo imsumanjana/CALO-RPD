@@ -1,0 +1,806 @@
+{
+  "path": "tests/unit/test_lshade.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+        "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.SphereProblem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "SphereProblem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_lshade.SphereProblem.evaluate_population"
+      ],
+      "calls": [
+        "Evaluation",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.SphereProblem.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_lshade.SphereProblem.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_lshade.SphereProblem.evaluate"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.SphereProblem.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.SphereProblem.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "parent_midpoint_repair",
+          "target": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        }
+      ],
+      "call_forms": {
+        "np.array": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "parent_midpoint_repair": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "np.array",
+        "np.testing.assert_allclose",
+        "parent_midpoint_repair"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_parent_midpoint_repair_matches_reference_equation",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_parent_midpoint_repair_matches_reference_equation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "positive_round",
+          "target": "calo_rpd_studio.algorithms.lshade.positive_round"
+        }
+      ],
+      "call_forms": {
+        "positive_round": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "positive_round"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.positive_round"
+      ],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_positive_round_matches_reference_cpp_size_rounding",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "test_positive_round_matches_reference_cpp_size_rounding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "LSHADEOptimizer._update_memory",
+          "target": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "LSHADEOptimizer._update_memory": "attribute",
+        "np.array": "attribute",
+        "np.full": "attribute",
+        "np.sum": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "LSHADEOptimizer._update_memory",
+        "np.array",
+        "np.full",
+        "np.sum",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "test_success_history_update_uses_weighted_lehmer_means",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "constrained_improvement",
+          "target": "calo_rpd_studio.algorithms.lshade.constrained_improvement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "constrained_improvement": "name",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Evaluation",
+        "constrained_improvement",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 67,
+      "state_owner": "",
+      "symbol": "test_constrained_improvement_respects_feasibility_first_adapter",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_lshade.SphereProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "all": "name",
+        "create_optimizer": "name",
+        "pytest.mark.parametrize": "attribute",
+        "run": "attribute",
+        "startswith": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "all",
+        "create_optimizer",
+        "pytest.mark.parametrize",
+        "run",
+        "startswith",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_lshade.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "semantic_tags": [],
+      "signature": "(optimizer_backend)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "test_lshade_accounts_exact_budget_and_reduces_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_lshade.SphereProblem"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "create_optimizer": "name",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "create_optimizer",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_lshade.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 110,
+      "entry_point": false,
+      "file": "tests/unit/test_lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "LSHADEOptimizer": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "annotations": "__future__.annotations",
+        "constrained_improvement": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parent_midpoint_repair": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "positive_round": "calo_rpd_studio.algorithms.lshade.positive_round",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.lshade",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_lshade",
+      "qualname": "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "tests": []
+    }
+  ]
+}

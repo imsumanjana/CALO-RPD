@@ -1,0 +1,89 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_bootstrap/prerequisites.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_bootstrap/wizard.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/application.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/version.py"
+    }
+  ],
+  "path": "calo_bootstrap/launcher.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.accelerator_repair_required",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "calo_bootstrap.launcher.accelerator_repair_required"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "calo_bootstrap.prerequisites.cpu_fallback_is_accepted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "calo_bootstrap.prerequisites.first_launch_or_version_changed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "calo_bootstrap.prerequisites.scan_environment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "calo_bootstrap.wizard.PrerequisiteWizard"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "print"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.ensure_prerequisites",
+      "to": "type"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.main",
+      "to": "calo_bootstrap.launcher.ensure_prerequisites"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_bootstrap.launcher.main",
+      "to": "calo_rpd_studio.app.application.main"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.main",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_bootstrap.launcher.main",
+      "to": "print"
+    }
+  ]
+}

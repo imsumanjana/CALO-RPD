@@ -1,0 +1,97 @@
+{
+  "path": "calo_rpd_studio/statistics/effect_sizes.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ravel",
+          "target": "ravel"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.isfinite": "attribute",
+        "ravel": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.evidence.build_campaign_evidence",
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter._pairwise_statistics",
+        "tests.unit.test_statistics.test_cliffs_delta_extreme",
+        "tests.unit.test_v57_previous_audit_closure.test_generic_stats_guards_handle_empty_and_nonfinite_inputs"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "np.asarray",
+        "np.count_nonzero",
+        "np.isfinite",
+        "ravel"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/statistics/effect_sizes.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.statistics.effect_sizes",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.statistics.effect_sizes",
+      "qualname": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta",
+      "semantic_tags": [],
+      "signature": "(a, b)",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "cliffs_delta",
+      "tests": [
+        "tests/unit/test_statistics.py",
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    }
+  ]
+}

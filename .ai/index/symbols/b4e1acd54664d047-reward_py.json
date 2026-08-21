@@ -1,0 +1,318 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/reward.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "tests.unit.test_tsh_calo_independent_training._transition"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/reward.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.reward",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.reward",
+      "qualname": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "RewardComponents",
+      "tests": [
+        "tests/unit/test_tsh_calo_independent_training.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/reward.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.reward",
+      "qualname": "calo_rpd_studio.algorithms.calo.reward.RewardComponents.total",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "total",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "float": "name",
+        "max": "name",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.reward.calculate_reward"
+      ],
+      "calls": [
+        "abs",
+        "float",
+        "max",
+        "np.clip",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/reward.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.reward",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.reward",
+      "qualname": "calo_rpd_studio.algorithms.calo.reward._gain",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(old, new)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_gain",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "RewardComponents",
+          "target": "calo_rpd_studio.algorithms.calo.reward.RewardComponents"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_gain",
+          "target": "calo_rpd_studio.algorithms.calo.reward._gain"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "RewardComponents": "name",
+        "_gain": "name",
+        "float": "name",
+        "max": "name",
+        "np.clip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition"
+      ],
+      "calls": [
+        "RewardComponents",
+        "_gain",
+        "float",
+        "max",
+        "np.clip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "calo_rpd_studio.algorithms.calo.reward._gain"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/reward.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.reward",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.reward",
+      "qualname": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(old_objective, new_objective, old_violation, new_violation, old_feasible_ratio, new_feasible_ratio, old_diversity, new_diversity, overhead)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "calculate_reward",
+      "tests": []
+    }
+  ]
+}

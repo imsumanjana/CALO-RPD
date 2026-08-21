@@ -1,0 +1,914 @@
+{
+  "path": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests.SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest",
+        "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_bytes",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_sha256_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest",
+        "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_file",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_sha256_file",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.replace",
+          "target": "name.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "normalized.split",
+          "target": "normalized.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "normalized.startswith",
+          "target": "normalized.startswith"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "name.replace": "attribute",
+        "normalized.split": "attribute",
+        "normalized.startswith": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest",
+        "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest",
+        "tests.unit.test_v120_phase5_release_preparation.test_distribution_member_name_rejects_traversal"
+      ],
+      "calls": [
+        "ValueError",
+        "name.replace",
+        "normalized.split",
+        "normalized.startswith"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name",
+      "semantic_tags": [],
+      "signature": "(name)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_safe_name",
+      "tests": [
+        "tests/unit/test_v120_phase5_release_preparation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.infolist",
+          "target": "archive.infolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.read",
+          "target": "archive.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifact.stat",
+          "target": "artifact.stat"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_safe_name",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_bytes",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "info.is_dir",
+          "target": "info.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "members.append",
+          "target": "members.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_safe_name": "name",
+        "_sha256_bytes": "name",
+        "_sha256_file": "name",
+        "archive.infolist": "attribute",
+        "archive.read": "attribute",
+        "artifact.stat": "attribute",
+        "info.is_dir": "attribute",
+        "len": "name",
+        "members.append": "attribute",
+        "path.resolve": "attribute",
+        "sorted": "name",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.main"
+      ],
+      "calls": [
+        "ValueError",
+        "_safe_name",
+        "_sha256_bytes",
+        "_sha256_file",
+        "archive.infolist",
+        "archive.read",
+        "artifact.stat",
+        "info.is_dir",
+        "len",
+        "members.append",
+        "path.resolve",
+        "sorted",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name",
+        "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_bytes",
+        "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_file"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "wheel_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.extractfile",
+          "target": "archive.extractfile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.getmembers",
+          "target": "archive.getmembers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifact.stat",
+          "target": "artifact.stat"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_safe_name",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_bytes",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.isfile",
+          "target": "member.isfile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.islnk",
+          "target": "member.islnk"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.issym",
+          "target": "member.issym"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "members.append",
+          "target": "members.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tarfile.open",
+          "target": "tarfile.open"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_safe_name": "name",
+        "_sha256_bytes": "name",
+        "_sha256_file": "name",
+        "archive.extractfile": "attribute",
+        "archive.getmembers": "attribute",
+        "artifact.stat": "attribute",
+        "len": "name",
+        "member.isfile": "attribute",
+        "member.islnk": "attribute",
+        "member.issym": "attribute",
+        "members.append": "attribute",
+        "path.resolve": "attribute",
+        "sorted": "name",
+        "stream.read": "attribute",
+        "tarfile.open": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.main"
+      ],
+      "calls": [
+        "ValueError",
+        "_safe_name",
+        "_sha256_bytes",
+        "_sha256_file",
+        "archive.extractfile",
+        "archive.getmembers",
+        "artifact.stat",
+        "len",
+        "member.isfile",
+        "member.islnk",
+        "member.issym",
+        "members.append",
+        "path.resolve",
+        "sorted",
+        "stream.read",
+        "tarfile.open"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests._safe_name",
+        "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_bytes",
+        "calo_rpd_studio.scripts.generate_distribution_manifests._sha256_file"
+      ],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "sdist_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.open",
+          "target": "destination.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.fileno",
+          "target": "stream.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "destination.open": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "json.dumps": "attribute",
+        "os.fsync": "attribute",
+        "path.resolve": "attribute",
+        "stream.fileno": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.main"
+      ],
+      "calls": [
+        "FileExistsError",
+        "destination.open",
+        "destination.parent.mkdir",
+        "json.dumps",
+        "os.fsync",
+        "path.resolve",
+        "stream.fileno",
+        "stream.flush",
+        "stream.write"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests.write_exclusive",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "write_exclusive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "arguments.output_directory.resolve",
+          "target": "arguments.output_directory.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "arguments.stage.resolve",
+          "target": "arguments.stage.resolve"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "sdist_manifest",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wheel_manifest",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_exclusive",
+          "target": "calo_rpd_studio.scripts.generate_distribution_manifests.write_exclusive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.glob",
+          "target": "stage.glob"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "argparse.ArgumentParser": "attribute",
+        "arguments.output_directory.resolve": "attribute",
+        "arguments.stage.resolve": "attribute",
+        "len": "name",
+        "list": "name",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "sdist_manifest": "name",
+        "stage.glob": "attribute",
+        "wheel_manifest": "name",
+        "write_exclusive": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "argparse.ArgumentParser",
+        "arguments.output_directory.resolve",
+        "arguments.stage.resolve",
+        "len",
+        "list",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "sdist_manifest",
+        "stage.glob",
+        "wheel_manifest",
+        "write_exclusive"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_distribution_manifests.sdist_manifest",
+        "calo_rpd_studio.scripts.generate_distribution_manifests.wheel_manifest",
+        "calo_rpd_studio.scripts.generate_distribution_manifests.write_exclusive"
+      ],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "tarfile": "tarfile",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tarfile",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.generate_distribution_manifests",
+      "qualname": "calo_rpd_studio.scripts.generate_distribution_manifests.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

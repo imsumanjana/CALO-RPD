@@ -1,0 +1,74 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:6d00b9e32b7fdb00d7f194a9fd7589615dce0404",
+    "content_sha256": "f1a4fb53c6e47bcc1b4ebcf5d47550f0b0d50201285ff7601006240c729ec237",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Iterable": "typing.Iterable",
+      "Path": "pathlib.Path",
+      "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "dataclass": "dataclasses.dataclass",
+      "hashlib": "hashlib",
+      "json": "json",
+      "math": "math",
+      "os": "os",
+      "platform": "platform",
+      "psutil": "psutil",
+      "re": "re",
+      "shutil": "shutil",
+      "subprocess": "subprocess",
+      "torch": "torch"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      ".resource_scheduler",
+      "__future__",
+      "dataclasses",
+      "hashlib",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "platform",
+      "psutil",
+      "re",
+      "shutil",
+      "subprocess",
+      "torch",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/topology.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 20760,
+    "state_owner": "",
+    "symbol_count": 24
+  },
+  "path": "calo_rpd_studio/compute/topology.py",
+  "schema_version": 2
+}

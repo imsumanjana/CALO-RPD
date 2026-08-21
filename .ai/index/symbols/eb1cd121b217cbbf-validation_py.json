@@ -1,0 +1,414 @@
+{
+  "path": "calo_rpd_studio/benchmarking/validation.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        }
+      ],
+      "call_forms": {
+        "database.list_runs": "attribute",
+        "list": "name",
+        "row.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_all_unverified",
+        "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel.validate_current_experiment",
+        "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+        "tests.unit.test_bulk_validation.test_bulk_validation_selection_skips_verified_by_default"
+      ],
+      "calls": [
+        "database.list_runs",
+        "list",
+        "row.get"
+      ],
+      "calls_resolved": [],
+      "doc": "Return deterministic run rows for one experiment or the complete repository.",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.results.solution_validator",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.validation",
+      "qualname": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(database, experiment_id, only_unverified)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "select_runs_for_validation",
+      "tests": [
+        "tests/unit/test_bulk_validation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "progress_callback",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned.progress_callback"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_stored_run",
+          "target": "calo_rpd_studio.results.solution_validator.validate_stored_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_run",
+          "target": "database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.append",
+          "target": "records.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "cancel_callback": "name",
+        "database.get_run": "attribute",
+        "dict": "name",
+        "enumerate": "name",
+        "int": "name",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "progress_callback": "name",
+        "records.append": "attribute",
+        "result.get": "attribute",
+        "row.get": "attribute",
+        "type": "name",
+        "validate_stored_run": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "calo_rpd_studio.gui.panels.validation_audit_panel._BulkValidationWorker.run",
+        "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress"
+      ],
+      "calls": [
+        "cancel_callback",
+        "database.get_run",
+        "dict",
+        "enumerate",
+        "int",
+        "isinstance",
+        "len",
+        "list",
+        "max",
+        "progress_callback",
+        "records.append",
+        "result.get",
+        "row.get",
+        "type",
+        "validate_stored_run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned.progress_callback",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      ],
+      "doc": "Independently validate many saved runs with progress, cancellation, and error capture.",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.results.solution_validator",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.validation",
+      "qualname": "calo_rpd_studio.benchmarking.validation.validate_runs",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(database, runs, progress_callback, cancel_callback)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "validate_runs",
+      "tests": [
+        "tests/unit/test_bulk_validation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_runs",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.read_text",
+          "target": "manifest.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runs.extend",
+          "target": "runs.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.get",
+          "target": "task.get"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "database.list_runs": "attribute",
+        "json.loads": "attribute",
+        "manifest.read_text": "attribute",
+        "payload.get": "attribute",
+        "row.get": "attribute",
+        "runs.extend": "attribute",
+        "task.get": "attribute",
+        "validate_runs": "name",
+        "verify_campaign_plan_design": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.validate_completed_campaign",
+        "calo_rpd_studio.scripts.run_final_benchmark.main"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "database.list_runs",
+        "json.loads",
+        "manifest.read_text",
+        "payload.get",
+        "row.get",
+        "runs.extend",
+        "task.get",
+        "validate_runs",
+        "verify_campaign_plan_design"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.validation.validate_runs"
+      ],
+      "doc": "",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "validate_stored_run": "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.results.solution_validator",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.validation",
+      "qualname": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(database, campaign_manifest, only_unverified, progress_callback, cancel_callback)",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "validate_campaign",
+      "tests": []
+    }
+  ]
+}

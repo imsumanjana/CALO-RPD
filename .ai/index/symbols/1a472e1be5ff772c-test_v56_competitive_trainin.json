@@ -1,0 +1,1068 @@
+{
+  "path": "tests/unit/test_v56_competitive_training.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v56_competitive_training.test_base_guided_fork_starts_fresh_branches_without_mutating_parent",
+        "tests.unit.test_v56_competitive_training.test_competitive_training_creates_separate_branch_resume_states_and_one_base",
+        "tests.unit.test_v56_competitive_training.test_exact_competitive_resume_restores_same_branches_and_advances_epoch",
+        "tests.unit.test_v56_competitive_training.test_safe_stop_commits_exact_branch_resume_states_and_cleans_scratch"
+      ],
+      "calls": [
+        "TrainingConfig",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training._tiny_config",
+      "semantic_tags": [],
+      "signature": "(**updates)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_tiny_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_branch_seed_plan",
+          "target": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "build_branch_seed_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "build_branch_seed_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_seed_plan_supports_same_increment_decrement_and_custom",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "test_seed_plan_supports_same_increment_decrement_and_custom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "compare_champion_metrics",
+          "target": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.update",
+          "target": "candidate.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        }
+      ],
+      "call_forms": {
+        "candidate.update": "attribute",
+        "compare_champion_metrics": "name",
+        "dict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "candidate.update",
+        "compare_champion_metrics",
+        "dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics"
+      ],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_multi_metric_comparator_prioritizes_scientific_quality_over_runtime",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "test_multi_metric_comparator_prioritizes_scientific_quality_over_runtime",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "compare_champion_metrics",
+          "target": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics"
+        }
+      ],
+      "call_forms": {
+        "compare_champion_metrics": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "compare_champion_metrics"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics"
+      ],
+      "doc": "",
+      "end_line": 95,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_multi_metric_comparator_rejects_material_feasibility_regression",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "test_multi_metric_comparator_rejects_material_feasibility_regression",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_config",
+          "target": "tests.unit.test_v56_competitive_training._tiny_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "with_suffix",
+          "target": "with_suffix"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_tiny_config": "name",
+        "is_file": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "read_text": "attribute",
+        "train_policy_parallel": "name",
+        "with_suffix": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_tiny_config",
+        "is_file",
+        "json.loads",
+        "len",
+        "read_text",
+        "train_policy_parallel",
+        "with_suffix"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v56_competitive_training._tiny_config"
+      ],
+      "doc": "",
+      "end_line": 117,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_competitive_training_creates_separate_branch_resume_states_and_one_base",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "test_competitive_training_creates_separate_branch_resume_states_and_one_base",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.with_suffix",
+          "target": "output.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_bytes",
+          "target": "path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_config",
+          "target": "tests.unit.test_v56_competitive_training._tiny_config"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_tiny_config": "name",
+        "json.loads": "attribute",
+        "output.with_suffix": "attribute",
+        "path.read_bytes": "attribute",
+        "read_text": "attribute",
+        "str": "name",
+        "train_policy_parallel": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_tiny_config",
+        "json.loads",
+        "output.with_suffix",
+        "path.read_bytes",
+        "read_text",
+        "str",
+        "train_policy_parallel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v56_competitive_training._tiny_config"
+      ],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_exact_competitive_resume_restores_same_branches_and_advances_epoch",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 120,
+      "state_owner": "",
+      "symbol": "test_exact_competitive_resume_restores_same_branches_and_advances_epoch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.with_suffix",
+          "target": "child.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent.with_suffix",
+          "target": "parent.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_artifact.read_bytes",
+          "target": "parent_artifact.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_config",
+          "target": "tests.unit.test_v56_competitive_training._tiny_config"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_tiny_config": "name",
+        "all": "name",
+        "child.with_suffix": "attribute",
+        "is_file": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "parent.with_suffix": "attribute",
+        "parent_artifact.read_bytes": "attribute",
+        "read_text": "attribute",
+        "str": "name",
+        "train_policy_parallel": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_tiny_config",
+        "all",
+        "child.with_suffix",
+        "is_file",
+        "json.loads",
+        "len",
+        "parent.with_suffix",
+        "parent_artifact.read_bytes",
+        "read_text",
+        "str",
+        "train_policy_parallel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v56_competitive_training._tiny_config"
+      ],
+      "doc": "",
+      "end_line": 179,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_base_guided_fork_starts_fresh_branches_without_mutating_parent",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "test_base_guided_fork_starts_fresh_branches_without_mutating_parent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scratch.exists",
+          "target": "scratch.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scratch.iterdir",
+          "target": "scratch.iterdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_config",
+          "target": "tests.unit.test_v56_competitive_training._tiny_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "with_suffix",
+          "target": "with_suffix"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_tiny_config": "name",
+        "all": "name",
+        "any": "name",
+        "getattr": "name",
+        "is_file": "attribute",
+        "json.loads": "attribute",
+        "read_text": "attribute",
+        "scratch.exists": "attribute",
+        "scratch.iterdir": "attribute",
+        "startswith": "attribute",
+        "str": "name",
+        "train_policy_parallel": "name",
+        "with_suffix": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_tiny_config",
+        "all",
+        "any",
+        "getattr",
+        "is_file",
+        "json.loads",
+        "read_text",
+        "scratch.exists",
+        "scratch.iterdir",
+        "startswith",
+        "str",
+        "train_policy_parallel",
+        "with_suffix"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v56_competitive_training._tiny_config"
+      ],
+      "doc": "",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_safe_stop_commits_exact_branch_resume_states_and_cleans_scratch",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 182,
+      "state_owner": "",
+      "symbol": "test_safe_stop_commits_exact_branch_resume_states_and_cleans_scratch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_stage_floor_from_history",
+          "target": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history"
+        }
+      ],
+      "call_forms": {
+        "_stage_floor_from_history": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_stage_floor_from_history"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history"
+      ],
+      "doc": "",
+      "end_line": 234,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_legacy_curriculum_encoding_conversion_is_schema_driven",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 208,
+      "state_owner": "",
+      "symbol": "test_legacy_curriculum_encoding_conversion_is_schema_driven",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clone",
+          "target": "clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.get_state",
+          "target": "np.random.get_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.seed",
+          "target": "np.random.seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random.getstate",
+          "target": "random.getstate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random.seed",
+          "target": "random.seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.equal",
+          "target": "torch.equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.random.get_rng_state",
+          "target": "torch.random.get_rng_state"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "clone": "attribute",
+        "np.array_equal": "attribute",
+        "np.random.get_state": "attribute",
+        "np.random.seed": "attribute",
+        "random.getstate": "attribute",
+        "random.seed": "attribute",
+        "torch.equal": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.random.get_rng_state": "attribute",
+        "train_policy": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "clone",
+        "np.array_equal",
+        "np.random.get_state",
+        "np.random.seed",
+        "random.getstate",
+        "random.seed",
+        "torch.equal",
+        "torch.manual_seed",
+        "torch.random.get_rng_state",
+        "train_policy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "calo_rpd_studio.algorithms.calo.training.train_policy"
+      ],
+      "doc": "",
+      "end_line": 272,
+      "entry_point": false,
+      "file": "tests/unit/test_v56_competitive_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_stage_floor_from_history": "calo_rpd_studio.algorithms.calo.training._stage_floor_from_history",
+        "annotations": "__future__.annotations",
+        "build_branch_seed_plan": "calo_rpd_studio.algorithms.calo.competitive_training.build_branch_seed_plan",
+        "compare_champion_metrics": "calo_rpd_studio.algorithms.calo.competitive_training.compare_champion_metrics",
+        "json": "json",
+        "np": "numpy",
+        "random": "random",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.competitive_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "json",
+        "numpy",
+        "pathlib",
+        "random",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v56_competitive_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v56_competitive_training",
+      "qualname": "tests.unit.test_v56_competitive_training.test_standalone_training_restores_caller_global_rng_state",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 237,
+      "state_owner": "",
+      "symbol": "test_standalone_training_restores_caller_global_rng_state",
+      "tests": []
+    }
+  ]
+}

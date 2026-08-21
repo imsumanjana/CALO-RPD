@@ -1,0 +1,262 @@
+{
+  "path": "calo_rpd_studio/compute/memory_budget.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Immutable memory allowance calculated at an admission boundary.",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/memory_budget.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.memory_budget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.memory_budget",
+      "qualname": "calo_rpd_studio.compute.memory_budget.AvailableMemoryAdmission",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "AvailableMemoryAdmission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/memory_budget.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.memory_budget.AvailableMemoryAdmission",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.memory_budget",
+      "qualname": "calo_rpd_studio.compute.memory_budget.AvailableMemoryAdmission.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AvailableMemoryAdmission",
+          "target": "calo_rpd_studio.compute.memory_budget.AvailableMemoryAdmission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.floor",
+          "target": "math.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "AvailableMemoryAdmission": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "math.floor": "attribute",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "min": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.vram_residency.VramResidencyGovernor._configure",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+        "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+        "calo_rpd_studio.scripts.validate_resource_recovery._pressure_probe",
+        "tests.unit.test_v690_vram_residency.test_available_vram_admission_includes_but_does_not_rebudget_existing_reservation",
+        "tests.unit.test_v690_vram_residency.test_available_vram_admission_uses_free_not_total_capacity"
+      ],
+      "calls": [
+        "AvailableMemoryAdmission",
+        "RuntimeError",
+        "ValueError",
+        "float",
+        "int",
+        "math.floor",
+        "math.isfinite",
+        "max",
+        "min"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.memory_budget.AvailableMemoryAdmission"
+      ],
+      "doc": "Return a frozen allowance based on currently available memory.",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/memory_budget.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.memory_budget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.memory_budget",
+      "qualname": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(total_bytes, available_bytes, requested_fraction, baseline_reserved_bytes, absolute_ceiling_fraction)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "calculate_available_memory_admission",
+      "tests": [
+        "tests/unit/test_v690_vram_residency.py"
+      ]
+    }
+  ]
+}

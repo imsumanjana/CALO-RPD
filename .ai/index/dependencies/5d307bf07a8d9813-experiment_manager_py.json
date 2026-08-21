@@ -1,0 +1,3094 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/throughput_engine.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_binding.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/governor.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/persistent_accelerator_worker.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/continuation/experiment_evolution.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/calo_ablation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plan.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plans.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_runner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/result_contracts.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/seed_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/fingerprint.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/planner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/result_store.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/resume/models.py"
+    }
+  ],
+  "path": "calo_rpd_studio/app/experiment_manager.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.__init__",
+      "to": "__init__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.__init__",
+      "to": "self.state.task_status.cancel_requested.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.__init__",
+      "to": "super"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._cancelled",
+      "to": "self.cancelled.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._cancelled",
+      "to": "self.state.runs_changed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._cancelled",
+      "to": "self.state.task_status.cancelled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "self.completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "self.state.runs_changed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._completed",
+      "to": "self.state.task_status.finish"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._created",
+      "to": "self.started.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._failed",
+      "to": "self.failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._failed",
+      "to": "self.state.task_status.fail"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "data.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "self.state.task_status.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_progress",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_run_completed",
+      "to": "self.run_completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_run_completed",
+      "to": "self.state.runs_changed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_run_failed",
+      "to": "self.run_failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._on_run_failed",
+      "to": "self.state.runs_changed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._paused",
+      "to": "self.paused.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._paused",
+      "to": "self.state.runs_changed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._paused",
+      "to": "self.state.task_status.paused"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "self.busy.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "self.state.task_status.begin"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "self.state.task_status.fail"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.cancelled.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.completed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.experiment_created.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.failed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.finished.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.paused.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.progress.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.run_completed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.run_failed.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start",
+      "to": "worker.start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._worker_finished",
+      "to": "self.idle.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager._worker_finished",
+      "to": "worker.deleteLater"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.cancel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager.cancel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "extend_evaluation_horizon"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "self.busy.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "self.failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "self.state.update_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_evaluation_horizon",
+      "to": "type"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "extend_run_count"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "self.busy.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "self.failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "self.state.update_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.extend_run_count",
+      "to": "type"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "_LOG.exception"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "control.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "control.request_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "controller.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "self.state.database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "self.state.notify_execution_state_changed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "self.state.task_status.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.pause",
+      "to": "worker.pause"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "self.failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "self.state.database.get_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "self.state.update_config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.start_calo_analysis",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentManager.start_comparison",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager._start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "__init__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "super"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "threading.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.__init__",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "row.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.database.update_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.database.update_experiment_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "self.state.resume_service.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancelled",
+      "to": "self._cancel_event.is_set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue",
+      "to": "_LOG.warning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue",
+      "to": "messages.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue",
+      "to": "progress_queue.get_nowait"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "data.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "fractions.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "calo_rpd_studio.compute.governor.AdaptiveComputeGovernor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "calo_rpd_studio.compute.governor.GovernorConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "profile.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "self.state.refresh_compute_profile"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload",
+      "to": "min"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._fraction_for_payload",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.cancel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "decision.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "governor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "governor.staged_delay_elapsed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "self._compute_provenance.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_allows_admission",
+      "to": "self._pause_event.set"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_note_launch",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_note_launch",
+      "to": "governor.note_branch_launch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_note_launch",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_note_launch",
+      "to": "self._compute_provenance.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._governor_note_launch",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._mark_task_started",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._mark_task_started",
+      "to": "self._task_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._mark_task_started",
+      "to": "self.state.database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._mark_task_started",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested",
+      "to": "self._pause_event.is_set"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "self.state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "self.state.database.update_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "self.state.database.update_experiment_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "self.state.resume_service.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "attestation.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "completed.result.metadata.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "continuation.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self._run_fingerprint_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self._task_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.run_completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.add_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.add_run_segment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.get_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.list_run_segments"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.snapshot_run_horizon"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "self.state.database.update_run_result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "store.save_arrays"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "self._task_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "self.run_failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "self.state.database.add_failure"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "self.state.database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "completed.result.metadata.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "continuation.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "self._task_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "self.state.database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "self.state.database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "KeyError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "actual_sha.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_parameters.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_parameters.items"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "calo_rpd_studio.portfolio.fingerprint.run_fingerprint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "checkpoint_root.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "checkpoint_sha.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "continuation.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.add_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.append_task_event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.available_run_horizons"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.bind_policy_to_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.clone_run_to_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.create_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.find_reusable_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.get_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.get_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.get_experiment_policy_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.get_experiment_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.get_run_by_algorithm_index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.list_run_segments"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.update_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.update_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "database.update_experiment_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "evolution.ensure_original_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "existing.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "key.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "path.is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "plan.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "policy.sha256.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "previous_binding.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "row.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "segment.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self._task_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.config.algorithm_parameters.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.state.policy_registry.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.state.policy_registry.inspect_checkpoint"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.state.resume_service.register"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "self.state.resume_service.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "sorted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+      "to": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+      "to": "resolved.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row",
+      "to": "row.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._result_evaluations_from_row",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "ProcessPoolExecutor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "admit_jobs"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancelled"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.compute.resource_scheduler.backend_allows_accelerators"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "cancel_event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "context.Manager"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "future.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "manager.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "manager.Queue"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "min"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "mp.get_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "os.environ.setdefault"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "pending.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "time.sleep"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+      "to": "wait"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.pop_first"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "monitor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "queued.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "self._cancelled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "self._ensure_compute_governor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "self._governor_allows_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "self._pause_requested"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "self._resolved_cuda_devices"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.admit_jobs",
+      "to": "submit_item"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.pop_first",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.pop_first",
+      "to": "predicate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.pop_first",
+      "to": "queued.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "executor.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "self._governor_note_launch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "self._mark_task_started"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel.submit_item",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "_LOG.warning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calibration_pending.add"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calibration_pending.discard"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calibration_records.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calibration_records.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "callable"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancelled"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.active_total"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_throughput_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.resource_scheduler.throughput_worker_slots"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.compute.resource_scheduler.weighted_worker_slots"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "cancel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "cancel_event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "completed.result.metadata.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "completed.result.metadata.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "context.Manager"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "item_by_job_id.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "iter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "key.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "lane_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "lane_by_job.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "manager.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "manager.Queue"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "message.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "min"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "monitor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "mp.get_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "os.environ.setdefault"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "pool.calibrate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "pool.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "pool.poll"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "pools.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "pools.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "previous.devices.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "profile.save"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "queues.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "slots.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "time.monotonic"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "time.sleep"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "time.time"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "time.time_ns"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.active_total",
+      "to": "active_by_lane.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.active_total",
+      "to": "sum"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.active_total"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "pool.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "pools.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._cancelled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._ensure_compute_governor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._governor_allows_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._governor_note_launch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._mark_task_started"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self._pause_requested"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "slots.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput.submit_available",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "ProcessPoolExecutor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "admit_jobs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancelled"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._drain_progress_queue"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._emit_progress"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.compute.resource_scheduler.weighted_worker_slots"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "cancel_event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "context.Manager"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "future.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "lane_by_job.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "manager.Event"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "manager.Queue"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "min"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "monitor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "mp.get_context"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "os.environ.setdefault"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "pending.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "queues.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "time.sleep"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+      "to": "wait"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "monitor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "self._cancelled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "self._ensure_compute_governor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "self._governor_allows_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "self._pause_requested"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "slots.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.admit_jobs",
+      "to": "submit_item"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "devices.sort"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "self._resolved_cuda_devices"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.select_device",
+      "to": "snapshot.by_backend"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "active_by_device.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "executor.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "fractions.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "self._governor_note_launch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "self._mark_task_started"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted.submit_item",
+      "to": "sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancelled"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._mark_task_started"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_failure"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._persist_interrupted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._resolved_cuda_devices"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.app.experiment_manager._config_for_item_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.compute.resource_scheduler.backend_allows_accelerators"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.experiments.calo_ablation.run_ablation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "calo_rpd_studio.experiments.experiment_runner.run_single"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "monitor.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "self.progress.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential._CancelRelay.is_set",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential._CancelRelay.is_set",
+      "to": "self.callback"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential._ProgressRelay.put",
+      "to": "self.callback"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential.emit_progress",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential.emit_progress",
+      "to": "self._emit_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "digest.hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "digest.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "file_path.is_file"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "file_path.open"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "handle.read"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "iter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sha256_file",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress",
+      "to": "self.state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress",
+      "to": "self.state.database.update_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress",
+      "to": "self.state.resume_service.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._sync_campaign_progress",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.cancel",
+      "to": "_LOG.warning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.cancel",
+      "to": "event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.cancel",
+      "to": "self._cancel_event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.pause",
+      "to": "self._pause_event.set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._cancel_unfinished"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_requested"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._pause_unfinished"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.experiments.execution_plan.build_execution_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.experiments.seed_manager.SeedManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "calo_rpd_studio.results.result_store.ResultStore"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "generate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.cancelled.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.experiment_created.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.failed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.paused.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.state.database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.state.database.update_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.state.database.update_experiment_revision"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "self.state.resume_service.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+      "to": "type"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._config_for_item_device",
+      "to": "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._configure_child_numeric_threads",
+      "to": "_LOG.warning"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._configure_child_numeric_threads",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._configure_child_numeric_threads",
+      "to": "torch.set_num_interop_threads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._configure_child_numeric_threads",
+      "to": "torch.set_num_threads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "_LOG.exception"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "calo_rpd_studio.app.experiment_manager._config_for_item_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "calo_rpd_studio.app.experiment_manager._configure_child_numeric_threads"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "calo_rpd_studio.experiments.calo_ablation.run_ablation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "calo_rpd_studio.experiments.experiment_runner.run_single"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "cancel_event.is_set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.cancelled",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.cancelled",
+      "to": "cancel_event.is_set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "data.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "payload.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "progress_queue.put"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.app.experiment_manager._execute_process_job.emit_progress",
+      "to": "time.monotonic"
+    }
+  ]
+}

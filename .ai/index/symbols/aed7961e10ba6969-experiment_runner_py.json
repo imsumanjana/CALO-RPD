@@ -1,0 +1,2596 @@
+{
+  "path": "calo_rpd_studio/experiments/experiment_runner.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "CompletedRun",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.FailedRun",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "FailedRun",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "An optimizer failure carrying the last exact counted scientific state.",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "RunExecutionFailure",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "dict": "name",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "dict",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure.__init__",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(self, cause, numerical_state)",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "name.lower",
+          "target": "name.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "name.lower": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "tests.unit.test_v120_phase2_contracts.test_lease_cancellation_and_contention_have_distinct_failure_classes"
+      ],
+      "calls": [
+        "int",
+        "name.lower",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner._failure_kind",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(exc, evaluation_count)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "_failure_kind",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner._json_failure_value",
+        "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state"
+      ],
+      "calls": [
+        "float",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner._finite_failure_value",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(value)",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "_finite_failure_value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_failure_value",
+          "target": "calo_rpd_studio.experiments.experiment_runner._finite_failure_value"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_json_failure_value",
+          "target": "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.items",
+          "target": "value.items"
+        }
+      ],
+      "call_forms": {
+        "_finite_failure_value": "name",
+        "_json_failure_value": "name",
+        "bool": "name",
+        "isinstance": "name",
+        "str": "name",
+        "value.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner._json_failure_value",
+        "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+      ],
+      "calls": [
+        "_finite_failure_value",
+        "_json_failure_value",
+        "bool",
+        "isinstance",
+        "str",
+        "value.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner._finite_failure_value",
+        "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+      ],
+      "doc": "Convert numerical exception state to strict, atomically persistable JSON values.",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner._json_failure_value",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(value)",
+      "start_line": 83,
+      "state_owner": "",
+      "symbol": "_json_failure_value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_failure_kind",
+          "target": "calo_rpd_studio.experiments.experiment_runner._failure_kind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_failure_value",
+          "target": "calo_rpd_studio.experiments.experiment_runner._finite_failure_value"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_json_failure_value",
+          "target": "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_failure_kind": "name",
+        "_finite_failure_value": "name",
+        "_json_failure_value": "name",
+        "bool": "name",
+        "dict": "name",
+        "get": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "parameters.get": "attribute",
+        "reshape": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "tests.unit.test_v120_phase2_contracts.test_partial_failure_envelope_preserves_exact_count_and_incumbent"
+      ],
+      "calls": [
+        "_failure_kind",
+        "_finite_failure_value",
+        "_json_failure_value",
+        "bool",
+        "dict",
+        "get",
+        "getattr",
+        "int",
+        "np.asarray",
+        "parameters.get",
+        "reshape",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner._failure_kind",
+        "calo_rpd_studio.experiments.experiment_runner._finite_failure_value",
+        "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+      ],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(optimizer, config, exc)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "_optimizer_failure_state",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "FailedRun",
+          "target": "calo_rpd_studio.experiments.experiment_runner.FailedRun"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_failure_kind",
+          "target": "calo_rpd_studio.experiments.experiment_runner._failure_kind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_json_failure_value",
+          "target": "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.get",
+          "target": "state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traceback.format_exception",
+          "target": "traceback.format_exception"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "FailedRun": "name",
+        "_failure_kind": "name",
+        "_json_failure_value": "name",
+        "dict": "name",
+        "getattr": "name",
+        "int": "name",
+        "isinstance": "name",
+        "join": "attribute",
+        "state.get": "attribute",
+        "str": "name",
+        "traceback.format_exception": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_weighted",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+        "calo_rpd_studio.app.experiment_manager._execute_process_job",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job",
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient"
+      ],
+      "calls": [
+        "FailedRun",
+        "_failure_kind",
+        "_json_failure_value",
+        "dict",
+        "getattr",
+        "int",
+        "isinstance",
+        "join",
+        "state.get",
+        "str",
+        "traceback.format_exception",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner.FailedRun",
+        "calo_rpd_studio.experiments.experiment_runner._failure_kind",
+        "calo_rpd_studio.experiments.experiment_runner._json_failure_value"
+      ],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(algorithm, run_index, seeds, exc)",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "failed_run_from_exception",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_case",
+          "target": "calo_rpd_studio.power_system.case_validation.validate_case"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "n_minus_one_branch_scenarios",
+          "target": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "n_minus_one_generator_scenarios",
+          "target": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "renewable_scenarios",
+          "target": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "normalize_scenario_weights",
+          "target": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioGeneratorConfig",
+          "target": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_load_scenarios",
+          "target": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_stratified_load_scenarios",
+          "target": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.apply",
+          "target": "item.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "settings.validate",
+          "target": "settings.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "ScenarioGeneratorConfig": "name",
+        "ValueError": "name",
+        "abs": "name",
+        "any": "name",
+        "astype": "attribute",
+        "case.bus_index_map": "attribute",
+        "float": "name",
+        "generate_load_scenarios": "name",
+        "generate_stratified_load_scenarios": "name",
+        "int": "name",
+        "item.apply": "attribute",
+        "join": "attribute",
+        "n_minus_one_branch_scenarios": "name",
+        "n_minus_one_generator_scenarios": "name",
+        "normalize_scenario_weights": "name",
+        "np.random.default_rng": "attribute",
+        "renewable_scenarios": "name",
+        "replace": "name",
+        "set": "name",
+        "settings.validate": "attribute",
+        "tolist": "attribute",
+        "validate_case": "name",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "calo_rpd_studio.algorithms.calo.competitive_training._exact_development_problem",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests"
+      ],
+      "calls": [
+        "Scenario",
+        "ScenarioGeneratorConfig",
+        "ValueError",
+        "abs",
+        "any",
+        "astype",
+        "case.bus_index_map",
+        "float",
+        "generate_load_scenarios",
+        "generate_stratified_load_scenarios",
+        "int",
+        "item.apply",
+        "join",
+        "n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios",
+        "normalize_scenario_weights",
+        "np.random.default_rng",
+        "renewable_scenarios",
+        "replace",
+        "set",
+        "settings.validate",
+        "tolist",
+        "validate_case",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_validation.validate_case",
+        "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "calo_rpd_studio.robustness.scenario.Scenario",
+        "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios"
+      ],
+      "doc": "Build, validate, and normalize a non-empty robust scenario set.",
+      "end_line": 262,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(config, seed, case)",
+      "start_line": 184,
+      "state_owner": "",
+      "symbol": "build_scenarios",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py"
+      ]
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_scenarios",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolution.get",
+          "target": "resolution.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "bool": "name",
+        "build_scenarios": "name",
+        "dict": "name",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "resolution.get": "attribute",
+        "resolve_config_for_entrypoint": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._collect_calibration",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._independent_validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._result_record",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main",
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "calo_rpd_studio.scripts.validate_cuda_hot_path._build_cuda_problem",
+        "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible"
+      ],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "CaseLoader.load",
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "bool",
+        "build_scenarios",
+        "dict",
+        "float",
+        "getattr",
+        "int",
+        "resolution.get",
+        "resolve_config_for_entrypoint",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 299,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(config, scenario_seed, cancel_callback)",
+      "start_line": 265,
+      "state_owner": "",
+      "symbol": "build_problem",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py"
+      ]
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "result_device_attestation",
+          "target": "calo_rpd_studio.compute.device_binding.result_device_attestation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CompletedRun",
+          "target": "calo_rpd_studio.experiments.experiment_runner.CompletedRun"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RunExecutionFailure",
+          "target": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_optimizer_failure_state",
+          "target": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scientific_problem_fingerprint",
+          "target": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checksum",
+          "target": "checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.algorithm_parameters.get",
+          "target": "config.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoder.formulation_manifest",
+          "target": "decoder.formulation_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "defaults.setdefault",
+          "target": "defaults.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "defaults.update",
+          "target": "defaults.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.apply",
+          "target": "item.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "opt.run",
+          "target": "opt.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.case.checksum",
+          "target": "problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "CompletedRun": "name",
+        "KeyError": "name",
+        "OptimizerConfig": "name",
+        "RunExecutionFailure": "name",
+        "_optimizer_failure_state": "name",
+        "build_problem": "name",
+        "cancel_callback": "name",
+        "checksum": "attribute",
+        "config.algorithm_parameters.get": "attribute",
+        "create_optimizer": "name",
+        "decoder.formulation_manifest": "attribute",
+        "defaults.setdefault": "attribute",
+        "defaults.update": "attribute",
+        "dict": "name",
+        "encode": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "hasattr": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "int": "name",
+        "item.apply": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "opt.run": "attribute",
+        "problem.case.checksum": "attribute",
+        "resolve_config_for_entrypoint": "name",
+        "result_device_attestation": "name",
+        "scientific_problem_fingerprint": "name",
+        "str": "name",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+        "calo_rpd_studio.app.experiment_manager._execute_process_job",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job",
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "calo_rpd_studio.experiments.parallel_runner._worker"
+      ],
+      "calls": [
+        "CompletedRun",
+        "KeyError",
+        "OptimizerConfig",
+        "RunExecutionFailure",
+        "_optimizer_failure_state",
+        "build_problem",
+        "cancel_callback",
+        "checksum",
+        "config.algorithm_parameters.get",
+        "create_optimizer",
+        "decoder.formulation_manifest",
+        "defaults.setdefault",
+        "defaults.update",
+        "dict",
+        "encode",
+        "float",
+        "getattr",
+        "hasattr",
+        "hashlib.sha256",
+        "hexdigest",
+        "int",
+        "item.apply",
+        "json.dumps",
+        "len",
+        "list",
+        "max",
+        "opt.run",
+        "problem.case.checksum",
+        "resolve_config_for_entrypoint",
+        "result_device_attestation",
+        "scientific_problem_fingerprint",
+        "str",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint"
+      ],
+      "doc": "",
+      "end_line": 397,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.run_single",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(config, algorithm, run_index, seeds, progress_callback, cancel_callback)",
+      "start_line": 302,
+      "state_owner": "",
+      "symbol": "run_single",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "cancel_callback": "name",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "cancel_callback",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 347,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner.run_single",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.run_single.cancel",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "()",
+      "start_line": 340,
+      "state_owner": "",
+      "symbol": "cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_sequential_resilient",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "run_sequential_resilient": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "run_sequential_resilient"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient"
+      ],
+      "doc": "Run sequentially; returns (completed_runs, failed_runs) matching the resilient variants.",
+      "end_line": 406,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.run_sequential",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(config, progress_callback, cancel_callback)",
+      "start_line": 400,
+      "state_owner": "",
+      "symbol": "run_sequential",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "experiment execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "failed_run_from_exception",
+          "target": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_single",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_single"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SeedManager",
+          "target": "calo_rpd_studio.experiments.seed_manager.SeedManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "done.append",
+          "target": "done.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failed.append",
+          "target": "failed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "generate",
+          "target": "generate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "SeedManager": "name",
+        "cancel_callback": "name",
+        "config.validate": "attribute",
+        "done.append": "attribute",
+        "failed.append": "attribute",
+        "failed_run_from_exception": "name",
+        "generate": "attribute",
+        "range": "name",
+        "resolve_config_for_entrypoint": "name",
+        "run_single": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main"
+      ],
+      "calls": [
+        "SeedManager",
+        "cancel_callback",
+        "config.validate",
+        "done.append",
+        "failed.append",
+        "failed_run_from_exception",
+        "generate",
+        "range",
+        "resolve_config_for_entrypoint",
+        "run_single"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "calo_rpd_studio.experiments.seed_manager.SeedManager"
+      ],
+      "doc": "",
+      "end_line": 425,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_runner.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "RunSeeds": "calo_rpd_studio.experiments.seed_manager.RunSeeds",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "generate_stratified_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+        "hashlib": "hashlib",
+        "json": "json",
+        "n_minus_one_branch_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_branch_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "normalize_scenario_weights": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights",
+        "np": "numpy",
+        "renewable_scenarios": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+        "replace": "dataclasses.replace",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "scientific_problem_fingerprint": "calo_rpd_studio.orpd.formulation_fingerprint.scientific_problem_fingerprint",
+        "time": "time",
+        "traceback": "traceback",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".seed_manager",
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.orpd.formulation_fingerprint",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.renewable_uncertainty",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "calo_rpd_studio.robustness.scenario",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "numpy",
+        "time",
+        "traceback"
+      ],
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_runner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_runner",
+      "qualname": "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "evaluation-count",
+        "experiments",
+        "failure-evidence",
+        "fairness",
+        "run-orchestration"
+      ],
+      "signature": "(config, progress_callback, cancel_callback)",
+      "start_line": 409,
+      "state_owner": "",
+      "symbol": "run_sequential_resilient",
+      "tests": []
+    }
+  ]
+}

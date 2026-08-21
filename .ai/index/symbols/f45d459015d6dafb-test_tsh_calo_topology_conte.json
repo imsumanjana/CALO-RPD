@@ -1,0 +1,1143 @@
+{
+  "path": "tests/unit/test_tsh_calo_topology_context.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyGraphState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty_like",
+          "target": "np.empty_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TopologyGraphState": "name",
+        "int": "name",
+        "len": "name",
+        "np.arange": "attribute",
+        "np.empty_like": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order"
+      ],
+      "calls": [
+        "TopologyGraphState",
+        "int",
+        "len",
+        "np.arange",
+        "np.empty_like",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context._permuted",
+      "semantic_tags": [],
+      "signature": "(state)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_permuted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOFeatureFlags",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOFeatureFlags": "name",
+        "pytest.raises": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOFeatureFlags",
+        "pytest.raises",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_tsh_calo_versions_are_new_and_experimental_schedule_defaults_off",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "test_tsh_calo_versions_are_new_and_experimental_schedule_defaults_off",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.getsource",
+          "target": "inspect.getsource"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "inspect.getsource": "attribute",
+        "np.full": "attribute",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute",
+        "run_ac_power_flow": "name",
+        "state.validate": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "inspect.getsource",
+        "np.full",
+        "np.zeros",
+        "pytest.raises",
+        "run_ac_power_flow",
+        "state.validate",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "test_topology_builder_uses_only_an_already_computed_power_flow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyContextEncoder",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encoder",
+          "target": "encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_permuted",
+          "target": "tests.unit.test_tsh_calo_topology_context._permuted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyContextEncoder": "name",
+        "_permuted": "name",
+        "build_topology_graph_state": "name",
+        "double": "attribute",
+        "encoder": "name",
+        "eval": "attribute",
+        "np.full": "attribute",
+        "run_ac_power_flow": "name",
+        "torch.manual_seed": "attribute",
+        "torch.testing.assert_close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyContextEncoder",
+        "_permuted",
+        "build_topology_graph_state",
+        "double",
+        "encoder",
+        "eval",
+        "np.full",
+        "run_ac_power_flow",
+        "torch.manual_seed",
+        "torch.testing.assert_close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "tests.unit.test_tsh_calo_topology_context._permuted"
+      ],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyContextEncoder",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encoder",
+          "target": "encoder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.edge_features.copy",
+          "target": "state.edge_features.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.allclose",
+          "target": "torch.allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyContextEncoder": "name",
+        "build_topology_graph_state": "name",
+        "double": "attribute",
+        "encoder": "name",
+        "eval": "attribute",
+        "np.full": "attribute",
+        "replace": "name",
+        "run_ac_power_flow": "name",
+        "state.edge_features.copy": "attribute",
+        "torch.allclose": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.testing.assert_close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyContextEncoder",
+        "build_topology_graph_state",
+        "double",
+        "encoder",
+        "eval",
+        "np.full",
+        "replace",
+        "run_ac_power_flow",
+        "state.edge_features.copy",
+        "torch.allclose",
+        "torch.manual_seed",
+        "torch.testing.assert_close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 146,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 125,
+      "state_owner": "",
+      "symbol": "test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expand_as",
+          "target": "expand_as"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network",
+          "target": "network"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.forward_prepared",
+          "target": "network.forward_prepared"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.forward_prepared_components",
+          "target": "network.forward_prepared_components"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.parameters",
+          "target": "network.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.prepare_state",
+          "target": "network.prepare_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.equal",
+          "target": "torch.equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "expand_as": "attribute",
+        "getattr": "name",
+        "network": "name",
+        "network.forward_prepared": "attribute",
+        "network.forward_prepared_components": "attribute",
+        "network.parameters": "attribute",
+        "network.prepare_state": "attribute",
+        "next": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name",
+        "torch.equal": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.testing.assert_close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TSHCALOPolicyNetwork",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "double",
+        "eval",
+        "expand_as",
+        "getattr",
+        "network",
+        "network.forward_prepared",
+        "network.forward_prepared_components",
+        "network.parameters",
+        "network.prepare_state",
+        "next",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow",
+        "torch.equal",
+        "torch.manual_seed",
+        "torch.testing.assert_close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 215,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "test_prepared_policy_state_is_numerically_identical_without_reupload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyGraphState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.node_features.copy",
+          "target": "state.node_features.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "TopologyGraphState": "name",
+        "np.asarray": "attribute",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "state.node_features.copy": "attribute",
+        "state.validate": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TopologyGraphState",
+        "np.asarray",
+        "np.zeros",
+        "pytest.raises",
+        "replace",
+        "state.node_features.copy",
+        "state.validate",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState"
+      ],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_topology_context.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TopologyContextEncoder": "calo_rpd_studio.algorithms.calo.topology_context.TopologyContextEncoder",
+        "TopologyGraphState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyGraphState",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_topology_context",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_topology_context",
+      "qualname": "tests.unit.test_tsh_calo_topology_context.test_topology_state_rejects_nonfinite_features_and_unknown_bus_indices",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 218,
+      "state_owner": "",
+      "symbol": "test_topology_state_rejects_nonfinite_features_and_unknown_bus_indices",
+      "tests": []
+    }
+  ]
+}

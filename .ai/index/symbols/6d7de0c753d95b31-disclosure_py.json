@@ -1,0 +1,380 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/disclosure.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._organize_study_setup"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A keyboard-operable details drawer with a concise closed-state summary.",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/disclosure.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.disclosure",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.disclosure",
+      "qualname": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "DisclosurePanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QToolButton",
+          "target": "QToolButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.set_expanded",
+          "target": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel.set_expanded"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setObjectName",
+          "target": "self.summary.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setWordWrap",
+          "target": "self.summary.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.clicked.connect",
+          "target": "self.toggle.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setAccessibleDescription",
+          "target": "self.toggle.setAccessibleDescription"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setAccessibleName",
+          "target": "self.toggle.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setCheckable",
+          "target": "self.toggle.setCheckable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setChecked",
+          "target": "self.toggle.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setObjectName",
+          "target": "self.toggle.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setText",
+          "target": "self.toggle.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setToolButtonStyle",
+          "target": "self.toggle.setToolButtonStyle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QLabel": "name",
+        "QToolButton": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "bool": "name",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self.setObjectName": "attribute",
+        "self.set_expanded": "attribute",
+        "self.summary.setObjectName": "attribute",
+        "self.summary.setWordWrap": "attribute",
+        "self.toggle.clicked.connect": "attribute",
+        "self.toggle.setAccessibleDescription": "attribute",
+        "self.toggle.setAccessibleName": "attribute",
+        "self.toggle.setCheckable": "attribute",
+        "self.toggle.setChecked": "attribute",
+        "self.toggle.setObjectName": "attribute",
+        "self.toggle.setText": "attribute",
+        "self.toggle.setToolButtonStyle": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QLabel",
+        "QToolButton",
+        "QVBoxLayout",
+        "__init__",
+        "bool",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self.setObjectName",
+        "self.set_expanded",
+        "self.summary.setObjectName",
+        "self.summary.setWordWrap",
+        "self.toggle.clicked.connect",
+        "self.toggle.setAccessibleDescription",
+        "self.toggle.setAccessibleName",
+        "self.toggle.setCheckable",
+        "self.toggle.setChecked",
+        "self.toggle.setObjectName",
+        "self.toggle.setText",
+        "self.toggle.setToolButtonStyle",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel.set_expanded"
+      ],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/disclosure.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.disclosure",
+      "qualname": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title, summary, content, parent, expanded)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.content.setVisible",
+          "target": "self.content.setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.text",
+          "target": "self.summary.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.blockSignals",
+          "target": "self.toggle.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setAccessibleDescription",
+          "target": "self.toggle.setAccessibleDescription"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setArrowType",
+          "target": "self.toggle.setArrowType"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.toggle.setChecked",
+          "target": "self.toggle.setChecked"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.content.setVisible": "attribute",
+        "self.summary.text": "attribute",
+        "self.toggle.blockSignals": "attribute",
+        "self.toggle.setAccessibleDescription": "attribute",
+        "self.toggle.setArrowType": "attribute",
+        "self.toggle.setChecked": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel.__init__"
+      ],
+      "calls": [
+        "bool",
+        "self.content.setVisible",
+        "self.summary.text",
+        "self.toggle.blockSignals",
+        "self.toggle.setAccessibleDescription",
+        "self.toggle.setArrowType",
+        "self.toggle.setChecked"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/disclosure.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.disclosure",
+      "qualname": "calo_rpd_studio.gui.widgets.disclosure.DisclosurePanel.set_expanded",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, expanded)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "set_expanded",
+      "tests": []
+    }
+  ]
+}

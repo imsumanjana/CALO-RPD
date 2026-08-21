@@ -1,0 +1,43 @@
+{
+  "depended_on_by": [
+    "calo-policy",
+    "tests"
+  ],
+  "depends_on": [
+    "calo-policy",
+    "compute",
+    "core",
+    "desktop",
+    "experiments",
+    "persistence",
+    "power-system"
+  ],
+  "files": [
+    "Launch-CALO-RPD.ps1",
+    "bootstrap.py",
+    "calo_bootstrap/AGENTS.md",
+    "calo_bootstrap/__init__.py",
+    "calo_bootstrap/launcher.py",
+    "calo_bootstrap/prerequisites.py",
+    "calo_bootstrap/wizard.py",
+    "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
+    "calo_rpd_studio/scripts/run_benchmark.py",
+    "calo_rpd_studio/scripts/run_final_benchmark.py",
+    "calo_rpd_studio/scripts/run_mathematical_reference.py",
+    "run_linux.sh",
+    "run_windows.bat",
+    "start_calo.bat",
+    "start_calo.ps1"
+  ],
+  "module": "bootstrap",
+  "preferred_edit_targets": [],
+  "schema_version": 2,
+  "state_owners": [],
+  "tests": [
+    "tests/unit/test_mathematical_reference.py",
+    "tests/unit/test_prerequisites_and_resources.py",
+    "tests/unit/test_v120_phase2_contracts.py",
+    "tests/unit/test_v650_must_resolve.py",
+    "tests/unit/test_v680_policy_independence.py"
+  ]
+}

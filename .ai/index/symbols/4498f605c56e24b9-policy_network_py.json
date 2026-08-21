@@ -1,0 +1,318 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_network.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController.load",
+        "calo_rpd_studio.algorithms.calo.competitive_training._network_from_payload",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._persistent_actor_network",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.collect_actor_lane_payload",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.algorithms.calo.training._train_policy_impl",
+        "tests.gui.test_phase6_ribbon_workspace.test_first_standalone_unqualified_model_can_be_deleted_exactly",
+        "tests.gui.test_phase6_ribbon_workspace.test_imported_unqualified_completed_campaign_can_be_removed_exactly",
+        "tests.gui.test_phase6_ribbon_workspace.test_main_preview_can_scroll_to_dynamic_policy_evidence_bottom",
+        "tests.unit.test_calo.test_cognitive_state_and_policy",
+        "tests.unit.test_calo_v41_policy_system._write_native_policy",
+        "tests.unit.test_calo_v41_policy_system.test_policy_activation_rejects_incompatible_legacy_policy",
+        "tests.unit.test_heterogeneous_policy_training.test_policy_snapshot_hash_detects_changes",
+        "tests.unit.test_v31_batched_throughput.test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process",
+        "tests.unit.test_v541_policy_cache_broker_hardening._save_policy",
+        "tests.unit.test_v580_audit_closure.test_exact_resume_history_payload_is_bounded",
+        "tests.unit.test_v590_scientific_closure.test_native_v59_training_transition_matches_deployed_calo_one_step",
+        "tests.unit.test_v5_continuation.test_policy_lineage_tracks_latest_separately_from_best"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Outputs search regime, operator distribution, Beta parameters, and state value.",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_network.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+        "annotations": "__future__.annotations",
+        "nn": "torch.nn",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        "__future__",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_network",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_network",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "CALOPolicyNetwork",
+      "tests": [
+        "tests/gui/test_phase6_ribbon_workspace.py",
+        "tests/unit/test_calo.py",
+        "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_heterogeneous_policy_training.py",
+        "tests/unit/test_v31_batched_throughput.py",
+        "tests/unit/test_v541_policy_cache_broker_hardening.py",
+        "tests/unit/test_v580_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v5_continuation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.LayerNorm",
+          "target": "nn.LayerNorm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Linear",
+          "target": "nn.Linear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Sequential",
+          "target": "nn.Sequential"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nn.Tanh",
+          "target": "nn.Tanh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "int": "name",
+        "nn.LayerNorm": "attribute",
+        "nn.Linear": "attribute",
+        "nn.Sequential": "attribute",
+        "nn.Tanh": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "int",
+        "nn.LayerNorm",
+        "nn.Linear",
+        "nn.Sequential",
+        "nn.Tanh",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_network.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+        "annotations": "__future__.annotations",
+        "nn": "torch.nn",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        "__future__",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_network",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, input_dim, hidden_dim, n_regimes, n_operators, n_parameters)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.alpha_head",
+          "target": "self.alpha_head"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.backbone",
+          "target": "self.backbone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.beta_head",
+          "target": "self.beta_head"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.operator_head",
+          "target": "self.operator_head"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.regime_head",
+          "target": "self.regime_head"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.value_head",
+          "target": "self.value_head"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "squeeze",
+          "target": "squeeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.nn.functional.softplus",
+          "target": "torch.nn.functional.softplus"
+        }
+      ],
+      "call_forms": {
+        "self.alpha_head": "attribute",
+        "self.backbone": "attribute",
+        "self.beta_head": "attribute",
+        "self.operator_head": "attribute",
+        "self.regime_head": "attribute",
+        "self.value_head": "attribute",
+        "squeeze": "attribute",
+        "torch.nn.functional.softplus": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.alpha_head",
+        "self.backbone",
+        "self.beta_head",
+        "self.operator_head",
+        "self.regime_head",
+        "self.value_head",
+        "squeeze",
+        "torch.nn.functional.softplus"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_network.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+        "annotations": "__future__.annotations",
+        "nn": "torch.nn",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        "__future__",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_network",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork.forward",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, x)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "forward",
+      "tests": []
+    }
+  ]
+}

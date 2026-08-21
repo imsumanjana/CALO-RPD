@@ -1,0 +1,1347 @@
+{
+  "path": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 293,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "StatisticalAnalysisPanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTabWidget",
+          "target": "QTabWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "analyze.clicked.connect",
+          "target": "analyze.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "analyze.setObjectName",
+          "target": "analyze.setObjectName"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_experiments",
+          "target": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScientificPlotWidget",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls.addWidget",
+          "target": "controls.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh.clicked.connect",
+          "target": "refresh.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentIndexChanged.connect",
+          "target": "self.experiment.currentIndexChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.currentIndexChanged.connect",
+          "target": "self.horizon.currentIndexChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon_status.setWordWrap",
+          "target": "self.horizon_status.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addLayout",
+          "target": "self.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.horizontalHeader",
+          "target": "self.table.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setAlternatingRowColors",
+          "target": "self.table.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setHorizontalHeaderLabels",
+          "target": "self.table.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.verticalHeader",
+          "target": "self.table.verticalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.addTab",
+          "target": "self.tabs.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setSectionResizeMode",
+          "target": "setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setStretchLastSection",
+          "target": "setStretchLastSection"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setVisible",
+          "target": "setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.runs_changed.connect",
+          "target": "state.runs_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QComboBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QTabWidget": "name",
+        "QTableWidget": "name",
+        "ScientificPlotWidget": "name",
+        "__init__": "attribute",
+        "analyze.clicked.connect": "attribute",
+        "analyze.setObjectName": "attribute",
+        "controls.addWidget": "attribute",
+        "refresh.clicked.connect": "attribute",
+        "self.experiment.currentIndexChanged.connect": "attribute",
+        "self.horizon.currentIndexChanged.connect": "attribute",
+        "self.horizon_status.setWordWrap": "attribute",
+        "self.layout_root.addLayout": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.refresh_experiments": "attribute",
+        "self.table.horizontalHeader": "attribute",
+        "self.table.setAlternatingRowColors": "attribute",
+        "self.table.setHorizontalHeaderLabels": "attribute",
+        "self.table.verticalHeader": "attribute",
+        "self.tabs.addTab": "attribute",
+        "setSectionResizeMode": "attribute",
+        "setStretchLastSection": "attribute",
+        "setVisible": "attribute",
+        "state.runs_changed.connect": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QComboBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QTabWidget",
+        "QTableWidget",
+        "ScientificPlotWidget",
+        "__init__",
+        "analyze.clicked.connect",
+        "analyze.setObjectName",
+        "controls.addWidget",
+        "refresh.clicked.connect",
+        "self.experiment.currentIndexChanged.connect",
+        "self.horizon.currentIndexChanged.connect",
+        "self.horizon_status.setWordWrap",
+        "self.layout_root.addLayout",
+        "self.layout_root.addWidget",
+        "self.refresh_experiments",
+        "self.table.horizontalHeader",
+        "self.table.setAlternatingRowColors",
+        "self.table.setHorizontalHeaderLabels",
+        "self.table.verticalHeader",
+        "self.tabs.addTab",
+        "setSectionResizeMode",
+        "setStretchLastSection",
+        "setVisible",
+        "state.runs_changed.connect",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments",
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_horizons",
+          "target": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_horizons"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.addItem",
+          "target": "self.experiment.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.clear",
+          "target": "self.experiment.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiments",
+          "target": "self.state.database.list_experiments"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self.experiment.addItem": "attribute",
+        "self.experiment.clear": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.refresh_horizons": "attribute",
+        "self.state.database.list_experiments": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.__init__",
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.select_experiment"
+      ],
+      "calls": [
+        "max",
+        "self.experiment.addItem",
+        "self.experiment.clear",
+        "self.experiment.currentData",
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.refresh_horizons",
+        "self.state.database.list_experiments"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_horizons"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "refresh_experiments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_horizon_status",
+          "target": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel._update_horizon_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.addItem",
+          "target": "self.horizon.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.blockSignals",
+          "target": "self.horizon.blockSignals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.clear",
+          "target": "self.horizon.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.count",
+          "target": "self.horizon.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.currentData",
+          "target": "self.horizon.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.findData",
+          "target": "self.horizon.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.setCurrentIndex",
+          "target": "self.horizon.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiment_horizons",
+          "target": "self.state.database.list_experiment_horizons"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name",
+        "self._update_horizon_status": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.horizon.addItem": "attribute",
+        "self.horizon.blockSignals": "attribute",
+        "self.horizon.clear": "attribute",
+        "self.horizon.count": "attribute",
+        "self.horizon.currentData": "attribute",
+        "self.horizon.findData": "attribute",
+        "self.horizon.setCurrentIndex": "attribute",
+        "self.state.database.list_experiment_horizons": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments"
+      ],
+      "calls": [
+        "int",
+        "max",
+        "self._update_horizon_status",
+        "self.experiment.currentData",
+        "self.horizon.addItem",
+        "self.horizon.blockSignals",
+        "self.horizon.clear",
+        "self.horizon.count",
+        "self.horizon.currentData",
+        "self.horizon.findData",
+        "self.horizon.setCurrentIndex",
+        "self.state.database.list_experiment_horizons",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel._update_horizon_status"
+      ],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_horizons",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *_args)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "refresh_horizons",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "revision.get",
+          "target": "revision.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.currentData",
+          "target": "self.horizon.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon_status.setText",
+          "target": "self.horizon_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.experiment_horizon_status",
+          "target": "self.state.database.experiment_horizon_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "revision.get": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.horizon.currentData": "attribute",
+        "self.horizon_status.setText": "attribute",
+        "self.state.database.experiment_horizon_status": "attribute",
+        "status.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_horizons"
+      ],
+      "calls": [
+        "int",
+        "revision.get",
+        "self.experiment.currentData",
+        "self.horizon.currentData",
+        "self.horizon_status.setText",
+        "self.state.database.experiment_horizon_status",
+        "status.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 150,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel._update_horizon_status",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *_args)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "_update_horizon_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_experiments",
+          "target": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.refresh",
+          "target": "self.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "hasattr": "name",
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.refresh": "attribute",
+        "self.refresh_experiments": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "hasattr",
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.refresh",
+        "self.refresh_experiments",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.refresh_experiments"
+      ],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.select_experiment",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "select_experiment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "aligned.append",
+          "target": "aligned.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "descriptive_statistics",
+          "target": "calo_rpd_studio.statistics.descriptive.descriptive_statistics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "convergence.items",
+          "target": "convergence.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "convergence.setdefault",
+          "target": "convergence.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.items",
+          "target": "groups.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.keys",
+          "target": "groups.keys"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.setdefault",
+          "target": "groups.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.values",
+          "target": "groups.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.update",
+          "target": "metadata.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.concatenate",
+          "target": "np.concatenate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.nanmedian",
+          "target": "np.nanmedian"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.searchsorted",
+          "target": "np.searchsorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.unique",
+          "target": "np.unique"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.analysis_completed.emit",
+          "target": "self.analysis_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.boxplot.axis.boxplot",
+          "target": "self.boxplot.axis.boxplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.boxplot.axis.clear",
+          "target": "self.boxplot.axis.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.boxplot.axis.text",
+          "target": "self.boxplot.axis.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.boxplot.manager.apply",
+          "target": "self.boxplot.manager.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.convergence.plot_xy_series",
+          "target": "self.convergence.plot_xy_series"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.horizon.currentData",
+          "target": "self.horizon.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.experiment_horizon_status",
+          "target": "self.state.database.experiment_horizon_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setRowCount",
+          "target": "self.table.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stats.get",
+          "target": "stats.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "QApplication.processEvents": "attribute",
+        "QTableWidgetItem": "name",
+        "ValueError": "name",
+        "aligned.append": "attribute",
+        "append": "attribute",
+        "bool": "name",
+        "convergence.items": "attribute",
+        "convergence.setdefault": "attribute",
+        "data.get": "attribute",
+        "descriptive_statistics": "name",
+        "enumerate": "name",
+        "float": "name",
+        "groups.items": "attribute",
+        "groups.keys": "attribute",
+        "groups.setdefault": "attribute",
+        "groups.values": "attribute",
+        "int": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "metadata.get": "attribute",
+        "metadata.update": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.concatenate": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.nanmedian": "attribute",
+        "np.searchsorted": "attribute",
+        "np.unique": "attribute",
+        "np.vstack": "attribute",
+        "self.analysis_completed.emit": "attribute",
+        "self.boxplot.axis.boxplot": "attribute",
+        "self.boxplot.axis.clear": "attribute",
+        "self.boxplot.axis.text": "attribute",
+        "self.boxplot.manager.apply": "attribute",
+        "self.convergence.plot_xy_series": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.horizon.currentData": "attribute",
+        "self.state.database.experiment_horizon_status": "attribute",
+        "self.table.setItem": "attribute",
+        "self.table.setRowCount": "attribute",
+        "show_error": "name",
+        "sorted": "name",
+        "stats.get": "attribute",
+        "status.get": "attribute",
+        "str": "name",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication.processEvents",
+        "QTableWidgetItem",
+        "ValueError",
+        "aligned.append",
+        "append",
+        "bool",
+        "convergence.items",
+        "convergence.setdefault",
+        "data.get",
+        "descriptive_statistics",
+        "enumerate",
+        "float",
+        "groups.items",
+        "groups.keys",
+        "groups.setdefault",
+        "groups.values",
+        "int",
+        "json.loads",
+        "len",
+        "list",
+        "max",
+        "metadata.get",
+        "metadata.update",
+        "np.any",
+        "np.asarray",
+        "np.concatenate",
+        "np.full",
+        "np.isfinite",
+        "np.nanmedian",
+        "np.searchsorted",
+        "np.unique",
+        "np.vstack",
+        "self.analysis_completed.emit",
+        "self.boxplot.axis.boxplot",
+        "self.boxplot.axis.clear",
+        "self.boxplot.axis.text",
+        "self.boxplot.manager.apply",
+        "self.convergence.plot_xy_series",
+        "self.experiment.currentData",
+        "self.horizon.currentData",
+        "self.state.database.experiment_horizon_status",
+        "self.table.setItem",
+        "self.table.setRowCount",
+        "show_error",
+        "sorted",
+        "stats.get",
+        "status.get",
+        "str",
+        "task.begin",
+        "task.fail",
+        "task.finish",
+        "tolist"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.statistics.descriptive.descriptive_statistics"
+      ],
+      "doc": "",
+      "end_line": 293,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/statistical_analysis_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "ScientificPlotWidget": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "descriptive_statistics": "calo_rpd_studio.statistics.descriptive.descriptive_statistics",
+        "json": "json",
+        "np": "numpy",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.plotting.scientific_plot",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.statistics.descriptive",
+        "json",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.statistical_analysis_panel",
+      "qualname": "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.analyze",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 160,
+      "state_owner": "",
+      "symbol": "analyze",
+      "tests": []
+    }
+  ]
+}

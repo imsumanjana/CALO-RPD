@@ -1,0 +1,911 @@
+{
+  "path": "tests/unit/test_v2_benchmarking.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "standard_benchmark_suite",
+          "target": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "suite.evidence_role",
+          "target": "suite.evidence_role"
+        }
+      ],
+      "call_forms": {
+        "standard_benchmark_suite": "name",
+        "suite.evidence_role": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "standard_benchmark_suite",
+        "suite.evidence_role"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+      ],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_v2_standard_suite_contains_30_57_118_and_larger_300_case",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "test_v2_standard_suite_contains_30_57_118_and_larger_300_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.available_cases",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.available_cases": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.available_cases"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_case300_is_exposed_by_case_loader",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "test_case300_is_exposed_by_case_loader",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkSuite",
+          "target": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "standard_benchmark_suite",
+          "target": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.validate",
+          "target": "campaign.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "invalid.evidence_role",
+          "target": "invalid.evidence_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "BenchmarkSuite": "name",
+        "campaign.validate": "attribute",
+        "invalid.evidence_role": "attribute",
+        "pytest.raises": "attribute",
+        "standard_benchmark_suite": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "BenchmarkSuite",
+        "campaign.validate",
+        "invalid.evidence_role",
+        "pytest.raises",
+        "standard_benchmark_suite"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_confirmatory_campaign_requires_protected_test_and_cannot_relabel_it",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "test_confirmatory_campaign_requires_protected_test_and_cannot_relabel_it",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.validate",
+          "target": "campaign.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "campaign.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "campaign.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+      ],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_final_campaign_requires_power_planned_run_floor",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_final_campaign_requires_power_planned_run_floor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.validate",
+          "target": "campaign.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "campaign.validate": "attribute",
+        "primary_algorithm_names": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "campaign.validate",
+        "primary_algorithm_names",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_final_campaign_accepts_registered_comparator_subset_and_rejects_unknown",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "test_final_campaign_accepts_registered_comparator_subset_and_rejects_unknown",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "ExperimentConfig": "name",
+        "all": "name",
+        "build_campaign": "name",
+        "len": "name",
+        "list": "name",
+        "primary_algorithm_names": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "ExperimentConfig",
+        "all",
+        "build_campaign",
+        "len",
+        "list",
+        "primary_algorithm_names"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_campaign_plan_uses_all_algorithms_and_equal_job_count",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "test_campaign_plan_uses_all_algorithms_and_equal_job_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_campaign_plan",
+          "target": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "message.lower",
+          "target": "message.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "build_campaign": "name",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "message.lower": "attribute",
+        "path.read_text": "attribute",
+        "path.write_text": "attribute",
+        "verify_campaign_plan_design": "name",
+        "write_campaign_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "build_campaign",
+        "json.dumps",
+        "json.loads",
+        "message.lower",
+        "path.read_text",
+        "path.write_text",
+        "verify_campaign_plan_design",
+        "write_campaign_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_campaign_design_hash_allows_status_updates_but_detects_design_tampering",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "test_campaign_design_hash_allows_status_updates_but_detects_design_tampering",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "create_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mkdir",
+          "target": "mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.write_text",
+          "target": "source.write_text"
+        }
+      ],
+      "call_forms": {
+        "create_freeze_manifest": "name",
+        "mkdir": "attribute",
+        "source.write_text": "attribute",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "create_freeze_manifest",
+        "mkdir",
+        "source.write_text",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_freeze_manifest_detects_frozen_source_change",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "test_freeze_manifest_detects_frozen_source_change",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.parent.mkdir",
+          "target": "path.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "create_freeze_manifest": "name",
+        "json.loads": "attribute",
+        "path.parent.mkdir": "attribute",
+        "path.write_text": "attribute",
+        "read_text": "attribute",
+        "startswith": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "create_freeze_manifest",
+        "json.loads",
+        "path.parent.mkdir",
+        "path.write_text",
+        "read_text",
+        "startswith"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "tests/unit/test_v2_benchmarking.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "BenchmarkSuite": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "create_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "json": "json",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "pytest": "pytest",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_loader",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v2_benchmarking",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v2_benchmarking",
+      "qualname": "tests.unit.test_v2_benchmarking.test_freeze_manifest_captures_scope",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "test_freeze_manifest_captures_scope",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/verify_requirements_lock.py"
+    }
+  ],
+  "path": "tests/unit/test_requirements_lock.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_requirements_lock.test_candidate_lock_must_preserve_reference_runtime_versions",
+      "to": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_candidate_lock_must_preserve_reference_runtime_versions",
+      "to": "candidate.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_candidate_lock_must_preserve_reference_runtime_versions",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_candidate_lock_must_preserve_reference_runtime_versions",
+      "to": "reference.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_accepts_exact_hashed_pins",
+      "to": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_accepts_exact_hashed_pins",
+      "to": "lock.write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_rejects_unreproducible_entries",
+      "to": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_rejects_unreproducible_entries",
+      "to": "lock.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_rejects_unreproducible_entries",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_requirements_lock.test_requirements_lock_verification_rejects_unreproducible_entries",
+      "to": "pytest.raises"
+    }
+  ]
+}

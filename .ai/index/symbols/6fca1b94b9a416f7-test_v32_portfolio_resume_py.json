@@ -1,0 +1,769 @@
+{
+  "path": "tests/unit/test_v32_portfolio_resume.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioPlanner.plan",
+          "target": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PortfolioConfig": "name",
+        "PortfolioPlanner.plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "PortfolioConfig",
+        "PortfolioPlanner.plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "calo_rpd_studio.portfolio.planner.PortfolioPlanner.plan"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "experiment_fingerprint",
+          "target": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "left.to_dict",
+          "target": "left.to_dict"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "PortfolioConfig": "name",
+        "experiment_fingerprint": "name",
+        "left.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "PortfolioConfig",
+        "experiment_fingerprint",
+        "left.to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResumeService",
+          "target": "calo_rpd_studio.resume.service.ResumeService"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_resumable_task",
+          "target": "database.get_resumable_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.recover_after_restart",
+          "target": "service.recover_after_restart"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.register",
+          "target": "service.register"
+        }
+      ],
+      "call_forms": {
+        "ResultDatabase": "name",
+        "ResumeService": "name",
+        "database.get_resumable_task": "attribute",
+        "service.recover_after_restart": "attribute",
+        "service.register": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ResultDatabase",
+        "ResumeService",
+        "database.get_resumable_task",
+        "service.recover_after_restart",
+        "service.register"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.resume.service.ResumeService"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume.test_resume_service_marks_unclean_running_records_interrupted",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "test_resume_service_marks_unclean_running_records_interrupted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerResult",
+          "target": "calo_rpd_studio.algorithms.result.OptimizerResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "OptimizerResult": "name",
+        "SimpleNamespace": "name",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+        "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference"
+      ],
+      "calls": [
+        "OptimizerResult",
+        "SimpleNamespace",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.result.OptimizerResult"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume._fake_completed",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "_fake_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_run",
+          "target": "database.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stat",
+          "target": "stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.save_arrays",
+          "target": "store.save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_completed",
+          "target": "tests.unit.test_v32_portfolio_resume._fake_completed"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PortfolioConfig": "name",
+        "PortfolioExporter": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "_fake_completed": "name",
+        "config.validate": "attribute",
+        "database.add_run": "attribute",
+        "database.create_experiment": "attribute",
+        "export": "attribute",
+        "is_file": "attribute",
+        "json.loads": "attribute",
+        "read_text": "attribute",
+        "stat": "attribute",
+        "store.save_arrays": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "PortfolioConfig",
+        "PortfolioExporter",
+        "ResultDatabase",
+        "ResultStore",
+        "_fake_completed",
+        "config.validate",
+        "database.add_run",
+        "database.create_experiment",
+        "export",
+        "is_file",
+        "json.loads",
+        "read_text",
+        "stat",
+        "store.save_arrays",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "tests.unit.test_v32_portfolio_resume._fake_completed"
+      ],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "test_portfolio_export_resumes_artifact_by_artifact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_run",
+          "target": "database.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.clone_run_to_experiment",
+          "target": "database.clone_run_to_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.delete_run",
+          "target": "database.delete_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.exists",
+          "target": "path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save_arrays",
+          "target": "save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_completed",
+          "target": "tests.unit.test_v32_portfolio_resume._fake_completed"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "_fake_completed": "name",
+        "database.add_run": "attribute",
+        "database.clone_run_to_experiment": "attribute",
+        "database.create_experiment": "attribute",
+        "database.delete_run": "attribute",
+        "path.exists": "attribute",
+        "path.is_file": "attribute",
+        "save_arrays": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "ResultStore",
+        "_fake_completed",
+        "database.add_run",
+        "database.clone_run_to_experiment",
+        "database.create_experiment",
+        "database.delete_run",
+        "path.exists",
+        "path.is_file",
+        "save_arrays",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "tests.unit.test_v32_portfolio_resume._fake_completed"
+      ],
+      "doc": "",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "tests/unit/test_v32_portfolio_resume.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "ResumeService": "calo_rpd_studio.resume.service.ResumeService",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "experiment_fingerprint": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "json": "json",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.fingerprint",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.portfolio.planner",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.result_store",
+        "calo_rpd_studio.resume.models",
+        "calo_rpd_studio.resume.service",
+        "json",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v32_portfolio_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v32_portfolio_resume",
+      "qualname": "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 167,
+      "state_owner": "",
+      "symbol": "test_shared_reused_trace_is_deleted_only_after_last_reference",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,976 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/execution_control.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/state_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/workspace_campaign.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plans.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/study_planning.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    }
+  ],
+  "path": "tests/integration/test_workspace_execution_control.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.FakeExperimentManager.__init__",
+      "to": "__init__"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.FakeExperimentManager.__init__",
+      "to": "super"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.FakeExperimentManager.start_comparison",
+      "to": "self.started_configs.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.audited_workspace",
+      "to": "service.active_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.audited_workspace",
+      "to": "service.record_audit"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.integration.test_workspace_execution_control.audited_workspace",
+      "to": "tests.conftest.apply_workspace_study"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.prepared_service",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.prepared_service",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.prepared_service",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.prepared_service",
+      "to": "service.submit_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "database.acquire_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "database.transition_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_controller_acquisition_is_singleton_and_fenced",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "to": "database.get_execution_controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_corrupt_controller_receipt_fails_closed",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "database.add_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "database.create_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_duplicate_plan_job_admission_is_rejected",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "to": "service.plan_configuration"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.commit_paused"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.record_audit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.request_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_individual_pause_retains_exclusive_controller",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_new_draft_supersession_rebuilds_receipt_and_records_event",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "database.get_active_applied_study_setup"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "database.get_active_portfolio_goal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "database.get_execution_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "database.replace_portfolio_goal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "tests.conftest.apply_workspace_study"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.add_campaign_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.create_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.get_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.get_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.list_campaign_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.list_workspace_plan_cells"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "database.upsert_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "frozen.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.cancel_retained"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.commit_paused"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.plan_configuration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.commit_paused"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.commit_terminal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.record_audit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_paused_workspace_resume_waits_for_individual_owner",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "service.record_audit"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_checksum_drift_blocks_audit_without_state_mutation",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "to": "service.plan_configuration"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "to": "tests.conftest.apply_workspace_study"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "database.get_active_portfolio_goal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "database.replace_portfolio_goal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "service.active_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "first.commit_terminal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "first.stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "recovered.commit_terminal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "recovered.controller"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "calo_rpd_studio.app.execution_control.ExecutionControlService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "database.list_workspace_plan_cells"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "database.update_workspace_plan_cell"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "recovered.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "database.create_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "frozen.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.commit_paused"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.create_individual_draft"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.plan_configuration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.record_audit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.request_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "service.transition"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_resume_rejects_campaign_with_changed_frozen_budget",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "database.replace_portfolio_goal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "service.active_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "database.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "database.get_active_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "fetchone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_schema_v1_migration_creates_backup_without_inventing_stage",
+      "to": "sqlite3.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "coordinator.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "first_config.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "manager.completed.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "manager.idle.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "manager.started.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "state.database.create_campaign"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "state.database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "state.execution_control.record_audit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "state.execution_control.stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "state.execution_control.submit_algorithm_stage"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "tests.conftest.apply_workspace_study"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle",
+      "to": "tests.integration.test_workspace_execution_control.FakeExperimentManager"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "service.resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "service.transition"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_interruption_resumes_with_retained_owner",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "service.begin_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "service.commit_paused"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "service.controller"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "service.request_pause"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "service.stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "tests.integration.test_workspace_execution_control.audited_workspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_workspace_execution_control.test_workspace_pause_releases_controller_but_retains_plan",
+      "to": "tests.integration.test_workspace_execution_control.prepared_service"
+    }
+  ]
+}

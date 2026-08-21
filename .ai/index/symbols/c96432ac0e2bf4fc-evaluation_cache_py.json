@@ -1,0 +1,708 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "tests.unit.test_calo_v41_runtime_guards.test_exact_cache_deduplicates_physical_work_without_reducing_fe_accounting",
+        "tests.unit.test_calo_v41_runtime_guards.test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedup",
+        "tests.unit.test_v590_scientific_closure.test_repair_telemetry_is_identical_with_and_without_exact_cache"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "ExactEvaluationCache",
+      "tests": [
+        "tests/unit/test_calo_v41_runtime_guards.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OrderedDict",
+          "target": "OrderedDict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "OrderedDict": "name",
+        "bool": "name",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "np.clip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OrderedDict",
+        "bool",
+        "float",
+        "int",
+        "max",
+        "np.clip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, problem, capacity, adaptive, minimum_requests_before_adaptation, minimum_persistent_hit_rate)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.hit_rate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "hit_rate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._cache.clear",
+          "target": "self._cache.clear"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self._cache.clear": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.evaluate_requests"
+      ],
+      "calls": [
+        "max",
+        "self._cache.clear"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache._maybe_disable_persistent_cache",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "_maybe_disable_persistent_cache",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoder.decode",
+          "target": "decoder.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hex",
+          "target": "hex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "physical.items",
+          "target": "physical.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "callable": "name",
+        "decoder.decode": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "hex": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "physical.items": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.evaluate_requests"
+      ],
+      "calls": [
+        "callable",
+        "decoder.decode",
+        "float",
+        "getattr",
+        "hex",
+        "np.asarray",
+        "np.clip",
+        "physical.items",
+        "sorted",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.key",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, vector)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._maybe_disable_persistent_cache",
+          "target": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache._maybe_disable_persistent_cache"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.key",
+          "target": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy.deepcopy",
+          "target": "copy.deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "missing_order.append",
+          "target": "missing_order.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "optimizer._register_evaluation",
+          "target": "optimizer._register_evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "optimizer.cancelled",
+          "target": "optimizer.cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "repair",
+          "target": "scripts.ai-agent-guard.repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen_in_request.add",
+          "target": "seen_in_request.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._cache.get",
+          "target": "self._cache.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._cache.move_to_end",
+          "target": "self._cache.move_to_end"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._cache.popitem",
+          "target": "self._cache.popitem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.problem.evaluate",
+          "target": "self.problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "evaluator",
+          "target": "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation.evaluator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "callable": "name",
+        "copy.deepcopy": "attribute",
+        "evaluator": "name",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "missing_order.append": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "optimizer._register_evaluation": "attribute",
+        "optimizer.cancelled": "attribute",
+        "out.append": "attribute",
+        "repair": "name",
+        "seen_in_request.add": "attribute",
+        "self._cache.get": "attribute",
+        "self._cache.move_to_end": "attribute",
+        "self._cache.popitem": "attribute",
+        "self._maybe_disable_persistent_cache": "attribute",
+        "self.key": "attribute",
+        "self.problem.evaluate": "attribute",
+        "set": "name",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "callable",
+        "copy.deepcopy",
+        "evaluator",
+        "getattr",
+        "int",
+        "len",
+        "list",
+        "max",
+        "missing_order.append",
+        "np.asarray",
+        "np.clip",
+        "optimizer._register_evaluation",
+        "optimizer.cancelled",
+        "out.append",
+        "repair",
+        "seen_in_request.add",
+        "self._cache.get",
+        "self._cache.move_to_end",
+        "self._cache.popitem",
+        "self._maybe_disable_persistent_cache",
+        "self.key",
+        "self.problem.evaluate",
+        "set",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache._maybe_disable_persistent_cache",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.key",
+        "scripts.ai-agent-guard.repair",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation.evaluator"
+      ],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/evaluation_cache.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OrderedDict": "collections.OrderedDict",
+        "annotations": "__future__.annotations",
+        "copy": "copy",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "collections",
+        "copy",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.evaluation_cache",
+      "qualname": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache.evaluate_requests",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, optimizer, population)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "evaluate_requests",
+      "tests": []
+    }
+  ]
+}

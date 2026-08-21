@@ -1,0 +1,407 @@
+{
+  "path": "calo_rpd_studio/robustness/scenario_generator.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.robustness.monte_carlo.generate_monte_carlo",
+        "tests.unit.test_robustness.test_cvar_and_seeded_scenarios"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario_generator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario_generator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario_generator",
+      "qualname": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "ScenarioGeneratorConfig",
+      "tests": [
+        "tests/unit/test_robustness.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "float": "name",
+        "np.clip": "attribute",
+        "np.random.default_rng": "attribute",
+        "out.append": "attribute",
+        "range": "name",
+        "rng.normal": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.robustness.monte_carlo.generate_monte_carlo",
+        "tests.unit.test_robustness.test_cvar_and_seeded_scenarios"
+      ],
+      "calls": [
+        "Scenario",
+        "float",
+        "np.clip",
+        "np.random.default_rng",
+        "out.append",
+        "range",
+        "rng.normal"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario_generator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario_generator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario_generator",
+      "qualname": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(config, seed)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "generate_load_scenarios",
+      "tests": [
+        "tests/unit/test_robustness.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario_generator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario_generator",
+      "qualname": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, p, q)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.linspace": "attribute",
+        "out.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+      ],
+      "calls": [
+        "Scenario",
+        "enumerate",
+        "float",
+        "int",
+        "max",
+        "np.asarray",
+        "np.clip",
+        "np.linspace",
+        "out.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "Deterministic stratified aggregate-load sensitivity scenarios.",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario_generator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario_generator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario_generator",
+      "qualname": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(config)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "generate_stratified_load_scenarios",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/scenario_generator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.scenario_generator",
+      "qualname": "calo_rpd_studio.robustness.scenario_generator.generate_stratified_load_scenarios.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, p, q)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    }
+  ]
+}

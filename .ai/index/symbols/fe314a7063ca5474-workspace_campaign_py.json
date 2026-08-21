@@ -1,0 +1,1544 @@
+{
+  "path": "calo_rpd_studio/app/workspace_campaign.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Feed one immutable Workspace cell at a time to the shared ExperimentManager.",
+      "end_line": 304,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "WorkspaceCampaignCoordinator",
+      "tests": [
+        "tests/integration/test_workspace_execution_control.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.cancelled.connect",
+          "target": "experiment_manager.cancelled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.completed.connect",
+          "target": "experiment_manager.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.failed.connect",
+          "target": "experiment_manager.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.idle.connect",
+          "target": "experiment_manager.idle.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.paused.connect",
+          "target": "experiment_manager.paused.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.started.connect",
+          "target": "experiment_manager.started.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "experiment_manager.cancelled.connect": "attribute",
+        "experiment_manager.completed.connect": "attribute",
+        "experiment_manager.failed.connect": "attribute",
+        "experiment_manager.idle.connect": "attribute",
+        "experiment_manager.paused.connect": "attribute",
+        "experiment_manager.started.connect": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "experiment_manager.cancelled.connect",
+        "experiment_manager.completed.connect",
+        "experiment_manager.failed.connect",
+        "experiment_manager.idle.connect",
+        "experiment_manager.paused.connect",
+        "experiment_manager.started.connect",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, experiment_manager, parent)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        }
+      ],
+      "call_forms": {
+        "bool": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.active",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "active",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._clear",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_next_cell",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_execution_plan",
+          "target": "self.state.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_workspace_plan_cells",
+          "target": "self.state.database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.begin_run",
+          "target": "self.state.execution_control.begin_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.resume",
+          "target": "self.state.execution_control.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.transition",
+          "target": "self.state.execution_control.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "self._clear": "attribute",
+        "self._start_next_cell": "attribute",
+        "self.state.database.get_execution_plan": "attribute",
+        "self.state.database.list_workspace_plan_cells": "attribute",
+        "self.state.execution_control.begin_run": "attribute",
+        "self.state.execution_control.resume": "attribute",
+        "self.state.execution_control.transition": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "self._clear",
+        "self._start_next_cell",
+        "self.state.database.get_execution_plan",
+        "self.state.database.list_workspace_plan_cells",
+        "self.state.execution_control.begin_run",
+        "self.state.execution_control.resume",
+        "self.state.execution_control.transition",
+        "self.state.notify_execution_state_changed",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
+      ],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, resume)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._clear",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.snapshot",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cell.get",
+          "target": "cell.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._remaining_cells.pop",
+          "target": "self._remaining_cells.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finished.emit",
+          "target": "self.finished.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.resume_campaign",
+          "target": "self.manager.resume_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.start_comparison",
+          "target": "self.manager.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.commit_terminal",
+          "target": "self.state.execution_control.commit_terminal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.plan_configuration",
+          "target": "self.state.execution_control.plan_configuration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.transition",
+          "target": "self.state.execution_control.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.verify_campaign_binding",
+          "target": "self.state.execution_control.verify_campaign_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "cell.get": "attribute",
+        "self._clear": "attribute",
+        "self._remaining_cells.pop": "attribute",
+        "self.changed.emit": "attribute",
+        "self.finished.emit": "attribute",
+        "self.manager.resume_campaign": "attribute",
+        "self.manager.start_comparison": "attribute",
+        "self.snapshot": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "self.state.execution_control.commit_terminal": "attribute",
+        "self.state.execution_control.plan_configuration": "attribute",
+        "self.state.execution_control.transition": "attribute",
+        "self.state.execution_control.verify_campaign_binding": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_manager_idle",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.run"
+      ],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "cell.get",
+        "self._clear",
+        "self._remaining_cells.pop",
+        "self.changed.emit",
+        "self.finished.emit",
+        "self.manager.resume_campaign",
+        "self.manager.start_comparison",
+        "self.snapshot",
+        "self.state.database.update_workspace_plan_cell",
+        "self.state.execution_control.commit_terminal",
+        "self.state.execution_control.plan_configuration",
+        "self.state.execution_control.transition",
+        "self.state.execution_control.verify_campaign_binding",
+        "self.state.notify_execution_state_changed",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
+      ],
+      "doc": "",
+      "end_line": 144,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "_start_next_cell",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.pause",
+          "target": "self.manager.pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.request_pause",
+          "target": "self.state.execution_control.request_pause"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "self.manager.pause": "attribute",
+        "self.state.execution_control.request_pause": "attribute",
+        "self.state.notify_execution_state_changed": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "self.manager.pause",
+        "self.state.execution_control.request_pause",
+        "self.state.notify_execution_state_changed"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.pause_safely",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "pause_safely",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._finish_cancelled",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.cancel",
+          "target": "self.manager.cancel"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "self._finish_cancelled": "attribute",
+        "self.manager.cancel": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "self._finish_cancelled",
+        "self.manager.cancel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
+      ],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.cancel_remaining",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "cancel_remaining",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.snapshot",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.transition",
+          "target": "self.state.execution_control.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "self.changed.emit": "attribute",
+        "self.snapshot": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "self.state.execution_control.transition": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "getattr",
+        "self.changed.emit",
+        "self.snapshot",
+        "self.state.database.update_workspace_plan_cell",
+        "self.state.execution_control.transition",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot"
+      ],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_started",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "_on_experiment_started",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_campaign_tasks",
+          "target": "self.state.database.list_campaign_tasks"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_workspace_plan_cells",
+          "target": "self.state.database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "len": "name",
+        "row.get": "attribute",
+        "self.state.database.list_campaign_tasks": "attribute",
+        "self.state.database.list_workspace_plan_cells": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "len",
+        "row.get",
+        "self.state.database.list_campaign_tasks",
+        "self.state.database.list_workspace_plan_cells",
+        "self.state.database.update_workspace_plan_cell",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 183,
+      "state_owner": "",
+      "symbol": "_on_experiment_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._finish_cancelled",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_next_cell",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
+        }
+      ],
+      "call_forms": {
+        "self._finish_cancelled": "attribute",
+        "self._start_next_cell": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._finish_cancelled",
+        "self._start_next_cell"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
+      ],
+      "doc": "",
+      "end_line": 222,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_manager_idle",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 215,
+      "state_owner": "",
+      "symbol": "_on_manager_idle",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._clear",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.paused.emit",
+          "target": "self.paused.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.commit_paused",
+          "target": "self.state.execution_control.commit_paused"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "self._clear": "attribute",
+        "self.paused.emit": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "self.state.execution_control.commit_paused": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "getattr",
+        "self._clear",
+        "self.paused.emit",
+        "self.state.database.update_workspace_plan_cell",
+        "self.state.execution_control.commit_paused",
+        "self.state.notify_execution_state_changed",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+      ],
+      "doc": "",
+      "end_line": 240,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_paused",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 224,
+      "state_owner": "",
+      "symbol": "_on_experiment_paused",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._finish_cancelled",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self._finish_cancelled": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self._finish_cancelled",
+        "self.state.database.update_workspace_plan_cell",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled"
+      ],
+      "doc": "",
+      "end_line": 252,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_cancelled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 242,
+      "state_owner": "",
+      "symbol": "_on_experiment_cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._clear",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancelled.emit",
+          "target": "self.cancelled.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.commit_terminal",
+          "target": "self.state.execution_control.commit_terminal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self._clear": "attribute",
+        "self.cancelled.emit": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "self.state.execution_control.commit_terminal": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_cancelled",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_manager_idle",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.cancel_remaining"
+      ],
+      "calls": [
+        "self._clear",
+        "self.cancelled.emit",
+        "self.state.database.update_workspace_plan_cell",
+        "self.state.execution_control.commit_terminal",
+        "self.state.notify_execution_state_changed",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+      ],
+      "doc": "",
+      "end_line": 269,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 254,
+      "state_owner": "",
+      "symbol": "_finish_cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._clear",
+          "target": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.failed.emit",
+          "target": "self.failed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.update_workspace_plan_cell",
+          "target": "self.state.database.update_workspace_plan_cell"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.transition",
+          "target": "self.state.execution_control.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.notify_execution_state_changed",
+          "target": "self.state.notify_execution_state_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self._clear": "attribute",
+        "self.failed.emit": "attribute",
+        "self.state.database.update_workspace_plan_cell": "attribute",
+        "self.state.execution_control.transition": "attribute",
+        "self.state.notify_execution_state_changed": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self._clear",
+        "self.failed.emit",
+        "self.state.database.update_workspace_plan_cell",
+        "self.state.execution_control.transition",
+        "self.state.notify_execution_state_changed",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear"
+      ],
+      "doc": "",
+      "end_line": 289,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_failed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message)",
+      "start_line": 271,
+      "state_owner": "",
+      "symbol": "_on_experiment_failed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "len": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_started",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell"
+      ],
+      "calls": [
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 297,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.snapshot",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 291,
+      "state_owner": "",
+      "symbol": "snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._finish_cancelled",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_failed",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._on_experiment_paused",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._start_next_cell",
+        "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator.run"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 304,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workspace_campaign.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "Path": "pathlib.Path",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workspace_campaign",
+      "qualname": "calo_rpd_studio.app.workspace_campaign.WorkspaceCampaignCoordinator._clear",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 299,
+      "state_owner": "",
+      "symbol": "_clear",
+      "tests": []
+    }
+  ]
+}

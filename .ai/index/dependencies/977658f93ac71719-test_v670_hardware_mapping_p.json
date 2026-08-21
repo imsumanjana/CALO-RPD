@@ -1,0 +1,169 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_binding.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/topology.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    }
+  ],
+  "path": "tests/unit/test_v670_hardware_mapping.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch",
+      "to": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.device_count",
+      "to": "len"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Cuda.get_device_properties",
+      "to": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch.Props"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
+      "to": "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cpu_runtime_attestation_is_explicit_and_truthful",
+      "to": "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "to": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "to": "scan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "to": "staticmethod"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot",
+      "to": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot.Monitor.sample",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "ModuleNotFoundError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "monitor._sample_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "monkeypatch.setitem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_missing_nvml_telemetry_never_removes_cuda_device",
+      "to": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "monitor._sample_cuda"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "monkeypatch.setitem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "pci_bus_id.endswith"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index",
+      "to": "tests.unit.test_v670_hardware_mapping._fake_cuda_torch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index.fake_run",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v670_hardware_mapping.test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
+      "to": "calo_rpd_studio.compute.topology.ComputeTopologyService._match_adapter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v670_hardware_mapping.test_windows_adapter_matching_prefers_vendor_product_identity_over_order",
+      "to": "set"
+    }
+  ]
+}

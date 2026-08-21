@@ -1,0 +1,340 @@
+{
+  "path": "tools/ai_intelligence/audit_seed.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/audit_seed.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "canonical_json": "tools.ai_intelligence.common.canonical_json",
+        "re": "re",
+        "read_json": "tools.ai_intelligence.common.read_json",
+        "write_if_changed": "tools.ai_intelligence.common.write_if_changed"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        "__future__",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.audit_seed",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.audit_seed",
+      "qualname": "tools.ai_intelligence.audit_seed._REVIEWED_RE",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "_REVIEWED_RE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/audit_seed.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "canonical_json": "tools.ai_intelligence.common.canonical_json",
+        "re": "re",
+        "read_json": "tools.ai_intelligence.common.read_json",
+        "write_if_changed": "tools.ai_intelligence.common.write_if_changed"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        "__future__",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.audit_seed",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.audit_seed",
+      "qualname": "tools.ai_intelligence.audit_seed._REAUDIT_RE",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "_REAUDIT_RE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_REAUDIT_RE.sub",
+          "target": "_REAUDIT_RE.sub"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_REVIEWED_RE.sub",
+          "target": "_REVIEWED_RE.sub"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "audit.get",
+          "target": "audit.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "current.get",
+          "target": "current.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence.get",
+          "target": "evidence.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "file_index.get",
+          "target": "file_index.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "files.get",
+          "target": "files.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "previous.get",
+          "target": "previous.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seed.get",
+          "target": "seed.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status_path.read_text",
+          "target": "status_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "canonical_json",
+          "target": "tools.ai_intelligence.common.canonical_json"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_json",
+          "target": "tools.ai_intelligence.common.read_json"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_if_changed",
+          "target": "tools.ai_intelligence.common.write_if_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unit.get",
+          "target": "unit.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unit.update",
+          "target": "unit.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "units.get",
+          "target": "units.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "units.items",
+          "target": "units.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "units.values",
+          "target": "units.values"
+        }
+      ],
+      "call_forms": {
+        "_REAUDIT_RE.sub": "attribute",
+        "_REVIEWED_RE.sub": "attribute",
+        "audit.get": "attribute",
+        "bool": "name",
+        "canonical_json": "name",
+        "current.get": "attribute",
+        "evidence.get": "attribute",
+        "file_index.get": "attribute",
+        "files.get": "attribute",
+        "items": "attribute",
+        "list": "name",
+        "previous.get": "attribute",
+        "read_json": "name",
+        "row.get": "attribute",
+        "seed.get": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "status_path.read_text": "attribute",
+        "sum": "name",
+        "unit.get": "attribute",
+        "unit.update": "attribute",
+        "units.get": "attribute",
+        "units.items": "attribute",
+        "units.values": "attribute",
+        "write_if_changed": "name"
+      },
+      "called_by": [
+        "tools.ai_repo_intelligence.main"
+      ],
+      "calls": [
+        "_REAUDIT_RE.sub",
+        "_REVIEWED_RE.sub",
+        "audit.get",
+        "bool",
+        "canonical_json",
+        "current.get",
+        "evidence.get",
+        "file_index.get",
+        "files.get",
+        "items",
+        "list",
+        "previous.get",
+        "read_json",
+        "row.get",
+        "seed.get",
+        "set",
+        "sorted",
+        "status_path.read_text",
+        "sum",
+        "unit.get",
+        "unit.update",
+        "units.get",
+        "units.items",
+        "units.values",
+        "write_if_changed"
+      ],
+      "calls_resolved": [
+        "tools.ai_intelligence.common.canonical_json",
+        "tools.ai_intelligence.common.read_json",
+        "tools.ai_intelligence.common.write_if_changed"
+      ],
+      "doc": "Apply only hash-bound historical review evidence to the current audit ledger.",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "tools/ai_intelligence/audit_seed.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AI_DIR": "tools.ai_intelligence.common.AI_DIR",
+        "Any": "typing.Any",
+        "INDEX_FILES": "tools.ai_intelligence.common.INDEX_FILES",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "canonical_json": "tools.ai_intelligence.common.canonical_json",
+        "re": "re",
+        "read_json": "tools.ai_intelligence.common.read_json",
+        "write_if_changed": "tools.ai_intelligence.common.write_if_changed"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".common",
+        "__future__",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "repository",
+      "parent_qualname": "tools.ai_intelligence.audit_seed",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tools.ai_intelligence.audit_seed",
+      "qualname": "tools.ai_intelligence.audit_seed.apply_audit_seed",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "apply_audit_seed",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,560 @@
+{
+  "path": "tests/unit/test_calo_v41_runtime_guards.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_calo_v41_runtime_guards.test_exact_cache_deduplicates_physical_work_without_reducing_fe_accounting",
+        "tests.unit.test_calo_v41_runtime_guards.test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedup"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Problem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "_Problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards._Problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Problem.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "len": "name",
+        "np.sum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Evaluation",
+        "float",
+        "len",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards._Problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Problem.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_calo_v41_runtime_guards.test_exact_cache_deduplicates_physical_work_without_reducing_fe_accounting",
+        "tests.unit.test_calo_v41_runtime_guards.test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedup"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_Optimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer.__init__",
+      "semantic_tags": [],
+      "signature": "(self, max_evaluations)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer.cancelled",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards._Optimizer._register_evaluation",
+      "semantic_tags": [],
+      "signature": "(self, _row, evaluation)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_register_evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cache.evaluate_requests",
+          "target": "cache.evaluate_requests"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExactEvaluationCache",
+          "target": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Optimizer",
+          "target": "tests.unit.test_calo_v41_runtime_guards._Optimizer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Problem",
+          "target": "tests.unit.test_calo_v41_runtime_guards._Problem"
+        }
+      ],
+      "call_forms": {
+        "ExactEvaluationCache": "name",
+        "_Optimizer": "name",
+        "_Problem": "name",
+        "cache.evaluate_requests": "attribute",
+        "len": "name",
+        "np.asarray": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExactEvaluationCache",
+        "_Optimizer",
+        "_Problem",
+        "cache.evaluate_requests",
+        "len",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+        "tests.unit.test_calo_v41_runtime_guards._Problem"
+      ],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards.test_exact_cache_deduplicates_physical_work_without_reducing_fe_accounting",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "test_exact_cache_deduplicates_physical_work_without_reducing_fe_accounting",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cache.evaluate_requests",
+          "target": "cache.evaluate_requests"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExactEvaluationCache",
+          "target": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Optimizer",
+          "target": "tests.unit.test_calo_v41_runtime_guards._Optimizer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Problem",
+          "target": "tests.unit.test_calo_v41_runtime_guards._Problem"
+        }
+      ],
+      "call_forms": {
+        "ExactEvaluationCache": "name",
+        "_Optimizer": "name",
+        "_Problem": "name",
+        "cache.evaluate_requests": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExactEvaluationCache",
+        "_Optimizer",
+        "_Problem",
+        "cache.evaluate_requests",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "tests.unit.test_calo_v41_runtime_guards._Optimizer",
+        "tests.unit.test_calo_v41_runtime_guards._Problem"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_v41_runtime_guards.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExactEvaluationCache": "calo_rpd_studio.algorithms.calo.evaluation_cache.ExactEvaluationCache",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.evaluation_cache",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_v41_runtime_guards",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_v41_runtime_guards",
+      "qualname": "tests.unit.test_calo_v41_runtime_guards.test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedup",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedup",
+      "tests": []
+    }
+  ]
+}

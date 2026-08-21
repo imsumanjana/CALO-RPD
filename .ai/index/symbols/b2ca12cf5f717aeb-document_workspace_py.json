@@ -1,0 +1,1570 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/document_workspace.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Roomy scroll host for the pinned scientific workspace and preview blocks.",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_PreviewSurface",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QScrollArea",
+          "target": "QScrollArea"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._queue_content_height_sync",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._queue_content_height_sync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.installEventFilter",
+          "target": "content.installEventFilter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.setMinimumSize",
+          "target": "content.setMinimumSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.setSizePolicy",
+          "target": "content.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "current_changed.connect",
+          "target": "current_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setFrameShape",
+          "target": "scroll.setFrameShape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setHorizontalScrollBarPolicy",
+          "target": "scroll.setHorizontalScrollBarPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setObjectName",
+          "target": "scroll.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setVerticalScrollBarPolicy",
+          "target": "scroll.setVerticalScrollBarPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setWidget",
+          "target": "scroll.setWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scroll.setWidgetResizable",
+          "target": "scroll.setWidgetResizable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QScrollArea": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "content.installEventFilter": "attribute",
+        "content.setMinimumSize": "attribute",
+        "content.setSizePolicy": "attribute",
+        "current_changed.connect": "attribute",
+        "getattr": "name",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "scroll.setFrameShape": "attribute",
+        "scroll.setHorizontalScrollBarPolicy": "attribute",
+        "scroll.setObjectName": "attribute",
+        "scroll.setVerticalScrollBarPolicy": "attribute",
+        "scroll.setWidget": "attribute",
+        "scroll.setWidgetResizable": "attribute",
+        "self._queue_content_height_sync": "attribute",
+        "self.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QScrollArea",
+        "QVBoxLayout",
+        "__init__",
+        "content.installEventFilter",
+        "content.setMinimumSize",
+        "content.setSizePolicy",
+        "current_changed.connect",
+        "getattr",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "scroll.setFrameShape",
+        "scroll.setHorizontalScrollBarPolicy",
+        "scroll.setObjectName",
+        "scroll.setVerticalScrollBarPolicy",
+        "scroll.setWidget",
+        "scroll.setWidgetResizable",
+        "self._queue_content_height_sync",
+        "self.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._queue_content_height_sync"
+      ],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, content, parent)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._queue_content_height_sync",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._queue_content_height_sync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "event.type",
+          "target": "event.type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eventFilter",
+          "target": "eventFilter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "event.type": "attribute",
+        "eventFilter": "attribute",
+        "self._queue_content_height_sync": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "event.type",
+        "eventFilter",
+        "self._queue_content_height_sync",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._queue_content_height_sync"
+      ],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface.eventFilter",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, watched, event)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "eventFilter",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTimer.singleShot",
+          "target": "QTimer.singleShot"
+        }
+      ],
+      "call_forms": {
+        "QTimer.singleShot": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface.__init__",
+        "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface.eventFilter"
+      ],
+      "calls": [
+        "QTimer.singleShot"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._queue_content_height_sync",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "_queue_content_height_sync",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "current_widget.minimumHeight",
+          "target": "current_widget.minimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "current_widget.sizeHint",
+          "target": "current_widget.sizeHint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "height",
+          "target": "height"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.content.minimumHeight",
+          "target": "self.content.minimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.content.setMinimumHeight",
+          "target": "self.content.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.content.updateGeometry",
+          "target": "self.content.updateGeometry"
+        }
+      ],
+      "call_forms": {
+        "current_widget.minimumHeight": "attribute",
+        "current_widget.sizeHint": "attribute",
+        "getattr": "name",
+        "height": "attribute",
+        "max": "name",
+        "self.content.minimumHeight": "attribute",
+        "self.content.setMinimumHeight": "attribute",
+        "self.content.updateGeometry": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "current_widget.minimumHeight",
+        "current_widget.sizeHint",
+        "getattr",
+        "height",
+        "max",
+        "self.content.minimumHeight",
+        "self.content.setMinimumHeight",
+        "self.content.updateGeometry"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface._sync_content_height",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "_sync_content_height",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "DocumentWorkspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._sync_document_header",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_PreviewSurface",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.use_external_vertical_scroll",
+          "target": "page.use_external_vertical_scroll"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.addTab",
+          "target": "self.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setAccessibleName",
+          "target": "self.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setDocumentMode",
+          "target": "self.setDocumentMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setElideMode",
+          "target": "self.setElideMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setMovable",
+          "target": "self.setMovable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setTabToolTip",
+          "target": "self.setTabToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setTabsClosable",
+          "target": "self.setTabsClosable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setUsesScrollButtons",
+          "target": "self.setUsesScrollButtons"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabBar",
+          "target": "self.tabBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabCloseRequested.connect",
+          "target": "self.tabCloseRequested.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setDrawBase",
+          "target": "setDrawBase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setExpanding",
+          "target": "setExpanding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setTabButton",
+          "target": "setTabButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workspace.findChildren",
+          "target": "workspace.findChildren"
+        }
+      ],
+      "call_forms": {
+        "_PreviewSurface": "name",
+        "__init__": "attribute",
+        "page.use_external_vertical_scroll": "attribute",
+        "self._sync_document_header": "attribute",
+        "self.addTab": "attribute",
+        "self.setAccessibleName": "attribute",
+        "self.setDocumentMode": "attribute",
+        "self.setElideMode": "attribute",
+        "self.setMovable": "attribute",
+        "self.setObjectName": "attribute",
+        "self.setTabToolTip": "attribute",
+        "self.setTabsClosable": "attribute",
+        "self.setUsesScrollButtons": "attribute",
+        "self.tabBar": "attribute",
+        "self.tabCloseRequested.connect": "attribute",
+        "setDrawBase": "attribute",
+        "setExpanding": "attribute",
+        "setTabButton": "attribute",
+        "super": "name",
+        "workspace.findChildren": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_PreviewSurface",
+        "__init__",
+        "page.use_external_vertical_scroll",
+        "self._sync_document_header",
+        "self.addTab",
+        "self.setAccessibleName",
+        "self.setDocumentMode",
+        "self.setElideMode",
+        "self.setMovable",
+        "self.setObjectName",
+        "self.setTabToolTip",
+        "self.setTabsClosable",
+        "self.setUsesScrollButtons",
+        "self.tabBar",
+        "self.tabCloseRequested.connect",
+        "setDrawBase",
+        "setExpanding",
+        "setTabButton",
+        "super",
+        "workspace.findChildren"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header",
+        "calo_rpd_studio.gui.widgets.document_workspace._PreviewSurface"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace, parent)",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.count",
+          "target": "self.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabBar",
+          "target": "self.tabBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setVisible",
+          "target": "setVisible"
+        }
+      ],
+      "call_forms": {
+        "self.count": "attribute",
+        "self.tabBar": "attribute",
+        "setVisible": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.__init__",
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget",
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.open_document"
+      ],
+      "calls": [
+        "self.count",
+        "self.tabBar",
+        "setVisible"
+      ],
+      "calls_resolved": [],
+      "doc": "Show document chrome only when it provides real document switching.",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "_sync_document_header",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QToolButton",
+          "target": "QToolButton"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._close_widget",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._sync_document_header",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.clicked.connect",
+          "target": "close_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.setAccessibleName",
+          "target": "close_button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.setAutoRaise",
+          "target": "close_button.setAutoRaise"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.setFixedSize",
+          "target": "close_button.setFixedSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.setObjectName",
+          "target": "close_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "close_button.setText",
+          "target": "close_button.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._documents.get",
+          "target": "self._documents.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.addTab",
+          "target": "self.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setCurrentIndex",
+          "target": "self.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setCurrentWidget",
+          "target": "self.setCurrentWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setTabToolTip",
+          "target": "self.setTabToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabBar",
+          "target": "self.tabBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setTabButton",
+          "target": "setTabButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QToolButton": "name",
+        "close_button.clicked.connect": "attribute",
+        "close_button.setAccessibleName": "attribute",
+        "close_button.setAutoRaise": "attribute",
+        "close_button.setFixedSize": "attribute",
+        "close_button.setObjectName": "attribute",
+        "close_button.setText": "attribute",
+        "self._close_widget": "attribute",
+        "self._documents.get": "attribute",
+        "self._sync_document_header": "attribute",
+        "self.addTab": "attribute",
+        "self.setCurrentIndex": "attribute",
+        "self.setCurrentWidget": "attribute",
+        "self.setTabToolTip": "attribute",
+        "self.tabBar": "attribute",
+        "setTabButton": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QToolButton",
+        "close_button.clicked.connect",
+        "close_button.setAccessibleName",
+        "close_button.setAutoRaise",
+        "close_button.setFixedSize",
+        "close_button.setObjectName",
+        "close_button.setText",
+        "self._close_widget",
+        "self._documents.get",
+        "self._sync_document_header",
+        "self.addTab",
+        "self.setCurrentIndex",
+        "self.setCurrentWidget",
+        "self.setTabToolTip",
+        "self.tabBar",
+        "setTabButton",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget",
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header"
+      ],
+      "doc": "",
+      "end_line": 133,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.open_document",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, document_id, title, widget, tooltip)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "open_document",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.setCurrentWidget",
+          "target": "self.setCurrentWidget"
+        }
+      ],
+      "call_forms": {
+        "self.setCurrentWidget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.setCurrentWidget"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.focus_scientific_workspace",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 135,
+      "state_owner": "",
+      "symbol": "focus_scientific_workspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.preview_scroll",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "preview_scroll",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 144,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.scientific_workspace",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 143,
+      "state_owner": "",
+      "symbol": "scientific_workspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.document_ids",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "document_ids",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._close_widget",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.widget",
+          "target": "self.widget"
+        }
+      ],
+      "call_forms": {
+        "self._close_widget": "attribute",
+        "self.widget": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._close_widget",
+        "self.widget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_requested",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "_close_requested",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._sync_document_header",
+          "target": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._documents.items",
+          "target": "self._documents.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._documents.pop",
+          "target": "self._documents.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.indexOf",
+          "target": "self.indexOf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.removeTab",
+          "target": "self.removeTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.hide",
+          "target": "widget.hide"
+        }
+      ],
+      "call_forms": {
+        "next": "name",
+        "self._documents.items": "attribute",
+        "self._documents.pop": "attribute",
+        "self._sync_document_header": "attribute",
+        "self.indexOf": "attribute",
+        "self.removeTab": "attribute",
+        "widget.hide": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_requested",
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace.open_document"
+      ],
+      "calls": [
+        "next",
+        "self._documents.items",
+        "self._documents.pop",
+        "self._sync_document_header",
+        "self.indexOf",
+        "self.removeTab",
+        "widget.hide"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._sync_document_header"
+      ],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/document_workspace.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QEvent": "PyQt6.QtCore.QEvent",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QScrollArea": "PyQt6.QtWidgets.QScrollArea",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.scrollable_page"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.document_workspace",
+      "qualname": "calo_rpd_studio.gui.widgets.document_workspace.DocumentWorkspace._close_widget",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, widget)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "_close_widget",
+      "tests": []
+    }
+  ]
+}

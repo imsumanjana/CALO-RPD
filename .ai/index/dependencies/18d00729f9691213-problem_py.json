@@ -1,0 +1,929 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/constraints.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/objectives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/variable_decoder.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/voltage_stability.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ybus.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/robust_objectives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/scenario.py"
+    }
+  ],
+  "path": "calo_rpd_studio/orpd/problem.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_control_linearization",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_power_flow",
+      "to": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "item.name.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext.primary_converged_scenario",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "calo_rpd_studio.robustness.scenario.Scenario"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "case.clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "COUNTED_CONTROL_LINEARIZATION_SCHEMA.encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDControlLinearization"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "digest.hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "digest.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "jacobian.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "np.ascontiguousarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "np.linalg.cond"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization",
+      "to": "tobytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "abs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "angle_position.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "astype"
+    },
+    {
+      "confidence": "inferred",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "calo_rpd_studio.power_system.ybus.build_ybus"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "complex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "dS_dVa.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "dS_dVm.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.conj"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.hstack"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.linalg.lstsq"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.maximum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.real"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.vstack"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.where"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "pf.case.bus_index_map"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction",
+      "to": "sorted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "abs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "np.linalg.norm"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "residuals.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._constraint_state_correction.append_constraint",
+      "to": "rows.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "abs"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "complex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.conj"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.deg2rad"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.exp"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "pf.case.bus_index_map"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "pq_position.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._control_forcing",
+      "to": "self.decoder.relaxed_control_derivatives"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.constraints.evaluate_constraints"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.objectives.calculate_objective"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.problem.ORPDEvaluationContext"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._build_control_linearization"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.orpd.problem.ScenarioEvaluationContext"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.robustness.robust_objectives.aggregate_robust"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "comp_acc.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "comp_acc.setdefault"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "con.components.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "constraint_acc.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "constraint_acc.setdefault"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.clip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.sqrt"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "obj.components.items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "retained_scenarios.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "scenario.apply"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "scenario_constraint_components.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "scenario_values.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "self.decoder.decode_reusable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "values.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "violations.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "weights.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "z.astype"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+      "to": "z.copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._matrix_vector",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "to": "reshape"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._selected_complex_derivative",
+      "to": "selected.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "issparse"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "jacobian.toarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "np.linalg.solve"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem._solve_control_sensitivity",
+      "to": "spsolve"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate_with_context",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.evaluate_with_context",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "astype"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "calo_rpd_studio.orpd.constraints.evaluate_constraints"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "calo_rpd_studio.orpd.objectives.calculate_objective"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "np.clip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "np.imag"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "np.real"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "np.where"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "pf.branch.loading_percent.tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "pf.va_deg.tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "pf.vm_pu.tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "rec.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "records.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "sc.apply"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "self.case.checksum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "self.decoder.decode_reusable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+      "to": "z.tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "to": "self.constraint_tolerances.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "to": "self.objective.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "to": "self.power_flow.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "to": "self.robust.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.orpd.problem.ORPDProblemConfig.__post_init__",
+      "to": "self.variables.validate"
+    }
+  ]
+}

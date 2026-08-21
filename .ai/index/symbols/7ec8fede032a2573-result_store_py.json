@@ -1,0 +1,393 @@
+{
+  "path": "calo_rpd_studio/results/result_store.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+        "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+        "tests.unit.test_v343_export_completion._database",
+        "tests.unit.test_v343_export_completion.test_standard_publication_export_reports_bundle_progress_and_reaches_100"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/result_store.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "class",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.result_store",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.result_store",
+      "qualname": "calo_rpd_studio.results.result_store.ResultStore",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "ResultStore",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v343_export_completion.py"
+      ]
+    },
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.mkdir",
+          "target": "self.directory.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "self.directory.mkdir": "attribute",
+        "set": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "self.directory.mkdir",
+        "set",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/result_store.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "method",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.result_store.ResultStore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.result_store",
+      "qualname": "calo_rpd_studio.results.result_store.ResultStore.__init__",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(self, directory, storage_profile, required_fields)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.results.result_store.ResultStore.save_arrays"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/result_store.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "method",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.result_store.ResultStore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.result_store",
+      "qualname": "calo_rpd_studio.results.result_store.ResultStore._keep_population",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(self)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_keep_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._keep_population",
+          "target": "calo_rpd_studio.results.result_store.ResultStore._keep_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "components.items",
+          "target": "components.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.savez_compressed",
+          "target": "np.savez_compressed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "components.items": "attribute",
+        "dict": "name",
+        "getattr": "name",
+        "metadata.get": "attribute",
+        "np.asarray": "attribute",
+        "np.savez_compressed": "attribute",
+        "self._keep_population": "attribute",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "components.items",
+        "dict",
+        "getattr",
+        "metadata.get",
+        "np.asarray",
+        "np.savez_compressed",
+        "self._keep_population",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.result_store.ResultStore._keep_population"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/result_store.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "method",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.result_store.ResultStore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.result_store",
+      "qualname": "calo_rpd_studio.results.result_store.ResultStore.save_arrays",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(self, result)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "save_arrays",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.load",
+          "target": "np.load"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "np.load": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "np.load"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/results/result_store.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "pathlib",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Exact resume/extension depends on frozen compatibility, not source revision alone."
+      ],
+      "kind": "method",
+      "module": "persistence",
+      "parent_qualname": "calo_rpd_studio.results.result_store.ResultStore",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.results.result_store",
+      "qualname": "calo_rpd_studio.results.result_store.ResultStore.load",
+      "semantic_tags": [
+        "SQLite",
+        "persistence",
+        "provenance",
+        "resume"
+      ],
+      "signature": "(path)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": []
+    }
+  ]
+}

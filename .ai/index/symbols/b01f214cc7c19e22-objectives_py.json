@@ -1,0 +1,525 @@
+{
+  "path": "calo_rpd_studio/orpd/objectives.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.orpd.objectives.ObjectiveConfig.__post_init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "ObjectiveKind",
+      "tests": [
+        "tests/unit/test_v57_audit_closure_integration.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v640_stage_b.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition",
+        "tests.unit.test_v590_scientific_closure.test_invalid_objective_config_fails_fast"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Frozen scientific definition of the scalar ORPD objective.",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "ObjectiveConfig",
+      "tests": [
+        "tests/unit/test_v57_audit_closure_integration.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ObjectiveKind",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveKind"
+        }
+      ],
+      "call_forms": {
+        "ObjectiveKind": "name",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ObjectiveKind",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.objectives.ObjectiveConfig.validate",
+        "calo_rpd_studio.orpd.objectives.ObjectiveKind"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.ObjectiveConfig.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scales.items",
+          "target": "scales.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.items",
+          "target": "weights.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.values",
+          "target": "weights.values"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "math.isfinite": "attribute",
+        "scales.items": "attribute",
+        "sum": "name",
+        "weights.items": "attribute",
+        "weights.values": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.objectives.ObjectiveConfig.__post_init__"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "math.isfinite",
+        "scales.items",
+        "sum",
+        "weights.items",
+        "weights.values"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.ObjectiveConfig.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.orpd.objectives.calculate_objective"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.ObjectiveResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "ObjectiveResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ObjectiveResult",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "kessel_glavitsch_l_index",
+          "target": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "ObjectiveResult": "name",
+        "astype": "attribute",
+        "config.validate": "attribute",
+        "float": "name",
+        "kessel_glavitsch_l_index": "name",
+        "np.abs": "attribute",
+        "np.sum": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "tests.unit.test_v57_audit_closure_integration.test_voltage_deviation_uses_original_formulation_partition"
+      ],
+      "calls": [
+        "ObjectiveResult",
+        "astype",
+        "config.validate",
+        "float",
+        "kessel_glavitsch_l_index",
+        "np.abs",
+        "np.sum",
+        "np.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.objectives.ObjectiveResult",
+        "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+      ],
+      "doc": "Calculate the objective using the declared pre-solve formulation partition.",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/objectives.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "Enum": "enum.Enum",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "dataclasses",
+        "enum",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.objectives",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.objectives",
+      "qualname": "calo_rpd_studio.orpd.objectives.calculate_objective",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(pf, config, formulation_case)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "calculate_objective",
+      "tests": [
+        "tests/unit/test_v57_audit_closure_integration.py"
+      ]
+    }
+  ]
+}

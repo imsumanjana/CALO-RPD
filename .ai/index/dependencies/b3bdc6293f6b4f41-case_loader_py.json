@@ -1,0 +1,110 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_validation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/pglib_import.py"
+    }
+  ],
+  "path": "calo_rpd_studio/power_system/case_loader.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader._validated",
+      "to": "calo_rpd_studio.power_system.case_validation.validate_case"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader._validated",
+      "to": "report.require_valid"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases",
+      "to": "tuple"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_pglib_cases",
+      "to": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "FileNotFoundError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader._validated"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "calo_rpd_studio.power_system.case_model.PowerSystemCase.from_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "importlib.import_module"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "path.exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "path.suffix.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.power_system.case_loader.CaseLoader.load_pglib",
+      "to": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case"
+    }
+  ]
+}

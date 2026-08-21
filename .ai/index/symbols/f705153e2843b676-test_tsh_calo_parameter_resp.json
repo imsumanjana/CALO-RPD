@@ -1,0 +1,225 @@
+{
+  "path": "tests/unit/test_tsh_calo_parameter_response.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ParameterStudyObservation",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.ParameterStudyObservation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_robust_parameter_response",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.summarize_robust_parameter_response"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        }
+      ],
+      "call_forms": {
+        "ParameterStudyObservation": "name",
+        "range": "name",
+        "rows.append": "attribute",
+        "summarize_robust_parameter_response": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ParameterStudyObservation",
+        "range",
+        "rows.append",
+        "summarize_robust_parameter_response"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.ParameterStudyObservation",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.summarize_robust_parameter_response"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_parameter_response.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "LocalParameterResponsePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan",
+        "ParameterStudyObservation": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.ParameterStudyObservation",
+        "pytest": "pytest",
+        "summarize_robust_parameter_response": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.summarize_robust_parameter_response"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_parameter_response",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_parameter_response",
+      "qualname": "tests.unit.test_tsh_calo_parameter_response.test_robust_response_requires_complete_case_replicate_blocks",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "test_robust_response_requires_complete_case_replicate_blocks",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "LocalParameterResponsePlan",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.to_dict",
+          "target": "plan.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "LocalParameterResponsePlan": "name",
+        "plan.to_dict": "attribute",
+        "pytest.raises": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "LocalParameterResponsePlan",
+        "plan.to_dict",
+        "pytest.raises",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_parameter_response.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "LocalParameterResponsePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan",
+        "ParameterStudyObservation": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.ParameterStudyObservation",
+        "pytest": "pytest",
+        "summarize_robust_parameter_response": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.summarize_robust_parameter_response"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_parameter_response",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_parameter_response",
+      "qualname": "tests.unit.test_tsh_calo_parameter_response.test_local_response_has_separate_fe_ledger_and_refuses_protected_state",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "test_local_response_has_separate_fe_ledger_and_refuses_protected_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "LocalParameterResponsePlan",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "LocalParameterResponsePlan": "name",
+        "pytest.raises": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "LocalParameterResponsePlan",
+        "pytest.raises",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan"
+      ],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_parameter_response.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "LocalParameterResponsePlan": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.LocalParameterResponsePlan",
+        "ParameterStudyObservation": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.ParameterStudyObservation",
+        "pytest": "pytest",
+        "summarize_robust_parameter_response": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response.summarize_robust_parameter_response"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_response",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_parameter_response",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_parameter_response",
+      "qualname": "tests.unit.test_tsh_calo_parameter_response.test_local_response_rejects_training_hyperparameter",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 67,
+      "state_owner": "",
+      "symbol": "test_local_response_rejects_training_hyperparameter",
+      "tests": []
+    }
+  ]
+}

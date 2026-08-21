@@ -1,0 +1,40 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_loader.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/independent_validator.py"
+    }
+  ],
+  "path": "tests/scientific/test_ieee_cases.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+      "to": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+      "to": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+      "to": "pytest.mark.parametrize"
+    }
+  ]
+}

@@ -1,0 +1,907 @@
+{
+  "path": "calo_rpd_studio/compute/provenance.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.append",
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.verify"
+      ],
+      "calls": [
+        "encode",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance._canonical",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(payload)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_canonical",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.append"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ProvenanceEvent",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "ProvenanceEvent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance.ProvenanceEvent",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ProvenanceEvent.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._ensure_compute_governor",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Append-only JSONL event chain with fsync durability.",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "ComputeProvenanceRecorder",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._restore_tail",
+          "target": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder._restore_tail"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.append",
+          "target": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.is_file",
+          "target": "self.path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.parent.mkdir",
+          "target": "self.path.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Lock",
+          "target": "threading.Lock"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "dict": "name",
+        "self._restore_tail": "attribute",
+        "self.append": "attribute",
+        "self.path.is_file": "attribute",
+        "self.path.parent.mkdir": "attribute",
+        "str": "name",
+        "threading.Lock": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "dict",
+        "self._restore_tail",
+        "self.append",
+        "self.path.is_file",
+        "self.path.parent.mkdir",
+        "str",
+        "threading.Lock"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder._restore_tail",
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.append"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, path, session_id, metadata)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "last.get",
+          "target": "last.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.read_text",
+          "target": "self.path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "last.get": "attribute",
+        "line.strip": "attribute",
+        "self.path.read_text": "attribute",
+        "splitlines": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.__init__"
+      ],
+      "calls": [
+        "RuntimeError",
+        "int",
+        "json.loads",
+        "last.get",
+        "line.strip",
+        "self.path.read_text",
+        "splitlines",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder._restore_tail",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "_restore_tail",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ProvenanceEvent",
+          "target": "calo_rpd_studio.compute.provenance.ProvenanceEvent"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical",
+          "target": "calo_rpd_studio.compute.provenance._canonical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.fileno",
+          "target": "handle.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.flush",
+          "target": "handle.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.write",
+          "target": "handle.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.close",
+          "target": "os.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.open",
+          "target": "os.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.path.open",
+          "target": "self.path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ProvenanceEvent": "name",
+        "_canonical": "name",
+        "datetime.now": "attribute",
+        "dict": "name",
+        "handle.fileno": "attribute",
+        "handle.flush": "attribute",
+        "handle.write": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "isoformat": "attribute",
+        "json.dumps": "attribute",
+        "os.close": "attribute",
+        "os.fsync": "attribute",
+        "os.open": "attribute",
+        "self.path.open": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.__init__"
+      ],
+      "calls": [
+        "ProvenanceEvent",
+        "_canonical",
+        "datetime.now",
+        "dict",
+        "handle.fileno",
+        "handle.flush",
+        "handle.write",
+        "hashlib.sha256",
+        "hexdigest",
+        "isoformat",
+        "json.dumps",
+        "os.close",
+        "os.fsync",
+        "os.open",
+        "self.path.open",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.provenance.ProvenanceEvent",
+        "calo_rpd_studio.compute.provenance._canonical"
+      ],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.append",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, event_type, payload)",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "append",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical",
+          "target": "calo_rpd_studio.compute.provenance._canonical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.pop",
+          "target": "row.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_canonical": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.loads": "attribute",
+        "line.strip": "attribute",
+        "row.get": "attribute",
+        "row.pop": "attribute",
+        "source.is_file": "attribute",
+        "source.read_text": "attribute",
+        "splitlines": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner.run",
+        "tests.unit.test_v620_rc_final.test_compute_provenance_hash_chain_detects_tampering"
+      ],
+      "calls": [
+        "Path",
+        "_canonical",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.loads",
+        "line.strip",
+        "row.get",
+        "row.pop",
+        "source.is_file",
+        "source.read_text",
+        "splitlines",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.provenance._canonical"
+      ],
+      "doc": "",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "threading": "threading",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.provenance",
+      "qualname": "calo_rpd_studio.compute.provenance.ComputeProvenanceRecorder.verify",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(path)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "verify",
+      "tests": [
+        "tests/unit/test_v620_rc_final.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+# compute
+
+<!-- AUTO-GENERATED MODULE INTELLIGENCE -->
+**Purpose:** Resource admission, topology/device binding, execution contracts, persistent workers and accelerator kernels.
+
+**Important state:** Leases, memory budgets, worker/device identity, telemetry and execution provenance.
+
+**Major flow:** request -> Safe-80 admission -> CUDA or CPU lane -> worker/kernel -> attested result.
+
+**Constraints/invariants:** CUDA-preferred/CPU-only; Intel XPU non-executable; at most 80% of free VRAM/available RAM.
+
+**Common failure points:** OOM/resource races, identity mismatch, silent fallback, stale workers and CPU/CUDA parity drift.
+
+## Start here
+- `calo_rpd_studio/compute/resource_scheduler.py`
+
+## Preferred edit targets
+- `calo_rpd_studio/compute/resource_scheduler.py`
+
+## Deep/internal implementation
+- None identified.
+
+## State owners
+- None explicitly identified.
+
+## Cross-module dependencies
+- `calo-policy`
+- `core`
+- `experiments`
+- `persistence`
+- `power-system`
+
+## Dependents
+- `bootstrap`
+- `calo-policy`
+- `desktop`
+- `experiments`
+- `optimization`
+- `tests`
+- `validation-release`
+
+## Related tests
+- `tests/gui/test_phase6_ribbon_workspace.py`
+- `tests/scientific/test_v34_scientific_integrity.py`
+- `tests/unit/test_accelerator_evidence.py`
+- `tests/unit/test_cuda_residency_contract.py`
+- `tests/unit/test_phase6_command_and_native_contracts.py`
+- `tests/unit/test_prerequisites_and_resources.py`
+- `tests/unit/test_source_identity.py`
+- `tests/unit/test_tsh_calo_training_environment.py`
+- `tests/unit/test_tsh_calo_training_resources.py`
+- `tests/unit/test_v120_phase2_contracts.py`
+- `tests/unit/test_v120_phase4_development_freeze.py`
+- `tests/unit/test_v120_phase4_policy_retirement.py`
+- `tests/unit/test_v120_phase5_release_preparation.py`
+- `tests/unit/test_v31_batched_throughput.py`
+- `tests/unit/test_v33_cuda_resident.py`
+- `tests/unit/test_v34_worker_protocol.py`
+- `tests/unit/test_v3_accelerated_backend.py`
+- `tests/unit/test_v57_audit_closure_integration.py`
+- `tests/unit/test_v600_alpha_architecture.py`
+- `tests/unit/test_v610_beta_architecture.py`
+- `tests/unit/test_v620_rc_final.py`
+- `tests/unit/test_v630_stage_a_reporting.py`
+- `tests/unit/test_v650_must_resolve.py`
+- `tests/unit/test_v660_remaining_audit.py`
+- `tests/unit/test_v670_hardware_mapping.py`
+- `tests/unit/test_v690_vram_residency.py`
+
+## Files
+- `calo_rpd_studio/accelerated/AGENTS.md`
+- `calo_rpd_studio/accelerated/__init__.py`
+- `calo_rpd_studio/accelerated/cuda_timing.py`
+- `calo_rpd_studio/accelerated/device.py`
+- `calo_rpd_studio/accelerated/device_resident_orpd.py`
+- `calo_rpd_studio/accelerated/parity_audit.py`
+- `calo_rpd_studio/accelerated/runtime_context.py`
+- `calo_rpd_studio/accelerated/scratch_pool.py`
+- `calo_rpd_studio/accelerated/throughput_engine.py`
+- `calo_rpd_studio/accelerated/torch_decoder.py`
+- `calo_rpd_studio/accelerated/torch_orpd.py`
+- `calo_rpd_studio/accelerated/torch_power_flow.py`
+- `calo_rpd_studio/accelerated/vram_residency.py`
+- `calo_rpd_studio/compute/AGENTS.md`
+- `calo_rpd_studio/compute/__init__.py`
+- `calo_rpd_studio/compute/device_binding.py`
+- `calo_rpd_studio/compute/device_lease.py`
+- `calo_rpd_studio/compute/execution_contract.py`
+- `calo_rpd_studio/compute/governor.py`
+- `calo_rpd_studio/compute/memory_budget.py`
+- `calo_rpd_studio/compute/persistent_accelerator_worker.py`
+- `calo_rpd_studio/compute/persistent_training_actor.py`
+- `calo_rpd_studio/compute/provenance.py`
+- `calo_rpd_studio/compute/resource_scheduler.py`
+- `calo_rpd_studio/compute/scientific_equivalence.py`
+- `calo_rpd_studio/compute/soak.py`
+- `calo_rpd_studio/compute/source_identity.py`
+- `calo_rpd_studio/compute/topology.py`
+- `calo_rpd_studio/compute/training_actor_worker.py`
+- `calo_rpd_studio/compute/training_resources.py`
+
+> Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

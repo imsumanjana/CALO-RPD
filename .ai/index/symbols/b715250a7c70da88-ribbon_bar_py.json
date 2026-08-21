@@ -1,0 +1,2428 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Explicit category buttons and page stack without native tab painting.",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "RibbonCategoryTabs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QButtonGroup",
+          "target": "QButtonGroup"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFrame",
+          "target": "QFrame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QStackedWidget",
+          "target": "QStackedWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "category_layout.addStretch",
+          "target": "category_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "category_layout.setContentsMargins",
+          "target": "category_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "category_layout.setSpacing",
+          "target": "category_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_group.setExclusive",
+          "target": "self._category_group.setExclusive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_row.setAccessibleName",
+          "target": "self._category_row.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_row.setMaximumHeight",
+          "target": "self._category_row.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_row.setMinimumHeight",
+          "target": "self._category_row.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_row.setObjectName",
+          "target": "self._category_row.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._page_stack.setAccessibleName",
+          "target": "self._page_stack.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._page_stack.setAttribute",
+          "target": "self._page_stack.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._page_stack.setObjectName",
+          "target": "self._page_stack.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setAccessibleName",
+          "target": "self.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setAttribute",
+          "target": "self.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setFocusPolicy",
+          "target": "self.setFocusPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QButtonGroup": "name",
+        "QFrame": "name",
+        "QHBoxLayout": "name",
+        "QStackedWidget": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "category_layout.addStretch": "attribute",
+        "category_layout.setContentsMargins": "attribute",
+        "category_layout.setSpacing": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self._category_group.setExclusive": "attribute",
+        "self._category_row.setAccessibleName": "attribute",
+        "self._category_row.setMaximumHeight": "attribute",
+        "self._category_row.setMinimumHeight": "attribute",
+        "self._category_row.setObjectName": "attribute",
+        "self._page_stack.setAccessibleName": "attribute",
+        "self._page_stack.setAttribute": "attribute",
+        "self._page_stack.setObjectName": "attribute",
+        "self.setAccessibleName": "attribute",
+        "self.setAttribute": "attribute",
+        "self.setFocusPolicy": "attribute",
+        "self.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QButtonGroup",
+        "QFrame",
+        "QHBoxLayout",
+        "QStackedWidget",
+        "QVBoxLayout",
+        "__init__",
+        "category_layout.addStretch",
+        "category_layout.setContentsMargins",
+        "category_layout.setSpacing",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self._category_group.setExclusive",
+        "self._category_row.setAccessibleName",
+        "self._category_row.setMaximumHeight",
+        "self._category_row.setMinimumHeight",
+        "self._category_row.setObjectName",
+        "self._page_stack.setAccessibleName",
+        "self._page_stack.setAttribute",
+        "self._page_stack.setObjectName",
+        "self.setAccessibleName",
+        "self.setAttribute",
+        "self.setFocusPolicy",
+        "self.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, parent)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.clicked.connect",
+          "target": "button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAccessibleName",
+          "target": "button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAutoDefault",
+          "target": "button.setAutoDefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setCheckable",
+          "target": "button.setCheckable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setObjectName",
+          "target": "button.setObjectName"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._select_page",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_buttons.append",
+          "target": "self._category_buttons.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_group.addButton",
+          "target": "self._category_group.addButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._category_layout.insertWidget",
+          "target": "self._category_layout.insertWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._page_stack.addWidget",
+          "target": "self._page_stack.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._titles.append",
+          "target": "self._titles.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setFocusProxy",
+          "target": "self.setFocusProxy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QPushButton": "name",
+        "button.clicked.connect": "attribute",
+        "button.setAccessibleName": "attribute",
+        "button.setAutoDefault": "attribute",
+        "button.setCheckable": "attribute",
+        "button.setObjectName": "attribute",
+        "len": "name",
+        "self._category_buttons.append": "attribute",
+        "self._category_group.addButton": "attribute",
+        "self._category_layout.insertWidget": "attribute",
+        "self._page_stack.addWidget": "attribute",
+        "self._select_page": "attribute",
+        "self._titles.append": "attribute",
+        "self.setFocusProxy": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QPushButton",
+        "button.clicked.connect",
+        "button.setAccessibleName",
+        "button.setAutoDefault",
+        "button.setCheckable",
+        "button.setObjectName",
+        "len",
+        "self._category_buttons.append",
+        "self._category_group.addButton",
+        "self._category_layout.insertWidget",
+        "self._page_stack.addWidget",
+        "self._select_page",
+        "self._titles.append",
+        "self.setFocusProxy",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+      ],
+      "doc": "",
+      "end_line": 81,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.addTab",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, page, title)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "addTab",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._page_stack.count",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.count"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._page_stack.setCurrentIndex",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.currentChanged.emit",
+          "target": "self.currentChanged.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setChecked",
+          "target": "setChecked"
+        }
+      ],
+      "call_forms": {
+        "self._page_stack.count": "attribute",
+        "self._page_stack.setCurrentIndex": "attribute",
+        "self.currentChanged.emit": "attribute",
+        "setChecked": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.addTab",
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.setCurrentIndex"
+      ],
+      "calls": [
+        "self._page_stack.count",
+        "self._page_stack.setCurrentIndex",
+        "self.currentChanged.emit",
+        "setChecked"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.count",
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.setCurrentIndex"
+      ],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 83,
+      "state_owner": "",
+      "symbol": "_select_page",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "len": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+      ],
+      "calls": [
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.count",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.currentIndex",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "currentIndex",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._select_page",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+        }
+      ],
+      "call_forms": {
+        "self._select_page": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+      ],
+      "calls": [
+        "self._select_page"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs._select_page"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.setCurrentIndex",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "setCurrentIndex",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.tabText",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "tabText",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._page_stack.widget",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.widget"
+        }
+      ],
+      "call_forms": {
+        "self._page_stack.widget": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.widget"
+      ],
+      "calls": [
+        "self._page_stack.widget"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.widget"
+      ],
+      "doc": "",
+      "end_line": 103,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.widget",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "widget",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs.tabBar",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 105,
+      "state_owner": "",
+      "symbol": "tabBar",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 274,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 109,
+      "state_owner": "",
+      "symbol": "RibbonBar",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "OrderedDict",
+          "target": "OrderedDict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFrame",
+          "target": "QFrame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGridLayout",
+          "target": "QGridLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QSize",
+          "target": "QSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QToolButton",
+          "target": "QToolButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAccessibleDescription",
+          "target": "button.setAccessibleDescription"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAccessibleName",
+          "target": "button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAutoRaise",
+          "target": "button.setAutoRaise"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setDefaultAction",
+          "target": "button.setDefaultAction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setIconSize",
+          "target": "button.setIconSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setObjectName",
+          "target": "button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setProperty",
+          "target": "button.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setToolButtonStyle",
+          "target": "button.setToolButtonStyle"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._guard_inactive_category_interaction",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar._guard_inactive_category_interaction"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RibbonCategoryTabs",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "caption.setAccessibleName",
+          "target": "caption.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "caption.setAlignment",
+          "target": "caption.setAlignment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "caption.setObjectName",
+          "target": "caption.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "categories.items",
+          "target": "categories.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "categories.pop",
+          "target": "categories.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "categories.setdefault",
+          "target": "categories.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command_area.setObjectName",
+          "target": "command_area.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group.setAccessibleName",
+          "target": "group.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group.setObjectName",
+          "target": "group.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_column.addWidget",
+          "target": "group_column.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_column.setContentsMargins",
+          "target": "group_column.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_column.setSpacing",
+          "target": "group_column.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_row.addWidget",
+          "target": "group_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_row.setContentsMargins",
+          "target": "group_row.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_row.setHorizontalSpacing",
+          "target": "group_row.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_row.setVerticalSpacing",
+          "target": "group_row.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.items",
+          "target": "groups.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.addStretch",
+          "target": "identity.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.addWidget",
+          "target": "identity.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.setContentsMargins",
+          "target": "identity.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.setSpacing",
+          "target": "identity.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "navigation_layout.addWidget",
+          "target": "navigation_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "navigation_layout.setContentsMargins",
+          "target": "navigation_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "navigation_layout.setSpacing",
+          "target": "navigation_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ordered_categories.extend",
+          "target": "ordered_categories.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outer.addWidget",
+          "target": "outer.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outer.setContentsMargins",
+          "target": "outer.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outer.setSpacing",
+          "target": "outer.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.setAttribute",
+          "target": "page.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.setObjectName",
+          "target": "page.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.setProperty",
+          "target": "page.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.action",
+          "target": "registry.action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addStretch",
+          "target": "row.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addWidget",
+          "target": "row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.setContentsMargins",
+          "target": "row.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.setSpacing",
+          "target": "row.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.raise_",
+          "target": "self.identity_bar.raise_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.setAccessibleName",
+          "target": "self.identity_bar.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.setAttribute",
+          "target": "self.identity_bar.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.setMaximumHeight",
+          "target": "self.identity_bar.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.setMinimumHeight",
+          "target": "self.identity_bar.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.identity_bar.setObjectName",
+          "target": "self.identity_bar.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.navigation_area.setAccessibleName",
+          "target": "self.navigation_area.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.navigation_area.setAttribute",
+          "target": "self.navigation_area.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.navigation_area.setMaximumHeight",
+          "target": "self.navigation_area.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.navigation_area.setMinimumHeight",
+          "target": "self.navigation_area.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.navigation_area.setObjectName",
+          "target": "self.navigation_area.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.product_label.setAccessibleName",
+          "target": "self.product_label.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.product_label.setObjectName",
+          "target": "self.product_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setAccessibleName",
+          "target": "self.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setAccessibleName",
+          "target": "self.state_label.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setAlignment",
+          "target": "self.state_label.setAlignment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setObjectName",
+          "target": "self.state_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.addTab",
+          "target": "self.tabs.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.currentChanged.connect",
+          "target": "self.tabs.currentChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.currentIndex",
+          "target": "self.tabs.currentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.setMaximumHeight",
+          "target": "self.tabs.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.setMinimumHeight",
+          "target": "self.tabs.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.version_label.setAccessibleName",
+          "target": "self.version_label.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.version_label.setObjectName",
+          "target": "self.version_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setdefault",
+          "target": "setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "OrderedDict": "name",
+        "QFrame": "name",
+        "QGridLayout": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QSize": "name",
+        "QToolButton": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "RibbonCategoryTabs": "name",
+        "__init__": "attribute",
+        "append": "attribute",
+        "button.setAccessibleDescription": "attribute",
+        "button.setAccessibleName": "attribute",
+        "button.setAutoRaise": "attribute",
+        "button.setDefaultAction": "attribute",
+        "button.setIconSize": "attribute",
+        "button.setObjectName": "attribute",
+        "button.setProperty": "attribute",
+        "button.setToolButtonStyle": "attribute",
+        "caption.setAccessibleName": "attribute",
+        "caption.setAlignment": "attribute",
+        "caption.setObjectName": "attribute",
+        "categories.items": "attribute",
+        "categories.pop": "attribute",
+        "categories.setdefault": "attribute",
+        "command_area.setObjectName": "attribute",
+        "enumerate": "name",
+        "group.setAccessibleName": "attribute",
+        "group.setObjectName": "attribute",
+        "group_column.addWidget": "attribute",
+        "group_column.setContentsMargins": "attribute",
+        "group_column.setSpacing": "attribute",
+        "group_row.addWidget": "attribute",
+        "group_row.setContentsMargins": "attribute",
+        "group_row.setHorizontalSpacing": "attribute",
+        "group_row.setVerticalSpacing": "attribute",
+        "groups.items": "attribute",
+        "identity.addStretch": "attribute",
+        "identity.addWidget": "attribute",
+        "identity.setContentsMargins": "attribute",
+        "identity.setSpacing": "attribute",
+        "navigation_layout.addWidget": "attribute",
+        "navigation_layout.setContentsMargins": "attribute",
+        "navigation_layout.setSpacing": "attribute",
+        "ordered_categories.extend": "attribute",
+        "outer.addWidget": "attribute",
+        "outer.setContentsMargins": "attribute",
+        "outer.setSpacing": "attribute",
+        "page.setAttribute": "attribute",
+        "page.setObjectName": "attribute",
+        "page.setProperty": "attribute",
+        "registry.action": "attribute",
+        "row.addStretch": "attribute",
+        "row.addWidget": "attribute",
+        "row.setContentsMargins": "attribute",
+        "row.setSpacing": "attribute",
+        "self._guard_inactive_category_interaction": "attribute",
+        "self.identity_bar.raise_": "attribute",
+        "self.identity_bar.setAccessibleName": "attribute",
+        "self.identity_bar.setAttribute": "attribute",
+        "self.identity_bar.setMaximumHeight": "attribute",
+        "self.identity_bar.setMinimumHeight": "attribute",
+        "self.identity_bar.setObjectName": "attribute",
+        "self.navigation_area.setAccessibleName": "attribute",
+        "self.navigation_area.setAttribute": "attribute",
+        "self.navigation_area.setMaximumHeight": "attribute",
+        "self.navigation_area.setMinimumHeight": "attribute",
+        "self.navigation_area.setObjectName": "attribute",
+        "self.product_label.setAccessibleName": "attribute",
+        "self.product_label.setObjectName": "attribute",
+        "self.setAccessibleName": "attribute",
+        "self.setObjectName": "attribute",
+        "self.state_label.setAccessibleName": "attribute",
+        "self.state_label.setAlignment": "attribute",
+        "self.state_label.setObjectName": "attribute",
+        "self.tabs.addTab": "attribute",
+        "self.tabs.currentChanged.connect": "attribute",
+        "self.tabs.currentIndex": "attribute",
+        "self.tabs.setMaximumHeight": "attribute",
+        "self.tabs.setMinimumHeight": "attribute",
+        "self.version_label.setAccessibleName": "attribute",
+        "self.version_label.setObjectName": "attribute",
+        "setdefault": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "OrderedDict",
+        "QFrame",
+        "QGridLayout",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QSize",
+        "QToolButton",
+        "QVBoxLayout",
+        "QWidget",
+        "RibbonCategoryTabs",
+        "__init__",
+        "append",
+        "button.setAccessibleDescription",
+        "button.setAccessibleName",
+        "button.setAutoRaise",
+        "button.setDefaultAction",
+        "button.setIconSize",
+        "button.setObjectName",
+        "button.setProperty",
+        "button.setToolButtonStyle",
+        "caption.setAccessibleName",
+        "caption.setAlignment",
+        "caption.setObjectName",
+        "categories.items",
+        "categories.pop",
+        "categories.setdefault",
+        "command_area.setObjectName",
+        "enumerate",
+        "group.setAccessibleName",
+        "group.setObjectName",
+        "group_column.addWidget",
+        "group_column.setContentsMargins",
+        "group_column.setSpacing",
+        "group_row.addWidget",
+        "group_row.setContentsMargins",
+        "group_row.setHorizontalSpacing",
+        "group_row.setVerticalSpacing",
+        "groups.items",
+        "identity.addStretch",
+        "identity.addWidget",
+        "identity.setContentsMargins",
+        "identity.setSpacing",
+        "navigation_layout.addWidget",
+        "navigation_layout.setContentsMargins",
+        "navigation_layout.setSpacing",
+        "ordered_categories.extend",
+        "outer.addWidget",
+        "outer.setContentsMargins",
+        "outer.setSpacing",
+        "page.setAttribute",
+        "page.setObjectName",
+        "page.setProperty",
+        "registry.action",
+        "row.addStretch",
+        "row.addWidget",
+        "row.setContentsMargins",
+        "row.setSpacing",
+        "self._guard_inactive_category_interaction",
+        "self.identity_bar.raise_",
+        "self.identity_bar.setAccessibleName",
+        "self.identity_bar.setAttribute",
+        "self.identity_bar.setMaximumHeight",
+        "self.identity_bar.setMinimumHeight",
+        "self.identity_bar.setObjectName",
+        "self.navigation_area.setAccessibleName",
+        "self.navigation_area.setAttribute",
+        "self.navigation_area.setMaximumHeight",
+        "self.navigation_area.setMinimumHeight",
+        "self.navigation_area.setObjectName",
+        "self.product_label.setAccessibleName",
+        "self.product_label.setObjectName",
+        "self.setAccessibleName",
+        "self.setObjectName",
+        "self.state_label.setAccessibleName",
+        "self.state_label.setAlignment",
+        "self.state_label.setObjectName",
+        "self.tabs.addTab",
+        "self.tabs.currentChanged.connect",
+        "self.tabs.currentIndex",
+        "self.tabs.setMaximumHeight",
+        "self.tabs.setMinimumHeight",
+        "self.version_label.setAccessibleName",
+        "self.version_label.setObjectName",
+        "setdefault",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar._guard_inactive_category_interaction",
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonCategoryTabs"
+      ],
+      "doc": "",
+      "end_line": 232,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, registry, parent)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "button.setAttribute",
+          "target": "button.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.setFocusPolicy",
+          "target": "button.setFocusPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.findChildren",
+          "target": "page.findChildren"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.setAttribute",
+          "target": "page.setAttribute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "page.setEnabled",
+          "target": "page.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.count",
+          "target": "self.tabs.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.widget",
+          "target": "self.tabs.widget"
+        }
+      ],
+      "call_forms": {
+        "button.setAttribute": "attribute",
+        "button.setFocusPolicy": "attribute",
+        "page.findChildren": "attribute",
+        "page.setAttribute": "attribute",
+        "page.setEnabled": "attribute",
+        "range": "name",
+        "self.tabs.count": "attribute",
+        "self.tabs.widget": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.__init__",
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.select_category"
+      ],
+      "calls": [
+        "button.setAttribute",
+        "button.setFocusPolicy",
+        "page.findChildren",
+        "page.setAttribute",
+        "page.setEnabled",
+        "range",
+        "self.tabs.count",
+        "self.tabs.widget"
+      ],
+      "calls_resolved": [],
+      "doc": "Let Qt own page visibility and make every inactive page noninteractive.",
+      "end_line": 245,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar._guard_inactive_category_interaction",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, current_index)",
+      "start_line": 234,
+      "state_owner": "",
+      "symbol": "_guard_inactive_category_interaction",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 249,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.compact",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 248,
+      "state_owner": "",
+      "symbol": "compact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.setProperty",
+          "target": "self.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.show",
+          "target": "self.show"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.setMaximumHeight",
+          "target": "self.tabs.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.setMinimumHeight",
+          "target": "self.tabs.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.show",
+          "target": "self.tabs.show"
+        }
+      ],
+      "call_forms": {
+        "self.setProperty": "attribute",
+        "self.show": "attribute",
+        "self.tabs.setMaximumHeight": "attribute",
+        "self.tabs.setMinimumHeight": "attribute",
+        "self.tabs.show": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.toggle_compact"
+      ],
+      "calls": [
+        "self.setProperty",
+        "self.show",
+        "self.tabs.setMaximumHeight",
+        "self.tabs.setMinimumHeight",
+        "self.tabs.show"
+      ],
+      "calls_resolved": [],
+      "doc": "Compatibility adapter: the application ribbon is permanently expanded.",
+      "end_line": 258,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.set_compact",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, compact, emit)",
+      "start_line": 251,
+      "state_owner": "",
+      "symbol": "set_compact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.set_compact",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.set_compact"
+        }
+      ],
+      "call_forms": {
+        "self.set_compact": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.set_compact"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.set_compact"
+      ],
+      "doc": "",
+      "end_line": 261,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.toggle_compact",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 260,
+      "state_owner": "",
+      "symbol": "toggle_compact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setText",
+          "target": "self.state_label.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state_label.setToolTip",
+          "target": "self.state_label.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.state_label.setText": "attribute",
+        "self.state_label.setToolTip": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.state_label.setText",
+        "self.state_label.setToolTip",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 265,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.set_summary",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, text)",
+      "start_line": 263,
+      "state_owner": "",
+      "symbol": "set_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._guard_inactive_category_interaction",
+          "target": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar._guard_inactive_category_interaction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.count",
+          "target": "self.tabs.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.setCurrentIndex",
+          "target": "self.tabs.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.tabText",
+          "target": "self.tabs.tabText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "range": "name",
+        "self._guard_inactive_category_interaction": "attribute",
+        "self.tabs.count": "attribute",
+        "self.tabs.setCurrentIndex": "attribute",
+        "self.tabs.tabText": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "range",
+        "self._guard_inactive_category_interaction",
+        "self.tabs.count",
+        "self.tabs.setCurrentIndex",
+        "self.tabs.tabText",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar._guard_inactive_category_interaction"
+      ],
+      "doc": "",
+      "end_line": 274,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/ribbon_bar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CommandRegistry": "calo_rpd_studio.gui.command_registry.CommandRegistry",
+        "OrderedDict": "collections.OrderedDict",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QButtonGroup": "PyQt6.QtWidgets.QButtonGroup",
+        "QFrame": "PyQt6.QtWidgets.QFrame",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSize": "PyQt6.QtCore.QSize",
+        "QStackedWidget": "PyQt6.QtWidgets.QStackedWidget",
+        "QToolButton": "PyQt6.QtWidgets.QToolButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "RIBBON_CATEGORY_ORDER": "calo_rpd_studio.gui.command_registry.RIBBON_CATEGORY_ORDER",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.command_registry",
+        "calo_rpd_studio.version",
+        "collections"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.ribbon_bar",
+      "qualname": "calo_rpd_studio.gui.widgets.ribbon_bar.RibbonBar.select_category",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title)",
+      "start_line": 267,
+      "state_owner": "",
+      "symbol": "select_category",
+      "tests": []
+    }
+  ]
+}

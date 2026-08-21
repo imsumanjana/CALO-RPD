@@ -1,0 +1,1981 @@
+{
+  "path": "calo_rpd_studio/portfolio/study_planning.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.APPLIED_PORTFOLIO_GOAL_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "APPLIED_PORTFOLIO_GOAL_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.STUDY_RECOMMENDATION_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "STUDY_RECOMMENDATION_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.APPLIED_STUDY_SETUP_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "APPLIED_STUDY_SETUP_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning._utc_now",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_utc_now",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+      ],
+      "calls": [
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning._content_sha256",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "_content_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "list": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+      ],
+      "calls": [
+        "bool",
+        "list",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Return Portfolio-owned fields only; exact execution choices are intentionally absent.",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning._broad_portfolio_payload",
+      "semantic_tags": [],
+      "signature": "(portfolio)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "_broad_portfolio_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "AppliedPortfolioGoal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "deepcopy",
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal.content_payload",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "content_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.get",
+          "target": "content.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "cls": "name",
+        "content.get": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "record.get": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._active_portfolio_goal"
+      ],
+      "calls": [
+        "cls",
+        "content.get",
+        "deepcopy",
+        "dict",
+        "record.get",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal.from_record",
+      "semantic_tags": [],
+      "signature": "(cls, record)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "from_record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Derive broad evidence constraints without reading any concrete Study configuration.",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "PortfolioGoalPlanner",
+      "tests": [
+        "tests/gui/test_guided_workflow.py",
+        "tests/integration/test_workspace_execution_control.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioPlanner.apply_article_preset",
+          "target": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.apply_article_preset"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppliedPortfolioGoal",
+          "target": "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_broad_portfolio_payload",
+          "target": "calo_rpd_studio.portfolio.study_planning._broad_portfolio_payload"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_content_sha256",
+          "target": "calo_rpd_studio.portfolio.study_planning._content_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.portfolio.study_planning._utc_now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_algorithms.update",
+          "target": "required_algorithms.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.add",
+          "target": "required_fields.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "required_fields.update",
+          "target": "required_fields.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "AppliedPortfolioGoal": "name",
+        "PortfolioPlanner.apply_article_preset": "attribute",
+        "ValueError": "name",
+        "_broad_portfolio_payload": "name",
+        "_content_sha256": "name",
+        "_utc_now": "name",
+        "any": "name",
+        "bool": "name",
+        "deepcopy": "name",
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "required_algorithms.update": "attribute",
+        "required_fields.add": "attribute",
+        "required_fields.update": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "tuple": "name",
+        "uuid.uuid4": "attribute",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh_plan",
+        "tests.conftest.apply_workspace_study.apply",
+        "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+        "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
+        "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
+        "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+        "tests.integration.test_workspace_execution_control.test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect",
+        "tests.integration.test_workspace_execution_control.test_retained_workspace_plan_blocks_portfolio_goal_replacement",
+        "tests.unit.test_workspace_execution_plans.study_contracts",
+        "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+        "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal"
+      ],
+      "calls": [
+        "AppliedPortfolioGoal",
+        "PortfolioPlanner.apply_article_preset",
+        "ValueError",
+        "_broad_portfolio_payload",
+        "_content_sha256",
+        "_utc_now",
+        "any",
+        "bool",
+        "deepcopy",
+        "int",
+        "join",
+        "len",
+        "list",
+        "max",
+        "required_algorithms.update",
+        "required_fields.add",
+        "required_fields.update",
+        "set",
+        "sorted",
+        "str",
+        "tuple",
+        "uuid.uuid4",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.planner.PortfolioPlanner.apply_article_preset",
+        "calo_rpd_studio.portfolio.study_planning.AppliedPortfolioGoal",
+        "calo_rpd_studio.portfolio.study_planning._broad_portfolio_payload",
+        "calo_rpd_studio.portfolio.study_planning._content_sha256",
+        "calo_rpd_studio.portfolio.study_planning._utc_now"
+      ],
+      "doc": "",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+      "semantic_tags": [],
+      "signature": "(portfolio, stage, selected_algorithm_names)",
+      "start_line": 122,
+      "state_owner": "",
+      "symbol": "create",
+      "tests": [
+        "tests/gui/test_guided_workflow.py",
+        "tests/integration/test_workspace_execution_control.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 290,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 251,
+      "state_owner": "",
+      "symbol": "StudyRecommendation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "deepcopy",
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 290,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation.payload",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 271,
+      "state_owner": "",
+      "symbol": "payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 351,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 294,
+      "state_owner": "",
+      "symbol": "AppliedStudySetup",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name",
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "deepcopy",
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 329,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup.content_payload",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 312,
+      "state_owner": "",
+      "symbol": "content_payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.get",
+          "target": "content.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "cls": "name",
+        "content.get": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "int": "name",
+        "record.get": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.restore_applied_study_setup"
+      ],
+      "calls": [
+        "cls",
+        "content.get",
+        "deepcopy",
+        "dict",
+        "int",
+        "record.get",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 351,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup.from_record",
+      "semantic_tags": [],
+      "signature": "(cls, record)",
+      "start_line": 332,
+      "state_owner": "",
+      "symbol": "from_record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Recommend and validate concrete Study choices against one immutable Portfolio goal.",
+      "end_line": 594,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 354,
+      "state_owner": "",
+      "symbol": "WorkspaceStudyPlanner",
+      "tests": [
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+      ],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 370,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding",
+      "semantic_tags": [],
+      "signature": "(goal, stage)",
+      "start_line": 358,
+      "state_owner": "",
+      "symbol": "_validate_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvidenceProfile",
+          "target": "calo_rpd_studio.portfolio.models.EvidenceProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "StudyRecommendation",
+          "target": "calo_rpd_studio.portfolio.study_planning.StudyRecommendation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls._validate_binding",
+          "target": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_content_sha256",
+          "target": "calo_rpd_studio.portfolio.study_planning._content_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict.fromkeys",
+          "target": "dict.fromkeys"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "EvidenceProfile": "name",
+        "StudyRecommendation": "name",
+        "_content_sha256": "name",
+        "bool": "name",
+        "cls._validate_binding": "attribute",
+        "config.to_dict": "attribute",
+        "deepcopy": "name",
+        "dict.fromkeys": "attribute",
+        "get": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "list": "name",
+        "max": "name",
+        "str": "name",
+        "strip": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply_workspace_study_setup",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.refresh_study_recommendation",
+        "tests.conftest.apply_workspace_study.apply",
+        "tests.unit.test_workspace_execution_plans.study_contracts",
+        "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal"
+      ],
+      "calls": [
+        "EvidenceProfile",
+        "StudyRecommendation",
+        "_content_sha256",
+        "bool",
+        "cls._validate_binding",
+        "config.to_dict",
+        "deepcopy",
+        "dict.fromkeys",
+        "get",
+        "getattr",
+        "int",
+        "list",
+        "max",
+        "str",
+        "strip",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "calo_rpd_studio.portfolio.study_planning.StudyRecommendation",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding",
+        "calo_rpd_studio.portfolio.study_planning._content_sha256"
+      ],
+      "doc": "",
+      "end_line": 472,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend",
+      "semantic_tags": [],
+      "signature": "(cls, goal, stage, config)",
+      "start_line": 373,
+      "state_owner": "",
+      "symbol": "recommend",
+      "tests": [
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppliedStudySetup",
+          "target": "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls._validate_binding",
+          "target": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_content_sha256",
+          "target": "calo_rpd_studio.portfolio.study_planning._content_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.portfolio.study_planning._utc_now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recommendation.default_reuse_and_resume_values.get",
+          "target": "recommendation.default_reuse_and_resume_values.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recommendation.recommended_budget.get",
+          "target": "recommendation.recommended_budget.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.get",
+          "target": "selected.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "AppliedStudySetup": "name",
+        "ValueError": "name",
+        "_content_sha256": "name",
+        "_utc_now": "name",
+        "bool": "name",
+        "cls._validate_binding": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "recommendation.default_reuse_and_resume_values.get": "attribute",
+        "recommendation.recommended_budget.get": "attribute",
+        "selected.get": "attribute",
+        "str": "name",
+        "tuple": "name",
+        "uuid.uuid4": "attribute",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.apply_workspace_study_setup",
+        "tests.conftest.apply_workspace_study.apply",
+        "tests.unit.test_workspace_execution_plans.study_contracts",
+        "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal"
+      ],
+      "calls": [
+        "AppliedStudySetup",
+        "ValueError",
+        "_content_sha256",
+        "_utc_now",
+        "bool",
+        "cls._validate_binding",
+        "deepcopy",
+        "dict",
+        "enumerate",
+        "int",
+        "len",
+        "list",
+        "recommendation.default_reuse_and_resume_values.get",
+        "recommendation.recommended_budget.get",
+        "selected.get",
+        "str",
+        "tuple",
+        "uuid.uuid4",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.AppliedStudySetup",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner._validate_binding",
+        "calo_rpd_studio.portfolio.study_planning._content_sha256",
+        "calo_rpd_studio.portfolio.study_planning._utc_now"
+      ],
+      "doc": "",
+      "end_line": 594,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/study_planning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "ArticlePreset": "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PortfolioPlanner": "calo_rpd_studio.portfolio.planner.PortfolioPlanner",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "deepcopy": "copy.deepcopy",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        ".models",
+        ".planner",
+        "__future__",
+        "copy",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "typing",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.study_planning",
+      "qualname": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
+      "semantic_tags": [],
+      "signature": "(cls, goal, stage, recommendation, selected_values)",
+      "start_line": 475,
+      "state_owner": "",
+      "symbol": "apply_selection",
+      "tests": [
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    }
+  ]
+}

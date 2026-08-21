@@ -1,0 +1,285 @@
+{
+  "path": "calo_bootstrap/launcher.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        }
+      ],
+      "call_forms": {
+        "bool": "name"
+      },
+      "called_by": [
+        "calo_bootstrap.launcher.ensure_prerequisites",
+        "tests.unit.test_v680_policy_independence.test_cpu_only_host_does_not_require_accelerator_repair",
+        "tests.unit.test_v680_policy_independence.test_detected_nvidia_without_verified_cuda_requires_repair"
+      ],
+      "calls": [
+        "bool"
+      ],
+      "calls_resolved": [],
+      "doc": "Return whether detected NVIDIA hardware lacks a verified CUDA runtime.",
+      "end_line": 19,
+      "entry_point": true,
+      "file": "calo_bootstrap/launcher.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PrerequisiteWizard": "calo_bootstrap.wizard.PrerequisiteWizard",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "app_main": "calo_rpd_studio.app.application.main",
+        "cpu_fallback_is_accepted": "calo_bootstrap.prerequisites.cpu_fallback_is_accepted",
+        "first_launch_or_version_changed": "calo_bootstrap.prerequisites.first_launch_or_version_changed",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        ".wizard",
+        "__future__",
+        "calo_rpd_studio.app.application",
+        "calo_rpd_studio.version",
+        "sys"
+      ],
+      "integration_layer": "native application launch",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.launcher",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": true,
+      "python_module": "calo_bootstrap.launcher",
+      "qualname": "calo_bootstrap.launcher.accelerator_repair_required",
+      "semantic_tags": [
+        "bootstrap",
+        "launcher"
+      ],
+      "signature": "(report)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "accelerator_repair_required",
+      "tests": [
+        "tests/unit/test_v680_policy_independence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "accelerator_repair_required",
+          "target": "calo_bootstrap.launcher.accelerator_repair_required"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cpu_fallback_is_accepted",
+          "target": "calo_bootstrap.prerequisites.cpu_fallback_is_accepted"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "first_launch_or_version_changed",
+          "target": "calo_bootstrap.prerequisites.first_launch_or_version_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "scan_environment",
+          "target": "calo_bootstrap.prerequisites.scan_environment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PrerequisiteWizard",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "PrerequisiteWizard": "name",
+        "accelerator_repair_required": "name",
+        "cpu_fallback_is_accepted": "name",
+        "first_launch_or_version_changed": "name",
+        "print": "name",
+        "run": "attribute",
+        "scan_environment": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_bootstrap.launcher.main"
+      ],
+      "calls": [
+        "PrerequisiteWizard",
+        "accelerator_repair_required",
+        "cpu_fallback_is_accepted",
+        "first_launch_or_version_changed",
+        "print",
+        "run",
+        "scan_environment",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.launcher.accelerator_repair_required",
+        "calo_bootstrap.prerequisites.cpu_fallback_is_accepted",
+        "calo_bootstrap.prerequisites.first_launch_or_version_changed",
+        "calo_bootstrap.prerequisites.scan_environment",
+        "calo_bootstrap.wizard.PrerequisiteWizard"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": true,
+      "file": "calo_bootstrap/launcher.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PrerequisiteWizard": "calo_bootstrap.wizard.PrerequisiteWizard",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "app_main": "calo_rpd_studio.app.application.main",
+        "cpu_fallback_is_accepted": "calo_bootstrap.prerequisites.cpu_fallback_is_accepted",
+        "first_launch_or_version_changed": "calo_bootstrap.prerequisites.first_launch_or_version_changed",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        ".wizard",
+        "__future__",
+        "calo_rpd_studio.app.application",
+        "calo_rpd_studio.version",
+        "sys"
+      ],
+      "integration_layer": "native application launch",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.launcher",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": true,
+      "python_module": "calo_bootstrap.launcher",
+      "qualname": "calo_bootstrap.launcher.ensure_prerequisites",
+      "semantic_tags": [
+        "bootstrap",
+        "launcher"
+      ],
+      "signature": "(force_wizard)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "ensure_prerequisites",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ensure_prerequisites",
+          "target": "calo_bootstrap.launcher.ensure_prerequisites"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "app_main",
+          "target": "calo_rpd_studio.app.application.main"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "app_main": "name",
+        "ensure_prerequisites": "name",
+        "int": "name",
+        "print": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "app_main",
+        "ensure_prerequisites",
+        "int",
+        "print"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.launcher.ensure_prerequisites",
+        "calo_rpd_studio.app.application.main"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": true,
+      "file": "calo_bootstrap/launcher.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PrerequisiteWizard": "calo_bootstrap.wizard.PrerequisiteWizard",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "app_main": "calo_rpd_studio.app.application.main",
+        "cpu_fallback_is_accepted": "calo_bootstrap.prerequisites.cpu_fallback_is_accepted",
+        "first_launch_or_version_changed": "calo_bootstrap.prerequisites.first_launch_or_version_changed",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        ".wizard",
+        "__future__",
+        "calo_rpd_studio.app.application",
+        "calo_rpd_studio.version",
+        "sys"
+      ],
+      "integration_layer": "native application launch",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.launcher",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": true,
+      "python_module": "calo_bootstrap.launcher",
+      "qualname": "calo_bootstrap.launcher.main",
+      "semantic_tags": [
+        "bootstrap",
+        "launcher"
+      ],
+      "signature": "()",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

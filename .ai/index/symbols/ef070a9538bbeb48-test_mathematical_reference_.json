@@ -1,0 +1,1058 @@
+{
+  "path": "tests/unit/test_mathematical_reference.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblemConfig",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblemConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "ORPDProblemConfig": "name",
+        "ORPDVariableConfig": "name"
+      },
+      "called_by": [
+        "tests.unit.test_mathematical_reference.test_exhaustive_reference_is_exact_only_on_declared_all_discrete_lattice",
+        "tests.unit.test_mathematical_reference.test_exhaustive_reference_rejects_continuous_or_oversized_tasks",
+        "tests.unit.test_mathematical_reference.test_exhaustive_winner_can_be_independently_cross_validated"
+      ],
+      "calls": [
+        "ORPDProblem",
+        "ORPDProblemConfig",
+        "ORPDVariableConfig"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+      ],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference._all_discrete_problem",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_all_discrete_problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_continuous_relaxation",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relaxed.case.checksum",
+          "target": "relaxed.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.case.checksum",
+          "target": "source.case.checksum"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "all": "name",
+        "any": "name",
+        "build_continuous_relaxation": "name",
+        "relaxed.case.checksum": "attribute",
+        "source.case.checksum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "all",
+        "any",
+        "build_continuous_relaxation",
+        "relaxed.case.checksum",
+        "source.case.checksum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_continuous_relaxation_changes_only_lattice_semantics",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_continuous_relaxation_changes_only_lattice_semantics",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SLSQPReferenceOptions",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_slsqp_continuous_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.sha256",
+          "target": "report.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.to_dict",
+          "target": "report.to_dict"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "SLSQPReferenceOptions": "name",
+        "np.full": "attribute",
+        "report.sha256": "attribute",
+        "report.to_dict": "attribute",
+        "solve_slsqp_continuous_reference": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "SLSQPReferenceOptions",
+        "np.full",
+        "report.sha256",
+        "report.to_dict",
+        "solve_slsqp_continuous_reference"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_slsqp_report_separates_local_relaxation_from_mixed_incumbent",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "test_slsqp_report_separates_local_relaxation_from_mixed_incumbent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SLSQPReferenceOptions",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_slsqp_continuous_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "SLSQPReferenceOptions": "name",
+        "float": "name",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute",
+        "solve_slsqp_continuous_reference": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "SLSQPReferenceOptions",
+        "float",
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "solve_slsqp_continuous_reference"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_slsqp_rejects_ambiguous_or_invalid_start",
+      "semantic_tags": [],
+      "signature": "(toy_case, initial, message)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "test_slsqp_rejects_ambiguous_or_invalid_start",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SLSQPReferenceOptions",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "SLSQPReferenceOptions": "name",
+        "pytest.raises": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SLSQPReferenceOptions",
+        "pytest.raises",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions"
+      ],
+      "doc": "",
+      "end_line": 114,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_slsqp_options_reject_complex_step_that_common_evaluator_cannot_preserve",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "test_slsqp_options_reject_complex_step_that_common_evaluator_cannot_preserve",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "solve_exhaustive_finite_lattice_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objectives.append",
+          "target": "objectives.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate",
+          "target": "problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_all_discrete_problem",
+          "target": "tests.unit.test_mathematical_reference._all_discrete_problem"
+        }
+      ],
+      "call_forms": {
+        "_all_discrete_problem": "name",
+        "float": "name",
+        "len": "name",
+        "min": "name",
+        "np.asarray": "attribute",
+        "objectives.append": "attribute",
+        "problem.evaluate": "attribute",
+        "pytest.approx": "attribute",
+        "range": "name",
+        "solve_exhaustive_finite_lattice_reference": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_all_discrete_problem",
+        "float",
+        "len",
+        "min",
+        "np.asarray",
+        "objectives.append",
+        "problem.evaluate",
+        "pytest.approx",
+        "range",
+        "solve_exhaustive_finite_lattice_reference",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "tests.unit.test_mathematical_reference._all_discrete_problem"
+      ],
+      "doc": "",
+      "end_line": 148,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_exhaustive_reference_is_exact_only_on_declared_all_discrete_lattice",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 117,
+      "state_owner": "",
+      "symbol": "test_exhaustive_reference_is_exact_only_on_declared_all_discrete_lattice",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "solve_exhaustive_finite_lattice_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_all_discrete_problem",
+          "target": "tests.unit.test_mathematical_reference._all_discrete_problem"
+        }
+      ],
+      "call_forms": {
+        "ORPDProblem": "name",
+        "_all_discrete_problem": "name",
+        "pytest.raises": "attribute",
+        "solve_exhaustive_finite_lattice_reference": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ORPDProblem",
+        "_all_discrete_problem",
+        "pytest.raises",
+        "solve_exhaustive_finite_lattice_reference"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_mathematical_reference._all_discrete_problem"
+      ],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_exhaustive_reference_rejects_continuous_or_oversized_tasks",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "test_exhaustive_reference_rejects_continuous_or_oversized_tasks",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "solve_exhaustive_finite_lattice_reference",
+          "target": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_all_discrete_problem",
+          "target": "tests.unit.test_mathematical_reference._all_discrete_problem"
+        }
+      ],
+      "call_forms": {
+        "_all_discrete_problem": "name",
+        "len": "name",
+        "solve_exhaustive_finite_lattice_reference": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_all_discrete_problem",
+        "len",
+        "solve_exhaustive_finite_lattice_reference"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "tests.unit.test_mathematical_reference._all_discrete_problem"
+      ],
+      "doc": "",
+      "end_line": 182,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_exhaustive_winner_can_be_independently_cross_validated",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 167,
+      "state_owner": "",
+      "symbol": "test_exhaustive_winner_can_be_independently_cross_validated",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_reference_problem",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_start_vector",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.save",
+          "target": "config.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "protected.save",
+          "target": "protected.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "start_path.write_text",
+          "target": "start_path.write_text"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "config.save": "attribute",
+        "join": "attribute",
+        "len": "name",
+        "load_reference_problem": "name",
+        "load_start_vector": "name",
+        "protected.save": "attribute",
+        "pytest.raises": "attribute",
+        "start_path.write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "config.save",
+        "join",
+        "len",
+        "load_reference_problem",
+        "load_start_vector",
+        "protected.save",
+        "pytest.raises",
+        "start_path.write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector"
+      ],
+      "doc": "",
+      "end_line": 207,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_reference_cli_inputs_are_hashed_strict_and_protected_cases_fail_closed",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 185,
+      "state_owner": "",
+      "symbol": "test_reference_cli_inputs_are_hashed_strict_and_protected_cases_fail_closed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "write_reference_evidence",
+          "target": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.read_text",
+          "target": "destination.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "endswith",
+          "target": "endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "destination.read_text": "attribute",
+        "endswith": "attribute",
+        "pytest.raises": "attribute",
+        "write_reference_evidence": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "destination.read_text",
+        "endswith",
+        "pytest.raises",
+        "write_reference_evidence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      ],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "tests/unit/test_mathematical_reference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "MATHEMATICAL_REFERENCE_SCHEMA": "calo_rpd_studio.orpd.mathematical_reference.MATHEMATICAL_REFERENCE_SCHEMA",
+        "NONCONVEX_RELAXATION_WARNING": "calo_rpd_studio.orpd.mathematical_reference.NONCONVEX_RELAXATION_WARNING",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDProblemConfig": "calo_rpd_studio.orpd.problem.ORPDProblemConfig",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "SLSQPReferenceOptions": "calo_rpd_studio.orpd.mathematical_reference.SLSQPReferenceOptions",
+        "annotations": "__future__.annotations",
+        "build_continuous_relaxation": "calo_rpd_studio.orpd.mathematical_reference.build_continuous_relaxation",
+        "load_reference_problem": "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "load_start_vector": "calo_rpd_studio.scripts.run_mathematical_reference.load_start_vector",
+        "np": "numpy",
+        "pytest": "pytest",
+        "solve_exhaustive_finite_lattice_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_exhaustive_finite_lattice_reference",
+        "solve_slsqp_continuous_reference": "calo_rpd_studio.orpd.mathematical_reference.solve_slsqp_continuous_reference",
+        "write_reference_evidence": "calo_rpd_studio.scripts.run_mathematical_reference.write_reference_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.mathematical_reference",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.scripts.run_mathematical_reference",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_mathematical_reference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_mathematical_reference",
+      "qualname": "tests.unit.test_mathematical_reference.test_reference_evidence_writer_is_new_file_only",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 210,
+      "state_owner": "",
+      "symbol": "test_reference_evidence_writer_is_new_file_only",
+      "tests": []
+    }
+  ]
+}

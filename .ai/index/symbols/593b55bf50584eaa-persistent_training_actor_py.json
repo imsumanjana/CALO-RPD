@@ -1,0 +1,1367 @@
+{
+  "path": "calo_rpd_studio/compute/persistent_training_actor.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor._HEADER",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_HEADER",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor._MAX_FRAME_BYTES",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_MAX_FRAME_BYTES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor._LOG",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_HEADER.pack",
+          "target": "_HEADER.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pickle.dumps",
+          "target": "pickle.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        }
+      ],
+      "call_forms": {
+        "_HEADER.pack": "attribute",
+        "len": "name",
+        "pickle.dumps": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.close",
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.request",
+        "calo_rpd_studio.compute.training_actor_worker._server",
+        "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+        "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame"
+      ],
+      "calls": [
+        "_HEADER.pack",
+        "len",
+        "pickle.dumps",
+        "stream.flush",
+        "stream.write"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.write_frame",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(stream, payload, lock)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "write_frame",
+      "tests": [
+        "tests/unit/test_v34_worker_protocol.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "chunks.append",
+          "target": "chunks.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "chunks.append": "attribute",
+        "int": "name",
+        "join": "attribute",
+        "len": "name",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+      ],
+      "calls": [
+        "chunks.append",
+        "int",
+        "join",
+        "len",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.read_exact",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(stream, size)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "read_exact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_HEADER.unpack",
+          "target": "_HEADER.unpack"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_exact",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_exact"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pickle.loads",
+          "target": "pickle.loads"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_HEADER.unpack": "attribute",
+        "int": "name",
+        "isinstance": "name",
+        "pickle.loads": "attribute",
+        "read_exact": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient._reader",
+        "calo_rpd_studio.compute.training_actor_worker._server",
+        "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+        "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+        "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames"
+      ],
+      "calls": [
+        "ValueError",
+        "_HEADER.unpack",
+        "int",
+        "isinstance",
+        "pickle.loads",
+        "read_exact"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_exact"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.read_frame",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(stream)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "read_frame",
+      "tests": [
+        "tests/unit/test_v34_worker_protocol.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "One long-lived actor interpreter with one resident accelerator context and network object.",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "PersistentTrainingActorClient",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "queue.Queue",
+          "target": "queue.Queue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._reader_thread.start",
+          "target": "self._reader_thread.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._stderr_thread.start",
+          "target": "self._stderr_thread.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.Popen",
+          "target": "subprocess.Popen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Lock",
+          "target": "threading.Lock"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Thread",
+          "target": "threading.Thread"
+        }
+      ],
+      "call_forms": {
+        "queue.Queue": "attribute",
+        "self._reader_thread.start": "attribute",
+        "self._stderr_thread.start": "attribute",
+        "str": "name",
+        "subprocess.Popen": "attribute",
+        "threading.Lock": "attribute",
+        "threading.Thread": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "queue.Queue",
+        "self._reader_thread.start",
+        "self._stderr_thread.start",
+        "str",
+        "subprocess.Popen",
+        "threading.Lock",
+        "threading.Thread"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, interpreter, device, lane)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "read_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._results.put",
+          "target": "self._results.put"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "read_frame": "name",
+        "self._results.put": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_LOG.debug",
+        "read_frame",
+        "self._results.put"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient._reader",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "_reader",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.decode",
+          "target": "raw.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rstrip",
+          "target": "rstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._stderr_tail.append",
+          "target": "self._stderr_tail.append"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "iter": "name",
+        "raw.decode": "attribute",
+        "rstrip": "attribute",
+        "self._stderr_tail.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_LOG.debug",
+        "iter",
+        "raw.decode",
+        "rstrip",
+        "self._stderr_tail.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient._read_stderr",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "_read_stderr",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "TimeoutError",
+          "target": "TimeoutError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decode",
+          "target": "decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "response.get",
+          "target": "response.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._results.get",
+          "target": "self._results.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.lane.upper",
+          "target": "self.lane.upper"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.poll",
+          "target": "self.process.poll"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.stderr.read",
+          "target": "self.process.stderr.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "TimeoutError": "name",
+        "_LOG.debug": "attribute",
+        "decode": "attribute",
+        "float": "name",
+        "join": "attribute",
+        "max": "name",
+        "min": "name",
+        "response.get": "attribute",
+        "self._results.get": "attribute",
+        "self.lane.upper": "attribute",
+        "self.process.poll": "attribute",
+        "self.process.stderr.read": "attribute",
+        "str": "name",
+        "time.monotonic": "attribute",
+        "write_frame": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "TimeoutError",
+        "_LOG.debug",
+        "decode",
+        "float",
+        "join",
+        "max",
+        "min",
+        "response.get",
+        "self._results.get",
+        "self.lane.upper",
+        "self.process.poll",
+        "self.process.stderr.read",
+        "str",
+        "time.monotonic",
+        "write_frame"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      ],
+      "doc": "",
+      "end_line": 144,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.request",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, payload, timeout)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "request",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_frame",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.kill",
+          "target": "self.process.kill"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.poll",
+          "target": "self.process.poll"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.terminate",
+          "target": "self.process.terminate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.wait",
+          "target": "self.process.wait"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "self.process.kill": "attribute",
+        "self.process.poll": "attribute",
+        "self.process.terminate": "attribute",
+        "self.process.wait": "attribute",
+        "write_frame": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.__exit__"
+      ],
+      "calls": [
+        "_LOG.debug",
+        "self.process.kill",
+        "self.process.poll",
+        "self.process.terminate",
+        "self.process.wait",
+        "write_frame"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+      ],
+      "doc": "",
+      "end_line": 157,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.close",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, timeout)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.__enter__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 159,
+      "state_owner": "",
+      "symbol": "__enter__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.close"
+        }
+      ],
+      "call_forms": {
+        "self.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.close"
+      ],
+      "doc": "",
+      "end_line": 164,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_training_actor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BinaryIO": "typing.BinaryIO",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "pickle": "pickle",
+        "queue": "queue",
+        "struct": "struct",
+        "subprocess": "subprocess",
+        "threading": "threading",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "pickle",
+        "queue",
+        "struct",
+        "subprocess",
+        "threading",
+        "time",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_training_actor",
+      "qualname": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.__exit__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, exc_type, exc, tb)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "__exit__",
+      "tests": []
+    }
+  ]
+}

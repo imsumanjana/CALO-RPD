@@ -1,0 +1,2383 @@
+{
+  "path": "tests/unit/test_tsh_calo_independent_training.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.encode",
+          "target": "label.encode"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "label.encode": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest",
+        "label.encode"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._sha",
+      "semantic_tags": [],
+      "signature": "(label)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "_sha",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha",
+          "target": "tests.unit.test_tsh_calo_independent_training._sha"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingConfig": "name",
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "_sha": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+        "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+        "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+        "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+        "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+        "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+        "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+        "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+        "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+        "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope"
+      ],
+      "calls": [
+        "TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope",
+        "_sha",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "tests.unit.test_tsh_calo_independent_training._sha"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._config",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.export_unqualified_candidate",
+          "target": "trainer.export_unqualified_candidate"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "pytest.raises": "attribute",
+        "trainer.export_unqualified_candidate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "pytest.raises",
+        "trainer.export_unqualified_candidate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+        "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+        "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+        "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+        "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+        "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+        "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope"
+      ],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 82,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._state",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask.from_control_groups",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask.from_control_groups": "attribute",
+        "len": "name",
+        "np.arange": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training._rollout",
+        "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+        "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+        "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+        "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+        "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope"
+      ],
+      "calls": [
+        "GroupActionMask.from_control_groups",
+        "len",
+        "np.arange",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+      "semantic_tags": [],
+      "signature": "(state)",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "_mask_and_learners",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALORolloutBatch",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        }
+      ],
+      "call_forms": {
+        "TSHCALORolloutBatch": "name",
+        "_mask_and_learners": "name",
+        "np.asarray": "attribute",
+        "trainer.sample_action": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+        "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+        "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng"
+      ],
+      "calls": [
+        "TSHCALORolloutBatch",
+        "_mask_and_learners",
+        "np.asarray",
+        "trainer.sample_action"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+      ],
+      "doc": "",
+      "end_line": 103,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._rollout",
+      "semantic_tags": [],
+      "signature": "(trainer, state)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "_rollout",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "RewardComponents",
+          "target": "calo_rpd_studio.algorithms.calo.reward.RewardComponents"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TransitionResult",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty",
+          "target": "np.empty"
+        }
+      ],
+      "call_forms": {
+        "RewardComponents": "name",
+        "TransitionResult": "name",
+        "np.empty": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+        "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound"
+      ],
+      "calls": [
+        "RewardComponents",
+        "TransitionResult",
+        "np.empty"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult"
+      ],
+      "doc": "",
+      "end_line": 125,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training._transition",
+      "semantic_tags": [],
+      "signature": "(reward)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "_transition",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOFeatureFlags",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.scientific_design_hash",
+          "target": "config.scientific_design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scientific_design_hash",
+          "target": "scientific_design_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOFeatureFlags": "name",
+        "_config": "name",
+        "config.scientific_design_hash": "attribute",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "scientific_design_hash": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOFeatureFlags",
+        "_config",
+        "config.scientific_design_hash",
+        "config.validate",
+        "pytest.raises",
+        "replace",
+        "scientific_design_hash",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "tests.unit.test_tsh_calo_independent_training._config"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clone",
+          "target": "clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.values",
+          "target": "metrics.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tensor.detach",
+          "target": "tensor.detach"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_rollout",
+          "target": "tests.unit.test_tsh_calo_independent_training._rollout"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.equal",
+          "target": "torch.equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.device_provenance",
+          "target": "trainer.device_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.network.state_dict",
+          "target": "trainer.network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.update",
+          "target": "trainer.update"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "_rollout": "name",
+        "_state": "name",
+        "all": "name",
+        "any": "name",
+        "clone": "attribute",
+        "items": "attribute",
+        "metrics.values": "attribute",
+        "np.isfinite": "attribute",
+        "startswith": "attribute",
+        "tensor.detach": "attribute",
+        "torch.equal": "attribute",
+        "trainer.device_provenance": "attribute",
+        "trainer.network.state_dict": "attribute",
+        "trainer.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "_rollout",
+        "_state",
+        "all",
+        "any",
+        "clone",
+        "items",
+        "metrics.values",
+        "np.isfinite",
+        "startswith",
+        "tensor.detach",
+        "torch.equal",
+        "trainer.device_provenance",
+        "trainer.network.state_dict",
+        "trainer.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._rollout",
+        "tests.unit.test_tsh_calo_independent_training._state"
+      ],
+      "doc": "",
+      "end_line": 173,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "test_independent_ppo_update_is_finite_and_changes_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.close",
+          "target": "trainer.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "_config": "name",
+        "_mask_and_learners": "name",
+        "_state": "name",
+        "pytest.raises": "attribute",
+        "trainer.close": "attribute",
+        "trainer.sample_action": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "TSHCALOTrainingResourceEnvelope",
+        "_config",
+        "_mask_and_learners",
+        "_state",
+        "pytest.raises",
+        "trainer.close",
+        "trainer.sample_action"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+        "tests.unit.test_tsh_calo_independent_training._state"
+      ],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 176,
+      "state_owner": "",
+      "symbol": "test_training_state_cannot_exceed_frozen_resource_envelope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.group_operators.copy",
+          "target": "action.group_operators.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "action.learner_operators.copy",
+          "target": "action.learner_operators.copy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.flatnonzero",
+          "target": "np.flatnonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "_mask_and_learners": "name",
+        "_state": "name",
+        "action.group_operators.copy": "attribute",
+        "action.learner_operators.copy": "attribute",
+        "np.asarray": "attribute",
+        "np.flatnonzero": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "trainer.sample_action": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "_mask_and_learners",
+        "_state",
+        "action.group_operators.copy",
+        "action.learner_operators.copy",
+        "np.asarray",
+        "np.flatnonzero",
+        "pytest.raises",
+        "replace",
+        "trainer.sample_action",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+        "tests.unit.test_tsh_calo_independent_training._state"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 189,
+      "state_owner": "",
+      "symbol": "test_training_action_rejects_mask_bypass",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALORolloutCollector",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.build_batch",
+          "target": "collector.build_batch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.commit",
+          "target": "collector.commit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.discard_pending",
+          "target": "collector.discard_pending"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.sample",
+          "target": "collector.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "object",
+          "target": "object"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_transition",
+          "target": "tests.unit.test_tsh_calo_independent_training._transition"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALORolloutCollector": "name",
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "_mask_and_learners": "name",
+        "_state": "name",
+        "_transition": "name",
+        "collector.build_batch": "attribute",
+        "collector.commit": "attribute",
+        "collector.discard_pending": "attribute",
+        "collector.sample": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "object": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "_mask_and_learners",
+        "_state",
+        "_transition",
+        "collector.build_batch",
+        "collector.commit",
+        "collector.discard_pending",
+        "collector.sample",
+        "np.testing.assert_allclose",
+        "object",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_independent_training._transition"
+      ],
+      "doc": "",
+      "end_line": 225,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 206,
+      "state_owner": "",
+      "symbol": "test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALORolloutCollector",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALORolloutCollector.from_state_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector.from_state_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.build_batch",
+          "target": "collector.build_batch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.commit",
+          "target": "collector.commit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.sample",
+          "target": "collector.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.state_dict",
+          "target": "collector.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.build_batch",
+          "target": "restored.build_batch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_transition",
+          "target": "tests.unit.test_tsh_calo_independent_training._transition"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALORolloutCollector": "name",
+        "IndependentTSHCALORolloutCollector.from_state_dict": "attribute",
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "_mask_and_learners": "name",
+        "_state": "name",
+        "_transition": "name",
+        "collector.build_batch": "attribute",
+        "collector.commit": "attribute",
+        "collector.sample": "attribute",
+        "collector.state_dict": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "restored.build_batch": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALORolloutCollector.from_state_dict",
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "_mask_and_learners",
+        "_state",
+        "_transition",
+        "collector.build_batch",
+        "collector.commit",
+        "collector.sample",
+        "collector.state_dict",
+        "np.testing.assert_array_equal",
+        "pytest.raises",
+        "replace",
+        "restored.build_batch"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector.from_state_dict",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_independent_training._transition"
+      ],
+      "doc": "",
+      "end_line": 247,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 228,
+      "state_owner": "",
+      "symbol": "test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer.load_resume",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.network.state_dict",
+          "target": "restored.network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.sample_action",
+          "target": "restored.sample_action"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_mask_and_learners",
+          "target": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_rollout",
+          "target": "tests.unit.test_tsh_calo_independent_training._rollout"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.network.state_dict",
+          "target": "trainer.network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.save_resume",
+          "target": "trainer.save_resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.update",
+          "target": "trainer.update"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainer.load_resume": "attribute",
+        "_config": "name",
+        "_mask_and_learners": "name",
+        "_rollout": "name",
+        "_state": "name",
+        "items": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "pytest.approx": "attribute",
+        "restored.network.state_dict": "attribute",
+        "restored.sample_action": "attribute",
+        "torch.testing.assert_close": "attribute",
+        "trainer.network.state_dict": "attribute",
+        "trainer.sample_action": "attribute",
+        "trainer.save_resume": "attribute",
+        "trainer.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainer.load_resume",
+        "_config",
+        "_mask_and_learners",
+        "_rollout",
+        "_state",
+        "items",
+        "np.testing.assert_allclose",
+        "np.testing.assert_array_equal",
+        "pytest.approx",
+        "restored.network.state_dict",
+        "restored.sample_action",
+        "torch.testing.assert_close",
+        "trainer.network.state_dict",
+        "trainer.sample_action",
+        "trainer.save_resume",
+        "trainer.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+        "tests.unit.test_tsh_calo_independent_training._rollout",
+        "tests.unit.test_tsh_calo_independent_training._state"
+      ],
+      "doc": "",
+      "end_line": 276,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "semantic_tags": [],
+      "signature": "(tmp_path, toy_case)",
+      "start_line": 250,
+      "state_owner": "",
+      "symbol": "test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer.load_resume",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha",
+          "target": "tests.unit.test_tsh_calo_independent_training._sha"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.save_resume",
+          "target": "trainer.save_resume"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainer.load_resume": "attribute",
+        "_config": "name",
+        "_sha": "name",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "trainer.save_resume": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainer.load_resume",
+        "_config",
+        "_sha",
+        "pytest.raises",
+        "replace",
+        "trainer.save_resume"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._sha"
+      ],
+      "doc": "",
+      "end_line": 292,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 279,
+      "state_owner": "",
+      "symbol": "test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exists",
+          "target": "exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_config",
+          "target": "tests.unit.test_tsh_calo_independent_training._config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_rollout",
+          "target": "tests.unit.test_tsh_calo_independent_training._rollout"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_state",
+          "target": "tests.unit.test_tsh_calo_independent_training._state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.export_unqualified_candidate",
+          "target": "trainer.export_unqualified_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.update",
+          "target": "trainer.update"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "_config": "name",
+        "_rollout": "name",
+        "_state": "name",
+        "exists": "attribute",
+        "pytest.raises": "attribute",
+        "trainer.export_unqualified_candidate": "attribute",
+        "trainer.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "_config",
+        "_rollout",
+        "_state",
+        "exists",
+        "pytest.raises",
+        "trainer.export_unqualified_candidate",
+        "trainer.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training._rollout",
+        "tests.unit.test_tsh_calo_independent_training._state"
+      ],
+      "doc": "",
+      "end_line": 302,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "semantic_tags": [],
+      "signature": "(tmp_path, toy_case)",
+      "start_line": 295,
+      "state_owner": "",
+      "symbol": "test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 317,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_independent_training.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "Path": "pathlib.Path",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "TransitionResult": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "annotations": "__future__.annotations",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.reward",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.transition_kernel",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_independent_training",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_independent_training",
+      "qualname": "tests.unit.test_tsh_calo_independent_training.test_training_module_has_no_experiment_registry_or_activation_authority",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 305,
+      "state_owner": "",
+      "symbol": "test_training_module_has_no_experiment_registry_or_activation_authority",
+      "tests": []
+    }
+  ]
+}

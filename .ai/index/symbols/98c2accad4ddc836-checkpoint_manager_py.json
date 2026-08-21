@@ -1,0 +1,1164 @@
+{
+  "path": "calo_rpd_studio/ai/checkpoint_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.verify"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointInfo",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "CheckpointInfo",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Portable/deployable model checkpoint manager.",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "CheckpointManager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.mkdir",
+          "target": "self.directory.mkdir"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "expanduser": "attribute",
+        "resolve": "attribute",
+        "self.directory.mkdir": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "expanduser",
+        "resolve",
+        "self.directory.mkdir"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "p.stat",
+          "target": "p.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.glob",
+          "target": "self.directory.glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "p.stat": "attribute",
+        "self.directory.glob": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.latest"
+      ],
+      "calls": [
+        "p.stat",
+        "self.directory.glob",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.list",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, pattern)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "list",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.list",
+          "target": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.list"
+        }
+      ],
+      "call_forms": {
+        "self.list": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.list"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.list"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.latest",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, pattern)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "latest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "h.hexdigest",
+          "target": "h.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "h.update",
+          "target": "h.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "handle.read",
+          "target": "handle.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "open",
+          "target": "open"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "h.hexdigest": "attribute",
+        "h.update": "attribute",
+        "handle.read": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "open": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.verify"
+      ],
+      "calls": [
+        "Path",
+        "h.hexdigest",
+        "h.update",
+        "handle.read",
+        "hashlib.sha256",
+        "iter",
+        "open"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.checksum",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "checksum",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CheckpointInfo",
+          "target": "calo_rpd_studio.ai.checkpoint_manager.CheckpointInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CheckpointManager.checksum",
+          "target": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.stat",
+          "target": "path.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sha.lower",
+          "target": "sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "CheckpointInfo": "name",
+        "CheckpointManager.checksum": "attribute",
+        "FileNotFoundError": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "lower": "attribute",
+        "path.is_file": "attribute",
+        "path.resolve": "attribute",
+        "path.stat": "attribute",
+        "sha.lower": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model"
+      ],
+      "calls": [
+        "CheckpointInfo",
+        "CheckpointManager.checksum",
+        "FileNotFoundError",
+        "Path",
+        "RuntimeError",
+        "lower",
+        "path.is_file",
+        "path.resolve",
+        "path.stat",
+        "sha.lower",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointInfo",
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.checksum"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.verify",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, expected_sha256)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "verify",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.verify",
+          "target": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.verify"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_torch_save",
+          "target": "calo_rpd_studio.ai.model_io.durable_torch_save"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.is_absolute",
+          "target": "target.is_absolute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.with_suffix",
+          "target": "target.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "durable_torch_save": "name",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "self.verify": "attribute",
+        "target.is_absolute": "attribute",
+        "target.with_suffix": "attribute",
+        "torch.load": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_torch"
+      ],
+      "calls": [
+        "Path",
+        "durable_torch_save",
+        "durable_write_bytes",
+        "encode",
+        "self.verify",
+        "target.is_absolute",
+        "target.with_suffix",
+        "torch.load"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.verify",
+        "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "doc": "Durably write a portable weights-only-safe checkpoint and checksum sidecar.",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, filename, payload)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "write_deployable_model",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.write_deployable_model",
+          "target": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model"
+        }
+      ],
+      "call_forms": {
+        "self.write_deployable_model": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.write_deployable_model"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_deployable_model"
+      ],
+      "doc": "Backward-compatible alias for :meth:`write_deployable_model`; not an exact-resume API.",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_torch",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, filename, payload)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "write_torch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.is_absolute",
+          "target": "target.is_absolute"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "json.dumps": "attribute",
+        "target.is_absolute": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "durable_write_bytes",
+        "encode",
+        "json.dumps",
+        "target.is_absolute"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "doc": "",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.write_json",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, filename, payload)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "write_json",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deleted.append",
+          "target": "deleted.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.stat",
+          "target": "p.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.unlink",
+          "target": "path.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.with_suffix",
+          "target": "path.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unlink",
+          "target": "unlink"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "deleted.append": "attribute",
+        "int": "name",
+        "is_file": "attribute",
+        "max": "name",
+        "p.stat": "attribute",
+        "path.resolve": "attribute",
+        "path.unlink": "attribute",
+        "path.with_suffix": "attribute",
+        "resolve": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "unlink": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "deleted.append",
+        "int",
+        "is_file",
+        "max",
+        "p.stat",
+        "path.resolve",
+        "path.unlink",
+        "path.with_suffix",
+        "resolve",
+        "sorted",
+        "str",
+        "unlink"
+      ],
+      "calls_resolved": [],
+      "doc": "Delete only unprotected rolling checkpoints; milestone/best files should be protected.",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/ai/checkpoint_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "durable_torch_save": "calo_rpd_studio.ai.model_io.durable_torch_save",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "pathlib",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.ai.checkpoint_manager",
+      "qualname": "calo_rpd_studio.ai.checkpoint_manager.CheckpointManager.apply_retention",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, paths, keep_latest, protected)",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "apply_retention",
+      "tests": []
+    }
+  ]
+}

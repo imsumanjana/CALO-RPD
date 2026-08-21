@@ -1,0 +1,2606 @@
+{
+  "path": "calo_rpd_studio/learning/experience_repository.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.EXPERIMENT_ROLES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "EXPERIMENT_ROLES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.REPOSITORY_SCHEMA_VERSION",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "REPOSITORY_SCHEMA_VERSION",
+      "tests": [
+        "tests/unit/test_historical_policy_pretraining.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name",
+        "json.loads": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "isinstance",
+        "json.loads"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._json_load",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(value, default)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_json_load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "isinstance": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository._parameter_priors"
+      ],
+      "calls": [
+        "float",
+        "isinstance",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._finite_number",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(value)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_finite_number",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository._reconstruct_legacy_calo_trajectory",
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "float",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._clean_float",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(value, default)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "_clean_float",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.get",
+          "target": "config.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solution_state.get",
+          "target": "solution_state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "config.get": "attribute",
+        "dict": "name",
+        "get": "attribute",
+        "len": "name",
+        "list": "name",
+        "metadata.get": "attribute",
+        "result.get": "attribute",
+        "solution_state.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "config.get",
+        "dict",
+        "get",
+        "len",
+        "list",
+        "metadata.get",
+        "result.get",
+        "solution_state.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._problem_identity",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(config, result)",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "_problem_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.get",
+          "target": "identity.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "identity.get": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository._parameter_priors",
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "identity.get",
+        "int",
+        "json.dumps",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._problem_key",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(identity)",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "_problem_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stable.pop",
+          "target": "stable.pop"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "stable.pop": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo"
+      ],
+      "calls": [
+        "dict",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "stable.pop"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._repository_checksum",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "_repository_checksum",
+      "tests": [
+        "tests/unit/test_historical_policy_pretraining.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "float": "name",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "np.clip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository._reconstruct_legacy_calo_trajectory"
+      ],
+      "calls": [
+        "abs",
+        "float",
+        "math.isfinite",
+        "max",
+        "np.clip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 117,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._relative_improvement",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(previous, current)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "_relative_improvement",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_clean_float",
+          "target": "calo_rpd_studio.learning.experience_repository._clean_float"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_relative_improvement",
+          "target": "calo_rpd_studio.learning.experience_repository._relative_improvement"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "component_values.append",
+          "target": "component_values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.sum",
+          "target": "credit.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "diagnostics.get",
+          "target": "diagnostics.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lengths.append",
+          "target": "lengths.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.tanh",
+          "target": "math.tanh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operator_names.index",
+          "target": "operator_names.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.append",
+          "target": "output.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "regime_map.get",
+          "target": "regime_map.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "success.get",
+          "target": "success.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "usage_row.get",
+          "target": "usage_row.get"
+        }
+      ],
+      "call_forms": {
+        "_clean_float": "name",
+        "_relative_improvement": "name",
+        "all": "name",
+        "astype": "attribute",
+        "component_values.append": "attribute",
+        "credit.sum": "attribute",
+        "diagnostics.get": "attribute",
+        "dict": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "lengths.append": "attribute",
+        "list": "name",
+        "math.tanh": "attribute",
+        "max": "name",
+        "metadata.get": "attribute",
+        "min": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.full": "attribute",
+        "operator_names.index": "attribute",
+        "output.append": "attribute",
+        "range": "name",
+        "regime_map.get": "attribute",
+        "result.get": "attribute",
+        "str": "name",
+        "success.get": "attribute",
+        "tolist": "attribute",
+        "usage_row.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "_clean_float",
+        "_relative_improvement",
+        "all",
+        "astype",
+        "component_values.append",
+        "credit.sum",
+        "diagnostics.get",
+        "dict",
+        "float",
+        "int",
+        "len",
+        "lengths.append",
+        "list",
+        "math.tanh",
+        "max",
+        "metadata.get",
+        "min",
+        "np.asarray",
+        "np.clip",
+        "np.full",
+        "operator_names.index",
+        "output.append",
+        "range",
+        "regime_map.get",
+        "result.get",
+        "str",
+        "success.get",
+        "tolist",
+        "usage_row.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.learning.experience_repository._clean_float",
+        "calo_rpd_studio.learning.experience_repository._relative_improvement"
+      ],
+      "doc": "Reconstruct a conservative partial trajectory from v1.2 summary histories.",
+      "end_line": 267,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._reconstruct_legacy_calo_trajectory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(result)",
+      "start_line": 120,
+      "state_owner": "",
+      "symbol": "_reconstruct_legacy_calo_trajectory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "calo_rpd_studio.learning.experience_repository.load_experience_repository"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 353,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 271,
+      "state_owner": "",
+      "symbol": "HistoricalExperienceRepository",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.payload.get",
+          "target": "self.payload.get"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "self.payload.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "self.payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 277,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.summary",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 276,
+      "state_owner": "",
+      "symbol": "summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.payload.get",
+          "target": "self.payload.get"
+        }
+      ],
+      "call_forms": {
+        "list": "name",
+        "self.payload.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "list",
+        "self.payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 281,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.policy_trajectories",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 280,
+      "state_owner": "",
+      "symbol": "policy_trajectories",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.payload.get",
+          "target": "self.payload.get"
+        }
+      ],
+      "call_forms": {
+        "list": "name",
+        "self.payload.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "list",
+        "self.payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 285,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.cross_algorithm_solutions",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 284,
+      "state_owner": "",
+      "symbol": "cross_algorithm_solutions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.payload.get",
+          "target": "self.payload.get"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "self.payload.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "self.payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 289,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.parameter_priors",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 288,
+      "state_owner": "",
+      "symbol": "parameter_priors",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.get",
+          "target": "identity.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.append",
+          "target": "output.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "identity.get": "attribute",
+        "int": "name",
+        "item.get": "attribute",
+        "lower": "attribute",
+        "output.append": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "identity.get",
+        "int",
+        "item.get",
+        "lower",
+        "output.append",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 315,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.compatible_solutions",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, case_checksum, case_name, dimension, scientific_problem_fingerprint)",
+      "start_line": 291,
+      "state_owner": "",
+      "symbol": "compatible_solutions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.append",
+          "target": "candidates.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.sort",
+          "target": "candidates.sort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.get",
+          "target": "identity.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.parameter_priors.items",
+          "target": "self.parameter_priors.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "candidates.append": "attribute",
+        "candidates.sort": "attribute",
+        "dict": "name",
+        "get": "attribute",
+        "identity.get": "attribute",
+        "int": "name",
+        "item.get": "attribute",
+        "lower": "attribute",
+        "self.parameter_priors.items": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "candidates.append",
+        "candidates.sort",
+        "dict",
+        "get",
+        "identity.get",
+        "int",
+        "item.get",
+        "lower",
+        "self.parameter_priors.items",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 353,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository.calo_parameter_prior",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, case_checksum, case_name, dimension, scientific_problem_fingerprint)",
+      "start_line": 317,
+      "state_owner": "",
+      "symbol": "calo_parameter_prior",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HistoricalExperienceRepository",
+          "target": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_repository_checksum",
+          "target": "calo_rpd_studio.learning.experience_repository._repository_checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.resolve",
+          "target": "source.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "HistoricalExperienceRepository": "name",
+        "Path": "name",
+        "ValueError": "name",
+        "_repository_checksum": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "payload.get": "attribute",
+        "source.read_text": "attribute",
+        "source.resolve": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._historical_learning_setup",
+        "calo_rpd_studio.algorithms.calo.training._historical_pretrain",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.apply_algorithm_learning",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.preview_repository",
+        "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments"
+      ],
+      "calls": [
+        "HistoricalExperienceRepository",
+        "Path",
+        "ValueError",
+        "_repository_checksum",
+        "int",
+        "json.loads",
+        "payload.get",
+        "source.read_text",
+        "source.resolve",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+        "calo_rpd_studio.learning.experience_repository._repository_checksum"
+      ],
+      "doc": "",
+      "end_line": 365,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 356,
+      "state_owner": "",
+      "symbol": "load_experience_repository",
+      "tests": [
+        "tests/integration/test_historical_learning.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_number",
+          "target": "calo_rpd_studio.learning.experience_repository._finite_number"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_problem_key",
+          "target": "calo_rpd_studio.learning.experience_repository._problem_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "entry.get",
+          "target": "entry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grouped.items",
+          "target": "grouped.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grouped.setdefault",
+          "target": "grouped.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.ceil",
+          "target": "math.ceil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.median",
+          "target": "np.median"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numerical.items",
+          "target": "numerical.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numerical.setdefault",
+          "target": "numerical.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_finite_number": "name",
+        "_problem_key": "name",
+        "append": "attribute",
+        "dict": "name",
+        "entry.get": "attribute",
+        "float": "name",
+        "grouped.items": "attribute",
+        "grouped.setdefault": "attribute",
+        "item.get": "attribute",
+        "items": "attribute",
+        "len": "name",
+        "math.ceil": "attribute",
+        "max": "name",
+        "np.median": "attribute",
+        "numerical.items": "attribute",
+        "numerical.setdefault": "attribute",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+      ],
+      "calls": [
+        "_finite_number",
+        "_problem_key",
+        "append",
+        "dict",
+        "entry.get",
+        "float",
+        "grouped.items",
+        "grouped.setdefault",
+        "item.get",
+        "items",
+        "len",
+        "math.ceil",
+        "max",
+        "np.median",
+        "numerical.items",
+        "numerical.setdefault",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.learning.experience_repository._finite_number",
+        "calo_rpd_studio.learning.experience_repository._problem_key"
+      ],
+      "doc": "",
+      "end_line": 400,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository._parameter_priors",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(entries)",
+      "start_line": 368,
+      "state_owner": "",
+      "symbol": "_parameter_priors",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HistoricalExperienceRepository",
+          "target": "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_clean_float",
+          "target": "calo_rpd_studio.learning.experience_repository._clean_float"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_json_load",
+          "target": "calo_rpd_studio.learning.experience_repository._json_load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_parameter_priors",
+          "target": "calo_rpd_studio.learning.experience_repository._parameter_priors"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_problem_identity",
+          "target": "calo_rpd_studio.learning.experience_repository._problem_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_problem_key",
+          "target": "calo_rpd_studio.learning.experience_repository._problem_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_reconstruct_legacy_calo_trajectory",
+          "target": "calo_rpd_studio.learning.experience_repository._reconstruct_legacy_calo_trajectory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_repository_checksum",
+          "target": "calo_rpd_studio.learning.experience_repository._repository_checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cross_algorithm_solutions.extend",
+          "target": "cross_algorithm_solutions.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_learning_experiments",
+          "target": "database.list_learning_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.resolve",
+          "target": "destination.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment.get",
+          "target": "experiment.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiments.items",
+          "target": "experiments.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group.sort",
+          "target": "group.sort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grouped_solutions.items",
+          "target": "grouped_solutions.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grouped_solutions.setdefault",
+          "target": "grouped_solutions.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy_trajectories.append",
+          "target": "policy_trajectories.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.get",
+          "target": "result.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solution_entries.append",
+          "target": "solution_entries.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "HistoricalExperienceRepository": "name",
+        "Path": "name",
+        "_clean_float": "name",
+        "_json_load": "name",
+        "_parameter_priors": "name",
+        "_problem_identity": "name",
+        "_problem_key": "name",
+        "_reconstruct_legacy_calo_trajectory": "name",
+        "_repository_checksum": "name",
+        "append": "attribute",
+        "bool": "name",
+        "cross_algorithm_solutions.extend": "attribute",
+        "database.list_learning_experiments": "attribute",
+        "database.list_runs": "attribute",
+        "datetime.now": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "destination.resolve": "attribute",
+        "destination.write_text": "attribute",
+        "dict": "name",
+        "expanduser": "attribute",
+        "experiment.get": "attribute",
+        "experiments.items": "attribute",
+        "float": "name",
+        "get": "attribute",
+        "group.sort": "attribute",
+        "grouped_solutions.items": "attribute",
+        "grouped_solutions.setdefault": "attribute",
+        "int": "name",
+        "isoformat": "attribute",
+        "item.get": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "policy_trajectories.append": "attribute",
+        "resolve": "attribute",
+        "result.get": "attribute",
+        "row.get": "attribute",
+        "solution_entries.append": "attribute",
+        "str": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget._auto_rebuild_if_continual",
+        "calo_rpd_studio.gui.widgets.historical_experience_widget.HistoricalExperienceWidget.build_repository",
+        "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+        "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+        "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining"
+      ],
+      "calls": [
+        "HistoricalExperienceRepository",
+        "Path",
+        "_clean_float",
+        "_json_load",
+        "_parameter_priors",
+        "_problem_identity",
+        "_problem_key",
+        "_reconstruct_legacy_calo_trajectory",
+        "_repository_checksum",
+        "append",
+        "bool",
+        "cross_algorithm_solutions.extend",
+        "database.list_learning_experiments",
+        "database.list_runs",
+        "datetime.now",
+        "destination.parent.mkdir",
+        "destination.resolve",
+        "destination.write_text",
+        "dict",
+        "expanduser",
+        "experiment.get",
+        "experiments.items",
+        "float",
+        "get",
+        "group.sort",
+        "grouped_solutions.items",
+        "grouped_solutions.setdefault",
+        "int",
+        "isoformat",
+        "item.get",
+        "json.dumps",
+        "len",
+        "list",
+        "max",
+        "policy_trajectories.append",
+        "resolve",
+        "result.get",
+        "row.get",
+        "solution_entries.append",
+        "str",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.learning.experience_repository.HistoricalExperienceRepository",
+        "calo_rpd_studio.learning.experience_repository._clean_float",
+        "calo_rpd_studio.learning.experience_repository._json_load",
+        "calo_rpd_studio.learning.experience_repository._parameter_priors",
+        "calo_rpd_studio.learning.experience_repository._problem_identity",
+        "calo_rpd_studio.learning.experience_repository._problem_key",
+        "calo_rpd_studio.learning.experience_repository._reconstruct_legacy_calo_trajectory",
+        "calo_rpd_studio.learning.experience_repository._repository_checksum"
+      ],
+      "doc": "Build a leakage-aware repository from explicitly eligible historical experiments.",
+      "end_line": 526,
+      "entry_point": false,
+      "file": "calo_rpd_studio/learning/experience_repository.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.learning.experience_repository",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.learning.experience_repository",
+      "qualname": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(database, output_path, verified_only, max_solutions_per_problem)",
+      "start_line": 403,
+      "state_owner": "",
+      "symbol": "build_experience_repository",
+      "tests": [
+        "tests/integration/test_historical_learning.py"
+      ]
+    }
+  ]
+}

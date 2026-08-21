@@ -1,0 +1,1570 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.TSH_CALO_PARAMETER_STUDY_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "TSH_CALO_PARAMETER_STUDY_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.TSH_CALO_PARAMETER_DESIGN_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "TSH_CALO_PARAMETER_DESIGN_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encoded.encode",
+          "target": "encoded.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encoded.encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.generate_parameter_design"
+      ],
+      "calls": [
+        "encoded.encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._canonical_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_parameter_study._study"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyFactor",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "ParameterStudyFactor",
+      "tests": [
+        "tests/unit/test_tsh_calo_parameter_study.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parameter_definition",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "float": "name",
+        "int": "name",
+        "isinstance": "name",
+        "len": "name",
+        "math.isfinite": "attribute",
+        "parameter_definition": "name",
+        "set": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "any",
+        "float",
+        "int",
+        "isinstance",
+        "len",
+        "math.isfinite",
+        "parameter_definition",
+        "set",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition"
+      ],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyFactor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyFactor.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_parameter_study._study"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "ParameterStudyPlan",
+      "tests": [
+        "tests/unit/test_tsh_calo_parameter_study.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "factor.validate",
+          "target": "factor.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "factor.validate": "attribute",
+        "join": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "protected_holdout_matches": "name",
+        "set": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.sha256"
+      ],
+      "calls": [
+        "ValueError",
+        "any",
+        "factor.validate",
+        "join",
+        "len",
+        "lower",
+        "protected_holdout_matches",
+        "set",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "list": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.sha256"
+      ],
+      "calls": [
+        "asdict",
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.to_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.to_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.to_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._canonical_sha256"
+        }
+      ],
+      "call_forms": {
+        "_canonical_sha256": "name",
+        "self.to_dict": "attribute",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_canonical_sha256",
+        "self.to_dict",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.to_dict",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.generate_parameter_design"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 134,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyAssignment",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "ParameterStudyAssignment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parameter_definition",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.log",
+          "target": "np.log"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.minimum",
+          "target": "np.minimum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "np.exp": "attribute",
+        "np.log": "attribute",
+        "np.minimum": "attribute",
+        "parameter_definition": "name",
+        "round": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.generate_parameter_design"
+      ],
+      "calls": [
+        "astype",
+        "float",
+        "int",
+        "len",
+        "np.exp",
+        "np.log",
+        "np.minimum",
+        "parameter_definition",
+        "round",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._map_dimension",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(unit, factor)",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "_map_dimension",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.append",
+          "target": "assignments.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ParameterStudyAssignment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyAssignment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_map_dimension",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._map_dimension"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mapped.items",
+          "target": "mapped.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.log2",
+          "target": "math.log2"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.sha256",
+          "target": "plan.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.validate",
+          "target": "plan.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qmc.LatinHypercube",
+          "target": "qmc.LatinHypercube"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qmc.Sobol",
+          "target": "qmc.Sobol"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random_base2",
+          "target": "random_base2"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "ParameterStudyAssignment": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_map_dimension": "name",
+        "asdict": "name",
+        "assignments.append": "attribute",
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "mapped.items": "attribute",
+        "math.log2": "attribute",
+        "plan.sha256": "attribute",
+        "plan.validate": "attribute",
+        "qmc.LatinHypercube": "attribute",
+        "qmc.Sobol": "attribute",
+        "random": "attribute",
+        "random_base2": "attribute",
+        "range": "name",
+        "set": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_parameter_study.test_parameter_study_design_is_deterministic_and_blocked"
+      ],
+      "calls": [
+        "ParameterStudyAssignment",
+        "ValueError",
+        "_canonical_sha256",
+        "_map_dimension",
+        "asdict",
+        "assignments.append",
+        "enumerate",
+        "int",
+        "len",
+        "mapped.items",
+        "math.log2",
+        "plan.sha256",
+        "plan.validate",
+        "qmc.LatinHypercube",
+        "qmc.Sobol",
+        "random",
+        "random_base2",
+        "range",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyAssignment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study._map_dimension"
+      ],
+      "doc": "Return deterministic assignments grouped into identical replicate blocks.",
+      "end_line": 197,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.generate_parameter_design",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(plan)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "generate_parameter_design",
+      "tests": [
+        "tests/unit/test_tsh_calo_parameter_study.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assignment.values.items",
+          "target": "assignment.values.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "base.validate",
+          "target": "base.validate"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOEnvironmentHyperparameters",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOEnvironmentHyperparameters"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOTrainingHyperparameters",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingHyperparameters"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parameter_definition",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.validate",
+          "target": "candidate.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.split",
+          "target": "key.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.startswith",
+          "target": "key.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOEnvironmentHyperparameters": "name",
+        "TSHCALOTrainingHyperparameters": "name",
+        "ValueError": "name",
+        "asdict": "name",
+        "assignment.values.items": "attribute",
+        "base.validate": "attribute",
+        "candidate.validate": "attribute",
+        "key.split": "attribute",
+        "key.startswith": "attribute",
+        "parameter_definition": "name",
+        "protected_holdout_matches": "name",
+        "replace": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingHyperparameters",
+        "ValueError",
+        "asdict",
+        "assignment.values.items",
+        "base.validate",
+        "candidate.validate",
+        "key.split",
+        "key.startswith",
+        "parameter_definition",
+        "protected_holdout_matches",
+        "replace",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOEnvironmentHyperparameters",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingHyperparameters",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+      ],
+      "doc": "Create an unexecuted campaign plan with one controlled factor assignment applied.",
+      "end_line": 236,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_parameter_study.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Literal": "typing.Literal",
+        "TSHCALOEnvironmentHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOEnvironmentHyperparameters",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingHyperparameters": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingHyperparameters",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "math": "math",
+        "np": "numpy",
+        "parameter_definition": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry.parameter_definition",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "qmc": "scipy.stats.qmc",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_parameter_registry",
+        ".tsh_calo_training_campaign",
+        "__future__",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "scipy.stats",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.apply_parameter_assignment",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(base, assignment, campaign_id)",
+      "start_line": 200,
+      "state_owner": "",
+      "symbol": "apply_parameter_assignment",
+      "tests": []
+    }
+  ]
+}

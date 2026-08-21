@@ -1,0 +1,163 @@
+{
+  "path": "tests/unit/test_robustness.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "weighted_cvar",
+          "target": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioGeneratorConfig",
+          "target": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_load_scenarios",
+          "target": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+        }
+      ],
+      "call_forms": {
+        "ScenarioGeneratorConfig": "name",
+        "generate_load_scenarios": "name",
+        "weighted_cvar": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ScenarioGeneratorConfig",
+        "generate_load_scenarios",
+        "weighted_cvar"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+      ],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "tests/unit/test_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.cvar",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_robustness",
+      "qualname": "tests.unit.test_robustness.test_cvar_and_seeded_scenarios",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_cvar_and_seeded_scenarios",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "apply",
+          "target": "apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "n_minus_one_generator_scenarios",
+          "target": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "apply": "attribute",
+        "astype": "attribute",
+        "n_minus_one_generator_scenarios": "name",
+        "np.sum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "apply",
+        "astype",
+        "n_minus_one_generator_scenarios",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios"
+      ],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "tests/unit/test_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ScenarioGeneratorConfig": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig",
+        "generate_load_scenarios": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios",
+        "n_minus_one_generator_scenarios": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios",
+        "np": "numpy",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.robustness.contingencies",
+        "calo_rpd_studio.robustness.cvar",
+        "calo_rpd_studio.robustness.scenario_generator",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_robustness",
+      "qualname": "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "test_generator_outage_preserves_reference",
+      "tests": []
+    }
+  ]
+}

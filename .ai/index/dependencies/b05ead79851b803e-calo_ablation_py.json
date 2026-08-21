@@ -1,0 +1,118 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/legacy_mtlbo.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_binding.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/evaluation_budget.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_runner.py"
+    }
+  ],
+  "path": "calo_rpd_studio/experiments/calo_ablation.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.compute.device_binding.result_device_attestation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.experiments.experiment_runner.CompletedRun"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "calo_rpd_studio.experiments.experiment_runner.run_single"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "local.algorithm_parameters.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "optimizer.run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "to": "time.perf_counter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation._cancel",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation._cancel",
+      "to": "cancel_callback"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.calo_ablation.run_ablation._cancel",
+      "to": "time.perf_counter"
+    }
+  ]
+}

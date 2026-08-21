@@ -1,0 +1,1407 @@
+{
+  "path": "tests/unit/test_v610_beta_architecture.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeDevice",
+          "target": "calo_rpd_studio.compute.topology.ComputeDevice"
+        }
+      ],
+      "call_forms": {
+        "ComputeDevice": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v610_beta_architecture.test_beta2_total_branches_are_separate_from_simultaneous_concurrency",
+        "tests.unit.test_v610_beta_architecture.test_beta3_no_automatic_accelerator_to_cpu_spillover",
+        "tests.unit.test_v610_beta_architecture.test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied",
+        "tests.unit.test_v610_beta_architecture.test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom"
+      ],
+      "calls": [
+        "ComputeDevice"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeDevice"
+      ],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture._device",
+      "semantic_tags": [],
+      "signature": "(runtime_id, backend, runtime, full, memory_percent, total_gib, actor, evaluator)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologySnapshot",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ComputeTopologySnapshot": "name",
+        "max": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v610_beta_architecture.test_beta2_total_branches_are_separate_from_simultaneous_concurrency",
+        "tests.unit.test_v610_beta_architecture.test_beta3_dashboard_safe_parallel_cpu_capacity_matches_scheduler_minimum_budget",
+        "tests.unit.test_v610_beta_architecture.test_beta3_explicit_cpu_is_a_deliberate_primary_not_fallback",
+        "tests.unit.test_v610_beta_architecture.test_beta3_no_automatic_accelerator_to_cpu_spillover",
+        "tests.unit.test_v610_beta_architecture.test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied",
+        "tests.unit.test_v610_beta_architecture.test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom"
+      ],
+      "calls": [
+        "ComputeTopologySnapshot",
+        "max",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeTopologySnapshot"
+      ],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture._topology",
+      "semantic_tags": [],
+      "signature": "(*devices, logical, ram_used)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "_topology",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_resource_plan",
+          "target": "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "build_training_resource_plan": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v610_beta_architecture.test_beta2_total_branches_are_separate_from_simultaneous_concurrency",
+        "tests.unit.test_v610_beta_architecture.test_beta3_explicit_cpu_is_a_deliberate_primary_not_fallback",
+        "tests.unit.test_v610_beta_architecture.test_beta3_no_automatic_accelerator_to_cpu_spillover",
+        "tests.unit.test_v610_beta_architecture.test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied",
+        "tests.unit.test_v610_beta_architecture.test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom"
+      ],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "build_training_resource_plan",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture._plan",
+      "semantic_tags": [],
+      "signature": "(config, total, topology)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v610_beta_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_v610_beta_architecture._plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_device": "name",
+        "_plan": "name",
+        "_topology": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_device",
+        "_plan",
+        "_topology"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "tests.unit.test_v610_beta_architecture._device",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta2_total_branches_are_separate_from_simultaneous_concurrency",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "test_beta2_total_branches_are_separate_from_simultaneous_concurrency",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v610_beta_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_v610_beta_architecture._plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_device": "name",
+        "_plan": "name",
+        "_topology": "name",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_device",
+        "_plan",
+        "_topology",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "tests.unit.test_v610_beta_architecture._device",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v610_beta_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_v610_beta_architecture._plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_device": "name",
+        "_plan": "name",
+        "_topology": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_device",
+        "_plan",
+        "_topology",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "tests.unit.test_v610_beta_architecture._device",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta3_no_automatic_accelerator_to_cpu_spillover",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "test_beta3_no_automatic_accelerator_to_cpu_spillover",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_v610_beta_architecture._plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_plan": "name",
+        "_topology": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_plan",
+        "_topology"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta3_explicit_cpu_is_a_deliberate_primary_not_fallback",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_beta3_explicit_cpu_is_a_deliberate_primary_not_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device",
+          "target": "tests.unit.test_v610_beta_architecture._device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_plan",
+          "target": "tests.unit.test_v610_beta_architecture._plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_device": "name",
+        "_plan": "name",
+        "_topology": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_device",
+        "_plan",
+        "_topology"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "tests.unit.test_v610_beta_architecture._device",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_lanes",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "plan_training_lanes": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "plan_training_lanes",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+      ],
+      "doc": "",
+      "end_line": 122,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta3_strict_actor_lane_binding_never_redistributes_missing_cuda_to_cpu",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "test_beta3_strict_actor_lane_binding_never_redistributes_missing_cuda_to_cpu",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "read_text": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "read_text",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 134,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta1_global_training_exclusive_lock_is_wired_application_wide",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 125,
+      "state_owner": "",
+      "symbol": "test_beta1_global_training_exclusive_lock_is_wired_application_wide",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop",
+        "tests.unit.test_v610_beta_architecture.test_beta2_queue_scheduler_runs_more_scientific_branches_than_concurrency"
+      ],
+      "calls": [
+        "TrainingConfig",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture._tiny_queue_config",
+      "semantic_tags": [],
+      "signature": "(**updates)",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "_tiny_queue_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.with_suffix",
+          "target": "output.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_queue_config",
+          "target": "tests.unit.test_v610_beta_architecture._tiny_queue_config"
+        }
+      ],
+      "call_forms": {
+        "_tiny_queue_config": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "output.with_suffix": "attribute",
+        "read_text": "attribute",
+        "train_policy_parallel": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_tiny_queue_config",
+        "json.loads",
+        "len",
+        "output.with_suffix",
+        "read_text",
+        "train_policy_parallel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v610_beta_architecture._tiny_queue_config"
+      ],
+      "doc": "",
+      "end_line": 176,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta2_queue_scheduler_runs_more_scientific_branches_than_concurrency",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "test_beta2_queue_scheduler_runs_more_scientific_branches_than_concurrency",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy_parallel",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.with_suffix",
+          "target": "output.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_tiny_queue_config",
+          "target": "tests.unit.test_v610_beta_architecture._tiny_queue_config"
+        }
+      ],
+      "call_forms": {
+        "_tiny_queue_config": "name",
+        "all": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "output.with_suffix": "attribute",
+        "read_text": "attribute",
+        "train_policy_parallel": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_tiny_queue_config",
+        "all",
+        "int",
+        "json.loads",
+        "output.with_suffix",
+        "read_text",
+        "train_policy_parallel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy_parallel",
+        "tests.unit.test_v610_beta_architecture._tiny_queue_config"
+      ],
+      "doc": "A one-slot indefinite session must time-slice rather than starving queued branches.",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        }
+      ],
+      "call_forms": {
+        "list": "name",
+        "payload.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "list",
+        "payload.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 186,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop.session_state",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 185,
+      "state_owner": "",
+      "symbol": "session_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "min": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "min"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 190,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta2_indefinite_queue_rotates_all_branches_before_safe_stop.should_cancel",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 188,
+      "state_owner": "",
+      "symbol": "should_cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_training_resource_plan",
+          "target": "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_topology",
+          "target": "tests.unit.test_v610_beta_architecture._topology"
+        }
+      ],
+      "call_forms": {
+        "SafeResourceBudgetEngine": "name",
+        "TrainingConfig": "name",
+        "_topology": "name",
+        "build_training_resource_plan": "name",
+        "calculate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SafeResourceBudgetEngine",
+        "TrainingConfig",
+        "_topology",
+        "build_training_resource_plan",
+        "calculate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "tests.unit.test_v610_beta_architecture._topology"
+      ],
+      "doc": "",
+      "end_line": 221,
+      "entry_point": false,
+      "file": "tests/unit/test_v610_beta_architecture.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Path": "pathlib.Path",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "annotations": "__future__.annotations",
+        "build_training_resource_plan": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+        "json": "json",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "train_policy_parallel": "calo_rpd_studio.algorithms.calo.training.train_policy_parallel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.compute.topology",
+        "calo_rpd_studio.compute.training_resources",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v610_beta_architecture",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v610_beta_architecture",
+      "qualname": "tests.unit.test_v610_beta_architecture.test_beta3_dashboard_safe_parallel_cpu_capacity_matches_scheduler_minimum_budget",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 208,
+      "state_owner": "",
+      "symbol": "test_beta3_dashboard_safe_parallel_cpu_capacity_matches_scheduler_minimum_budget",
+      "tests": []
+    }
+  ]
+}

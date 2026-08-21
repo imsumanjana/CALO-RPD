@@ -1,0 +1,900 @@
+{
+  "path": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._organize_study_setup"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.orpd.objectives"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "ORPDFormulationPanel",
+      "tests": [
+        "tests/gui/test_workspace_tabbed_layouts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QCheckBox",
+          "target": "QCheckBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFormLayout",
+          "target": "QFormLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._spin",
+          "target": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel._spin"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PageHeader",
+          "target": "calo_rpd_studio.gui.widgets.page_header.PageHeader"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceTabs",
+          "target": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls_layout.addWidget",
+          "target": "controls_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls_layout.setContentsMargins",
+          "target": "controls_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "controls_layout.setSpacing",
+          "target": "controls_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "included_layout.addStretch",
+          "target": "included_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "included_layout.addWidget",
+          "target": "included_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective_form.addRow",
+          "target": "objective_form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective_layout.addWidget",
+          "target": "objective_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective_layout.setContentsMargins",
+          "target": "objective_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective_layout.setSpacing",
+          "target": "objective_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy_layout.addStretch",
+          "target": "policy_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy_layout.addWidget",
+          "target": "policy_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy_layout.setContentsMargins",
+          "target": "policy_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save.clicked.connect",
+          "target": "save.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save.setObjectName",
+          "target": "save.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.addItem",
+          "target": "self.kind.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.add_section",
+          "target": "self.section_tabs.add_section"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.setMinimumHeight",
+          "target": "self.section_tabs.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config_changed.connect",
+          "target": "state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tap_form.addRow",
+          "target": "tap_form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.setWordWrap",
+          "target": "text.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weight_form.addRow",
+          "target": "weight_form.addRow"
+        }
+      ],
+      "call_forms": {
+        "PageHeader": "name",
+        "QCheckBox": "name",
+        "QComboBox": "name",
+        "QFormLayout": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "WorkspaceTabs": "name",
+        "__init__": "attribute",
+        "controls_layout.addWidget": "attribute",
+        "controls_layout.setContentsMargins": "attribute",
+        "controls_layout.setSpacing": "attribute",
+        "included_layout.addStretch": "attribute",
+        "included_layout.addWidget": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "objective_form.addRow": "attribute",
+        "objective_layout.addWidget": "attribute",
+        "objective_layout.setContentsMargins": "attribute",
+        "objective_layout.setSpacing": "attribute",
+        "policy_layout.addStretch": "attribute",
+        "policy_layout.addWidget": "attribute",
+        "policy_layout.setContentsMargins": "attribute",
+        "save.clicked.connect": "attribute",
+        "save.setObjectName": "attribute",
+        "self._spin": "attribute",
+        "self.kind.addItem": "attribute",
+        "self.refresh": "attribute",
+        "self.section_tabs.add_section": "attribute",
+        "self.section_tabs.setMinimumHeight": "attribute",
+        "state.config_changed.connect": "attribute",
+        "super": "name",
+        "tap_form.addRow": "attribute",
+        "text.setWordWrap": "attribute",
+        "weight_form.addRow": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PageHeader",
+        "QCheckBox",
+        "QComboBox",
+        "QFormLayout",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QVBoxLayout",
+        "QWidget",
+        "WorkspaceTabs",
+        "__init__",
+        "controls_layout.addWidget",
+        "controls_layout.setContentsMargins",
+        "controls_layout.setSpacing",
+        "included_layout.addStretch",
+        "included_layout.addWidget",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "objective_form.addRow",
+        "objective_layout.addWidget",
+        "objective_layout.setContentsMargins",
+        "objective_layout.setSpacing",
+        "policy_layout.addStretch",
+        "policy_layout.addWidget",
+        "policy_layout.setContentsMargins",
+        "save.clicked.connect",
+        "save.setObjectName",
+        "self._spin",
+        "self.kind.addItem",
+        "self.refresh",
+        "self.section_tabs.add_section",
+        "self.section_tabs.setMinimumHeight",
+        "state.config_changed.connect",
+        "super",
+        "tap_form.addRow",
+        "text.setWordWrap",
+        "weight_form.addRow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel._spin",
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.refresh",
+        "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+      ],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.orpd.objectives"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QDoubleSpinBox",
+          "target": "QDoubleSpinBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spin.setDecimals",
+          "target": "spin.setDecimals"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spin.setRange",
+          "target": "spin.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "spin.setValue",
+          "target": "spin.setValue"
+        }
+      ],
+      "call_forms": {
+        "QDoubleSpinBox": "name",
+        "spin.setDecimals": "attribute",
+        "spin.setRange": "attribute",
+        "spin.setValue": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.__init__"
+      ],
+      "calls": [
+        "QDoubleSpinBox",
+        "spin.setDecimals",
+        "spin.setRange",
+        "spin.setValue"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.orpd.objectives"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel._spin",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, low, high, value)",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "_spin",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.discrete_shunts.setChecked",
+          "target": "self.discrete_shunts.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.discrete_taps.setChecked",
+          "target": "self.discrete_taps.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.gen_v.setChecked",
+          "target": "self.gen_v.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.findData",
+          "target": "self.kind.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.setCurrentIndex",
+          "target": "self.kind.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.shunts.setChecked",
+          "target": "self.shunts.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_max.setValue",
+          "target": "self.tap_max.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_min.setValue",
+          "target": "self.tap_min.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_step.setValue",
+          "target": "self.tap_step.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.taps.setChecked",
+          "target": "self.taps.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wli.setValue",
+          "target": "self.wli.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wloss.setValue",
+          "target": "self.wloss.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wvd.setValue",
+          "target": "self.wvd.setValue"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self.discrete_shunts.setChecked": "attribute",
+        "self.discrete_taps.setChecked": "attribute",
+        "self.gen_v.setChecked": "attribute",
+        "self.kind.findData": "attribute",
+        "self.kind.setCurrentIndex": "attribute",
+        "self.shunts.setChecked": "attribute",
+        "self.tap_max.setValue": "attribute",
+        "self.tap_min.setValue": "attribute",
+        "self.tap_step.setValue": "attribute",
+        "self.taps.setChecked": "attribute",
+        "self.wli.setValue": "attribute",
+        "self.wloss.setValue": "attribute",
+        "self.wvd.setValue": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.__init__"
+      ],
+      "calls": [
+        "max",
+        "self.discrete_shunts.setChecked",
+        "self.discrete_taps.setChecked",
+        "self.gen_v.setChecked",
+        "self.kind.findData",
+        "self.kind.setCurrentIndex",
+        "self.shunts.setChecked",
+        "self.tap_max.setValue",
+        "self.tap_min.setValue",
+        "self.tap_step.setValue",
+        "self.taps.setChecked",
+        "self.wli.setValue",
+        "self.wloss.setValue",
+        "self.wvd.setValue"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 154,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.orpd.objectives"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.discrete_shunts.isChecked",
+          "target": "self.discrete_shunts.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.discrete_taps.isChecked",
+          "target": "self.discrete_taps.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.gen_v.isChecked",
+          "target": "self.gen_v.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.kind.currentData",
+          "target": "self.kind.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.shunts.isChecked",
+          "target": "self.shunts.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.stage_completed.emit",
+          "target": "self.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_max.value",
+          "target": "self.tap_max.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_min.value",
+          "target": "self.tap_min.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tap_step.value",
+          "target": "self.tap_step.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.taps.isChecked",
+          "target": "self.taps.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wli.value",
+          "target": "self.wli.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wloss.value",
+          "target": "self.wloss.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.wvd.value",
+          "target": "self.wvd.value"
+        }
+      ],
+      "call_forms": {
+        "config.validate": "attribute",
+        "self.discrete_shunts.isChecked": "attribute",
+        "self.discrete_taps.isChecked": "attribute",
+        "self.gen_v.isChecked": "attribute",
+        "self.kind.currentData": "attribute",
+        "self.shunts.isChecked": "attribute",
+        "self.stage_completed.emit": "attribute",
+        "self.state.update_config": "attribute",
+        "self.tap_max.value": "attribute",
+        "self.tap_min.value": "attribute",
+        "self.tap_step.value": "attribute",
+        "self.taps.isChecked": "attribute",
+        "self.wli.value": "attribute",
+        "self.wloss.value": "attribute",
+        "self.wvd.value": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "config.validate",
+        "self.discrete_shunts.isChecked",
+        "self.discrete_taps.isChecked",
+        "self.gen_v.isChecked",
+        "self.kind.currentData",
+        "self.shunts.isChecked",
+        "self.stage_completed.emit",
+        "self.state.update_config",
+        "self.tap_max.value",
+        "self.tap_min.value",
+        "self.tap_step.value",
+        "self.taps.isChecked",
+        "self.wli.value",
+        "self.wloss.value",
+        "self.wvd.value",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/orpd_formulation_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QDoubleSpinBox": "PyQt6.QtWidgets.QDoubleSpinBox",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScrollablePage": "calo_rpd_studio.gui.widgets.scrollable_page.ScrollablePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.page_header",
+        "calo_rpd_studio.gui.widgets.scrollable_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.orpd.objectives"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.orpd_formulation_panel",
+      "qualname": "calo_rpd_studio.gui.panels.orpd_formulation_panel.ORPDFormulationPanel.apply",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 156,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    }
+  ]
+}

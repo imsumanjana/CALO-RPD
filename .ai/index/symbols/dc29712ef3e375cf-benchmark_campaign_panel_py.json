@@ -1,0 +1,3550 @@
+{
+  "path": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel._LOG",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Configure and execute a frozen, power-aware benchmark campaign.",
+      "end_line": 583,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "BenchmarkCampaignPanel",
+      "tests": [
+        "tests/unit/test_scientist_gui_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QCheckBox",
+          "target": "QCheckBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGridLayout",
+          "target": "QGridLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLineEdit",
+          "target": "QLineEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QSpinBox",
+          "target": "QSpinBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTextEdit",
+          "target": "QTextEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "browse.clicked.connect",
+          "target": "browse.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "build_package.clicked.connect",
+          "target": "build_package.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "build_package.setObjectName",
+          "target": "build_package.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "build_package.setToolTip",
+          "target": "build_package.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.addStretch",
+          "target": "buttons.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.addWidget",
+          "target": "buttons.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "standard_benchmark_suite",
+          "target": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceTabs",
+          "target": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.upper",
+          "target": "case.upper"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case_layout.addWidget",
+          "target": "case_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "check.setChecked",
+          "target": "check.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "check.setToolTip",
+          "target": "check.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "design_description.hide",
+          "target": "design_description.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "design_description.setWordWrap",
+          "target": "design_description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "design_description.text",
+          "target": "design_description.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "design_layout.addLayout",
+          "target": "design_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "design_layout.setContentsMargins",
+          "target": "design_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.cancelled.connect",
+          "target": "experiment_manager.cancelled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.completed.connect",
+          "target": "experiment_manager.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.failed.connect",
+          "target": "experiment_manager.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_manager.started.connect",
+          "target": "experiment_manager.started.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_description.hide",
+          "target": "freeze_description.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_description.setWordWrap",
+          "target": "freeze_description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_description.text",
+          "target": "freeze_description.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_layout.addLayout",
+          "target": "freeze_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_layout.addStretch",
+          "target": "freeze_layout.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_layout.setContentsMargins",
+          "target": "freeze_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_row.addWidget",
+          "target": "freeze_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.addWidget",
+          "target": "grid.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "grid.setColumnStretch",
+          "target": "grid.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numeric.addWidget",
+          "target": "numeric.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_description.hide",
+          "target": "package_description.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_description.setWordWrap",
+          "target": "package_description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_description.text",
+          "target": "package_description.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_layout.addLayout",
+          "target": "package_layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_layout.addWidget",
+          "target": "package_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_layout.setContentsMargins",
+          "target": "package_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "package_row.addWidget",
+          "target": "package_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_description.hide",
+          "target": "queue_description.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_description.setWordWrap",
+          "target": "queue_description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_description.text",
+          "target": "queue_description.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_layout.addWidget",
+          "target": "queue_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue_layout.setContentsMargins",
+          "target": "queue_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.clicked.connect",
+          "target": "self.cancel_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluations.setRange",
+          "target": "self.evaluations.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluations.setValue",
+          "target": "self.evaluations.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.hide",
+          "target": "self.freeze_path.hide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.setAccessibleName",
+          "target": "self.freeze_path.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.setProperty",
+          "target": "self.freeze_path.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.setMinimumHeight",
+          "target": "self.log.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.setReadOnly",
+          "target": "self.log.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.master_seed.setRange",
+          "target": "self.master_seed.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.master_seed.setValue",
+          "target": "self.master_seed.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.setAccessibleName",
+          "target": "self.package_manifest.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.setProperty",
+          "target": "self.package_manifest.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.clicked.connect",
+          "target": "self.plan_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.setToolTip",
+          "target": "self.plan_button.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.population.setRange",
+          "target": "self.population.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.population.setValue",
+          "target": "self.population.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setRange",
+          "target": "self.runs.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setToolTip",
+          "target": "self.runs.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setValue",
+          "target": "self.runs.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.add_section",
+          "target": "self.section_tabs.add_section"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.clicked.connect",
+          "target": "self.start_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setObjectName",
+          "target": "self.start_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setHorizontalHeaderLabels",
+          "target": "self.table.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setMinimumHeight",
+          "target": "self.table.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setToolTip",
+          "target": "self.table.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workers.setRange",
+          "target": "self.workers.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workers.setValue",
+          "target": "self.workers.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "study_layout.addWidget",
+          "target": "study_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate_button.clicked.connect",
+          "target": "validate_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "verify.clicked.connect",
+          "target": "verify.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "verify.setObjectName",
+          "target": "verify.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "verify.setToolTip",
+          "target": "verify.setToolTip"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "Path": "name",
+        "QCheckBox": "name",
+        "QGridLayout": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QLineEdit": "name",
+        "QPushButton": "name",
+        "QSpinBox": "name",
+        "QTableWidget": "name",
+        "QTextEdit": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "WorkspaceTabs": "name",
+        "__init__": "attribute",
+        "browse.clicked.connect": "attribute",
+        "build_package.clicked.connect": "attribute",
+        "build_package.setObjectName": "attribute",
+        "build_package.setToolTip": "attribute",
+        "buttons.addStretch": "attribute",
+        "buttons.addWidget": "attribute",
+        "case.upper": "attribute",
+        "case_layout.addWidget": "attribute",
+        "check.setChecked": "attribute",
+        "check.setToolTip": "attribute",
+        "design_description.hide": "attribute",
+        "design_description.setWordWrap": "attribute",
+        "design_description.text": "attribute",
+        "design_layout.addLayout": "attribute",
+        "design_layout.setContentsMargins": "attribute",
+        "experiment_manager.cancelled.connect": "attribute",
+        "experiment_manager.completed.connect": "attribute",
+        "experiment_manager.failed.connect": "attribute",
+        "experiment_manager.started.connect": "attribute",
+        "freeze_description.hide": "attribute",
+        "freeze_description.setWordWrap": "attribute",
+        "freeze_description.text": "attribute",
+        "freeze_layout.addLayout": "attribute",
+        "freeze_layout.addStretch": "attribute",
+        "freeze_layout.setContentsMargins": "attribute",
+        "freeze_row.addWidget": "attribute",
+        "grid.addWidget": "attribute",
+        "grid.setColumnStretch": "attribute",
+        "int": "name",
+        "max": "name",
+        "numeric.addWidget": "attribute",
+        "package_description.hide": "attribute",
+        "package_description.setWordWrap": "attribute",
+        "package_description.text": "attribute",
+        "package_layout.addLayout": "attribute",
+        "package_layout.addWidget": "attribute",
+        "package_layout.setContentsMargins": "attribute",
+        "package_row.addWidget": "attribute",
+        "queue_description.hide": "attribute",
+        "queue_description.setWordWrap": "attribute",
+        "queue_description.text": "attribute",
+        "queue_layout.addWidget": "attribute",
+        "queue_layout.setContentsMargins": "attribute",
+        "resolve": "attribute",
+        "self.cancel_button.clicked.connect": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.evaluations.setRange": "attribute",
+        "self.evaluations.setValue": "attribute",
+        "self.freeze_path.hide": "attribute",
+        "self.freeze_path.setAccessibleName": "attribute",
+        "self.freeze_path.setProperty": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.log.setMinimumHeight": "attribute",
+        "self.log.setReadOnly": "attribute",
+        "self.master_seed.setRange": "attribute",
+        "self.master_seed.setValue": "attribute",
+        "self.package_manifest.setAccessibleName": "attribute",
+        "self.package_manifest.setProperty": "attribute",
+        "self.plan_button.clicked.connect": "attribute",
+        "self.plan_button.setToolTip": "attribute",
+        "self.population.setRange": "attribute",
+        "self.population.setValue": "attribute",
+        "self.runs.setRange": "attribute",
+        "self.runs.setToolTip": "attribute",
+        "self.runs.setValue": "attribute",
+        "self.section_tabs.add_section": "attribute",
+        "self.start_button.clicked.connect": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.start_button.setObjectName": "attribute",
+        "self.table.setHorizontalHeaderLabels": "attribute",
+        "self.table.setMinimumHeight": "attribute",
+        "self.table.setToolTip": "attribute",
+        "self.workers.setRange": "attribute",
+        "self.workers.setValue": "attribute",
+        "standard_benchmark_suite": "name",
+        "str": "name",
+        "study_layout.addWidget": "attribute",
+        "super": "name",
+        "validate_button.clicked.connect": "attribute",
+        "verify.clicked.connect": "attribute",
+        "verify.setObjectName": "attribute",
+        "verify.setToolTip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "Path",
+        "QCheckBox",
+        "QGridLayout",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QLineEdit",
+        "QPushButton",
+        "QSpinBox",
+        "QTableWidget",
+        "QTextEdit",
+        "QVBoxLayout",
+        "QWidget",
+        "WorkspaceTabs",
+        "__init__",
+        "browse.clicked.connect",
+        "build_package.clicked.connect",
+        "build_package.setObjectName",
+        "build_package.setToolTip",
+        "buttons.addStretch",
+        "buttons.addWidget",
+        "case.upper",
+        "case_layout.addWidget",
+        "check.setChecked",
+        "check.setToolTip",
+        "design_description.hide",
+        "design_description.setWordWrap",
+        "design_description.text",
+        "design_layout.addLayout",
+        "design_layout.setContentsMargins",
+        "experiment_manager.cancelled.connect",
+        "experiment_manager.completed.connect",
+        "experiment_manager.failed.connect",
+        "experiment_manager.started.connect",
+        "freeze_description.hide",
+        "freeze_description.setWordWrap",
+        "freeze_description.text",
+        "freeze_layout.addLayout",
+        "freeze_layout.addStretch",
+        "freeze_layout.setContentsMargins",
+        "freeze_row.addWidget",
+        "grid.addWidget",
+        "grid.setColumnStretch",
+        "int",
+        "max",
+        "numeric.addWidget",
+        "package_description.hide",
+        "package_description.setWordWrap",
+        "package_description.text",
+        "package_layout.addLayout",
+        "package_layout.addWidget",
+        "package_layout.setContentsMargins",
+        "package_row.addWidget",
+        "queue_description.hide",
+        "queue_description.setWordWrap",
+        "queue_description.text",
+        "queue_layout.addWidget",
+        "queue_layout.setContentsMargins",
+        "resolve",
+        "self.cancel_button.clicked.connect",
+        "self.cancel_button.setEnabled",
+        "self.evaluations.setRange",
+        "self.evaluations.setValue",
+        "self.freeze_path.hide",
+        "self.freeze_path.setAccessibleName",
+        "self.freeze_path.setProperty",
+        "self.layout_root.addWidget",
+        "self.log.setMinimumHeight",
+        "self.log.setReadOnly",
+        "self.master_seed.setRange",
+        "self.master_seed.setValue",
+        "self.package_manifest.setAccessibleName",
+        "self.package_manifest.setProperty",
+        "self.plan_button.clicked.connect",
+        "self.plan_button.setToolTip",
+        "self.population.setRange",
+        "self.population.setValue",
+        "self.runs.setRange",
+        "self.runs.setToolTip",
+        "self.runs.setValue",
+        "self.section_tabs.add_section",
+        "self.start_button.clicked.connect",
+        "self.start_button.setEnabled",
+        "self.start_button.setObjectName",
+        "self.table.setHorizontalHeaderLabels",
+        "self.table.setMinimumHeight",
+        "self.table.setToolTip",
+        "self.workers.setRange",
+        "self.workers.setValue",
+        "standard_benchmark_suite",
+        "str",
+        "study_layout.addWidget",
+        "super",
+        "validate_button.clicked.connect",
+        "verify.clicked.connect",
+        "verify.setObjectName",
+        "verify.setToolTip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+      ],
+      "doc": "",
+      "end_line": 266,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, experiment_manager, parent)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "check.isChecked",
+          "target": "check.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_checks.items",
+          "target": "self.case_checks.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "check.isChecked": "attribute",
+        "self.case_checks.items": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config"
+      ],
+      "calls": [
+        "check.isChecked",
+        "self.case_checks.items",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 269,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_cases",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 268,
+      "state_owner": "",
+      "symbol": "_selected_cases",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "check.isChecked",
+          "target": "check.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.study_checks.items",
+          "target": "self.study_checks.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "check.isChecked": "attribute",
+        "self.study_checks.items": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config"
+      ],
+      "calls": [
+        "check.isChecked",
+        "self.study_checks.items",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 272,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_studies",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 271,
+      "state_owner": "",
+      "symbol": "_selected_studies",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_cases",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_cases"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_studies",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_studies"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluations.value",
+          "target": "self.evaluations.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.text",
+          "target": "self.freeze_path.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.master_seed.value",
+          "target": "self.master_seed.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.output_directory.text",
+          "target": "self.output_directory.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.population.value",
+          "target": "self.population.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.value",
+          "target": "self.runs.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.workers.value",
+          "target": "self.workers.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "primary_algorithm_names": "name",
+        "self._selected_cases": "attribute",
+        "self._selected_studies": "attribute",
+        "self.evaluations.value": "attribute",
+        "self.freeze_path.text": "attribute",
+        "self.master_seed.value": "attribute",
+        "self.output_directory.text": "attribute",
+        "self.population.value": "attribute",
+        "self.runs.value": "attribute",
+        "self.workers.value": "attribute",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan"
+      ],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "primary_algorithm_names",
+        "self._selected_cases",
+        "self._selected_studies",
+        "self.evaluations.value",
+        "self.freeze_path.text",
+        "self.master_seed.value",
+        "self.output_directory.text",
+        "self.population.value",
+        "self.runs.value",
+        "self.workers.value",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_cases",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_studies"
+      ],
+      "doc": "",
+      "end_line": 287,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 274,
+      "state_owner": "",
+      "symbol": "campaign_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.text",
+          "target": "self.freeze_path.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_status.setText",
+          "target": "self.freeze_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_status.setToolTip",
+          "target": "self.freeze_status.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "self.freeze_path.text": "attribute",
+        "self.freeze_status.setText": "attribute",
+        "self.freeze_status.setToolTip": "attribute",
+        "self.log.append": "attribute",
+        "strip": "attribute",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign"
+      ],
+      "calls": [
+        "self.freeze_path.text",
+        "self.freeze_status.setText",
+        "self.freeze_status.setToolTip",
+        "self.log.append",
+        "strip",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "doc": "",
+      "end_line": 302,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.verify_freeze",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 289,
+      "state_owner": "",
+      "symbol": "verify_freeze",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "primary_algorithm_names",
+          "target": "calo_rpd_studio.algorithms.registry.primary_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_campaign_plan",
+          "target": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_cases",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_cases"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._selected_studies",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_studies"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.campaign_config",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.mkdir",
+          "target": "output.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.setText",
+          "target": "self.package_manifest.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setRowCount",
+          "target": "self.table.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "QTableWidgetItem": "name",
+        "ValueError": "name",
+        "build_campaign": "name",
+        "deepcopy": "name",
+        "enumerate": "name",
+        "len": "name",
+        "output.mkdir": "attribute",
+        "primary_algorithm_names": "name",
+        "self._selected_cases": "attribute",
+        "self._selected_studies": "attribute",
+        "self.campaign_config": "attribute",
+        "self.log.append": "attribute",
+        "self.package_manifest.setText": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.table.setItem": "attribute",
+        "self.table.setRowCount": "attribute",
+        "show_error": "name",
+        "str": "name",
+        "sum": "name",
+        "write_campaign_plan": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign"
+      ],
+      "calls": [
+        "Path",
+        "QTableWidgetItem",
+        "ValueError",
+        "build_campaign",
+        "deepcopy",
+        "enumerate",
+        "len",
+        "output.mkdir",
+        "primary_algorithm_names",
+        "self._selected_cases",
+        "self._selected_studies",
+        "self.campaign_config",
+        "self.log.append",
+        "self.package_manifest.setText",
+        "self.start_button.setEnabled",
+        "self.table.setItem",
+        "self.table.setRowCount",
+        "show_error",
+        "str",
+        "sum",
+        "write_campaign_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_cases",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._selected_studies",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.campaign_config",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 347,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 304,
+      "state_owner": "",
+      "symbol": "build_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.critical",
+          "target": "QMessageBox.critical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.question",
+          "target": "QMessageBox.question"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._start_next_task",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.build_plan",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.verify_freeze",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.verify_freeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.setEnabled",
+          "target": "self.plan_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.critical": "attribute",
+        "QMessageBox.question": "attribute",
+        "self._start_next_task": "attribute",
+        "self.build_plan": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.plan_button.setEnabled": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.verify_freeze": "attribute",
+        "show_error": "name",
+        "verify_campaign_plan_design": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.critical",
+        "QMessageBox.question",
+        "self._start_next_task",
+        "self.build_plan",
+        "self.cancel_button.setEnabled",
+        "self.plan_button.setEnabled",
+        "self.start_button.setEnabled",
+        "self.verify_freeze",
+        "show_error",
+        "verify_campaign_plan_design"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.build_plan",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.verify_freeze",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 390,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 349,
+      "state_owner": "",
+      "symbol": "start_campaign",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_campaign_plan_design",
+          "target": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment_manager.start_comparison",
+          "target": "self.experiment_manager.start_comparison"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.text",
+          "target": "self.freeze_path.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.setEnabled",
+          "target": "self.plan_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "deepcopy": "name",
+        "len": "name",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.experiment_manager.start_comparison": "attribute",
+        "self.freeze_path.text": "attribute",
+        "self.log.append": "attribute",
+        "self.plan_button.setEnabled": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.state.update_config": "attribute",
+        "self.table.setItem": "attribute",
+        "show_error": "name",
+        "strip": "attribute",
+        "verify_campaign_plan_design": "name",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.start_campaign"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "deepcopy",
+        "len",
+        "self.cancel_button.setEnabled",
+        "self.experiment_manager.start_comparison",
+        "self.freeze_path.text",
+        "self.log.append",
+        "self.plan_button.setEnabled",
+        "self.start_button.setEnabled",
+        "self.state.update_config",
+        "self.table.setItem",
+        "show_error",
+        "strip",
+        "verify_campaign_plan_design",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 437,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 392,
+      "state_owner": "",
+      "symbol": "_start_next_task",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._manifest_path.read_text",
+          "target": "self._manifest_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._manifest_path.write_text",
+          "target": "self._manifest_path.write_text"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "self._manifest_path.read_text": "attribute",
+        "self._manifest_path.write_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_cancelled",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_completed",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_failed",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_started"
+      ],
+      "calls": [
+        "json.dumps",
+        "json.loads",
+        "self._manifest_path.read_text",
+        "self._manifest_path.write_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 450,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id, status)",
+      "start_line": 439,
+      "state_owner": "",
+      "symbol": "_update_manifest_task",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_manifest_task",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.set_experiment_learning_role",
+          "target": "self.state.database.set_experiment_learning_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "self._update_manifest_task": "attribute",
+        "self.state.database.set_experiment_learning_role": "attribute",
+        "self.table.setItem": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QTableWidgetItem",
+        "self._update_manifest_task",
+        "self.state.database.set_experiment_learning_role",
+        "self.table.setItem"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+      ],
+      "doc": "",
+      "end_line": 466,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_started",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 452,
+      "state_owner": "",
+      "symbol": "_on_experiment_started",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTimer.singleShot",
+          "target": "QTimer.singleShot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_manifest_task",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_failures",
+          "target": "self.state.database.list_failures"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "QTimer.singleShot": "attribute",
+        "len": "name",
+        "self._update_manifest_task": "attribute",
+        "self.log.append": "attribute",
+        "self.state.database.list_failures": "attribute",
+        "self.table.setItem": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QTableWidgetItem",
+        "QTimer.singleShot",
+        "len",
+        "self._update_manifest_task",
+        "self.log.append",
+        "self.state.database.list_failures",
+        "self.table.setItem"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+      ],
+      "doc": "",
+      "end_line": 479,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 468,
+      "state_owner": "",
+      "symbol": "_on_experiment_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_manifest_task",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.setEnabled",
+          "target": "self.plan_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "self._update_manifest_task": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.plan_button.setEnabled": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.table.setItem": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QTableWidgetItem",
+        "self._update_manifest_task",
+        "self.cancel_button.setEnabled",
+        "self.plan_button.setEnabled",
+        "self.start_button.setEnabled",
+        "self.table.setItem"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+      ],
+      "doc": "",
+      "end_line": 489,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_cancelled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 481,
+      "state_owner": "",
+      "symbol": "_on_experiment_cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_manifest_task",
+          "target": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.plan_button.setEnabled",
+          "target": "self.plan_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.setEnabled",
+          "target": "self.start_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.table.setItem",
+          "target": "self.table.setItem"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "self._update_manifest_task": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.log.append": "attribute",
+        "self.plan_button.setEnabled": "attribute",
+        "self.start_button.setEnabled": "attribute",
+        "self.table.setItem": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QTableWidgetItem",
+        "self._update_manifest_task",
+        "self.cancel_button.setEnabled",
+        "self.log.append",
+        "self.plan_button.setEnabled",
+        "self.start_button.setEnabled",
+        "self.table.setItem",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._update_manifest_task",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 508,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._on_experiment_failed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message)",
+      "start_line": 491,
+      "state_owner": "",
+      "symbol": "_on_experiment_failed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QFileDialog.getOpenFileName",
+          "target": "QFileDialog.getOpenFileName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.setText",
+          "target": "self.package_manifest.setText"
+        }
+      ],
+      "call_forms": {
+        "QFileDialog.getOpenFileName": "attribute",
+        "self.package_manifest.setText": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QFileDialog.getOpenFileName",
+        "self.package_manifest.setText"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 513,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.choose_manifest",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 510,
+      "state_owner": "",
+      "symbol": "choose_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_campaign",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.text",
+          "target": "self.package_manifest.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.runs_changed.emit",
+          "target": "self.state.runs_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "QApplication.processEvents": "attribute",
+        "self.log.append": "attribute",
+        "self.package_manifest.text": "attribute",
+        "self.state.runs_changed.emit": "attribute",
+        "show_error": "name",
+        "strip": "attribute",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute",
+        "validate_campaign": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "QApplication.processEvents",
+        "self.log.append",
+        "self.package_manifest.text",
+        "self.state.runs_changed.emit",
+        "show_error",
+        "strip",
+        "task.begin",
+        "task.fail",
+        "task.finish",
+        "validate_campaign"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 555,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.validate_completed_campaign",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 515,
+      "state_owner": "",
+      "symbol": "validate_completed_campaign",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.update",
+          "target": "task.update"
+        }
+      ],
+      "call_forms": {
+        "QApplication.processEvents": "attribute",
+        "payload.get": "attribute",
+        "task.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication.processEvents",
+        "payload.get",
+        "task.update"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 532,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.validate_completed_campaign",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.validate_completed_campaign.progress",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(payload)",
+      "start_line": 527,
+      "state_owner": "",
+      "symbol": "progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.resolve",
+          "target": "archive.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "build",
+          "target": "build"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScientificEvidencePackageBuilder",
+          "target": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.freeze_path.text",
+          "target": "self.freeze_path.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.append",
+          "target": "self.log.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.package_manifest.text",
+          "target": "self.package_manifest.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "QApplication.processEvents": "attribute",
+        "ScientificEvidencePackageBuilder": "name",
+        "archive.resolve": "attribute",
+        "build": "attribute",
+        "self.freeze_path.text": "attribute",
+        "self.log.append": "attribute",
+        "self.package_manifest.text": "attribute",
+        "show_error": "name",
+        "strip": "attribute",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "QApplication.processEvents",
+        "ScientificEvidencePackageBuilder",
+        "archive.resolve",
+        "build",
+        "self.freeze_path.text",
+        "self.log.append",
+        "self.package_manifest.text",
+        "show_error",
+        "strip",
+        "task.begin",
+        "task.fail",
+        "task.finish"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 583,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSpinBox": "PyQt6.QtWidgets.QSpinBox",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QTimer": "PyQt6.QtCore.QTimer",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "ScientificEvidencePackageBuilder": "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "logging": "logging",
+        "primary_algorithm_names": "calo_rpd_studio.algorithms.registry.primary_algorithm_names",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "standard_benchmark_suite": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "validate_campaign": "calo_rpd_studio.benchmarking.validation.validate_campaign",
+        "verify_campaign_plan_design": "calo_rpd_studio.benchmarking.campaign.verify_campaign_plan_design",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.benchmarking.package",
+        "calo_rpd_studio.benchmarking.suite",
+        "calo_rpd_studio.benchmarking.validation",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version",
+        "copy",
+        "json",
+        "logging",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.benchmark_campaign_panel",
+      "qualname": "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.generate_package",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 557,
+      "state_owner": "",
+      "symbol": "generate_package",
+      "tests": []
+    }
+  ]
+}

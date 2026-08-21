@@ -1,0 +1,384 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/topology_context.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_lease.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/memory_budget.py"
+    }
+  ],
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__del__",
+      "to": "_LOG.debug"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__del__",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__exit__",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda",
+      "to": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda",
+      "to": "cls._local_cuda_owners.add"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda",
+      "to": "cls._local_cuda_owners.discard"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "MemoryError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "cls"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "lease.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "requested.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "torch.cuda.is_available"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "torch.cuda.mem_get_info"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "torch.cuda.memory_reserved"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "torch.cuda.set_per_process_memory_fraction"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "to": "torch.device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom",
+      "to": "type"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission.to_dict",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate.to_dict",
+      "to": "asdict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.to_dict",
+      "to": "asdict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.to_dict",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "to": "MemoryError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "to": "state.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "to": "MemoryError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "to": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "to": "psutil.virtual_memory"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "envelope.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "envelope.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "math.ceil"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "network.buffers"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "network.parameters"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "value.element_size"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "to": "value.numel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "admission.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "estimate.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "math.floor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "math.isclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "record.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "requested.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "selected.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "to": "str"
+    }
+  ]
+}

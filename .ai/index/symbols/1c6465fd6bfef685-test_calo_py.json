@@ -1,0 +1,249 @@
+{
+  "path": "tests/unit/test_calo.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_cognitive_state",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "net",
+          "target": "net"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.vector",
+          "target": "state.vector"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "CALOPolicyNetwork": "name",
+        "Evaluation": "name",
+        "build_cognitive_state": "name",
+        "float": "name",
+        "net": "name",
+        "np.full": "attribute",
+        "np.random.default_rng": "attribute",
+        "random": "attribute",
+        "range": "name",
+        "state.vector": "attribute",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOPolicyNetwork",
+        "Evaluation",
+        "build_cognitive_state",
+        "float",
+        "net",
+        "np.full",
+        "np.random.default_rng",
+        "random",
+        "range",
+        "state.vector",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo",
+      "qualname": "tests.unit.test_calo.test_cognitive_state_and_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "test_cognitive_state_and_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SuccessMemory",
+          "target": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "m.add",
+          "target": "m.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "m.direction",
+          "target": "m.direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "m.sample_direction",
+          "target": "m.sample_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "SuccessMemory": "name",
+        "len": "name",
+        "m.add": "attribute",
+        "m.direction": "attribute",
+        "m.sample_direction": "attribute",
+        "np.ones": "attribute",
+        "np.random.default_rng": "attribute",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SuccessMemory",
+        "len",
+        "m.add",
+        "m.direction",
+        "m.sample_direction",
+        "np.ones",
+        "np.random.default_rng",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_calo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "build_cognitive_state": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo",
+      "qualname": "tests.unit.test_calo.test_success_memory_is_bounded",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_success_memory_is_bounded",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_stage_b_synthetic.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.strip",
+          "target": "requested.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "requested.strip": "attribute",
+        "torch.cuda.is_available": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_stage_b_synthetic.main"
+      ],
+      "calls": [
+        "lower",
+        "requested.strip",
+        "torch.cuda.is_available"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_stage_b_synthetic.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CurriculumProblem": "calo_rpd_studio.algorithms.calo.training.CurriculumProblem",
+        "DeviceResidentCurriculumProblem": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceResidentCurriculumProblem",
+        "Path": "pathlib.Path",
+        "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "np": "numpy",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.device_resident_synthetic",
+        "calo_rpd_studio.algorithms.calo.training",
+        "concurrent.futures",
+        "json",
+        "numpy",
+        "pathlib",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_stage_b_synthetic",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_stage_b_synthetic",
+      "qualname": "calo_rpd_studio.scripts.validate_stage_b_synthetic._resolve_device",
+      "semantic_tags": [],
+      "signature": "(requested)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "_resolve_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ThreadPoolExecutor",
+          "target": "ThreadPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.metrics",
+          "target": "broker.metrics"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceResidentCurriculumProblem",
+          "target": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceResidentCurriculumProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SyntheticCrossEpisodeBatchBroker",
+          "target": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CurriculumProblem",
+          "target": "calo_rpd_studio.algorithms.calo.training.CurriculumProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resolve_device",
+          "target": "calo_rpd_studio.scripts.validate_stage_b_synthetic._resolve_device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "executor.submit",
+          "target": "executor.submit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "future.result",
+          "target": "future.result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "populations.append",
+          "target": "populations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate",
+          "target": "problem.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problems.append",
+          "target": "problems.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "CurriculumProblem": "name",
+        "DeviceResidentCurriculumProblem": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "SyntheticCrossEpisodeBatchBroker": "name",
+        "ThreadPoolExecutor": "name",
+        "_resolve_device": "name",
+        "all": "name",
+        "argparse.ArgumentParser": "attribute",
+        "broker.metrics": "attribute",
+        "executor.submit": "attribute",
+        "future.result": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "max": "name",
+        "np.random.default_rng": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "populations.append": "attribute",
+        "print": "name",
+        "problem.evaluate": "attribute",
+        "problems.append": "attribute",
+        "range": "name",
+        "rng.random": "attribute",
+        "time.perf_counter": "attribute",
+        "torch.device": "attribute",
+        "write_text": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CurriculumProblem",
+        "DeviceResidentCurriculumProblem",
+        "Path",
+        "RuntimeError",
+        "SyntheticCrossEpisodeBatchBroker",
+        "ThreadPoolExecutor",
+        "_resolve_device",
+        "all",
+        "argparse.ArgumentParser",
+        "broker.metrics",
+        "executor.submit",
+        "future.result",
+        "int",
+        "json.dumps",
+        "max",
+        "np.random.default_rng",
+        "parser.add_argument",
+        "parser.parse_args",
+        "populations.append",
+        "print",
+        "problem.evaluate",
+        "problems.append",
+        "range",
+        "rng.random",
+        "time.perf_counter",
+        "torch.device",
+        "write_text",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceResidentCurriculumProblem",
+        "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
+        "calo_rpd_studio.algorithms.calo.training.CurriculumProblem",
+        "calo_rpd_studio.scripts.validate_stage_b_synthetic._resolve_device"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_stage_b_synthetic.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CurriculumProblem": "calo_rpd_studio.algorithms.calo.training.CurriculumProblem",
+        "DeviceResidentCurriculumProblem": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.DeviceResidentCurriculumProblem",
+        "Path": "pathlib.Path",
+        "SyntheticCrossEpisodeBatchBroker": "calo_rpd_studio.algorithms.calo.device_resident_synthetic.SyntheticCrossEpisodeBatchBroker",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "np": "numpy",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.device_resident_synthetic",
+        "calo_rpd_studio.algorithms.calo.training",
+        "concurrent.futures",
+        "json",
+        "numpy",
+        "pathlib",
+        "time",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_stage_b_synthetic",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_stage_b_synthetic",
+      "qualname": "calo_rpd_studio.scripts.validate_stage_b_synthetic.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

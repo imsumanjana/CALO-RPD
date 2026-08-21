@@ -1,0 +1,583 @@
+{
+  "path": "tests/gui/test_guided_workflow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name"
+      },
+      "called_by": [
+        "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+        "tests.gui.test_guided_workflow.test_policy_free_submitted_stage_keeps_individual_case_setup_available",
+        "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
+        "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites"
+      ],
+      "calls": [
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "tests/gui/test_guided_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.portfolio.study_planning",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_guided_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_guided_workflow",
+      "qualname": "tests.gui.test_guided_workflow._policy_status",
+      "semantic_tags": [],
+      "signature": "(ready)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "_policy_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.replace_portfolio_goal",
+          "target": "state.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_status",
+          "target": "tests.gui.test_guided_workflow._policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.is_workspace_enabled",
+          "target": "workflow.is_workspace_enabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_completed",
+          "target": "workflow.mark_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.next_descriptor",
+          "target": "workflow.next_descriptor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.notify_governing_policy_changed",
+          "target": "workflow.notify_governing_policy_changed"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioGoalPlanner.create": "attribute",
+        "WorkflowManager": "name",
+        "_policy_status": "name",
+        "state.database.replace_portfolio_goal": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "str": "name",
+        "workflow.is_workspace_enabled": "attribute",
+        "workflow.mark_completed": "attribute",
+        "workflow.next_descriptor": "attribute",
+        "workflow.notify_governing_policy_changed": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioGoalPlanner.create",
+        "WorkflowManager",
+        "_policy_status",
+        "state.database.replace_portfolio_goal",
+        "state.execution_control.submit_algorithm_stage",
+        "str",
+        "workflow.is_workspace_enabled",
+        "workflow.mark_completed",
+        "workflow.next_descriptor",
+        "workflow.notify_governing_policy_changed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.gui.test_guided_workflow._policy_status"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/gui/test_guided_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.portfolio.study_planning",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_guided_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_guided_workflow",
+      "qualname": "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.replace_portfolio_goal",
+          "target": "state.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_status",
+          "target": "tests.gui.test_guided_workflow._policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.is_workspace_enabled",
+          "target": "workflow.is_workspace_enabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_completed",
+          "target": "workflow.mark_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_experiment_completed",
+          "target": "workflow.mark_experiment_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_experiment_started",
+          "target": "workflow.mark_experiment_started"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.notify_governing_policy_changed",
+          "target": "workflow.notify_governing_policy_changed"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioGoalPlanner.create": "attribute",
+        "WorkflowManager": "name",
+        "_policy_status": "name",
+        "state.database.replace_portfolio_goal": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "str": "name",
+        "workflow.is_workspace_enabled": "attribute",
+        "workflow.mark_completed": "attribute",
+        "workflow.mark_experiment_completed": "attribute",
+        "workflow.mark_experiment_started": "attribute",
+        "workflow.notify_governing_policy_changed": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioGoalPlanner.create",
+        "WorkflowManager",
+        "_policy_status",
+        "state.database.replace_portfolio_goal",
+        "state.execution_control.submit_algorithm_stage",
+        "str",
+        "workflow.is_workspace_enabled",
+        "workflow.mark_completed",
+        "workflow.mark_experiment_completed",
+        "workflow.mark_experiment_started",
+        "workflow.notify_governing_policy_changed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.gui.test_guided_workflow._policy_status"
+      ],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "tests/gui/test_guided_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.portfolio.study_planning",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_guided_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_guided_workflow",
+      "qualname": "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "test_post_experiment_sequence_uses_keyed_workspace_gates",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.database.replace_portfolio_goal",
+          "target": "state.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_status",
+          "target": "tests.gui.test_guided_workflow._policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.individual_setup_state_key",
+          "target": "workflow.individual_setup_state_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.invalidate_individual_from",
+          "target": "workflow.invalidate_individual_from"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_completed",
+          "target": "workflow.mark_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.mark_individual_completed",
+          "target": "workflow.mark_individual_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.notify_governing_policy_changed",
+          "target": "workflow.notify_governing_policy_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.workspace_state_key",
+          "target": "workflow.workspace_state_key"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "PortfolioGoalPlanner.create": "attribute",
+        "WorkflowManager": "name",
+        "_policy_status": "name",
+        "set": "name",
+        "state.database.replace_portfolio_goal": "attribute",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "str": "name",
+        "workflow.individual_setup_state_key": "attribute",
+        "workflow.invalidate_individual_from": "attribute",
+        "workflow.mark_completed": "attribute",
+        "workflow.mark_individual_completed": "attribute",
+        "workflow.notify_governing_policy_changed": "attribute",
+        "workflow.workspace_state_key": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "PortfolioGoalPlanner.create",
+        "WorkflowManager",
+        "_policy_status",
+        "set",
+        "state.database.replace_portfolio_goal",
+        "state.execution_control.submit_algorithm_stage",
+        "str",
+        "workflow.individual_setup_state_key",
+        "workflow.invalidate_individual_from",
+        "workflow.mark_completed",
+        "workflow.mark_individual_completed",
+        "workflow.notify_governing_policy_changed",
+        "workflow.workspace_state_key"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "tests.gui.test_guided_workflow._policy_status"
+      ],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "tests/gui/test_guided_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.portfolio.study_planning",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_guided_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_guided_workflow",
+      "qualname": "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowManager",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.execution_control.submit_algorithm_stage",
+          "target": "state.execution_control.submit_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_status",
+          "target": "tests.gui.test_guided_workflow._policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workflow.individual_setup_state_key",
+          "target": "workflow.individual_setup_state_key"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "WorkflowManager": "name",
+        "_policy_status": "name",
+        "state.execution_control.submit_algorithm_stage": "attribute",
+        "str": "name",
+        "workflow.individual_setup_state_key": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "WorkflowManager",
+        "_policy_status",
+        "state.execution_control.submit_algorithm_stage",
+        "str",
+        "workflow.individual_setup_state_key"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "tests.gui.test_guided_workflow._policy_status"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/gui/test_guided_workflow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "WorkflowManager": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workflow_manager",
+        "calo_rpd_studio.portfolio.study_planning",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_guided_workflow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_guided_workflow",
+      "qualname": "tests.gui.test_guided_workflow.test_policy_free_submitted_stage_keeps_individual_case_setup_available",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 127,
+      "state_owner": "",
+      "symbol": "test_policy_free_submitted_stage_keeps_individual_case_setup_available",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,466 @@
+{
+  "path": "tests/unit/test_convergence_semantics.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_convergence_semantics.Problem.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Evaluation",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "Evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics.Evaluation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Evaluation.__init__",
+      "semantic_tags": [],
+      "signature": "(self, value, violation, feasible)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_convergence_semantics.test_feasible_objective_and_violation_histories_are_separate_and_monotonic"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Problem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "Problem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "tests.unit.test_convergence_semantics.Evaluation"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "iter": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Evaluation",
+        "iter"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_convergence_semantics.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics.Problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Problem.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "next": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "next"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics.Problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Problem.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics.Problem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Problem.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_convergence_semantics.test_feasible_objective_and_violation_histories_are_separate_and_monotonic"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Dummy",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "Dummy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics.Dummy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.Dummy.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isnan",
+          "target": "math.isnan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "opt.evaluate",
+          "target": "opt.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "opt.record",
+          "target": "opt.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Dummy",
+          "target": "tests.unit.test_convergence_semantics.Dummy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "Problem",
+          "target": "tests.unit.test_convergence_semantics.Problem"
+        }
+      ],
+      "call_forms": {
+        "Dummy": "name",
+        "OptimizerConfig": "name",
+        "Problem": "name",
+        "math.isnan": "attribute",
+        "opt.evaluate": "attribute",
+        "opt.record": "attribute",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Dummy",
+        "OptimizerConfig",
+        "Problem",
+        "math.isnan",
+        "opt.evaluate",
+        "opt.record",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "tests.unit.test_convergence_semantics.Dummy",
+        "tests.unit.test_convergence_semantics.Problem"
+      ],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_convergence_semantics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "math": "math"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "math"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_convergence_semantics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_convergence_semantics",
+      "qualname": "tests.unit.test_convergence_semantics.test_feasible_objective_and_violation_histories_are_separate_and_monotonic",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "test_feasible_objective_and_violation_histories_are_separate_and_monotonic",
+      "tests": []
+    }
+  ]
+}

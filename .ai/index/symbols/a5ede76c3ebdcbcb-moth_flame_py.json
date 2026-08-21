@@ -1,0 +1,265 @@
+{
+  "path": "calo_rpd_studio/algorithms/moth_flame.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/moth_flame.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.moth_flame",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.moth_flame",
+      "qualname": "calo_rpd_studio.algorithms.moth_flame.MothFlameOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "MothFlameOptimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "new.append",
+          "target": "new.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.cos",
+          "target": "np.cos"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.copy",
+          "target": "p.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.uniform",
+          "target": "self.rng.uniform"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "min": "name",
+        "new.append": "attribute",
+        "np.abs": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.cos": "attribute",
+        "np.exp": "attribute",
+        "np.vstack": "attribute",
+        "p.copy": "attribute",
+        "range": "name",
+        "round": "name",
+        "self.can_evaluate": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "self.rng.uniform": "attribute",
+        "sorted": "name",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "enumerate",
+        "int",
+        "len",
+        "list",
+        "max",
+        "min",
+        "new.append",
+        "np.abs",
+        "np.asarray",
+        "np.clip",
+        "np.cos",
+        "np.exp",
+        "np.vstack",
+        "p.copy",
+        "range",
+        "round",
+        "self.can_evaluate",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.random_population",
+        "self.record",
+        "self.rng.uniform",
+        "sorted",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/moth_flame.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.moth_flame.MothFlameOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.moth_flame",
+      "qualname": "calo_rpd_studio.algorithms.moth_flame.MothFlameOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,493 @@
+{
+  "path": "calo_rpd_studio/experiments/provenance.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "md": "importlib.metadata",
+        "platform": "platform",
+        "psutil": "psutil",
+        "subprocess": "subprocess",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "importlib.metadata",
+        "logging",
+        "pathlib",
+        "platform",
+        "psutil",
+        "subprocess",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.provenance",
+      "qualname": "calo_rpd_studio.experiments.provenance.PACKAGES",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "PACKAGES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "md": "importlib.metadata",
+        "platform": "platform",
+        "psutil": "psutil",
+        "subprocess": "subprocess",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "importlib.metadata",
+        "logging",
+        "pathlib",
+        "platform",
+        "psutil",
+        "subprocess",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.provenance",
+      "qualname": "calo_rpd_studio.experiments.provenance._LOG",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path.cwd",
+          "target": "Path.cwd"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.check_output",
+          "target": "subprocess.check_output"
+        }
+      ],
+      "call_forms": {
+        "Path.cwd": "attribute",
+        "strip": "attribute",
+        "subprocess.check_output": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.provenance.collect_provenance"
+      ],
+      "calls": [
+        "Path.cwd",
+        "strip",
+        "subprocess.check_output"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "md": "importlib.metadata",
+        "platform": "platform",
+        "psutil": "psutil",
+        "subprocess": "subprocess",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "importlib.metadata",
+        "logging",
+        "pathlib",
+        "platform",
+        "psutil",
+        "subprocess",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.provenance",
+      "qualname": "calo_rpd_studio.experiments.provenance._git_commit",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "_git_commit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.device_count",
+          "target": "torch.cuda.device_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_LOG.warning": "attribute",
+        "bool": "name",
+        "int": "name",
+        "range": "name",
+        "str": "name",
+        "torch.cuda.device_count": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.provenance.collect_provenance"
+      ],
+      "calls": [
+        "_LOG.warning",
+        "bool",
+        "int",
+        "range",
+        "str",
+        "torch.cuda.device_count",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "md": "importlib.metadata",
+        "platform": "platform",
+        "psutil": "psutil",
+        "subprocess": "subprocess",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "importlib.metadata",
+        "logging",
+        "pathlib",
+        "platform",
+        "psutil",
+        "subprocess",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.provenance",
+      "qualname": "calo_rpd_studio.experiments.provenance._torch_accelerator",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "_torch_accelerator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_git_commit",
+          "target": "calo_rpd_studio.experiments.provenance._git_commit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch_accelerator",
+          "target": "calo_rpd_studio.experiments.provenance._torch_accelerator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "md.version",
+          "target": "md.version"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.platform",
+          "target": "platform.platform"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.processor",
+          "target": "platform.processor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.python_version",
+          "target": "platform.python_version"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.cpu_count",
+          "target": "psutil.cpu_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.virtual_memory",
+          "target": "psutil.virtual_memory"
+        }
+      ],
+      "call_forms": {
+        "_git_commit": "name",
+        "_torch_accelerator": "name",
+        "md.version": "attribute",
+        "platform.platform": "attribute",
+        "platform.processor": "attribute",
+        "platform.python_version": "attribute",
+        "psutil.cpu_count": "attribute",
+        "psutil.virtual_memory": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.integration.test_database_workflow.test_database_experiment_creation",
+        "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+        "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+        "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+        "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+        "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+        "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics"
+      ],
+      "calls": [
+        "_git_commit",
+        "_torch_accelerator",
+        "md.version",
+        "platform.platform",
+        "platform.processor",
+        "platform.python_version",
+        "psutil.cpu_count",
+        "psutil.virtual_memory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.provenance._git_commit",
+        "calo_rpd_studio.experiments.provenance._torch_accelerator"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/provenance.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "logging": "logging",
+        "md": "importlib.metadata",
+        "platform": "platform",
+        "psutil": "psutil",
+        "subprocess": "subprocess",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "importlib.metadata",
+        "logging",
+        "pathlib",
+        "platform",
+        "psutil",
+        "subprocess",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.provenance",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.provenance",
+      "qualname": "calo_rpd_studio.experiments.provenance.collect_provenance",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "collect_provenance",
+      "tests": [
+        "tests/integration/test_database_workflow.py",
+        "tests/integration/test_historical_learning.py",
+        "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_v34_release_blockers.py"
+      ]
+    }
+  ]
+}

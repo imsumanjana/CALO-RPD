@@ -1,0 +1,65 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:9f044a3140a202daf0bba2a7978fce9d2b0d159e",
+    "content_sha256": "4becabbfb85ad8ba7c73b22a55a7f5e754cf6d8d0db87bebdf5401b7da59b480",
+    "entry_point": true,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "AppState": "calo_rpd_studio.app.state_manager.AppState",
+      "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+      "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+      "QApplication": "PyQt6.QtWidgets.QApplication",
+      "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+      "VERSION": "calo_rpd_studio.version.VERSION",
+      "annotations": "__future__.annotations",
+      "application_icon": "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+      "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+      "logging": "logging",
+      "sys": "sys"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".experiment_manager",
+      ".main_window",
+      ".settings_manager",
+      ".state_manager",
+      "PyQt6.QtWidgets",
+      "__future__",
+      "calo_rpd_studio.gui.icons.workspace_icons",
+      "calo_rpd_studio.gui.themes.theme_manager",
+      "calo_rpd_studio.version",
+      "logging",
+      "sys"
+    ],
+    "integration_layer": "PyQt application startup",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/app/application.py",
+    "preferred_edit_target": false,
+    "public_surface": true,
+    "semantic_tags": [
+      "PyQt",
+      "application",
+      "entry-point",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 1344,
+    "state_owner": "",
+    "symbol_count": 2
+  },
+  "path": "calo_rpd_studio/app/application.py",
+  "schema_version": 2
+}

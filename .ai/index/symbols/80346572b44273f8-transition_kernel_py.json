@@ -1,0 +1,2085 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_OPERATOR_PRIORS",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "REGIME_OPERATOR_PRIORS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "REGIME_MEMORY_PRIORS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_OPERATOR_PRIOR",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "DISCOVERY_OPERATOR_PRIOR",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "DISCOVERY_MEMORY_PRIOR",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.sum",
+          "target": "values.sum"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.where": "attribute",
+        "values.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._normalise",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "tests.unit.test_tsh_calo_transition_kernel.test_invalid_probability_vector_has_deterministic_uniform_fallback"
+      ],
+      "calls": [
+        "float",
+        "len",
+        "np.asarray",
+        "np.full",
+        "np.isfinite",
+        "np.where",
+        "values.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(values)",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "normalise_probabilities",
+      "tests": [
+        "tests/unit/test_tsh_calo_transition_kernel.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "int": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "tests.unit.test_tsh_calo_transition_kernel.test_individual_regime_mapping_is_frozen"
+      ],
+      "calls": [
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(global_regime, context)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "individual_regime",
+      "tests": [
+        "tests/unit/test_tsh_calo_transition_kernel.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "CandidateBatch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.EvaluationBatch",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "EvaluationBatch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.EvaluationBatch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.EvaluationBatch.complete",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "complete",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "tests.unit.test_tsh_calo_independent_training._transition"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "TransitionResult",
+      "tests": [
+        "tests/unit/test_tsh_calo_independent_training.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvaluationBatch",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.EvaluationBatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "evaluator",
+          "target": "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation.evaluator"
+        }
+      ],
+      "call_forms": {
+        "EvaluationBatch": "name",
+        "RuntimeError": "name",
+        "evaluator": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.step",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.evaluate_physics_repair_proposal",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.step",
+        "tests.unit.test_tsh_calo_transition_kernel.test_candidate_evaluation_rejects_hidden_overcount",
+        "tests.unit.test_tsh_calo_transition_kernel.test_candidate_evaluation_reports_exact_and_partial_batches_without_padding"
+      ],
+      "calls": [
+        "EvaluationBatch",
+        "RuntimeError",
+        "evaluator",
+        "int",
+        "len",
+        "list"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.EvaluationBatch",
+        "tests.unit.test_tsh_calo_physics_repair.test_repair_proposal_requires_one_explicit_trusted_evaluation.evaluator"
+      ],
+      "doc": "Evaluate one declared candidate batch without hiding partial completion.",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.evaluate_candidates",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(offspring, evaluator)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "evaluate_candidates",
+      "tests": [
+        "tests/unit/test_tsh_calo_transition_kernel.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.choice",
+          "target": "rng.choice"
+        }
+      ],
+      "call_forms": {
+        "copy": "attribute",
+        "int": "name",
+        "len": "name",
+        "range": "name",
+        "rng.choice": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+      ],
+      "calls": [
+        "copy",
+        "int",
+        "len",
+        "range",
+        "rng.choice"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel._select_distinct",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, index, rng)",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "_select_distinct",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "copy": "attribute",
+        "int": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+      ],
+      "calls": [
+        "copy",
+        "int",
+        "np.any",
+        "np.asarray",
+        "np.clip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(x, candidate, mask, operator)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "_focus_to_group",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "boundary_archive.sample",
+          "target": "boundary_archive.sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cognitive_teacher_learning",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "constraint_boundary_differential",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "diversity_recovery",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "feasible_elite_learning",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "mixed_variable_neighbourhood",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "success_distribution_memory",
+          "target": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_focus_to_group",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_select_distinct",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel._select_distinct"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible_archive.sample",
+          "target": "feasible_archive.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.mask",
+          "target": "group_intelligence.mask"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.summary",
+          "target": "hpem.summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.sample_direction",
+          "target": "memory.sample_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "_focus_to_group": "name",
+        "_select_distinct": "name",
+        "boundary_archive.sample": "attribute",
+        "cognitive_teacher_learning": "name",
+        "constraint_boundary_differential": "name",
+        "diversity_recovery": "name",
+        "feasible_archive.sample": "attribute",
+        "feasible_elite_learning": "name",
+        "group_intelligence.mask": "attribute",
+        "hpem.summary": "attribute",
+        "len": "name",
+        "max": "name",
+        "memory.sample_direction": "attribute",
+        "mixed_variable_neighbourhood": "name",
+        "np.clip": "attribute",
+        "success_distribution_memory": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+      ],
+      "calls": [
+        "_focus_to_group",
+        "_select_distinct",
+        "boundary_archive.sample",
+        "cognitive_teacher_learning",
+        "constraint_boundary_differential",
+        "diversity_recovery",
+        "feasible_archive.sample",
+        "feasible_elite_learning",
+        "group_intelligence.mask",
+        "hpem.summary",
+        "len",
+        "max",
+        "memory.sample_direction",
+        "mixed_variable_neighbourhood",
+        "np.clip",
+        "success_distribution_memory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._select_distinct"
+      ],
+      "doc": "",
+      "end_line": 263,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(operator, index, population, personal_best, rng, dimension, variables, best, mean, memory, hpem, feasible_archive, boundary_archive, parameters, regime, context, memory_level, group, group_intelligence, learned_lane)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "_propose_candidate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "DISCOVERY_MEMORY_PRIOR.copy",
+          "target": "DISCOVERY_MEMORY_PRIOR.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "blend_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CandidateBatch",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_propose_candidate",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "individual_regime",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "normalise_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.memory_probabilities",
+          "target": "credit.memory_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.operator_probabilities",
+          "target": "credit.operator_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.choose",
+          "target": "group_intelligence.choose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.mask",
+          "target": "group_intelligence.mask"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.hierarchy",
+          "target": "hpem.hierarchy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.mean_direction",
+          "target": "memory.mean_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argmax",
+          "target": "np.argmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty_like",
+          "target": "np.empty_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.mean",
+          "target": "population.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision.propose",
+          "target": "precision.propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.choice",
+          "target": "rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        }
+      ],
+      "call_forms": {
+        "CandidateBatch": "name",
+        "DISCOVERY_MEMORY_PRIOR.copy": "attribute",
+        "_propose_candidate": "name",
+        "blend_probabilities": "name",
+        "bool": "name",
+        "copy": "attribute",
+        "credit.memory_probabilities": "attribute",
+        "credit.operator_probabilities": "attribute",
+        "group_intelligence.choose": "attribute",
+        "group_intelligence.mask": "attribute",
+        "hpem.hierarchy": "attribute",
+        "individual_regime": "name",
+        "int": "name",
+        "len": "name",
+        "memory.mean_direction": "attribute",
+        "normalise_probabilities": "name",
+        "np.argmax": "attribute",
+        "np.asarray": "attribute",
+        "np.empty_like": "attribute",
+        "np.full": "attribute",
+        "np.ones": "attribute",
+        "np.zeros": "attribute",
+        "population.mean": "attribute",
+        "precision.propose": "attribute",
+        "range": "name",
+        "rng.choice": "attribute",
+        "rng.random": "attribute",
+        "round": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.step"
+      ],
+      "calls": [
+        "CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR.copy",
+        "_propose_candidate",
+        "blend_probabilities",
+        "bool",
+        "copy",
+        "credit.memory_probabilities",
+        "credit.operator_probabilities",
+        "group_intelligence.choose",
+        "group_intelligence.mask",
+        "hpem.hierarchy",
+        "individual_regime",
+        "int",
+        "len",
+        "memory.mean_direction",
+        "normalise_probabilities",
+        "np.argmax",
+        "np.asarray",
+        "np.empty_like",
+        "np.full",
+        "np.ones",
+        "np.zeros",
+        "population.mean",
+        "precision.propose",
+        "range",
+        "rng.choice",
+        "rng.random",
+        "round"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.normalise_probabilities"
+      ],
+      "doc": "Assign and execute one frozen CALO candidate batch.",
+      "end_line": 456,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.generate_offspring",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, evaluations, personal_best, rng, dimension, variables, quality_order, contexts, learned_lanes, global_regime, raw_operator, native_policy, ai_operator_probabilities, adaptive, memory, hpem, feasible_archive, boundary_archive, credit, group_intelligence, precision, precision_active, precision_fraction, forced_recovery, consensus, environment_deterministic, use_mixed_variable, use_diversity_recovery, use_contextual_credit, use_variable_intelligence, ai_policy_weight, ai_credit_blend, out)",
+      "start_line": 266,
+      "state_owner": "",
+      "symbol": "generate_offspring",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "boundary_archive.update",
+          "target": "boundary_archive.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diversity",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diagnostics",
+          "target": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "environmental_select",
+          "target": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "epsilon_better",
+          "target": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_reward",
+          "target": "calo_rpd_studio.algorithms.calo.reward.calculate_reward"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TransitionResult",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "child.copy",
+          "target": "child.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.batch_update",
+          "target": "credit.batch_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "feasible_archive.update",
+          "target": "feasible_archive.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.batch_update",
+          "target": "group_intelligence.batch_update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.update",
+          "target": "hpem.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.add",
+          "target": "memory.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isposinf",
+          "target": "np.isposinf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "personal_best.copy",
+          "target": "personal_best.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision.update",
+          "target": "precision.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "TransitionResult": "name",
+        "abs": "name",
+        "better": "name",
+        "boundary_archive.update": "attribute",
+        "calculate_reward": "name",
+        "child.copy": "attribute",
+        "credit.batch_update": "attribute",
+        "enumerate": "name",
+        "environmental_select": "name",
+        "epsilon_better": "name",
+        "feasible_archive.update": "attribute",
+        "float": "name",
+        "group_intelligence.batch_update": "attribute",
+        "hpem.update": "attribute",
+        "int": "name",
+        "list": "name",
+        "max": "name",
+        "memory.add": "attribute",
+        "np.asarray": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.isfinite": "attribute",
+        "np.isposinf": "attribute",
+        "np.linalg.norm": "attribute",
+        "np.vstack": "attribute",
+        "np.zeros": "attribute",
+        "personal_best.copy": "attribute",
+        "population_diagnostics": "name",
+        "population_diversity": "name",
+        "precision.update": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.step",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.complete_tsh_transition"
+      ],
+      "calls": [
+        "TransitionResult",
+        "abs",
+        "better",
+        "boundary_archive.update",
+        "calculate_reward",
+        "child.copy",
+        "credit.batch_update",
+        "enumerate",
+        "environmental_select",
+        "epsilon_better",
+        "feasible_archive.update",
+        "float",
+        "group_intelligence.batch_update",
+        "hpem.update",
+        "int",
+        "list",
+        "max",
+        "memory.add",
+        "np.asarray",
+        "np.count_nonzero",
+        "np.isfinite",
+        "np.isposinf",
+        "np.linalg.norm",
+        "np.vstack",
+        "np.zeros",
+        "personal_best.copy",
+        "population_diagnostics",
+        "population_diversity",
+        "precision.update",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult",
+        "calo_rpd_studio.orpd.feasibility_rules.better"
+      ],
+      "doc": "Apply the frozen learning, selection, archive, diagnostic, and reward transition.",
+      "end_line": 614,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "PopulationDiagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.PopulationDiagnostics",
+        "RewardComponents": "calo_rpd_studio.algorithms.calo.reward.RewardComponents",
+        "Sequence": "typing.Sequence",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calculate_reward": "calo_rpd_studio.algorithms.calo.reward.calculate_reward",
+        "cognitive_teacher_learning": "calo_rpd_studio.algorithms.calo.learning_operators.cognitive_teacher_learning",
+        "constraint_boundary_differential": "calo_rpd_studio.algorithms.calo.learning_operators.constraint_boundary_differential",
+        "dataclass": "dataclasses.dataclass",
+        "diversity_recovery": "calo_rpd_studio.algorithms.calo.learning_operators.diversity_recovery",
+        "environmental_select": "calo_rpd_studio.algorithms.calo.environmental_selection.environmental_select",
+        "epsilon_better": "calo_rpd_studio.algorithms.calo.environmental_selection.epsilon_better",
+        "feasible_elite_learning": "calo_rpd_studio.algorithms.calo.learning_operators.feasible_elite_learning",
+        "mixed_variable_neighbourhood": "calo_rpd_studio.algorithms.calo.learning_operators.mixed_variable_neighbourhood",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "population_diversity": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "success_distribution_memory": "calo_rpd_studio.algorithms.calo.learning_operators.success_distribution_memory"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".cognitive_state",
+        ".diagnostics",
+        ".environmental_selection",
+        ".learning_operators",
+        ".operator_credit",
+        ".reward",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "dataclasses",
+        "numpy",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, evaluations, personal_best, personal_best_evaluations, offspring, offspring_evaluations, epsilon, assigned_operators, assigned_memory, assigned_groups, individual_regimes, contexts, precision_mask, memory, credit, group_intelligence, precision, feasible_archive, boundary_archive, hpem, old_diagnostics, old_diversity, diversity_weight, population_size, use_memory, use_contextual_credit, use_variable_intelligence, use_dual_archives, use_hpem, precision_memory_operator)",
+      "start_line": 459,
+      "state_owner": "",
+      "symbol": "complete_transition",
+      "tests": []
+    }
+  ]
+}

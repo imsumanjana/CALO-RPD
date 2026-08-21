@@ -1,0 +1,250 @@
+{
+  "path": "calo_rpd_studio/power_system/voltage_stability.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/voltage_stability.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.voltage_stability",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.voltage_stability",
+      "qualname": "calo_rpd_studio.power_system.voltage_stability.LIndexResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "LIndexResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "LIndexResult",
+          "target": "calo_rpd_studio.power_system.voltage_stability.LIndexResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_ybus",
+          "target": "calo_rpd_studio.power_system.ybus.build_ybus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ix_",
+          "target": "np.ix_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.solve",
+          "target": "np.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.max",
+          "target": "np.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ybus.toarray",
+          "target": "ybus.toarray"
+        }
+      ],
+      "call_forms": {
+        "LIndexResult": "name",
+        "ValueError": "name",
+        "astype": "attribute",
+        "build_ybus": "name",
+        "float": "name",
+        "int": "name",
+        "np.abs": "attribute",
+        "np.array_equal": "attribute",
+        "np.asarray": "attribute",
+        "np.full": "attribute",
+        "np.ix_": "attribute",
+        "np.linalg.solve": "attribute",
+        "np.max": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute",
+        "ybus.toarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.objectives.calculate_objective",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+        "tests.unit.test_power_flow.test_ybus_and_power_flow",
+        "tests.unit.test_v660_remaining_audit.test_c06_lindex_rejects_partition_dimension_mismatch"
+      ],
+      "calls": [
+        "LIndexResult",
+        "ValueError",
+        "astype",
+        "build_ybus",
+        "float",
+        "int",
+        "np.abs",
+        "np.array_equal",
+        "np.asarray",
+        "np.full",
+        "np.ix_",
+        "np.linalg.solve",
+        "np.max",
+        "np.where",
+        "np.zeros",
+        "ybus.toarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.voltage_stability.LIndexResult",
+        "calo_rpd_studio.power_system.ybus.build_ybus"
+      ],
+      "doc": "Evaluate L-index without letting dynamic PV/PQ switching redefine the partition.",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/voltage_stability.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.voltage_stability",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.voltage_stability",
+      "qualname": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, voltage, partition_case)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "kessel_glavitsch_l_index",
+      "tests": [
+        "tests/unit/test_power_flow.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    }
+  ]
+}

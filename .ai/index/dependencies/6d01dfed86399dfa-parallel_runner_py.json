@@ -1,0 +1,105 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/device_binding.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_runner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/seed_manager.py"
+    }
+  ],
+  "path": "calo_rpd_studio/experiments/parallel_runner.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.parallel_runner._worker",
+      "to": "calo_rpd_studio.experiments.experiment_runner.run_single"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "ProcessPoolExecutor"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "as_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "calo_rpd_studio.experiments.seed_manager.SeedManager"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "config.algorithms.index"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "done.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "done.sort"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "ex.submit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "f.result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "failed.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "failed.sort"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "generate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "max"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+      "to": "range"
+    }
+  ]
+}

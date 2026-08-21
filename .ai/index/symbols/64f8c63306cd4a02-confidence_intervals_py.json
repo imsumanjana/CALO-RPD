@@ -1,0 +1,102 @@
+{
+  "path": "calo_rpd_studio/statistics/confidence_intervals.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ravel",
+          "target": "ravel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stats.sem",
+          "target": "stats.sem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stats.t.ppf",
+          "target": "stats.t.ppf"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.mean": "attribute",
+        "ravel": "attribute",
+        "stats.sem": "attribute",
+        "stats.t.ppf": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v57_previous_audit_closure.test_generic_stats_guards_handle_empty_and_nonfinite_inputs"
+      ],
+      "calls": [
+        "float",
+        "np.asarray",
+        "np.isfinite",
+        "np.mean",
+        "ravel",
+        "stats.sem",
+        "stats.t.ppf"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/statistics/confidence_intervals.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "np": "numpy",
+        "stats": "scipy.stats"
+      },
+      "important_invariants": [],
+      "imports": [
+        "numpy",
+        "scipy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.statistics.confidence_intervals",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.statistics.confidence_intervals",
+      "qualname": "calo_rpd_studio.statistics.confidence_intervals.mean_confidence_interval",
+      "semantic_tags": [],
+      "signature": "(values, confidence)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "mean_confidence_interval",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    }
+  ]
+}

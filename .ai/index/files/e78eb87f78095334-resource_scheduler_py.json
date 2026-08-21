@@ -1,0 +1,69 @@
+{
+  "file": {
+    "architectural_boundary": "compute admission and device scheduling",
+    "authoritative_source": "compute discovery and soft admission scheduling",
+    "content_hash": "git-sha1:192f79f635ec5fdfd39f7db7d69f428ccfcad5a4",
+    "content_sha256": "639a95f4f4fe8cf8513b770a700328510b38ad9d5403a7452cade1e141666c69",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "annotations": "__future__.annotations",
+      "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+      "dataclass": "dataclasses.dataclass",
+      "largest_remainder_counts": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+      "logging": "logging",
+      "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+      "os": "os",
+      "psutil": "psutil",
+      "shutil": "shutil",
+      "subprocess": "subprocess",
+      "threading": "threading",
+      "time": "time",
+      "torch": "torch"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "calo_rpd_studio.accelerated.throughput_engine",
+      "calo_rpd_studio.compute.memory_budget",
+      "dataclasses",
+      "logging",
+      "os",
+      "psutil",
+      "shutil",
+      "subprocess",
+      "threading",
+      "time",
+      "torch"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/resource_scheduler.py",
+    "preferred_edit_target": true,
+    "public_surface": true,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission",
+      "resource-scheduler"
+    ],
+    "size_bytes": 30595,
+    "state_owner": "",
+    "symbol_count": 39
+  },
+  "path": "calo_rpd_studio/compute/resource_scheduler.py",
+  "schema_version": 2
+}

@@ -1,0 +1,731 @@
+{
+  "path": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Draw crisp spin arrows and consistently bounded checkbox indicators.",
+      "end_line": 212,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPainter": "PyQt6.QtGui.QPainter",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "QPen": "PyQt6.QtGui.QPen",
+        "QPointF": "PyQt6.QtCore.QPointF",
+        "QPolygonF": "PyQt6.QtGui.QPolygonF",
+        "QProxyStyle": "PyQt6.QtWidgets.QProxyStyle",
+        "QRectF": "PyQt6.QtCore.QRectF",
+        "QStyle": "PyQt6.QtWidgets.QStyle",
+        "QStyleOption": "PyQt6.QtWidgets.QStyleOption",
+        "QStyleOptionComplex": "PyQt6.QtWidgets.QStyleOptionComplex",
+        "QStyleOptionSpinBox": "PyQt6.QtWidgets.QStyleOptionSpinBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "ModernSpinBoxStyle",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._draw_checkbox_indicator",
+          "target": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_checkbox_indicator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "drawPrimitive",
+          "target": "drawPrimitive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "drawPrimitive": "attribute",
+        "self._draw_checkbox_indicator": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "drawPrimitive",
+        "self._draw_checkbox_indicator",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_checkbox_indicator"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPainter": "PyQt6.QtGui.QPainter",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "QPen": "PyQt6.QtGui.QPen",
+        "QPointF": "PyQt6.QtCore.QPointF",
+        "QPolygonF": "PyQt6.QtGui.QPolygonF",
+        "QProxyStyle": "PyQt6.QtWidgets.QProxyStyle",
+        "QRectF": "PyQt6.QtCore.QRectF",
+        "QStyle": "PyQt6.QtWidgets.QStyle",
+        "QStyleOption": "PyQt6.QtWidgets.QStyleOption",
+        "QStyleOptionComplex": "PyQt6.QtWidgets.QStyleOptionComplex",
+        "QStyleOptionSpinBox": "PyQt6.QtWidgets.QStyleOptionSpinBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle.drawPrimitive",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, element, option, painter, widget)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "drawPrimitive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_rect.isEmpty",
+          "target": "button_rect.isEmpty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_rect.isValid",
+          "target": "button_rect.isValid"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._draw_arrowhead",
+          "target": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_arrowhead"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "drawComplexControl",
+          "target": "drawComplexControl"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._BUTTONS.items",
+          "target": "self._BUTTONS.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.subControlRect",
+          "target": "self.subControlRect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "button_rect.isEmpty": "attribute",
+        "button_rect.isValid": "attribute",
+        "drawComplexControl": "attribute",
+        "isinstance": "name",
+        "self._BUTTONS.items": "attribute",
+        "self._draw_arrowhead": "attribute",
+        "self.subControlRect": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "button_rect.isEmpty",
+        "button_rect.isValid",
+        "drawComplexControl",
+        "isinstance",
+        "self._BUTTONS.items",
+        "self._draw_arrowhead",
+        "self.subControlRect",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_arrowhead"
+      ],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPainter": "PyQt6.QtGui.QPainter",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "QPen": "PyQt6.QtGui.QPen",
+        "QPointF": "PyQt6.QtCore.QPointF",
+        "QPolygonF": "PyQt6.QtGui.QPolygonF",
+        "QProxyStyle": "PyQt6.QtWidgets.QProxyStyle",
+        "QRectF": "PyQt6.QtCore.QRectF",
+        "QStyle": "PyQt6.QtWidgets.QStyle",
+        "QStyleOption": "PyQt6.QtWidgets.QStyleOption",
+        "QStyleOptionComplex": "PyQt6.QtWidgets.QStyleOptionComplex",
+        "QStyleOptionSpinBox": "PyQt6.QtWidgets.QStyleOptionSpinBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle.drawComplexControl",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, control, option, painter, widget)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "drawComplexControl",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QColor",
+          "target": "QColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPen",
+          "target": "QPen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPointF",
+          "target": "QPointF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPolygonF",
+          "target": "QPolygonF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QRectF",
+          "target": "QRectF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "adjusted",
+          "target": "adjusted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "border_color.setAlpha",
+          "target": "border_color.setAlpha"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.center",
+          "target": "box.center"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.height",
+          "target": "box.height"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.left",
+          "target": "box.left"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.right",
+          "target": "box.right"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.top",
+          "target": "box.top"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.width",
+          "target": "box.width"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.drawLine",
+          "target": "painter.drawLine"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.drawPolyline",
+          "target": "painter.drawPolyline"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.drawRoundedRect",
+          "target": "painter.drawRoundedRect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.restore",
+          "target": "painter.restore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.save",
+          "target": "painter.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setBrush",
+          "target": "painter.setBrush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setPen",
+          "target": "painter.setPen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setRenderHint",
+          "target": "painter.setRenderHint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "palette.color",
+          "target": "palette.color"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "y",
+          "target": "y"
+        }
+      ],
+      "call_forms": {
+        "QColor": "name",
+        "QPen": "name",
+        "QPointF": "name",
+        "QPolygonF": "name",
+        "QRectF": "name",
+        "adjusted": "attribute",
+        "bool": "name",
+        "border_color.setAlpha": "attribute",
+        "box.center": "attribute",
+        "box.height": "attribute",
+        "box.left": "attribute",
+        "box.right": "attribute",
+        "box.top": "attribute",
+        "box.width": "attribute",
+        "painter.drawLine": "attribute",
+        "painter.drawPolyline": "attribute",
+        "painter.drawRoundedRect": "attribute",
+        "painter.restore": "attribute",
+        "painter.save": "attribute",
+        "painter.setBrush": "attribute",
+        "painter.setPen": "attribute",
+        "painter.setRenderHint": "attribute",
+        "palette.color": "attribute",
+        "y": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle.drawPrimitive"
+      ],
+      "calls": [
+        "QColor",
+        "QPen",
+        "QPointF",
+        "QPolygonF",
+        "QRectF",
+        "adjusted",
+        "bool",
+        "border_color.setAlpha",
+        "box.center",
+        "box.height",
+        "box.left",
+        "box.right",
+        "box.top",
+        "box.width",
+        "painter.drawLine",
+        "painter.drawPolyline",
+        "painter.drawRoundedRect",
+        "painter.restore",
+        "painter.save",
+        "painter.setBrush",
+        "painter.setPen",
+        "painter.setRenderHint",
+        "palette.color",
+        "y"
+      ],
+      "calls_resolved": [],
+      "doc": "Paint a visible box and state mark with colors from the active palette.",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPainter": "PyQt6.QtGui.QPainter",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "QPen": "PyQt6.QtGui.QPen",
+        "QPointF": "PyQt6.QtCore.QPointF",
+        "QPolygonF": "PyQt6.QtGui.QPolygonF",
+        "QProxyStyle": "PyQt6.QtWidgets.QProxyStyle",
+        "QRectF": "PyQt6.QtCore.QRectF",
+        "QStyle": "PyQt6.QtWidgets.QStyle",
+        "QStyleOption": "PyQt6.QtWidgets.QStyleOption",
+        "QStyleOptionComplex": "PyQt6.QtWidgets.QStyleOptionComplex",
+        "QStyleOptionSpinBox": "PyQt6.QtWidgets.QStyleOptionSpinBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_checkbox_indicator",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(painter, option)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "_draw_checkbox_indicator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QPen",
+          "target": "QPen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPointF",
+          "target": "QPointF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPolygonF",
+          "target": "QPolygonF"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_rect.center",
+          "target": "button_rect.center"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_rect.height",
+          "target": "button_rect.height"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_rect.width",
+          "target": "button_rect.width"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "center.x",
+          "target": "center.x"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "center.y",
+          "target": "center.y"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "option.palette.color",
+          "target": "option.palette.color"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.drawPolyline",
+          "target": "painter.drawPolyline"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.restore",
+          "target": "painter.restore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.save",
+          "target": "painter.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setBrush",
+          "target": "painter.setBrush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setPen",
+          "target": "painter.setPen"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "painter.setRenderHint",
+          "target": "painter.setRenderHint"
+        }
+      ],
+      "call_forms": {
+        "QPen": "name",
+        "QPointF": "name",
+        "QPolygonF": "name",
+        "bool": "name",
+        "button_rect.center": "attribute",
+        "button_rect.height": "attribute",
+        "button_rect.width": "attribute",
+        "center.x": "attribute",
+        "center.y": "attribute",
+        "max": "name",
+        "min": "name",
+        "option.palette.color": "attribute",
+        "painter.drawPolyline": "attribute",
+        "painter.restore": "attribute",
+        "painter.save": "attribute",
+        "painter.setBrush": "attribute",
+        "painter.setPen": "attribute",
+        "painter.setRenderHint": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle.drawComplexControl"
+      ],
+      "calls": [
+        "QPen",
+        "QPointF",
+        "QPolygonF",
+        "bool",
+        "button_rect.center",
+        "button_rect.height",
+        "button_rect.width",
+        "center.x",
+        "center.y",
+        "max",
+        "min",
+        "option.palette.color",
+        "painter.drawPolyline",
+        "painter.restore",
+        "painter.save",
+        "painter.setBrush",
+        "painter.setPen",
+        "painter.setRenderHint"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 212,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/modern_spin_style.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPainter": "PyQt6.QtGui.QPainter",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "QPen": "PyQt6.QtGui.QPen",
+        "QPointF": "PyQt6.QtCore.QPointF",
+        "QPolygonF": "PyQt6.QtGui.QPolygonF",
+        "QProxyStyle": "PyQt6.QtWidgets.QProxyStyle",
+        "QRectF": "PyQt6.QtCore.QRectF",
+        "QStyle": "PyQt6.QtWidgets.QStyle",
+        "QStyleOption": "PyQt6.QtWidgets.QStyleOption",
+        "QStyleOptionComplex": "PyQt6.QtWidgets.QStyleOptionComplex",
+        "QStyleOptionSpinBox": "PyQt6.QtWidgets.QStyleOptionSpinBox",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.modern_spin_style",
+      "qualname": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle._draw_arrowhead",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(painter, option, button_rect, direction, enabled, interactive)",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "_draw_arrowhead",
+      "tests": []
+    }
+  ]
+}

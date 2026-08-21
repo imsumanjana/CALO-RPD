@@ -1,0 +1,171 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/workspace_page.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Base widget for workspaces that do not need a page-level scroll area.",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/workspace_page.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".page_header",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.workspace_page",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.workspace_page",
+      "qualname": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "WorkspacePage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PageHeader",
+          "target": "calo_rpd_studio.gui.widgets.page_header.PageHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.setContentsMargins",
+          "target": "self.layout_root.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.setSpacing",
+          "target": "self.layout_root.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "PageHeader": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.layout_root.setContentsMargins": "attribute",
+        "self.layout_root.setSpacing": "attribute",
+        "self.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PageHeader",
+        "QVBoxLayout",
+        "__init__",
+        "self.layout_root.addWidget",
+        "self.layout_root.setContentsMargins",
+        "self.layout_root.setSpacing",
+        "self.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.page_header.PageHeader"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/workspace_page.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PageHeader": "calo_rpd_studio.gui.widgets.page_header.PageHeader",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".page_header",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.workspace_page",
+      "qualname": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title, subtitle, parent, margins, spacing)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    }
+  ]
+}

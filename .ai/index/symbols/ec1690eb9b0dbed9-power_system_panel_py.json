@@ -1,0 +1,1305 @@
+{
+  "path": "calo_rpd_studio/gui/panels/power_system_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._organize_study_setup"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "PowerSystemPanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGroupBox",
+          "target": "QGroupBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTabWidget",
+          "target": "QTabWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.restore_case_state",
+          "target": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.restore_case_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.available_cases",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addStretch",
+          "target": "row.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.addWidget",
+          "target": "row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.addItems",
+          "target": "self.case_combo.addItems"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.setMinimumWidth",
+          "target": "self.case_combo.setMinimumWidth"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cross_check_button.clicked.connect",
+          "target": "self.cross_check_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cross_check_button.setEnabled",
+          "target": "self.cross_check_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.load_button.clicked.connect",
+          "target": "self.load_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.load_button.setObjectName",
+          "target": "self.load_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.power_flow_button.clicked.connect",
+          "target": "self.power_flow_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.power_flow_button.setEnabled",
+          "target": "self.power_flow_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setObjectName",
+          "target": "self.result.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setWordWrap",
+          "target": "self.result.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.case_changed.connect",
+          "target": "self.state.case_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.config_changed.connect",
+          "target": "self.state.config_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setObjectName",
+          "target": "self.summary.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setWordWrap",
+          "target": "self.summary.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tabs.addTab",
+          "target": "self.tabs.addTab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setSectionResizeMode",
+          "target": "setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setStretchLastSection",
+          "target": "setStretchLastSection"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setVisible",
+          "target": "setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.horizontalHeader",
+          "target": "table.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setAlternatingRowColors",
+          "target": "table.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setSortingEnabled",
+          "target": "table.setSortingEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.verticalHeader",
+          "target": "table.verticalHeader"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.available_cases": "attribute",
+        "QComboBox": "name",
+        "QGroupBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QTabWidget": "name",
+        "QTableWidget": "name",
+        "__init__": "attribute",
+        "row.addStretch": "attribute",
+        "row.addWidget": "attribute",
+        "self.case_combo.addItems": "attribute",
+        "self.case_combo.setMinimumWidth": "attribute",
+        "self.cross_check_button.clicked.connect": "attribute",
+        "self.cross_check_button.setEnabled": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.load_button.clicked.connect": "attribute",
+        "self.load_button.setObjectName": "attribute",
+        "self.power_flow_button.clicked.connect": "attribute",
+        "self.power_flow_button.setEnabled": "attribute",
+        "self.restore_case_state": "attribute",
+        "self.result.setObjectName": "attribute",
+        "self.result.setWordWrap": "attribute",
+        "self.state.case_changed.connect": "attribute",
+        "self.state.config_changed.connect": "attribute",
+        "self.summary.setObjectName": "attribute",
+        "self.summary.setWordWrap": "attribute",
+        "self.tabs.addTab": "attribute",
+        "setSectionResizeMode": "attribute",
+        "setStretchLastSection": "attribute",
+        "setVisible": "attribute",
+        "super": "name",
+        "table.horizontalHeader": "attribute",
+        "table.setAlternatingRowColors": "attribute",
+        "table.setSortingEnabled": "attribute",
+        "table.verticalHeader": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.available_cases",
+        "QComboBox",
+        "QGroupBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QTabWidget",
+        "QTableWidget",
+        "__init__",
+        "row.addStretch",
+        "row.addWidget",
+        "self.case_combo.addItems",
+        "self.case_combo.setMinimumWidth",
+        "self.cross_check_button.clicked.connect",
+        "self.cross_check_button.setEnabled",
+        "self.layout_root.addWidget",
+        "self.load_button.clicked.connect",
+        "self.load_button.setObjectName",
+        "self.power_flow_button.clicked.connect",
+        "self.power_flow_button.setEnabled",
+        "self.restore_case_state",
+        "self.result.setObjectName",
+        "self.result.setWordWrap",
+        "self.state.case_changed.connect",
+        "self.state.config_changed.connect",
+        "self.summary.setObjectName",
+        "self.summary.setWordWrap",
+        "self.tabs.addTab",
+        "setSectionResizeMode",
+        "setStretchLastSection",
+        "setVisible",
+        "super",
+        "table.horizontalHeader",
+        "table.setAlternatingRowColors",
+        "table.setSortingEnabled",
+        "table.verticalHeader"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.restore_case_state",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases"
+      ],
+      "doc": "",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._fill",
+          "target": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel._fill"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_case",
+          "target": "calo_rpd_studio.power_system.network_metrics.summarize_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.findText",
+          "target": "self.case_combo.findText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.setCurrentIndex",
+          "target": "self.case_combo.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cross_check_button.setEnabled",
+          "target": "self.cross_check_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.power_flow_button.setEnabled",
+          "target": "self.power_flow_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setText",
+          "target": "self.result.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setText",
+          "target": "self.summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self._fill": "attribute",
+        "self.case_combo.findText": "attribute",
+        "self.case_combo.setCurrentIndex": "attribute",
+        "self.cross_check_button.setEnabled": "attribute",
+        "self.power_flow_button.setEnabled": "attribute",
+        "self.result.setText": "attribute",
+        "self.summary.setText": "attribute",
+        "str": "name",
+        "summarize_case": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.__init__"
+      ],
+      "calls": [
+        "self._fill",
+        "self.case_combo.findText",
+        "self.case_combo.setCurrentIndex",
+        "self.cross_check_button.setEnabled",
+        "self.power_flow_button.setEnabled",
+        "self.result.setText",
+        "self.summary.setText",
+        "str",
+        "summarize_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel._fill",
+        "calo_rpd_studio.power_system.network_metrics.summarize_case"
+      ],
+      "doc": "",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.restore_case_state",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, case, power_flow)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "restore_case_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.findText",
+          "target": "self.case_combo.findText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.setCurrentIndex",
+          "target": "self.case_combo.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.case_combo.findText": "attribute",
+        "self.case_combo.setCurrentIndex": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.case_combo.findText",
+        "self.case_combo.setCurrentIndex",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_from_config",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, config)",
+      "start_line": 115,
+      "state_owner": "",
+      "symbol": "load_from_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setColumnCount",
+          "target": "table.setColumnCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setHorizontalHeaderLabels",
+          "target": "table.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setItem",
+          "target": "table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "table.setRowCount",
+          "target": "table.setRowCount"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "range": "name",
+        "table.setColumnCount": "attribute",
+        "table.setHorizontalHeaderLabels": "attribute",
+        "table.setItem": "attribute",
+        "table.setRowCount": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_case",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.restore_case_state"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "range",
+        "table.setColumnCount",
+        "table.setHorizontalHeaderLabels",
+        "table.setItem",
+        "table.setRowCount"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel._fill",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, table, array, prefix)",
+      "start_line": 120,
+      "state_owner": "",
+      "symbol": "_fill",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._fill",
+          "target": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel._fill"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_case",
+          "target": "calo_rpd_studio.power_system.case_validation.validate_case"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_case",
+          "target": "calo_rpd_studio.power_system.network_metrics.summarize_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case_combo.currentText",
+          "target": "self.case_combo.currentText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cross_check_button.setEnabled",
+          "target": "self.cross_check_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.power_flow_button.setEnabled",
+          "target": "self.power_flow_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setText",
+          "target": "self.result.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.set_case",
+          "target": "self.state.set_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.update_config",
+          "target": "self.state.update_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setText",
+          "target": "self.summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "QApplication.processEvents": "attribute",
+        "QMessageBox.information": "attribute",
+        "ValueError": "name",
+        "join": "attribute",
+        "self._fill": "attribute",
+        "self.case_combo.currentText": "attribute",
+        "self.cross_check_button.setEnabled": "attribute",
+        "self.power_flow_button.setEnabled": "attribute",
+        "self.result.setText": "attribute",
+        "self.state.set_case": "attribute",
+        "self.state.update_config": "attribute",
+        "self.summary.setText": "attribute",
+        "show_error": "name",
+        "summarize_case": "name",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute",
+        "validate_case": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "QApplication.processEvents",
+        "QMessageBox.information",
+        "ValueError",
+        "join",
+        "self._fill",
+        "self.case_combo.currentText",
+        "self.cross_check_button.setEnabled",
+        "self.power_flow_button.setEnabled",
+        "self.result.setText",
+        "self.state.set_case",
+        "self.state.update_config",
+        "self.summary.setText",
+        "show_error",
+        "summarize_case",
+        "task.begin",
+        "task.fail",
+        "task.finish",
+        "validate_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel._fill",
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+        "calo_rpd_studio.power_system.case_validation.validate_case",
+        "calo_rpd_studio.power_system.network_metrics.summarize_case"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_case",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "load_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cross_check_button.setEnabled",
+          "target": "self.cross_check_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setText",
+          "target": "self.result.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "QApplication.processEvents": "attribute",
+        "QMessageBox.information": "attribute",
+        "join": "attribute",
+        "run_ac_power_flow": "name",
+        "self.cross_check_button.setEnabled": "attribute",
+        "self.result.setText": "attribute",
+        "show_error": "name",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication.processEvents",
+        "QMessageBox.information",
+        "join",
+        "run_ac_power_flow",
+        "self.cross_check_button.setEnabled",
+        "self.result.setText",
+        "show_error",
+        "task.begin",
+        "task.fail",
+        "task.finish"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 206,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.run_pf",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 168,
+      "state_owner": "",
+      "symbol": "run_pf",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.processEvents",
+          "target": "QApplication.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "show_warning",
+          "target": "calo_rpd_studio.gui.user_feedback.show_warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_against_pypower",
+          "target": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result.setText",
+          "target": "self.result.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.stage_completed.emit",
+          "target": "self.stage_completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.fail",
+          "target": "task.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.finish",
+          "target": "task.finish"
+        }
+      ],
+      "call_forms": {
+        "QApplication.processEvents": "attribute",
+        "QMessageBox.information": "attribute",
+        "self.result.setText": "attribute",
+        "self.stage_completed.emit": "attribute",
+        "show_warning": "name",
+        "task.begin": "attribute",
+        "task.fail": "attribute",
+        "task.finish": "attribute",
+        "validate_against_pypower": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QApplication.processEvents",
+        "QMessageBox.information",
+        "self.result.setText",
+        "self.stage_completed.emit",
+        "show_warning",
+        "task.begin",
+        "task.fail",
+        "task.finish",
+        "validate_against_pypower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_warning",
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "doc": "",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/power_system_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error",
+        "show_warning": "calo_rpd_studio.gui.user_feedback.show_warning",
+        "summarize_case": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.power_system.network_metrics"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.power_system_panel",
+      "qualname": "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.cross_validate",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 208,
+      "state_owner": "",
+      "symbol": "cross_validate",
+      "tests": []
+    }
+  ]
+}

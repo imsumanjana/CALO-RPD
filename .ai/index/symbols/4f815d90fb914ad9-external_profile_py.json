@@ -1,0 +1,1370 @@
+{
+  "path": "calo_rpd_studio/orpd/external_profile.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.REVIEWED_ORPD_PROFILE_SCHEMA",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "REVIEWED_ORPD_PROFILE_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile._HEX64",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_HEX64",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile._PROFILE_KEYS",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_PROFILE_KEYS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile._SHUNT_KEYS",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "_SHUNT_KEYS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.__post_init__",
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.validate",
+        "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "The independent ORPD formulation declaration was rejected.",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "ReviewedORPDProfileError",
+      "tests": [
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Human-reviewed controls bound to one exact imported physical case.",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "ReviewedORPDProfile",
+      "tests": [
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfileError",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "object.__setattr__",
+          "target": "object.__setattr__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "ReviewedORPDProfileError": "name",
+        "any": "name",
+        "int": "name",
+        "object.__setattr__": "attribute",
+        "self.validate": "attribute",
+        "tuple": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ReviewedORPDProfileError",
+        "any",
+        "int",
+        "object.__setattr__",
+        "self.validate",
+        "tuple",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.validate",
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError"
+      ],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_HEX64.fullmatch",
+          "target": "_HEX64.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfileError",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control.validate",
+          "target": "control.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.fromisoformat",
+          "target": "datetime.fromisoformat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen_shunts.add",
+          "target": "seen_shunts.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.reviewed_at_utc.endswith",
+          "target": "self.reviewed_at_utc.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.reviewed_at_utc.replace",
+          "target": "self.reviewed_at_utc.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "string_fields.items",
+          "target": "string_fields.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.strip",
+          "target": "value.strip"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ReviewedORPDProfileError": "name",
+        "_HEX64.fullmatch": "attribute",
+        "any": "name",
+        "control.validate": "attribute",
+        "datetime.fromisoformat": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "seen_shunts.add": "attribute",
+        "self.reviewed_at_utc.endswith": "attribute",
+        "self.reviewed_at_utc.replace": "attribute",
+        "set": "name",
+        "string_fields.items": "attribute",
+        "type": "name",
+        "value.strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.__post_init__"
+      ],
+      "calls": [
+        "ORPDVariableConfig",
+        "ReviewedORPDProfileError",
+        "_HEX64.fullmatch",
+        "any",
+        "control.validate",
+        "datetime.fromisoformat",
+        "isinstance",
+        "len",
+        "seen_shunts.add",
+        "self.reviewed_at_utc.endswith",
+        "self.reviewed_at_utc.replace",
+        "set",
+        "string_fields.items",
+        "type",
+        "value.strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+      ],
+      "doc": "",
+      "end_line": 172,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.checksum"
+      ],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 175,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.payload",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 174,
+      "state_owner": "",
+      "symbol": "payload",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.payload",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute",
+        "self.payload": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps",
+        "self.payload"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.payload"
+      ],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.checksum",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 177,
+      "state_owner": "",
+      "symbol": "checksum",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_HEX64.fullmatch",
+          "target": "_HEX64.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfile",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfileError",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShuntControlDefinition",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.decode",
+          "target": "raw.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_bytes",
+          "target": "read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shunts.append",
+          "target": "shunts.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ReviewedORPDProfile": "name",
+        "ReviewedORPDProfileError": "name",
+        "ShuntControlDefinition": "name",
+        "_HEX64.fullmatch": "attribute",
+        "any": "name",
+        "data.get": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "raw.decode": "attribute",
+        "read_bytes": "attribute",
+        "set": "name",
+        "shunts.append": "attribute",
+        "tuple": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_json_requires_exact_asset_hash_and_schema"
+      ],
+      "calls": [
+        "Path",
+        "ReviewedORPDProfile",
+        "ReviewedORPDProfileError",
+        "ShuntControlDefinition",
+        "_HEX64.fullmatch",
+        "any",
+        "data.get",
+        "hashlib.sha256",
+        "hexdigest",
+        "isinstance",
+        "json.loads",
+        "raw.decode",
+        "read_bytes",
+        "set",
+        "shunts.append",
+        "tuple",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile",
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+      ],
+      "doc": "Load a strict JSON profile only after verifying the exact serialized bytes.",
+      "end_line": 255,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(path, expected_sha256)",
+      "start_line": 184,
+      "state_owner": "",
+      "symbol": "load_reviewed_orpd_profile",
+      "tests": [
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReviewedORPDProfileError",
+          "target": "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile.checksum",
+          "target": "profile.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "profile.validate",
+          "target": "profile.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance.get",
+          "target": "provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ReviewedORPDProfileError": "name",
+        "bool": "name",
+        "case.bus_index_map": "attribute",
+        "case.checksum": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "isinstance": "name",
+        "profile.checksum": "attribute",
+        "profile.validate": "attribute",
+        "provenance.get": "attribute",
+        "set": "name"
+      },
+      "called_by": [
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_preserves_protected_case_boundary"
+      ],
+      "calls": [
+        "ORPDVariableConfig",
+        "ReviewedORPDProfileError",
+        "bool",
+        "case.bus_index_map",
+        "case.checksum",
+        "float",
+        "getattr",
+        "int",
+        "isinstance",
+        "profile.checksum",
+        "profile.validate",
+        "provenance.get",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfileError",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+      ],
+      "doc": "Cross the explicit AC-case-to-ORPD boundary after exact provenance checks.",
+      "end_line": 326,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/external_profile.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "PGLIB_IMPORT_SCHEMA": "calo_rpd_studio.power_system.pglib_import.PGLIB_IMPORT_SCHEMA",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "Path": "pathlib.Path",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "re": "re",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".variable_decoder",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pglib_import",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.external_profile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.external_profile",
+      "qualname": "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, profile, allow_protected_test)",
+      "start_line": 258,
+      "state_owner": "",
+      "symbol": "variable_config_from_reviewed_profile",
+      "tests": [
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    }
+  ]
+}

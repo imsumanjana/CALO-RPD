@@ -1,0 +1,932 @@
+{
+  "path": "tests/unit/test_v343_export_completion.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerResult",
+          "target": "calo_rpd_studio.algorithms.result.OptimizerResult"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "OptimizerResult": "name",
+        "SimpleNamespace": "name",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v343_export_completion._database",
+        "tests.unit.test_v343_export_completion.test_standard_publication_export_reports_bundle_progress_and_reaches_100"
+      ],
+      "calls": [
+        "OptimizerResult",
+        "SimpleNamespace",
+        "np.asarray"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.result.OptimizerResult"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion._completed",
+      "semantic_tags": [],
+      "signature": "(run_index)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_run",
+          "target": "database.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.save_arrays",
+          "target": "store.save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_completed",
+          "target": "tests.unit.test_v343_export_completion._completed"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PortfolioConfig": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "_completed": "name",
+        "config.validate": "attribute",
+        "database.add_run": "attribute",
+        "database.create_experiment": "attribute",
+        "store.save_arrays": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v343_export_completion.test_median_convergence_does_not_warn_for_all_nan_leading_grid_columns",
+        "tests.unit.test_v343_export_completion.test_portfolio_bundle_can_pause_during_final_artifact_and_resume",
+        "tests.unit.test_v343_export_completion.test_portfolio_bundle_is_scoped_and_reports_progress_to_100"
+      ],
+      "calls": [
+        "ExperimentConfig",
+        "PortfolioConfig",
+        "ResultDatabase",
+        "ResultStore",
+        "_completed",
+        "config.validate",
+        "database.add_run",
+        "database.create_experiment",
+        "store.save_arrays",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "tests.unit.test_v343_export_completion._completed"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion._database",
+      "semantic_tags": [],
+      "signature": "(tmp_path, requested_outputs)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "_database",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.is_file",
+          "target": "archive.is_file"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_database",
+          "target": "tests.unit.test_v343_export_completion._database"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unrelated.parent.mkdir",
+          "target": "unrelated.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unrelated.write_bytes",
+          "target": "unrelated.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zf.namelist",
+          "target": "zf.namelist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zipfile.ZipFile",
+          "target": "zipfile.ZipFile"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_database": "name",
+        "any": "name",
+        "archive.is_file": "attribute",
+        "export": "attribute",
+        "set": "name",
+        "startswith": "attribute",
+        "str": "name",
+        "unrelated.parent.mkdir": "attribute",
+        "unrelated.write_bytes": "attribute",
+        "zf.namelist": "attribute",
+        "zipfile.ZipFile": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_database",
+        "any",
+        "archive.is_file",
+        "export",
+        "set",
+        "startswith",
+        "str",
+        "unrelated.parent.mkdir",
+        "unrelated.write_bytes",
+        "zf.namelist",
+        "zipfile.ZipFile"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v343_export_completion._database"
+      ],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion.test_portfolio_bundle_is_scoped_and_reports_progress_to_100",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_portfolio_bundle_is_scoped_and_reports_progress_to_100",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exists",
+          "target": "exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.get",
+          "target": "manifest.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_database",
+          "target": "tests.unit.test_v343_export_completion._database"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_database": "name",
+        "exists": "attribute",
+        "export": "attribute",
+        "get": "attribute",
+        "json.loads": "attribute",
+        "manifest.get": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_database",
+        "exists",
+        "export",
+        "get",
+        "json.loads",
+        "manifest.get",
+        "read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v343_export_completion._database"
+      ],
+      "doc": "",
+      "end_line": 150,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion.test_portfolio_bundle_can_pause_during_final_artifact_and_resume",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "test_portfolio_bundle_can_pause_during_final_artifact_and_resume",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "startswith",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 130,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion.test_portfolio_bundle_can_pause_during_final_artifact_and_resume",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion.test_portfolio_bundle_can_pause_during_final_artifact_and_resume.on_progress",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "on_progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_median_convergence",
+          "target": "_median_convergence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_database",
+          "target": "tests.unit.test_v343_export_completion._database"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.catch_warnings",
+          "target": "warnings.catch_warnings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.simplefilter",
+          "target": "warnings.simplefilter"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "_database": "name",
+        "_median_convergence": "attribute",
+        "any": "name",
+        "database.list_runs": "attribute",
+        "str": "name",
+        "warnings.catch_warnings": "attribute",
+        "warnings.simplefilter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "_database",
+        "_median_convergence",
+        "any",
+        "database.list_runs",
+        "str",
+        "warnings.catch_warnings",
+        "warnings.simplefilter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "tests.unit.test_v343_export_completion._database"
+      ],
+      "doc": "",
+      "end_line": 161,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion.test_median_convergence_does_not_warn_for_all_nan_leading_grid_columns",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "test_median_convergence_does_not_warn_for_all_nan_leading_grid_columns",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PublicationExporter",
+          "target": "calo_rpd_studio.results.publication_export.PublicationExporter"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultStore",
+          "target": "calo_rpd_studio.results.result_store.ResultStore"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_run",
+          "target": "database.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.connect",
+          "target": "database.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save_arrays",
+          "target": "save_arrays"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_completed",
+          "target": "tests.unit.test_v343_export_completion._completed"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PublicationExporter": "name",
+        "ResultDatabase": "name",
+        "ResultStore": "name",
+        "_completed": "name",
+        "any": "name",
+        "con.execute": "attribute",
+        "database.add_run": "attribute",
+        "database.connect": "attribute",
+        "database.create_experiment": "attribute",
+        "export": "attribute",
+        "int": "name",
+        "is_file": "attribute",
+        "save_arrays": "attribute",
+        "sorted": "name",
+        "startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "PublicationExporter",
+        "ResultDatabase",
+        "ResultStore",
+        "_completed",
+        "any",
+        "con.execute",
+        "database.add_run",
+        "database.connect",
+        "database.create_experiment",
+        "export",
+        "int",
+        "is_file",
+        "save_arrays",
+        "sorted",
+        "startswith",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "calo_rpd_studio.results.result_store.ResultStore",
+        "tests.unit.test_v343_export_completion._completed"
+      ],
+      "doc": "",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "tests/unit/test_v343_export_completion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EvidenceProfile": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "OptimizerResult": "calo_rpd_studio.algorithms.result.OptimizerResult",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PortfolioKind": "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "ResultStore": "calo_rpd_studio.results.result_store.ResultStore",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "StorageProfile": "calo_rpd_studio.portfolio.models.StorageProfile",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "np": "numpy",
+        "warnings": "warnings",
+        "zipfile": "zipfile"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.result",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.results.result_store",
+        "json",
+        "numpy",
+        "types",
+        "warnings",
+        "zipfile"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v343_export_completion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v343_export_completion",
+      "qualname": "tests.unit.test_v343_export_completion.test_standard_publication_export_reports_bundle_progress_and_reaches_100",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 164,
+      "state_owner": "",
+      "symbol": "test_standard_publication_export_reports_bundle_progress_and_reaches_100",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,454 @@
+{
+  "path": "calo_rpd_studio/scripts/manage_policy_retirement.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager": "name",
+        "ResultDatabase": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "PolicyRetirementManager",
+        "ResultDatabase"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/manage_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "load_json_document": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "write_authorization_template": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "write_inventory": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "write_plan": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.results.database",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "qualname": "calo_rpd_studio.scripts.manage_policy_retirement._manager",
+      "semantic_tags": [],
+      "signature": "(arguments, read_only)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_manager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path.cwd",
+          "target": "Path.cwd"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        }
+      ],
+      "call_forms": {
+        "Path.cwd": "attribute",
+        "parser.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement._build_parser"
+      ],
+      "calls": [
+        "Path.cwd",
+        "parser.add_argument"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/manage_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "load_json_document": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "write_authorization_template": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "write_inventory": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "write_plan": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.results.database",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "qualname": "calo_rpd_studio.scripts.manage_policy_retirement._add_common",
+      "semantic_tags": [],
+      "signature": "(parser)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "_add_common",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authorization.add_argument",
+          "target": "authorization.add_argument"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_add_common",
+          "target": "calo_rpd_studio.scripts.manage_policy_retirement._add_common"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "commands.add_parser",
+          "target": "commands.add_parser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "execute.add_argument",
+          "target": "execute.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.add_argument",
+          "target": "inventory.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_subparsers",
+          "target": "parser.add_subparsers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.add_argument",
+          "target": "plan.add_argument"
+        }
+      ],
+      "call_forms": {
+        "_add_common": "name",
+        "argparse.ArgumentParser": "attribute",
+        "authorization.add_argument": "attribute",
+        "commands.add_parser": "attribute",
+        "execute.add_argument": "attribute",
+        "inventory.add_argument": "attribute",
+        "parser.add_subparsers": "attribute",
+        "plan.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "_add_common",
+        "argparse.ArgumentParser",
+        "authorization.add_argument",
+        "commands.add_parser",
+        "execute.add_argument",
+        "inventory.add_argument",
+        "parser.add_subparsers",
+        "plan.add_argument"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.manage_policy_retirement._add_common"
+      ],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/manage_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "load_json_document": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "write_authorization_template": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "write_inventory": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "write_plan": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.results.database",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "qualname": "calo_rpd_studio.scripts.manage_policy_retirement._build_parser",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_build_parser",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_json_document",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_authorization_template",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_plan",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_parser",
+          "target": "calo_rpd_studio.scripts.manage_policy_retirement._build_parser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manager",
+          "target": "calo_rpd_studio.scripts.manage_policy_retirement._manager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.dry_run",
+          "target": "manager.dry_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.execute",
+          "target": "manager.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parse_args",
+          "target": "parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values",
+          "target": "values"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_build_parser": "name",
+        "_manager": "name",
+        "any": "name",
+        "items": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "load_json_document": "name",
+        "manager.dry_run": "attribute",
+        "manager.execute": "attribute",
+        "manager.inventory": "attribute",
+        "parse_args": "attribute",
+        "print": "name",
+        "sorted": "name",
+        "values": "attribute",
+        "write_authorization_template": "name",
+        "write_inventory": "name",
+        "write_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "_build_parser",
+        "_manager",
+        "any",
+        "items",
+        "json.dumps",
+        "len",
+        "load_json_document",
+        "manager.dry_run",
+        "manager.execute",
+        "manager.inventory",
+        "parse_args",
+        "print",
+        "sorted",
+        "values",
+        "write_authorization_template",
+        "write_inventory",
+        "write_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan",
+        "calo_rpd_studio.scripts.manage_policy_retirement._build_parser",
+        "calo_rpd_studio.scripts.manage_policy_retirement._manager"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/manage_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "load_json_document": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "write_authorization_template": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "write_inventory": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "write_plan": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.results.database",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.manage_policy_retirement",
+      "qualname": "calo_rpd_studio.scripts.manage_policy_retirement.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,465 @@
+{
+  "path": "tests/unit/test_calo_numerical_robustness.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SuccessMemory",
+          "target": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.add",
+          "target": "memory.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.sample_direction",
+          "target": "memory.sample_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.success_rates",
+          "target": "memory.success_rates"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.catch_warnings",
+          "target": "warnings.catch_warnings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.simplefilter",
+          "target": "warnings.simplefilter"
+        }
+      ],
+      "call_forms": {
+        "SuccessMemory": "name",
+        "len": "name",
+        "memory.add": "attribute",
+        "memory.sample_direction": "attribute",
+        "memory.success_rates": "attribute",
+        "np.all": "attribute",
+        "np.array": "attribute",
+        "np.full": "attribute",
+        "np.isfinite": "attribute",
+        "np.ones": "attribute",
+        "np.random.default_rng": "attribute",
+        "range": "name",
+        "warnings.catch_warnings": "attribute",
+        "warnings.simplefilter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SuccessMemory",
+        "len",
+        "memory.add",
+        "memory.sample_direction",
+        "memory.success_rates",
+        "np.all",
+        "np.array",
+        "np.full",
+        "np.isfinite",
+        "np.ones",
+        "np.random.default_rng",
+        "range",
+        "warnings.catch_warnings",
+        "warnings.simplefilter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_numerical_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OperatorCredit": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "np": "numpy",
+        "warnings": "warnings"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.operator_credit",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "numpy",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_numerical_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_numerical_robustness",
+      "qualname": "tests.unit.test_calo_numerical_robustness.test_success_memory_sampling_survives_nonfinite_and_extreme_rewards",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "test_success_memory_sampling_survives_nonfinite_and_extreme_rewards",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SuccessMemory",
+          "target": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.add",
+          "target": "memory.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.direction",
+          "target": "memory.direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.sample_direction",
+          "target": "memory.sample_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "SuccessMemory": "name",
+        "memory.add": "attribute",
+        "memory.direction": "attribute",
+        "memory.sample_direction": "attribute",
+        "np.array_equal": "attribute",
+        "np.ones": "attribute",
+        "np.random.default_rng": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SuccessMemory",
+        "memory.add",
+        "memory.direction",
+        "memory.sample_direction",
+        "np.array_equal",
+        "np.ones",
+        "np.random.default_rng",
+        "np.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_numerical_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OperatorCredit": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "np": "numpy",
+        "warnings": "warnings"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.operator_credit",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "numpy",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_numerical_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_numerical_robustness",
+      "qualname": "tests.unit.test_calo_numerical_robustness.test_success_memory_returns_zero_for_incompatible_dimension",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "test_success_memory_returns_zero_for_incompatible_dimension",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OperatorCredit",
+          "target": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.probabilities",
+          "target": "credit.probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.update",
+          "target": "credit.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isclose",
+          "target": "np.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probabilities.sum",
+          "target": "probabilities.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.catch_warnings",
+          "target": "warnings.catch_warnings"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.simplefilter",
+          "target": "warnings.simplefilter"
+        }
+      ],
+      "call_forms": {
+        "OperatorCredit": "name",
+        "credit.probabilities": "attribute",
+        "credit.update": "attribute",
+        "np.all": "attribute",
+        "np.isclose": "attribute",
+        "np.isfinite": "attribute",
+        "probabilities.sum": "attribute",
+        "warnings.catch_warnings": "attribute",
+        "warnings.simplefilter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OperatorCredit",
+        "credit.probabilities",
+        "credit.update",
+        "np.all",
+        "np.isclose",
+        "np.isfinite",
+        "probabilities.sum",
+        "warnings.catch_warnings",
+        "warnings.simplefilter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_numerical_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OperatorCredit": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "np": "numpy",
+        "warnings": "warnings"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.operator_credit",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "numpy",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_numerical_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_numerical_robustness",
+      "qualname": "tests.unit.test_calo_numerical_robustness.test_operator_credit_cannot_be_poisoned_by_nonfinite_rewards",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "test_operator_credit_cannot_be_poisoned_by_nonfinite_rewards",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "blend_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isclose",
+          "target": "np.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probabilities.sum",
+          "target": "probabilities.sum"
+        }
+      ],
+      "call_forms": {
+        "blend_probabilities": "name",
+        "np.all": "attribute",
+        "np.array": "attribute",
+        "np.isclose": "attribute",
+        "np.isfinite": "attribute",
+        "probabilities.sum": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "blend_probabilities",
+        "np.all",
+        "np.array",
+        "np.isclose",
+        "np.isfinite",
+        "probabilities.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_calo_numerical_robustness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "OperatorCredit": "calo_rpd_studio.algorithms.calo.operator_credit.OperatorCredit",
+        "SuccessMemory": "calo_rpd_studio.algorithms.calo.success_memory.SuccessMemory",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "np": "numpy",
+        "warnings": "warnings"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.algorithms.calo.operator_credit",
+        "calo_rpd_studio.algorithms.calo.success_memory",
+        "numpy",
+        "warnings"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_calo_numerical_robustness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_calo_numerical_robustness",
+      "qualname": "tests.unit.test_calo_numerical_robustness.test_probability_blend_sanitises_nonfinite_inputs",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_probability_blend_sanitises_nonfinite_inputs",
+      "tests": []
+    }
+  ]
+}

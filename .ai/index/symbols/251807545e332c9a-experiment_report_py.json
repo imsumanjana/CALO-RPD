@@ -1,0 +1,107 @@
+{
+  "path": "calo_rpd_studio/reports/experiment_report.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "b.add_section",
+          "target": "b.add_section"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ReportBuilder",
+          "target": "calo_rpd_studio.reports.report_builder.ReportBuilder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_experiment",
+          "target": "database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_failures",
+          "target": "database.list_failures"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_runs",
+          "target": "database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "ReportBuilder": "name",
+        "b.add_section": "attribute",
+        "database.get_experiment": "attribute",
+        "database.list_failures": "attribute",
+        "database.list_runs": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ReportBuilder",
+        "b.add_section",
+        "database.get_experiment",
+        "database.list_failures",
+        "database.list_runs",
+        "json.dumps",
+        "len",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.reports.report_builder.ReportBuilder"
+      ],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/reports/experiment_report.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ReportBuilder": "calo_rpd_studio.reports.report_builder.ReportBuilder",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".report_builder",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.reports.experiment_report",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.reports.experiment_report",
+      "qualname": "calo_rpd_studio.reports.experiment_report.build_experiment_report",
+      "semantic_tags": [],
+      "signature": "(database, experiment_id)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "build_experiment_report",
+      "tests": []
+    }
+  ]
+}

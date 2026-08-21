@@ -1,0 +1,613 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness._LOG",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness._record_status",
+        "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+        "tests.integration.test_phase4_empty_policy_workflow.test_empty_policy_state_forces_rule_only_calo_and_disables_tsh_policy_use",
+        "tests.integration.test_phase4_empty_policy_workflow.test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state",
+        "tests.unit.test_phase6_command_and_native_contracts.test_policy_display_language_hides_internal_lifecycle_reason"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "GoverningPolicyStatus",
+      "tests": [
+        "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/unit/test_phase6_command_and_native_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus.to_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "messages.get",
+          "target": "messages.get"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "messages.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh_policy",
+        "calo_rpd_studio.gui.widgets.global_status_bar.GlobalStatusBarWidget.apply_context",
+        "tests.unit.test_phase6_command_and_native_contracts.test_policy_display_language_hides_internal_lifecycle_reason"
+      ],
+      "calls": [
+        "getattr",
+        "messages.get"
+      ],
+      "calls_resolved": [],
+      "doc": "Describe policy availability without exposing engineering lifecycle terminology.",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(status)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "governing_policy_user_message",
+      "tests": [
+        "tests/unit/test_phase6_command_and_native_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "record.compatible_with",
+          "target": "record.compatible_with"
+        }
+      ],
+      "call_forms": {
+        "record.compatible_with": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel.refresh_policy_library"
+      ],
+      "calls": [
+        "record.compatible_with"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a concise scientific availability label for a policy-library row.",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.policy_record_user_status",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(record)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "policy_record_user_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GoverningPolicyStatus",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+        }
+      ],
+      "call_forms": {
+        "GoverningPolicyStatus": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy"
+      ],
+      "calls": [
+        "GoverningPolicyStatus"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+      ],
+      "doc": "Build a fully labelled status without relying on positional record-field ordering.",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness._record_status",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(record, ready, state, reason)",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "_record_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "active.compatible_with",
+          "target": "active.compatible_with"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "active.sha256.lower",
+          "target": "active.sha256.lower"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GoverningPolicyStatus",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_record_status",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness._record_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspected.get",
+          "target": "inspected.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.bind_to_experiment_config",
+          "target": "registry.bind_to_experiment_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.inspect_checkpoint",
+          "target": "registry.inspect_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.list",
+          "target": "registry.list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "GoverningPolicyStatus": "name",
+        "SimpleNamespace": "name",
+        "_LOG.warning": "attribute",
+        "_record_status": "name",
+        "active.compatible_with": "attribute",
+        "active.sha256.lower": "attribute",
+        "inspected.get": "attribute",
+        "lower": "attribute",
+        "next": "name",
+        "registry.bind_to_experiment_config": "attribute",
+        "registry.inspect_checkpoint": "attribute",
+        "registry.list": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.governing_policy_status",
+        "tests.integration.test_phase4_empty_policy_workflow.test_incompatible_active_policy_readiness_fails_closed_without_exception",
+        "tests.unit.test_v600_alpha_architecture.test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified"
+      ],
+      "calls": [
+        "GoverningPolicyStatus",
+        "SimpleNamespace",
+        "_LOG.warning",
+        "_record_status",
+        "active.compatible_with",
+        "active.sha256.lower",
+        "inspected.get",
+        "lower",
+        "next",
+        "registry.bind_to_experiment_config",
+        "registry.inspect_checkpoint",
+        "registry.list",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.GoverningPolicyStatus",
+        "calo_rpd_studio.algorithms.calo.policy_readiness._record_status"
+      ],
+      "doc": "Return the one active policy only when every governing-intelligence gate passes.",
+      "end_line": 199,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_readiness.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "logging",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_readiness.evaluate_governing_policy",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(registry)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "evaluate_governing_policy",
+      "tests": [
+        "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/unit/test_v600_alpha_architecture.py"
+      ]
+    }
+  ]
+}

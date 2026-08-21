@@ -1,0 +1,1396 @@
+{
+  "path": "calo_rpd_studio/compute/execution_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.EXECUTION_CONTRACT_SCHEMA",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "EXECUTION_CONTRACT_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.CURRENT_EXECUTION_MODES",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "CURRENT_EXECUTION_MODES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.ExecutionPurpose",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "ExecutionPurpose",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.FallbackPolicy",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "FallbackPolicy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "The requested execution contract cannot be resolved truthfully.",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.ExecutionResolutionError",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "ExecutionResolutionError",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A formal CUDA-only run has no admissible concrete CUDA device.",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.FormalCudaRequired",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "FormalCudaRequired",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.physical_device_identity"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A CUDA device lacks the UUID/PCI identity required for a physical lease.",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.PhysicalDeviceIdentityUnavailable",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "PhysicalDeviceIdentityUnavailable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.sub",
+          "target": "re.sub"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "removeprefix",
+          "target": "removeprefix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.removeprefix",
+          "target": "text.removeprefix"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "re.sub": "attribute",
+        "removeprefix": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "text.removeprefix": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.physical_device_identity"
+      ],
+      "calls": [
+        "lower",
+        "re.sub",
+        "removeprefix",
+        "str",
+        "strip",
+        "text.removeprefix"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract._normalise_pci_bus_id",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(value)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "_normalise_pci_bus_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.node",
+          "target": "platform.node"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "os.environ.get": "attribute",
+        "platform.node": "attribute",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [
+        "os.environ.get",
+        "platform.node",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the operator-controlled physical-host scope used by device leases.",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.host_scope",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "host_scope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "os.environ.get": "attribute",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [
+        "os.environ.get",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a descriptive container/process scope without splitting a physical GPU lease.",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.container_scope",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "container_scope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicalDeviceIdentityUnavailable",
+          "target": "calo_rpd_studio.compute.execution_contract.PhysicalDeviceIdentityUnavailable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalise_pci_bus_id",
+          "target": "calo_rpd_studio.compute.execution_contract._normalise_pci_bus_id"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "PhysicalDeviceIdentityUnavailable": "name",
+        "_normalise_pci_bus_id": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [
+        "PhysicalDeviceIdentityUnavailable",
+        "_normalise_pci_bus_id",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.execution_contract.PhysicalDeviceIdentityUnavailable",
+        "calo_rpd_studio.compute.execution_contract._normalise_pci_bus_id"
+      ],
+      "doc": "Return the stable lease identity and its authority for one CUDA snapshot.",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.physical_device_identity",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(device)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "physical_device_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Immutable requested-versus-resolved device and fallback record.",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.RuntimeExecutionResolution",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "RuntimeExecutionResolution",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract.RuntimeExecutionResolution",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.RuntimeExecutionResolution.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "next": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "calls": [
+        "next",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract._device_for_request",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(snapshot, requested)",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "_device_for_request",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExecutionResolutionError",
+          "target": "calo_rpd_studio.compute.execution_contract.ExecutionResolutionError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "FormalCudaRequired",
+          "target": "calo_rpd_studio.compute.execution_contract.FormalCudaRequired"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RuntimeExecutionResolution",
+          "target": "calo_rpd_studio.compute.execution_contract.RuntimeExecutionResolution"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device_for_request",
+          "target": "calo_rpd_studio.compute.execution_contract._device_for_request"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "container_scope",
+          "target": "calo_rpd_studio.compute.execution_contract.container_scope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "host_scope",
+          "target": "calo_rpd_studio.compute.execution_contract.host_scope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "physical_device_identity",
+          "target": "calo_rpd_studio.compute.execution_contract.physical_device_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceMonitor",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runtime.startswith",
+          "target": "runtime.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sample",
+          "target": "sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ExecutionResolutionError": "name",
+        "FormalCudaRequired": "name",
+        "ResourceMonitor": "name",
+        "RuntimeExecutionResolution": "name",
+        "_device_for_request": "name",
+        "any": "name",
+        "bool": "name",
+        "container_scope": "name",
+        "getattr": "name",
+        "host_scope": "name",
+        "lower": "attribute",
+        "physical_device_identity": "name",
+        "re.fullmatch": "attribute",
+        "runtime.startswith": "attribute",
+        "sample": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "tests.unit.test_v120_phase2_contracts.test_cpu_only_resolves_to_concrete_cpu_without_fallback",
+        "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+        "tests.unit.test_v120_phase2_contracts.test_formal_cuda_unavailable_fails_closed",
+        "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible",
+        "tests.unit.test_v120_phase2_contracts.test_pci_identity_is_controlled_fallback_when_uuid_absent",
+        "tests.unit.test_v120_phase2_contracts.test_xpu_is_never_executable"
+      ],
+      "calls": [
+        "ExecutionResolutionError",
+        "FormalCudaRequired",
+        "ResourceMonitor",
+        "RuntimeExecutionResolution",
+        "_device_for_request",
+        "any",
+        "bool",
+        "container_scope",
+        "getattr",
+        "host_scope",
+        "lower",
+        "physical_device_identity",
+        "re.fullmatch",
+        "runtime.startswith",
+        "sample",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.execution_contract.ExecutionResolutionError",
+        "calo_rpd_studio.compute.execution_contract.FormalCudaRequired",
+        "calo_rpd_studio.compute.execution_contract.RuntimeExecutionResolution",
+        "calo_rpd_studio.compute.execution_contract._device_for_request",
+        "calo_rpd_studio.compute.execution_contract.container_scope",
+        "calo_rpd_studio.compute.execution_contract.host_scope",
+        "calo_rpd_studio.compute.execution_contract.physical_device_identity",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor"
+      ],
+      "doc": "Resolve one configuration to a concrete CPU or ``cuda:N`` contract.",
+      "end_line": 231,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, snapshot, monitor, assigned_device)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "resolve_execution",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        }
+      ],
+      "call_forms": {
+        "bool": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.device_binding._apply_resolution",
+        "tests.unit.test_v120_phase2_contracts.test_exploratory_cuda_unavailable_is_explicit_cpu_restart",
+        "tests.unit.test_v120_phase2_contracts.test_formal_cuda_uses_uuid_and_is_cuda_claim_eligible"
+      ],
+      "calls": [
+        "bool"
+      ],
+      "calls_resolved": [],
+      "doc": "Return explicit claim gates so fallback results cannot enter CUDA-only strata.",
+      "end_line": 244,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/execution_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "Enum": "enum.Enum",
+        "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "os": "os",
+        "platform": "platform",
+        "re": "re"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".resource_scheduler",
+        "__future__",
+        "dataclasses",
+        "enum",
+        "os",
+        "platform",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.execution_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.execution_contract",
+      "qualname": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(resolution)",
+      "start_line": 234,
+      "state_owner": "",
+      "symbol": "execution_claim_eligibility",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "path": "calo_rpd_studio/experiments/execution_plan.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.execution_plan.build_execution_plan",
+        "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+        "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+        "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation",
+        "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+        "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "One optimizer/variant item inside one repeated run.",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "PlannedItem",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "COMPARISON_MODE",
+      "tests": [
+        "tests/unit/test_execution_plan.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "ABLATION_MODE",
+      "tests": [
+        "tests/unit/test_execution_plan.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.execution_plan.planned_item_count",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.__init__",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_calo",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel.start_comparison",
+        "tests.unit.test_execution_plan.test_calo_ablation_plan_is_fixed_and_independent_of_primary_selection",
+        "tests.unit.test_execution_plan.test_primary_comparison_plan_uses_selected_algorithms"
+      ],
+      "calls": [
+        "ValueError",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.labels_for_mode",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, mode)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "labels_for_mode",
+      "tests": [
+        "tests/unit/test_execution_plan.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "labels_for_mode",
+          "target": "calo_rpd_studio.experiments.execution_plan.labels_for_mode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "labels_for_mode": "name",
+        "len": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._on_audit_completed",
+        "tests.unit.test_execution_plan.test_calo_ablation_plan_is_fixed_and_independent_of_primary_selection",
+        "tests.unit.test_execution_plan.test_primary_comparison_plan_uses_selected_algorithms"
+      ],
+      "calls": [
+        "int",
+        "labels_for_mode",
+        "len"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plan.labels_for_mode"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.planned_item_count",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, mode)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "planned_item_count",
+      "tests": [
+        "tests/unit/test_execution_plan.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.append",
+          "target": "plan.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "PlannedItem": "name",
+        "ValueError": "name",
+        "int": "name",
+        "plan.append": "attribute",
+        "range": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel._populate_queue_for_config",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run",
+        "tests.unit.test_execution_plan.test_calo_ablation_plan_is_fixed_and_independent_of_primary_selection",
+        "tests.unit.test_execution_plan.test_primary_comparison_plan_uses_selected_algorithms"
+      ],
+      "calls": [
+        "PlannedItem",
+        "ValueError",
+        "int",
+        "plan.append",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "Return a stable run-major execution plan.",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/execution_plan.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_SPECS": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.execution_plan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.execution_plan",
+      "qualname": "calo_rpd_studio.experiments.execution_plan.build_execution_plan",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, mode)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "build_execution_plan",
+      "tests": [
+        "tests/unit/test_execution_plan.py"
+      ]
+    }
+  ]
+}

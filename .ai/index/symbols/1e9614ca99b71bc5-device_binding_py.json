@@ -1,0 +1,772 @@
+{
+  "path": "calo_rpd_studio/compute/device_binding.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "execution_claim_eligibility",
+          "target": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolution.to_dict",
+          "target": "resolution.to_dict"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "execution_claim_eligibility": "name",
+        "os.getpid": "attribute",
+        "resolution.to_dict": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+      ],
+      "calls": [
+        "bool",
+        "execution_claim_eligibility",
+        "os.getpid",
+        "resolution.to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "execution_claim_eligibility": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+        "os": "os",
+        "resolve_execution": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.execution_contract",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "copy",
+        "os",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_binding",
+      "qualname": "calo_rpd_studio.compute.device_binding._apply_resolution",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(local, resolution)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_apply_resolution",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_apply_resolution",
+          "target": "calo_rpd_studio.compute.device_binding._apply_resolution"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_execution",
+          "target": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "bind_exact_run_checkpoint",
+          "target": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "names.update",
+          "target": "names.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_apply_resolution": "name",
+        "bind_exact_run_checkpoint": "name",
+        "deepcopy": "name",
+        "dict": "name",
+        "getattr": "name",
+        "names.update": "attribute",
+        "parameters.get": "attribute",
+        "resolve_execution": "name",
+        "set": "name",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager._config_for_item_device",
+        "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device",
+        "tests.unit.test_v120_phase2_contracts.test_direct_and_gui_scheduler_bindings_share_cpu_only_semantics",
+        "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices"
+      ],
+      "calls": [
+        "_apply_resolution",
+        "bind_exact_run_checkpoint",
+        "deepcopy",
+        "dict",
+        "getattr",
+        "names.update",
+        "parameters.get",
+        "resolve_execution",
+        "set",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding._apply_resolution",
+        "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint"
+      ],
+      "doc": "Return a deep-copied config fully bound to ``compute_device``.",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "execution_claim_eligibility": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+        "os": "os",
+        "resolve_execution": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.execution_contract",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "copy",
+        "os",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_binding",
+      "qualname": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, compute_device, item)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "bind_config_to_device",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v670_hardware_mapping.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_apply_resolution",
+          "target": "calo_rpd_studio.compute.device_binding._apply_resolution"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_execution",
+          "target": "calo_rpd_studio.compute.execution_contract.resolve_execution"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.getpid",
+          "target": "os.getpid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_apply_resolution": "name",
+        "deepcopy": "name",
+        "dict": "name",
+        "getattr": "name",
+        "int": "name",
+        "os.getpid": "attribute",
+        "parameters.get": "attribute",
+        "resolve_execution": "name",
+        "set": "name",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker.run",
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.experiments.experiment_runner.run_sequential_resilient",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "calo_rpd_studio.experiments.parallel_runner.run_parallel_resilient",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v120_phase2_contracts.test_direct_and_gui_scheduler_bindings_share_cpu_only_semantics"
+      ],
+      "calls": [
+        "_apply_resolution",
+        "deepcopy",
+        "dict",
+        "getattr",
+        "int",
+        "os.getpid",
+        "parameters.get",
+        "resolve_execution",
+        "set",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding._apply_resolution",
+        "calo_rpd_studio.compute.execution_contract.resolve_execution"
+      ],
+      "doc": "Return a copied configuration resolved before a CLI or direct runner starts.",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "execution_claim_eligibility": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+        "os": "os",
+        "resolve_execution": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.execution_contract",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "copy",
+        "os",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_binding",
+      "qualname": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, monitor)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "resolve_config_for_entrypoint",
+      "tests": [
+        "tests/unit/test_v120_phase2_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "attestation.update",
+          "target": "attestation.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item",
+          "target": "item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.split",
+          "target": "requested.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.startswith",
+          "target": "requested.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.device_count",
+          "target": "torch.cuda.device_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "abs": "name",
+        "attestation.update": "attribute",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "float": "name",
+        "int": "name",
+        "item": "attribute",
+        "requested.split": "attribute",
+        "requested.startswith": "attribute",
+        "str": "name",
+        "sum": "attribute",
+        "torch.cuda.device_count": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "torch.device": "attribute",
+        "torch.tensor": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "tests.unit.test_v670_hardware_mapping.test_cpu_runtime_attestation_is_explicit_and_truthful"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "abs",
+        "attestation.update",
+        "cpu",
+        "detach",
+        "float",
+        "int",
+        "item",
+        "requested.split",
+        "requested.startswith",
+        "str",
+        "sum",
+        "torch.cuda.device_count",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available",
+        "torch.cuda.synchronize",
+        "torch.device",
+        "torch.tensor",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "Probe the exact runtime device with a tiny tensor and return auditable identity metadata.",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "execution_claim_eligibility": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+        "os": "os",
+        "resolve_execution": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.execution_contract",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "copy",
+        "os",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_binding",
+      "qualname": "calo_rpd_studio.compute.device_binding.runtime_device_attestation",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(requested_device)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "runtime_device_attestation",
+      "tests": [
+        "tests/unit/test_v670_hardware_mapping.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "runtime_device_attestation",
+          "target": "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "execution_provenance.get",
+          "target": "execution_provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metadata.get",
+          "target": "metadata.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.execution_provenance",
+          "target": "problem.execution_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolution.get",
+          "target": "resolution.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runtime.get",
+          "target": "runtime.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "callable": "name",
+        "dict": "name",
+        "execution_provenance.get": "attribute",
+        "getattr": "name",
+        "metadata.get": "attribute",
+        "problem.execution_provenance": "attribute",
+        "resolution.get": "attribute",
+        "runtime.get": "attribute",
+        "runtime_device_attestation": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "calls": [
+        "bool",
+        "callable",
+        "dict",
+        "execution_provenance.get",
+        "getattr",
+        "metadata.get",
+        "problem.execution_provenance",
+        "resolution.get",
+        "runtime.get",
+        "runtime_device_attestation",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.runtime_device_attestation"
+      ],
+      "doc": "Build truthful planned-vs-actual device metadata for one completed optimizer run.",
+      "end_line": 209,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/device_binding.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "annotations": "__future__.annotations",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "execution_claim_eligibility": "calo_rpd_studio.compute.execution_contract.execution_claim_eligibility",
+        "os": "os",
+        "resolve_execution": "calo_rpd_studio.compute.execution_contract.resolve_execution",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.execution_contract",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "copy",
+        "os",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.device_binding",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.device_binding",
+      "qualname": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, problem, result)",
+      "start_line": 148,
+      "state_owner": "",
+      "symbol": "result_device_attestation",
+      "tests": []
+    }
+  ]
+}

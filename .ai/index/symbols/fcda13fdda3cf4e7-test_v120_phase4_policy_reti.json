@@ -1,0 +1,983 @@
+{
+  "path": "tests/unit/test_v120_phase4_policy_retirement.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement._FREEZE_COMMIT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_FREEZE_COMMIT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.write_bytes",
+          "target": "checkpoint.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.upsert_policy",
+          "target": "database.upsert_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nested.mkdir",
+          "target": "nested.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "recorded_path.write_bytes",
+          "target": "recorded_path.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_root.mkdir",
+          "target": "source_root.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.mkdir",
+          "target": "store.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager": "name",
+        "ResultDatabase": "name",
+        "SourceIdentity": "name",
+        "checkpoint.write_bytes": "attribute",
+        "database.upsert_policy": "attribute",
+        "nested.mkdir": "attribute",
+        "recorded_path.write_bytes": "attribute",
+        "source_root.mkdir": "attribute",
+        "store.mkdir": "attribute",
+        "str": "name",
+        "write_text": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_policy_retirement.test_external_artifact_is_an_unresolved_path_confinement_blocker",
+        "tests.unit.test_v120_phase4_policy_retirement.test_phase4_inventory_and_plan_are_exact_and_non_destructive",
+        "tests.unit.test_v120_phase4_policy_retirement.test_retirement_rejects_unapproved_or_tampered_documents_without_changes",
+        "tests.unit.test_v120_phase4_policy_retirement.test_separately_authorized_synthetic_retirement_is_path_confined_and_receipted"
+      ],
+      "calls": [
+        "PolicyRetirementManager",
+        "ResultDatabase",
+        "SourceIdentity",
+        "checkpoint.write_bytes",
+        "database.upsert_policy",
+        "nested.mkdir",
+        "recorded_path.write_bytes",
+        "source_root.mkdir",
+        "store.mkdir",
+        "str",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement._manager",
+      "semantic_tags": [],
+      "signature": "(tmp_path, external_artifact)",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_manager",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_text",
+          "target": "path.write_text"
+        }
+      ],
+      "call_forms": {
+        "acceptance._canonical_sha256": "attribute",
+        "json.dumps": "attribute",
+        "path.write_text": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_policy_retirement.test_retirement_rejects_unapproved_or_tampered_documents_without_changes",
+        "tests.unit.test_v120_phase4_policy_retirement.test_separately_authorized_synthetic_retirement_is_path_confined_and_receipted"
+      ],
+      "calls": [
+        "acceptance._canonical_sha256",
+        "json.dumps",
+        "path.write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.accept_development_freeze._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 82,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement._accepted",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "_accepted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "authorization.update",
+          "target": "authorization.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.authorization_template",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager.authorization_template": "attribute",
+        "authorization.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_policy_retirement.test_retirement_rejects_unapproved_or_tampered_documents_without_changes",
+        "tests.unit.test_v120_phase4_policy_retirement.test_separately_authorized_synthetic_retirement_is_path_confined_and_receipted"
+      ],
+      "calls": [
+        "PolicyRetirementManager.authorization_template",
+        "authorization.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template"
+      ],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement._authorized",
+      "semantic_tags": [],
+      "signature": "(plan, acceptance_receipt)",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "_authorized",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.authorization_template",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.policy_lifecycle_snapshot",
+          "target": "database.policy_lifecycle_snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.dry_run",
+          "target": "manager.dry_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manager",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._manager"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager.authorization_template": "attribute",
+        "_manager": "name",
+        "database.policy_lifecycle_snapshot": "attribute",
+        "is_file": "attribute",
+        "manager.dry_run": "attribute",
+        "manager.inventory": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PolicyRetirementManager.authorization_template",
+        "_manager",
+        "database.policy_lifecycle_snapshot",
+        "is_file",
+        "manager.dry_run",
+        "manager.inventory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template",
+        "tests.unit.test_v120_phase4_policy_retirement._manager"
+      ],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement.test_phase4_inventory_and_plan_are_exact_and_non_destructive",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "test_phase4_inventory_and_plan_are_exact_and_non_destructive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "authorization_path.write_text",
+          "target": "authorization_path.write_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.authorization_template",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.policy_lifecycle_snapshot",
+          "target": "database.policy_lifecycle_snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.dry_run",
+          "target": "manager.dry_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.execute",
+          "target": "manager.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_accepted",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._accepted"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_authorized",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._authorized"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manager",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._manager"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager.authorization_template": "attribute",
+        "_accepted": "name",
+        "_authorized": "name",
+        "_manager": "name",
+        "authorization_path.write_text": "attribute",
+        "database.policy_lifecycle_snapshot": "attribute",
+        "dict": "name",
+        "is_file": "attribute",
+        "json.dumps": "attribute",
+        "manager.dry_run": "attribute",
+        "manager.execute": "attribute",
+        "manager.inventory": "attribute",
+        "pytest.raises": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PolicyRetirementManager.authorization_template",
+        "_accepted",
+        "_authorized",
+        "_manager",
+        "authorization_path.write_text",
+        "database.policy_lifecycle_snapshot",
+        "dict",
+        "is_file",
+        "json.dumps",
+        "manager.dry_run",
+        "manager.execute",
+        "manager.inventory",
+        "pytest.raises",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template",
+        "tests.unit.test_v120_phase4_policy_retirement._accepted",
+        "tests.unit.test_v120_phase4_policy_retirement._authorized",
+        "tests.unit.test_v120_phase4_policy_retirement._manager"
+      ],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement.test_retirement_rejects_unapproved_or_tampered_documents_without_changes",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "test_retirement_rejects_unapproved_or_tampered_documents_without_changes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authorization_path.write_text",
+          "target": "authorization_path.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.policy_lifecycle_snapshot",
+          "target": "database.policy_lifecycle_snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exists",
+          "target": "exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.dry_run",
+          "target": "manager.dry_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.execute",
+          "target": "manager.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "receipt_path.is_file",
+          "target": "receipt_path.is_file"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_accepted",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._accepted"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_authorized",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._authorized"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manager",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._manager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values",
+          "target": "values"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_accepted": "name",
+        "_authorized": "name",
+        "_manager": "name",
+        "all": "name",
+        "any": "name",
+        "authorization_path.write_text": "attribute",
+        "database.policy_lifecycle_snapshot": "attribute",
+        "exists": "attribute",
+        "is_file": "attribute",
+        "json.dumps": "attribute",
+        "manager.dry_run": "attribute",
+        "manager.execute": "attribute",
+        "manager.inventory": "attribute",
+        "receipt_path.is_file": "attribute",
+        "values": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_accepted",
+        "_authorized",
+        "_manager",
+        "all",
+        "any",
+        "authorization_path.write_text",
+        "database.policy_lifecycle_snapshot",
+        "exists",
+        "is_file",
+        "json.dumps",
+        "manager.dry_run",
+        "manager.execute",
+        "manager.inventory",
+        "receipt_path.is_file",
+        "values"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v120_phase4_policy_retirement._accepted",
+        "tests.unit.test_v120_phase4_policy_retirement._authorized",
+        "tests.unit.test_v120_phase4_policy_retirement._manager"
+      ],
+      "doc": "",
+      "end_line": 192,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement.test_separately_authorized_synthetic_retirement_is_path_confined_and_receipted",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "test_separately_authorized_synthetic_retirement_is_path_confined_and_receipted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "manager.dry_run",
+          "target": "manager.dry_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_manager",
+          "target": "tests.unit.test_v120_phase4_policy_retirement._manager"
+        }
+      ],
+      "call_forms": {
+        "_manager": "name",
+        "manager.dry_run": "attribute",
+        "manager.inventory": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_manager",
+        "manager.dry_run",
+        "manager.inventory"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v120_phase4_policy_retirement._manager"
+      ],
+      "doc": "",
+      "end_line": 201,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement.test_external_artifact_is_an_unresolved_path_confinement_blocker",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 195,
+      "state_owner": "",
+      "symbol": "test_external_artifact_is_an_unresolved_path_confinement_blocker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database_path.exists",
+          "target": "database_path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.inventory",
+          "target": "manager.inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.mkdir",
+          "target": "store.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values",
+          "target": "values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager": "name",
+        "ResultDatabase": "name",
+        "SourceIdentity": "name",
+        "any": "name",
+        "database_path.exists": "attribute",
+        "manager.inventory": "attribute",
+        "store.mkdir": "attribute",
+        "values": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PolicyRetirementManager",
+        "ResultDatabase",
+        "SourceIdentity",
+        "any",
+        "database_path.exists",
+        "manager.inventory",
+        "store.mkdir",
+        "values",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_policy_retirement",
+      "qualname": "tests.unit.test_v120_phase4_policy_retirement.test_read_only_inventory_does_not_create_or_initialize_a_missing_database",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 204,
+      "state_owner": "",
+      "symbol": "test_read_only_inventory_does_not_create_or_initialize_a_missing_database",
+      "tests": []
+    }
+  ]
+}

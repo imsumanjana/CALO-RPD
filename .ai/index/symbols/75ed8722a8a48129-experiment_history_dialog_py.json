@@ -1,0 +1,1796 @@
+{
+  "path": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._clear_all",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_experiment",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_run",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(value)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "_format_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.manage_history",
+        "calo_rpd_studio.gui.panels.results_explorer_panel.ResultsExplorerPanel._manage_history",
+        "tests.gui.test_history_manager.test_history_manager_is_available_from_application_settings"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Manage old experiments without mixing destructive actions into the main workflow.",
+      "end_line": 306,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "ExperimentHistoryDialog",
+      "tests": [
+        "tests/gui/test_history_manager.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QDialogButtonBox",
+          "target": "QDialogButtonBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QSplitter",
+          "target": "QSplitter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidget",
+          "target": "QTableWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actions.addStretch",
+          "target": "actions.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actions.addWidget",
+          "target": "actions.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.rejected.connect",
+          "target": "buttons.rejected.connect"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_buttons",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "description.setObjectName",
+          "target": "description.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "description.setWordWrap",
+          "target": "description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_layout.addWidget",
+          "target": "experiment_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_layout.setContentsMargins",
+          "target": "experiment_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_layout.setSpacing",
+          "target": "experiment_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.addLayout",
+          "target": "root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.addWidget",
+          "target": "root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.setContentsMargins",
+          "target": "root.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.setSpacing",
+          "target": "root.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run_layout.addWidget",
+          "target": "run_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run_layout.setContentsMargins",
+          "target": "run_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run_layout.setSpacing",
+          "target": "run_layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.clear_button.clicked.connect",
+          "target": "self.clear_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.delete_experiment_button.clicked.connect",
+          "target": "self.delete_experiment_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.delete_run_button.clicked.connect",
+          "target": "self.delete_run_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.horizontalHeader",
+          "target": "self.experiments.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.itemSelectionChanged.connect",
+          "target": "self.experiments.itemSelectionChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setAlternatingRowColors",
+          "target": "self.experiments.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setHorizontalHeaderLabels",
+          "target": "self.experiments.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setSelectionBehavior",
+          "target": "self.experiments.setSelectionBehavior"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setSelectionMode",
+          "target": "self.experiments.setSelectionMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.verticalHeader",
+          "target": "self.experiments.verticalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.resize",
+          "target": "self.resize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.horizontalHeader",
+          "target": "self.runs.horizontalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.itemSelectionChanged.connect",
+          "target": "self.runs.itemSelectionChanged.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setAlternatingRowColors",
+          "target": "self.runs.setAlternatingRowColors"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setHorizontalHeaderLabels",
+          "target": "self.runs.setHorizontalHeaderLabels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setSelectionBehavior",
+          "target": "self.runs.setSelectionBehavior"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setSelectionMode",
+          "target": "self.runs.setSelectionMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.verticalHeader",
+          "target": "self.runs.verticalHeader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setMinimumSize",
+          "target": "self.setMinimumSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setWindowTitle",
+          "target": "self.setWindowTitle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.changed.connect",
+          "target": "self.state.task_status.changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setObjectName",
+          "target": "self.summary.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setWordWrap",
+          "target": "self.summary.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setSectionResizeMode",
+          "target": "setSectionResizeMode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setVisible",
+          "target": "setVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitter.addWidget",
+          "target": "splitter.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitter.setChildrenCollapsible",
+          "target": "splitter.setChildrenCollapsible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitter.setSizes",
+          "target": "splitter.setSizes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "title.setObjectName",
+          "target": "title.setObjectName"
+        }
+      ],
+      "call_forms": {
+        "QDialogButtonBox": "name",
+        "QHBoxLayout": "name",
+        "QLabel": "name",
+        "QPushButton": "name",
+        "QSplitter": "name",
+        "QTableWidget": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "__init__": "attribute",
+        "actions.addStretch": "attribute",
+        "actions.addWidget": "attribute",
+        "buttons.rejected.connect": "attribute",
+        "description.setObjectName": "attribute",
+        "description.setWordWrap": "attribute",
+        "experiment_layout.addWidget": "attribute",
+        "experiment_layout.setContentsMargins": "attribute",
+        "experiment_layout.setSpacing": "attribute",
+        "range": "name",
+        "root.addLayout": "attribute",
+        "root.addWidget": "attribute",
+        "root.setContentsMargins": "attribute",
+        "root.setSpacing": "attribute",
+        "run_layout.addWidget": "attribute",
+        "run_layout.setContentsMargins": "attribute",
+        "run_layout.setSpacing": "attribute",
+        "self._update_buttons": "attribute",
+        "self.clear_button.clicked.connect": "attribute",
+        "self.delete_experiment_button.clicked.connect": "attribute",
+        "self.delete_run_button.clicked.connect": "attribute",
+        "self.experiments.horizontalHeader": "attribute",
+        "self.experiments.itemSelectionChanged.connect": "attribute",
+        "self.experiments.setAlternatingRowColors": "attribute",
+        "self.experiments.setHorizontalHeaderLabels": "attribute",
+        "self.experiments.setSelectionBehavior": "attribute",
+        "self.experiments.setSelectionMode": "attribute",
+        "self.experiments.verticalHeader": "attribute",
+        "self.refresh": "attribute",
+        "self.resize": "attribute",
+        "self.runs.horizontalHeader": "attribute",
+        "self.runs.itemSelectionChanged.connect": "attribute",
+        "self.runs.setAlternatingRowColors": "attribute",
+        "self.runs.setHorizontalHeaderLabels": "attribute",
+        "self.runs.setSelectionBehavior": "attribute",
+        "self.runs.setSelectionMode": "attribute",
+        "self.runs.verticalHeader": "attribute",
+        "self.setMinimumSize": "attribute",
+        "self.setWindowTitle": "attribute",
+        "self.state.task_status.changed.connect": "attribute",
+        "self.summary.setObjectName": "attribute",
+        "self.summary.setWordWrap": "attribute",
+        "setSectionResizeMode": "attribute",
+        "setVisible": "attribute",
+        "splitter.addWidget": "attribute",
+        "splitter.setChildrenCollapsible": "attribute",
+        "splitter.setSizes": "attribute",
+        "super": "name",
+        "title.setObjectName": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QDialogButtonBox",
+        "QHBoxLayout",
+        "QLabel",
+        "QPushButton",
+        "QSplitter",
+        "QTableWidget",
+        "QVBoxLayout",
+        "QWidget",
+        "__init__",
+        "actions.addStretch",
+        "actions.addWidget",
+        "buttons.rejected.connect",
+        "description.setObjectName",
+        "description.setWordWrap",
+        "experiment_layout.addWidget",
+        "experiment_layout.setContentsMargins",
+        "experiment_layout.setSpacing",
+        "range",
+        "root.addLayout",
+        "root.addWidget",
+        "root.setContentsMargins",
+        "root.setSpacing",
+        "run_layout.addWidget",
+        "run_layout.setContentsMargins",
+        "run_layout.setSpacing",
+        "self._update_buttons",
+        "self.clear_button.clicked.connect",
+        "self.delete_experiment_button.clicked.connect",
+        "self.delete_run_button.clicked.connect",
+        "self.experiments.horizontalHeader",
+        "self.experiments.itemSelectionChanged.connect",
+        "self.experiments.setAlternatingRowColors",
+        "self.experiments.setHorizontalHeaderLabels",
+        "self.experiments.setSelectionBehavior",
+        "self.experiments.setSelectionMode",
+        "self.experiments.verticalHeader",
+        "self.refresh",
+        "self.resize",
+        "self.runs.horizontalHeader",
+        "self.runs.itemSelectionChanged.connect",
+        "self.runs.setAlternatingRowColors",
+        "self.runs.setHorizontalHeaderLabels",
+        "self.runs.setSelectionBehavior",
+        "self.runs.setSelectionMode",
+        "self.runs.verticalHeader",
+        "self.setMinimumSize",
+        "self.setWindowTitle",
+        "self.state.task_status.changed.connect",
+        "self.summary.setObjectName",
+        "self.summary.setWordWrap",
+        "setSectionResizeMode",
+        "setVisible",
+        "splitter.addWidget",
+        "splitter.setChildrenCollapsible",
+        "splitter.setSizes",
+        "super",
+        "title.setObjectName"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+      ],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.currentRow",
+          "target": "self.experiments.currentRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "self.experiments.currentRow": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_experiment",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._refresh_runs",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+      ],
+      "calls": [
+        "len",
+        "self.experiments.currentRow",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 139,
+      "state_owner": "",
+      "symbol": "selected_experiment_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.currentRow",
+          "target": "self.runs.currentRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "self.runs.currentRow": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_run",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons"
+      ],
+      "calls": [
+        "len",
+        "self.runs.currentRow",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_run_id",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "selected_run_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._refresh_runs",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._refresh_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_buttons",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_experiment_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_format_bytes",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.selectRow",
+          "target": "self.experiments.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setItem",
+          "target": "self.experiments.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiments.setRowCount",
+          "target": "self.experiments.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setRowCount",
+          "target": "self.runs.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.experiment_storage_summary",
+          "target": "self.state.database.experiment_storage_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.history_storage_summary",
+          "target": "self.state.database.history_storage_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiments",
+          "target": "self.state.database.list_experiments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setText",
+          "target": "self.summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "_format_bytes": "name",
+        "enumerate": "name",
+        "len": "name",
+        "self._refresh_runs": "attribute",
+        "self._update_buttons": "attribute",
+        "self.experiments.selectRow": "attribute",
+        "self.experiments.setItem": "attribute",
+        "self.experiments.setRowCount": "attribute",
+        "self.runs.setRowCount": "attribute",
+        "self.selected_experiment_id": "attribute",
+        "self.state.database.experiment_storage_summary": "attribute",
+        "self.state.database.history_storage_summary": "attribute",
+        "self.state.database.list_experiments": "attribute",
+        "self.summary.setText": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.__init__",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._clear_all",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_experiment",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_run"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "_format_bytes",
+        "enumerate",
+        "len",
+        "self._refresh_runs",
+        "self._update_buttons",
+        "self.experiments.selectRow",
+        "self.experiments.setItem",
+        "self.experiments.setRowCount",
+        "self.runs.setRowCount",
+        "self.selected_experiment_id",
+        "self.state.database.experiment_storage_summary",
+        "self.state.database.history_storage_summary",
+        "self.state.database.list_experiments",
+        "self.summary.setText",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._refresh_runs",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+      ],
+      "doc": "",
+      "end_line": 183,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, preferred_experiment_id)",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_buttons",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_experiment_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.selectRow",
+          "target": "self.runs.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setItem",
+          "target": "self.runs.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.runs.setRowCount",
+          "target": "self.runs.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_runs",
+          "target": "self.state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "data.get": "attribute",
+        "enumerate": "name",
+        "int": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "self._update_buttons": "attribute",
+        "self.runs.selectRow": "attribute",
+        "self.runs.setItem": "attribute",
+        "self.runs.setRowCount": "attribute",
+        "self.selected_experiment_id": "attribute",
+        "self.state.database.list_runs": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+      ],
+      "calls": [
+        "QTableWidgetItem",
+        "data.get",
+        "enumerate",
+        "int",
+        "json.loads",
+        "len",
+        "self._update_buttons",
+        "self.runs.selectRow",
+        "self.runs.setItem",
+        "self.runs.setRowCount",
+        "self.selected_experiment_id",
+        "self.state.database.list_runs",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id"
+      ],
+      "doc": "",
+      "end_line": 203,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._refresh_runs",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 185,
+      "state_owner": "",
+      "symbol": "_refresh_runs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_experiment_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_run_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_run_id"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.clear_button.setEnabled",
+          "target": "self.clear_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.delete_experiment_button.setEnabled",
+          "target": "self.delete_experiment_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.delete_run_button.setEnabled",
+          "target": "self.delete_run_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.setToolTip",
+          "target": "self.summary.setToolTip"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.clear_button.setEnabled": "attribute",
+        "self.delete_experiment_button.setEnabled": "attribute",
+        "self.delete_run_button.setEnabled": "attribute",
+        "self.selected_experiment_id": "attribute",
+        "self.selected_run_id": "attribute",
+        "self.summary.setToolTip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.__init__",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._refresh_runs",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+      ],
+      "calls": [
+        "bool",
+        "self.clear_button.setEnabled",
+        "self.delete_experiment_button.setEnabled",
+        "self.delete_run_button.setEnabled",
+        "self.selected_experiment_id",
+        "self.selected_run_id",
+        "self.summary.setToolTip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_run_id"
+      ],
+      "doc": "",
+      "end_line": 215,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._update_buttons",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 205,
+      "state_owner": "",
+      "symbol": "_update_buttons",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.runs_changed.emit",
+          "target": "self.state.runs_changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.state.runs_changed.emit": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._clear_all",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_experiment",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_run"
+      ],
+      "calls": [
+        "self.state.runs_changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 220,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, deleted_experiment_id)",
+      "start_line": 217,
+      "state_owner": "",
+      "symbol": "_notify_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.warning",
+          "target": "QMessageBox.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._notify_changed",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_run_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_run_id"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_format_bytes",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.delete_run",
+          "target": "self.state.database.delete_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_run",
+          "target": "self.state.database.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "QMessageBox.warning": "attribute",
+        "_format_bytes": "name",
+        "int": "name",
+        "self._notify_changed": "attribute",
+        "self.refresh": "attribute",
+        "self.selected_run_id": "attribute",
+        "self.state.database.delete_run": "attribute",
+        "self.state.database.get_run": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.information",
+        "QMessageBox.warning",
+        "_format_bytes",
+        "int",
+        "self._notify_changed",
+        "self.refresh",
+        "self.selected_run_id",
+        "self.state.database.delete_run",
+        "self.state.database.get_run",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_run_id",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+      ],
+      "doc": "",
+      "end_line": 251,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 222,
+      "state_owner": "",
+      "symbol": "_delete_selected_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.warning",
+          "target": "QMessageBox.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._notify_changed",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.selected_experiment_id",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_format_bytes",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.delete_experiment",
+          "target": "self.state.database.delete_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.experiment_storage_summary",
+          "target": "self.state.database.experiment_storage_summary"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "QMessageBox.warning": "attribute",
+        "_format_bytes": "name",
+        "self._notify_changed": "attribute",
+        "self.refresh": "attribute",
+        "self.selected_experiment_id": "attribute",
+        "self.state.database.delete_experiment": "attribute",
+        "self.state.database.experiment_storage_summary": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.information",
+        "QMessageBox.warning",
+        "_format_bytes",
+        "self._notify_changed",
+        "self.refresh",
+        "self.selected_experiment_id",
+        "self.state.database.delete_experiment",
+        "self.state.database.experiment_storage_summary"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.selected_experiment_id",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+      ],
+      "doc": "",
+      "end_line": 283,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._delete_selected_experiment",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 253,
+      "state_owner": "",
+      "symbol": "_delete_selected_experiment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QInputDialog.getText",
+          "target": "QInputDialog.getText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._notify_changed",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_format_bytes",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.clear_history",
+          "target": "self.state.database.clear_history"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.history_storage_summary",
+          "target": "self.state.database.history_storage_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.strip",
+          "target": "text.strip"
+        }
+      ],
+      "call_forms": {
+        "QInputDialog.getText": "attribute",
+        "QMessageBox.information": "attribute",
+        "_format_bytes": "name",
+        "self._notify_changed": "attribute",
+        "self.refresh": "attribute",
+        "self.state.database.clear_history": "attribute",
+        "self.state.database.history_storage_summary": "attribute",
+        "text.strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QInputDialog.getText",
+        "QMessageBox.information",
+        "_format_bytes",
+        "self._notify_changed",
+        "self.refresh",
+        "self.state.database.clear_history",
+        "self.state.database.history_storage_summary",
+        "text.strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._notify_changed",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog.refresh",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog._format_bytes"
+      ],
+      "doc": "",
+      "end_line": 306,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/dialogs/experiment_history_dialog.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QAbstractItemView": "PyQt6.QtWidgets.QAbstractItemView",
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QHeaderView": "PyQt6.QtWidgets.QHeaderView",
+        "QInputDialog": "PyQt6.QtWidgets.QInputDialog",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QSplitter": "PyQt6.QtWidgets.QSplitter",
+        "QTableWidget": "PyQt6.QtWidgets.QTableWidget",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "json": "json"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "json"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+      "qualname": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog._clear_all",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 285,
+      "state_owner": "",
+      "symbol": "_clear_all",
+      "tests": []
+    }
+  ]
+}

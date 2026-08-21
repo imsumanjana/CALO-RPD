@@ -1,0 +1,1131 @@
+{
+  "path": "calo_rpd_studio/benchmarking/suite.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkStudy",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "BenchmarkStudy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+        "tests.unit.test_v2_benchmarking.test_confirmatory_campaign_requires_protected_test_and_cannot_relabel_it"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "BenchmarkSuite",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite.study",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, key)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "study",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "roles.get",
+          "target": "roles.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "dict": "name",
+        "roles.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "dict",
+        "roles.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite.evidence_role",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, case_name)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "evidence_role",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.suite._mixed"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._deterministic",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "_deterministic",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_deterministic",
+          "target": "calo_rpd_studio.benchmarking.suite._deterministic"
+        }
+      ],
+      "call_forms": {
+        "_deterministic": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_deterministic"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.suite._deterministic"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._mixed",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "_mixed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._load_mean_risk",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "_load_mean_risk",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._load_cvar",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "_load_cvar",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clip",
+          "target": "clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "astype": "attribute",
+        "clip": "attribute",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.suite._renewable_cvar",
+        "calo_rpd_studio.benchmarking.suite._renewable_mean_risk"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "astype",
+        "clip",
+        "float",
+        "int",
+        "len",
+        "max",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 81,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._renewable",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, aggregation)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "_renewable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_renewable",
+          "target": "calo_rpd_studio.benchmarking.suite._renewable"
+        }
+      ],
+      "call_forms": {
+        "_renewable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_renewable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.suite._renewable"
+      ],
+      "doc": "",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._renewable_mean_risk",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 84,
+      "state_owner": "",
+      "symbol": "_renewable_mean_risk",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_renewable",
+          "target": "calo_rpd_studio.benchmarking.suite._renewable"
+        }
+      ],
+      "call_forms": {
+        "_renewable": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_renewable"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.suite._renewable"
+      ],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._renewable_cvar",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "_renewable_cvar",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "len": "name",
+        "list": "name",
+        "min": "name",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "len",
+        "list",
+        "min",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._branch_worst_case",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "_branch_worst_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "min": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "enumerate",
+        "int",
+        "len",
+        "max",
+        "min"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite._generator_worst_case",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "_generator_worst_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkStudy",
+          "target": "calo_rpd_studio.benchmarking.suite.BenchmarkStudy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkSuite",
+          "target": "calo_rpd_studio.benchmarking.suite.BenchmarkSuite"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkStudy": "name",
+        "BenchmarkSuite": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig.validate",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.__init__",
+        "tests.unit.test_v2_benchmarking.test_confirmatory_campaign_requires_protected_test_and_cannot_relabel_it",
+        "tests.unit.test_v2_benchmarking.test_v2_standard_suite_contains_30_57_118_and_larger_300_case"
+      ],
+      "calls": [
+        "BenchmarkStudy",
+        "BenchmarkSuite"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.suite.BenchmarkStudy",
+        "calo_rpd_studio.benchmarking.suite.BenchmarkSuite"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/suite.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Callable": "typing.Callable",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PROTECTED_HOLDOUT_BUS_COUNTS": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.power_system.case_identity",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.suite",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.suite",
+      "qualname": "calo_rpd_studio.benchmarking.suite.standard_benchmark_suite",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 110,
+      "state_owner": "",
+      "symbol": "standard_benchmark_suite",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py"
+      ]
+    }
+  ]
+}

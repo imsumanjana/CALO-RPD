@@ -1,0 +1,395 @@
+{
+  "path": "calo_rpd_studio/scripts/verify_active_version.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_active_version.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RELEASE_LINE": "calo_rpd_studio.version.RELEASE_LINE",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "sys": "sys",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "json",
+        "pathlib",
+        "sys",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_active_version",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_active_version",
+      "qualname": "calo_rpd_studio.scripts.verify_active_version.PROJECT_ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "PROJECT_ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "path.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+      ],
+      "calls": [
+        "ValueError",
+        "isinstance",
+        "json.loads",
+        "path.read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_active_version.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RELEASE_LINE": "calo_rpd_studio.version.RELEASE_LINE",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "sys": "sys",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "json",
+        "pathlib",
+        "sys",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_active_version",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_active_version",
+      "qualname": "calo_rpd_studio.scripts.verify_active_version._load_json",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_load_json",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PRODUCT_VERSION.lower",
+          "target": "PRODUCT_VERSION.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "VERSION.partition",
+          "target": "VERSION.partition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_load_json",
+          "target": "calo_rpd_studio.scripts.verify_active_version._load_json"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checks.values",
+          "target": "checks.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected.items",
+          "target": "expected.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "index.get",
+          "target": "index.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "readme.startswith",
+          "target": "readme.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tomllib.loads",
+          "target": "tomllib.loads"
+        }
+      ],
+      "call_forms": {
+        "PRODUCT_VERSION.lower": "attribute",
+        "VERSION.partition": "attribute",
+        "_load_json": "name",
+        "all": "name",
+        "checks.values": "attribute",
+        "expected.items": "attribute",
+        "index.get": "attribute",
+        "path.read_text": "attribute",
+        "read_text": "attribute",
+        "readme.startswith": "attribute",
+        "startswith": "attribute",
+        "status.get": "attribute",
+        "str": "name",
+        "tomllib.loads": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.verify_active_version.main",
+        "tests.unit.test_v120_phase1_contracts.test_active_v12_identity_and_historical_correction_records_are_consistent"
+      ],
+      "calls": [
+        "PRODUCT_VERSION.lower",
+        "VERSION.partition",
+        "_load_json",
+        "all",
+        "checks.values",
+        "expected.items",
+        "index.get",
+        "path.read_text",
+        "read_text",
+        "readme.startswith",
+        "startswith",
+        "status.get",
+        "str",
+        "tomllib.loads"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_active_version._load_json"
+      ],
+      "doc": "Return a machine-readable v12 identity report without changing repository state.",
+      "end_line": 368,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_active_version.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RELEASE_LINE": "calo_rpd_studio.version.RELEASE_LINE",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "sys": "sys",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "json",
+        "pathlib",
+        "sys",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_active_version",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_active_version",
+      "qualname": "calo_rpd_studio.scripts.verify_active_version.verify_active_version",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "verify_active_version",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_active_version",
+          "target": "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.get",
+          "target": "report.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute",
+        "print": "name",
+        "report.get": "attribute",
+        "type": "name",
+        "verify_active_version": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.dumps",
+        "print",
+        "report.get",
+        "type",
+        "verify_active_version"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_active_version.verify_active_version"
+      ],
+      "doc": "",
+      "end_line": 381,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/verify_active_version.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DISPLAY_VERSION": "calo_rpd_studio.version.DISPLAY_VERSION",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "Path": "pathlib.Path",
+        "RELEASE_LINE": "calo_rpd_studio.version.RELEASE_LINE",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "VERSION_STAGE": "calo_rpd_studio.version.VERSION_STAGE",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "sys": "sys",
+        "tomllib": "tomllib"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.version",
+        "json",
+        "pathlib",
+        "sys",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.verify_active_version",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.verify_active_version",
+      "qualname": "calo_rpd_studio.scripts.verify_active_version.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 371,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

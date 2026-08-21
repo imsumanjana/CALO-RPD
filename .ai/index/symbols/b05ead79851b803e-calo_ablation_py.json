@@ -1,0 +1,428 @@
+{
+  "path": "calo_rpd_studio/experiments/calo_ablation.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/calo_ablation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CompletedRun": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "LegacyMTLBOOptimizer": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "RunExecutionFailure": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "_optimizer_failure_state": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".experiment_runner",
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.legacy_mtlbo",
+        "calo_rpd_studio.compute.device_binding",
+        "copy",
+        "dataclasses",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.calo_ablation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.calo_ablation",
+      "qualname": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "AblationSpec",
+      "tests": [
+        "tests/unit/test_prerequisites_and_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 48,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/calo_ablation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CompletedRun": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "LegacyMTLBOOptimizer": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "RunExecutionFailure": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "_optimizer_failure_state": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".experiment_runner",
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.legacy_mtlbo",
+        "calo_rpd_studio.compute.device_binding",
+        "copy",
+        "dataclasses",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.calo_ablation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.calo_ablation",
+      "qualname": "calo_rpd_studio.experiments.calo_ablation.ABLATION_SPECS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "ABLATION_SPECS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "LegacyMTLBOOptimizer",
+          "target": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_config_for_entrypoint",
+          "target": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "result_device_attestation",
+          "target": "calo_rpd_studio.compute.device_binding.result_device_attestation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CompletedRun",
+          "target": "calo_rpd_studio.experiments.experiment_runner.CompletedRun"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RunExecutionFailure",
+          "target": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_optimizer_failure_state",
+          "target": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_single",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_single"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "local.algorithm_parameters.get",
+          "target": "local.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "optimizer.run",
+          "target": "optimizer.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "CompletedRun": "name",
+        "LegacyMTLBOOptimizer": "name",
+        "OptimizerConfig": "name",
+        "RunExecutionFailure": "name",
+        "_optimizer_failure_state": "name",
+        "build_problem": "name",
+        "deepcopy": "name",
+        "dict": "name",
+        "local.algorithm_parameters.get": "attribute",
+        "max": "name",
+        "optimizer.run": "attribute",
+        "resolve_config_for_entrypoint": "name",
+        "result_device_attestation": "name",
+        "run_single": "name",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_sequential",
+        "calo_rpd_studio.app.experiment_manager._execute_process_job",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job"
+      ],
+      "calls": [
+        "CompletedRun",
+        "LegacyMTLBOOptimizer",
+        "OptimizerConfig",
+        "RunExecutionFailure",
+        "_optimizer_failure_state",
+        "build_problem",
+        "deepcopy",
+        "dict",
+        "local.algorithm_parameters.get",
+        "max",
+        "optimizer.run",
+        "resolve_config_for_entrypoint",
+        "result_device_attestation",
+        "run_single",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+        "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/calo_ablation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CompletedRun": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "LegacyMTLBOOptimizer": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "RunExecutionFailure": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "_optimizer_failure_state": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".experiment_runner",
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.legacy_mtlbo",
+        "calo_rpd_studio.compute.device_binding",
+        "copy",
+        "dataclasses",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.calo_ablation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.calo_ablation",
+      "qualname": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config, spec, run_index, seeds, progress_callback, cancel_callback)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "run_ablation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "cancel_callback": "name",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "cancel_callback",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/calo_ablation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "CompletedRun": "calo_rpd_studio.experiments.experiment_runner.CompletedRun",
+        "LegacyMTLBOOptimizer": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "RunExecutionFailure": "calo_rpd_studio.experiments.experiment_runner.RunExecutionFailure",
+        "_optimizer_failure_state": "calo_rpd_studio.experiments.experiment_runner._optimizer_failure_state",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "resolve_config_for_entrypoint": "calo_rpd_studio.compute.device_binding.resolve_config_for_entrypoint",
+        "result_device_attestation": "calo_rpd_studio.compute.device_binding.result_device_attestation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "time": "time"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        ".experiment_runner",
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.legacy_mtlbo",
+        "calo_rpd_studio.compute.device_binding",
+        "copy",
+        "dataclasses",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.calo_ablation",
+      "qualname": "calo_rpd_studio.experiments.calo_ablation.run_ablation._cancel",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "_cancel",
+      "tests": []
+    }
+  ]
+}

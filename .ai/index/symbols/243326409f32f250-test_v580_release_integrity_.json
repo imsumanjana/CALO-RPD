@@ -1,0 +1,331 @@
+{
+  "path": "tests/unit/test_v580_release_integrity.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_path.is_file",
+          "target": "freeze_path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_path.read_text",
+          "target": "freeze_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "freeze_path.is_file": "attribute",
+        "freeze_path.read_text": "attribute",
+        "json.loads": "attribute",
+        "payload.get": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "freeze_path.is_file",
+        "freeze_path.read_text",
+        "json.loads",
+        "payload.get",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "v5.8 freeze is historical evidence, not the current-source release gate.",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_v580_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v580_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v580_release_integrity",
+      "qualname": "tests.unit.test_v580_release_integrity.test_historical_v580_freeze_artifact_is_preserved",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "test_historical_v580_freeze_artifact_is_preserved",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model_dir.glob",
+          "target": "model_dir.glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.name.endswith",
+          "target": "path.name.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "model_dir.glob": "attribute",
+        "path.name.endswith": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "model_dir.glob",
+        "path.name.endswith",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/unit/test_v580_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v580_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v580_release_integrity",
+      "qualname": "tests.unit.test_v580_release_integrity.test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "test_release_does_not_bundle_or_assume_a_default_neural_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+      ],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v580_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v580_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v580_release_integrity",
+      "qualname": "tests.unit.test_v580_release_integrity.test_missing_policy_never_constructs_an_untrained_fallback",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "test_missing_policy_never_constructs_an_untrained_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze_path.read_text",
+          "target": "freeze_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "any": "name",
+        "freeze_path.read_text": "attribute",
+        "json.loads": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "any",
+        "freeze_path.read_text",
+        "json.loads",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "tests/unit/test_v580_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.registry",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v580_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v580_release_integrity",
+      "qualname": "tests.unit.test_v580_release_integrity.test_historical_v580_freeze_did_not_bundle_a_default_policy",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_historical_v580_freeze_did_not_bundle_a_default_policy",
+      "tests": []
+    }
+  ]
+}

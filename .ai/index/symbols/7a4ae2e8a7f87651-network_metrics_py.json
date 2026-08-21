@@ -1,0 +1,102 @@
+{
+  "path": "calo_rpd_studio/power_system/network_metrics.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "case.checksum": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.abs": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.refresh",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_case",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.restore_case_state"
+      ],
+      "calls": [
+        "case.checksum",
+        "float",
+        "int",
+        "np.abs",
+        "np.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/network_metrics.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.network_metrics",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.network_metrics",
+      "qualname": "calo_rpd_studio.power_system.network_metrics.summarize_case",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "summarize_case",
+      "tests": []
+    }
+  ]
+}

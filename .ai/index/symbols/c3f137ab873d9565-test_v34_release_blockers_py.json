@@ -1,0 +1,1199 @@
+{
+  "path": "tests/unit/test_v34_release_blockers.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "ExperimentConfig": "name",
+        "build_campaign": "name",
+        "len": "name",
+        "pytest.mark.parametrize": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "ExperimentConfig",
+        "build_campaign",
+        "len",
+        "pytest.mark.parametrize"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "semantic_tags": [],
+      "signature": "(runs)",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "test_campaign_preserves_requested_run_count_exactly",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "BenchmarkCampaignConfig",
+          "target": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_campaign",
+          "target": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_campaign_plan",
+          "target": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.importorskip",
+          "target": "pytest.importorskip"
+        }
+      ],
+      "call_forms": {
+        "BenchmarkCampaignConfig": "name",
+        "build_campaign": "name",
+        "json.loads": "attribute",
+        "path.read_text": "attribute",
+        "pytest.importorskip": "attribute",
+        "write_campaign_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "BenchmarkCampaignConfig",
+        "build_campaign",
+        "json.loads",
+        "path.read_text",
+        "pytest.importorskip",
+        "write_campaign_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "test_campaign_plan_persists_exact_formulation_manifest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.connect",
+          "target": "db.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "db.connect": "attribute",
+        "int": "name",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics"
+      ],
+      "calls": [
+        "con.execute",
+        "db.connect",
+        "int",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers._insert_verified_run",
+      "semantic_tags": [],
+      "signature": "(db, experiment_id, run_id, objective, feasible, violation, run_index)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "_insert_verified_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PublicationExporter",
+          "target": "calo_rpd_studio.results.publication_export.PublicationExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pd.read_csv",
+          "target": "pd.read_csv"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_verified_run",
+          "target": "tests.unit.test_v34_release_blockers._insert_verified_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PublicationExporter": "name",
+        "ResultDatabase": "name",
+        "_insert_verified_run": "name",
+        "collect_provenance": "name",
+        "db.create_experiment": "attribute",
+        "export": "attribute",
+        "json.loads": "attribute",
+        "pd.read_csv": "attribute",
+        "pytest.approx": "attribute",
+        "read_text": "attribute",
+        "startswith": "attribute",
+        "str": "name",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "PublicationExporter",
+        "ResultDatabase",
+        "_insert_verified_run",
+        "collect_provenance",
+        "db.create_experiment",
+        "export",
+        "json.loads",
+        "pd.read_csv",
+        "pytest.approx",
+        "read_text",
+        "startswith",
+        "str",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "tests.unit.test_v34_release_blockers._insert_verified_run"
+      ],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "test_publication_export_excludes_infeasible_objective_from_statistics",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "HeterogeneousTrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_lanes",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+        }
+      ],
+      "call_forms": {
+        "HeterogeneousTrainingConfig": "name",
+        "plan_training_lanes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "HeterogeneousTrainingConfig",
+        "plan_training_lanes"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+      ],
+      "doc": "",
+      "end_line": 130,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.test_gpu_maximum_training_defaults_and_cuda_to_cpu_fallback_order",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "test_gpu_maximum_training_defaults_and_cuda_to_cpu_fallback_order",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.SphereProblem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "SphereProblem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v34_release_blockers.SphereProblem.evaluate_population"
+      ],
+      "calls": [
+        "Evaluation",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 139,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v34_release_blockers.SphereProblem.evaluate"
+      ],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 141,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.SphereProblem.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 144,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers._OPTIMIZER_SNAPSHOTS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 148,
+      "state_owner": "",
+      "symbol": "_OPTIMIZER_SNAPSHOTS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_v34_release_blockers.SphereProblem"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "create_optimizer": "name",
+        "dict": "name",
+        "list": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "pytest.approx": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "create_optimizer",
+        "dict",
+        "list",
+        "np.all",
+        "np.asarray",
+        "np.testing.assert_allclose",
+        "pytest.approx",
+        "pytest.mark.parametrize",
+        "run"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_v34_release_blockers.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 167,
+      "entry_point": false,
+      "file": "tests/unit/test_v34_release_blockers.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BenchmarkCampaignConfig": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "HeterogeneousTrainingConfig": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "Path": "pathlib.Path",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "build_campaign": "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "json": "json",
+        "np": "numpy",
+        "pd": "pandas",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "pytest": "pytest",
+        "uuid": "uuid",
+        "write_campaign_plan": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.benchmarking.campaign",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export",
+        "json",
+        "numpy",
+        "pandas",
+        "pathlib",
+        "pytest",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v34_release_blockers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v34_release_blockers",
+      "qualname": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "semantic_tags": [],
+      "signature": "(name)",
+      "start_line": 156,
+      "state_owner": "",
+      "symbol": "test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "tests": []
+    }
+  ]
+}

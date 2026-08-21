@@ -1,0 +1,2175 @@
+{
+  "path": "tests/unit/test_tsh_calo_training_environment.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.encode",
+          "target": "label.encode"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "label.encode": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest",
+        "label.encode"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment._sha",
+      "semantic_tags": [],
+      "signature": "(label)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_sha",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha",
+          "target": "tests.unit.test_tsh_calo_training_environment._sha"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingConfig": "name",
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "_sha": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_environment.test_action_assignment_mismatch_fails_before_an_evaluation",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_environment_collects_only_canonical_transitions",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_resume_replays_pending_observation_and_transition_exactly",
+        "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve",
+        "tests.unit.test_tsh_calo_training_environment.test_loaded_protected_case_identity_is_rejected_even_under_alias",
+        "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset"
+      ],
+      "calls": [
+        "TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope",
+        "_sha",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "tests.unit.test_tsh_calo_training_environment._sha"
+      ],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment._training_config",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_training_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingEnvironmentConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingEnvironmentConfig": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_environment.test_action_assignment_mismatch_fails_before_an_evaluation",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_environment_collects_only_canonical_transitions",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_resume_replays_pending_observation_and_transition_exactly",
+        "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve",
+        "tests.unit.test_tsh_calo_training_environment.test_loaded_protected_case_identity_is_rejected_even_under_alias",
+        "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset"
+      ],
+      "calls": [
+        "TSHCALOTrainingEnvironmentConfig",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment._environment_config",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "_environment_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        }
+      ],
+      "call_forms": {
+        "trainer.sample_action": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_training_environment.test_action_assignment_mismatch_fails_before_an_evaluation",
+        "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+        "tests.unit.test_tsh_calo_training_environment.test_environment_resume_replays_pending_observation_and_transition_exactly"
+      ],
+      "calls": [
+        "trainer.sample_action"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment._sample",
+      "semantic_tags": [],
+      "signature": "(trainer, observation)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "_sample",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALORolloutCollector",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.commit",
+          "target": "collector.commit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.sample",
+          "target": "collector.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.scientific_provenance",
+          "target": "environment.scientific_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.step",
+          "target": "environment.step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALORolloutCollector": "name",
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "any": "attribute",
+        "collector.commit": "attribute",
+        "collector.sample": "attribute",
+        "environment.reset": "attribute",
+        "environment.scientific_provenance": "attribute",
+        "environment.step": "attribute",
+        "np.asarray": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "_environment_config",
+        "_training_config",
+        "any",
+        "collector.commit",
+        "collector.sample",
+        "environment.reset",
+        "environment.scientific_provenance",
+        "environment.step",
+        "np.asarray",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_collects_only_canonical_transitions",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "test_counted_environment_collects_only_canonical_transitions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "all": "name",
+        "environment.reset": "attribute",
+        "monkeypatch.setattr": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "IndependentTSHCALOTrainingEnvironment",
+        "_environment_config",
+        "_training_config",
+        "all",
+        "environment.reset",
+        "monkeypatch.setattr"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch",
+      "semantic_tags": [],
+      "signature": "(toy_case, monkeypatch)",
+      "start_line": 108,
+      "state_owner": "",
+      "symbol": "test_counted_environment_submits_one_accelerated_population_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "batch_sizes.append",
+          "target": "batch_sizes.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original_batch",
+          "target": "original_batch"
+        }
+      ],
+      "call_forms": {
+        "batch_sizes.append": "attribute",
+        "len": "name",
+        "original_batch": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "batch_sizes.append",
+        "len",
+        "original_batch"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch.counted_batch",
+      "semantic_tags": [],
+      "signature": "(population, **kwargs)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "counted_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_environment_submits_one_accelerated_population_batch.forbidden_scalar",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 125,
+      "state_owner": "",
+      "symbol": "forbidden_scalar",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairContext",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOFeatureFlags",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.scientific_provenance",
+          "target": "environment.scientific_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.step",
+          "target": "environment.step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.eye",
+          "target": "np.eye"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sample",
+          "target": "tests.unit.test_tsh_calo_training_environment._sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "PhysicsRepairContext": "name",
+        "TSHCALOFeatureFlags": "name",
+        "_environment_config": "name",
+        "_sample": "name",
+        "_training_config": "name",
+        "all": "attribute",
+        "any": "attribute",
+        "environment.reset": "attribute",
+        "environment.scientific_provenance": "attribute",
+        "environment.step": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "np.asarray": "attribute",
+        "np.eye": "attribute",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "np.where": "attribute",
+        "replace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "PhysicsRepairContext",
+        "TSHCALOFeatureFlags",
+        "_environment_config",
+        "_sample",
+        "_training_config",
+        "all",
+        "any",
+        "environment.reset",
+        "environment.scientific_provenance",
+        "environment.step",
+        "monkeypatch.setattr",
+        "np.asarray",
+        "np.eye",
+        "np.full",
+        "np.linspace",
+        "np.where",
+        "replace"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._sample",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 181,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+      "semantic_tags": [],
+      "signature": "(toy_case, monkeypatch)",
+      "start_line": 141,
+      "state_owner": "",
+      "symbol": "test_counted_change_e_training_action_is_proposal_only_and_fe_counted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALORolloutCollector",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.build_batch",
+          "target": "collector.build_batch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.commit",
+          "target": "collector.commit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "collector.sample",
+          "target": "collector.sample"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.step",
+          "target": "environment.step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALORolloutCollector": "name",
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "collector.build_batch": "attribute",
+        "collector.commit": "attribute",
+        "collector.sample": "attribute",
+        "environment.reset": "attribute",
+        "environment.step": "attribute",
+        "len": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "_environment_config",
+        "_training_config",
+        "collector.build_batch",
+        "collector.commit",
+        "collector.sample",
+        "environment.reset",
+        "environment.step",
+        "len",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 184,
+      "state_owner": "",
+      "symbol": "test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment.from_state_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.from_state_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original.reset",
+          "target": "original.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original.state_dict",
+          "target": "original.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "original.step",
+          "target": "original.step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.step",
+          "target": "restored.step"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sample",
+          "target": "tests.unit.test_tsh_calo_training_environment._sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "IndependentTSHCALOTrainingEnvironment.from_state_dict": "attribute",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_sample": "name",
+        "_training_config": "name",
+        "np.testing.assert_array_equal": "attribute",
+        "original.reset": "attribute",
+        "original.state_dict": "attribute",
+        "original.step": "attribute",
+        "pytest.approx": "attribute",
+        "pytest.raises": "attribute",
+        "replace": "name",
+        "restored.step": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment",
+        "IndependentTSHCALOTrainingEnvironment.from_state_dict",
+        "ORPDProblem",
+        "_environment_config",
+        "_sample",
+        "_training_config",
+        "np.testing.assert_array_equal",
+        "original.reset",
+        "original.state_dict",
+        "original.step",
+        "pytest.approx",
+        "pytest.raises",
+        "replace",
+        "restored.step"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.from_state_dict",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._sample",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 258,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_environment_resume_replays_pending_observation_and_transition_exactly",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "test_environment_resume_replays_pending_observation_and_transition_exactly",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.learner_groups.copy",
+          "target": "action.learner_groups.copy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.step",
+          "target": "environment.step"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sample",
+          "target": "tests.unit.test_tsh_calo_training_environment._sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_sample": "name",
+        "_training_config": "name",
+        "action.learner_groups.copy": "attribute",
+        "environment.reset": "attribute",
+        "environment.step": "attribute",
+        "int": "name",
+        "pytest.raises": "attribute",
+        "replace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "_environment_config",
+        "_sample",
+        "_training_config",
+        "action.learner_groups.copy",
+        "environment.reset",
+        "environment.step",
+        "int",
+        "pytest.raises",
+        "replace"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._sample",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 275,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_action_assignment_mismatch_fails_before_an_evaluation",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 261,
+      "state_owner": "",
+      "symbol": "test_action_assignment_mismatch_fails_before_an_evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOFeatureFlags",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "TSHCALOFeatureFlags": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "pytest.raises": "attribute",
+        "replace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "TSHCALOFeatureFlags",
+        "_environment_config",
+        "_training_config",
+        "pytest.raises",
+        "replace"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 308,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 278,
+      "state_owner": "",
+      "symbol": "test_experimental_population_schedule_is_rejected_before_any_solve",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "original",
+          "target": "original"
+        }
+      ],
+      "call_forms": {
+        "original": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "original"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 286,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_experimental_population_schedule_is_rejected_before_any_solve.counted",
+      "semantic_tags": [],
+      "signature": "(values, **kwargs)",
+      "start_line": 283,
+      "state_owner": "",
+      "symbol": "counted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.reset",
+          "target": "environment.reset"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "environment.scientific_provenance",
+          "target": "environment.scientific_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "environment.reset": "attribute",
+        "environment.scientific_provenance": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "_environment_config",
+        "_training_config",
+        "environment.reset",
+        "environment.scientific_provenance",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 330,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 311,
+      "state_owner": "",
+      "symbol": "test_solver_failure_is_retained_and_poisoned_environment_cannot_reset",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 315,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_solver_failure_is_retained_and_poisoned_environment_cannot_reset.failed_evaluator",
+      "semantic_tags": [],
+      "signature": "(_values, **_kwargs)",
+      "start_line": 314,
+      "state_owner": "",
+      "symbol": "failed_evaluator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.case.checksum",
+          "target": "problem.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_environment_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._environment_config"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_config",
+          "target": "tests.unit.test_tsh_calo_training_environment._training_config"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingEnvironment": "name",
+        "ORPDProblem": "name",
+        "_environment_config": "name",
+        "_training_config": "name",
+        "monkeypatch.setattr": "attribute",
+        "problem.case.checksum": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem",
+        "_environment_config",
+        "_training_config",
+        "monkeypatch.setattr",
+        "problem.case.checksum",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "tests.unit.test_tsh_calo_training_environment._environment_config",
+        "tests.unit.test_tsh_calo_training_environment._training_config"
+      ],
+      "doc": "",
+      "end_line": 342,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_loaded_protected_case_identity_is_rejected_even_under_alias",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, toy_case)",
+      "start_line": 333,
+      "state_owner": "",
+      "symbol": "test_loaded_protected_case_identity_is_rejected_even_under_alias",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 357,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_training_environment.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "IndependentTSHCALORolloutCollector": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "IndependentTSHCALOTrainingEnvironment": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "Path": "pathlib.Path",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingEnvironmentConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "np": "numpy",
+        "pytest": "pytest",
+        "replace": "dataclasses.replace"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.orpd.problem",
+        "dataclasses",
+        "hashlib",
+        "numpy",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_training_environment",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_training_environment",
+      "qualname": "tests.unit.test_tsh_calo_training_environment.test_training_environment_module_has_no_experiment_or_lifecycle_authority",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 345,
+      "state_owner": "",
+      "symbol": "test_training_environment_module_has_no_experiment_or_lifecycle_authority",
+      "tests": []
+    }
+  ]
+}

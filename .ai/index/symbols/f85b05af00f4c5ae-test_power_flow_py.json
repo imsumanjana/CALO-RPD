@@ -1,0 +1,92 @@
+{
+  "path": "tests/unit/test_power_flow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "kessel_glavitsch_l_index",
+          "target": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_ybus",
+          "target": "calo_rpd_studio.power_system.ybus.build_ybus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "build_ybus": "name",
+        "kessel_glavitsch_l_index": "name",
+        "np.all": "attribute",
+        "np.isfinite": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "build_ybus",
+        "kessel_glavitsch_l_index",
+        "np.all",
+        "np.isfinite",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "calo_rpd_studio.power_system.ybus.build_ybus"
+      ],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "tests/unit/test_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "kessel_glavitsch_l_index": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index",
+        "np": "numpy",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      },
+      "important_invariants": [],
+      "imports": [
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.voltage_stability",
+        "calo_rpd_studio.power_system.ybus",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_power_flow",
+      "qualname": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "test_ybus_and_power_flow",
+      "tests": []
+    }
+  ]
+}

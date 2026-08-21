@@ -1,0 +1,189 @@
+{
+  "path": "calo_rpd_studio/algorithms/legacy_mtlbo.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/legacy_mtlbo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.legacy_mtlbo",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.legacy_mtlbo",
+      "qualname": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "LegacyMTLBOOptimizer",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.mean",
+          "target": "p.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.normal",
+          "target": "self.rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "better": "name",
+        "enumerate": "name",
+        "np.clip": "attribute",
+        "p.mean": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.order": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "self.rng.normal": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "better",
+        "enumerate",
+        "np.clip",
+        "p.mean",
+        "self.can_evaluate",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.order",
+        "self.random_population",
+        "self.record",
+        "self.rng.normal",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better"
+      ],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/legacy_mtlbo.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.legacy_mtlbo",
+      "qualname": "calo_rpd_studio.algorithms.legacy_mtlbo.LegacyMTLBOOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

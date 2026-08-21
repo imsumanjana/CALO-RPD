@@ -1,0 +1,574 @@
+{
+  "path": "tests/integration/test_historical_learning.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.connect",
+          "target": "db.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "con.execute": "attribute",
+        "db.connect": "attribute",
+        "json.dumps": "attribute",
+        "str": "name",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [
+        "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+        "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments"
+      ],
+      "calls": [
+        "con.execute",
+        "db.connect",
+        "json.dumps",
+        "str",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "tests/integration/test_historical_learning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "build_experience_repository": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.results.database",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_historical_learning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_historical_learning",
+      "qualname": "tests.integration.test_historical_learning._insert_run",
+      "semantic_tags": [],
+      "signature": "(db, experiment_id, algorithm, verified, trajectory)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_insert_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "collect_provenance": "name",
+        "db.create_experiment": "attribute",
+        "db.get_experiment": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "collect_provenance",
+        "db.create_experiment",
+        "db.get_experiment"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 73,
+      "entry_point": false,
+      "file": "tests/integration/test_historical_learning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "build_experience_repository": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.results.database",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_historical_learning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_historical_learning",
+      "qualname": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_experience_repository",
+          "target": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_experience_repository",
+          "target": "calo_rpd_studio.learning.experience_repository.load_experience_repository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.set_experiment_learning_role",
+          "target": "db.set_experiment_learning_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_run",
+          "target": "tests.integration.test_historical_learning._insert_run"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_insert_run": "name",
+        "build_experience_repository": "name",
+        "collect_provenance": "name",
+        "db.create_experiment": "attribute",
+        "db.get_experiment": "attribute",
+        "db.set_experiment_learning_role": "attribute",
+        "len": "name",
+        "load_experience_repository": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_insert_run",
+        "build_experience_repository",
+        "collect_provenance",
+        "db.create_experiment",
+        "db.get_experiment",
+        "db.set_experiment_learning_role",
+        "len",
+        "load_experience_repository"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_historical_learning._insert_run"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/integration/test_historical_learning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "build_experience_repository": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.results.database",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_historical_learning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_historical_learning",
+      "qualname": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "test_repository_includes_only_explicit_eligible_training_experiments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_experience_repository",
+          "target": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.set_experiment_learning_role",
+          "target": "db.set_experiment_learning_role"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_insert_run",
+          "target": "tests.integration.test_historical_learning._insert_run"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_insert_run": "name",
+        "build_experience_repository": "name",
+        "collect_provenance": "name",
+        "db.create_experiment": "attribute",
+        "db.set_experiment_learning_role": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_insert_run",
+        "build_experience_repository",
+        "collect_provenance",
+        "db.create_experiment",
+        "db.set_experiment_learning_role"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.integration.test_historical_learning._insert_run"
+      ],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "tests/integration/test_historical_learning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "build_experience_repository": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.results.database",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_historical_learning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_historical_learning",
+      "qualname": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_experience_repository",
+          "target": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "con.execute",
+          "target": "con.execute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.connect",
+          "target": "db.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.set_experiment_learning_role",
+          "target": "db.set_experiment_learning_role"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "build_experience_repository": "name",
+        "collect_provenance": "name",
+        "con.execute": "attribute",
+        "db.connect": "attribute",
+        "db.create_experiment": "attribute",
+        "db.set_experiment_learning_role": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "str": "name",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "build_experience_repository",
+        "collect_provenance",
+        "con.execute",
+        "db.connect",
+        "db.create_experiment",
+        "db.set_experiment_learning_role",
+        "json.dumps",
+        "len",
+        "str",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 171,
+      "entry_point": false,
+      "file": "tests/integration/test_historical_learning.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "build_experience_repository": "calo_rpd_studio.learning.experience_repository.build_experience_repository",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "json": "json",
+        "load_experience_repository": "calo_rpd_studio.learning.experience_repository.load_experience_repository",
+        "uuid": "uuid"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.learning.experience_repository",
+        "calo_rpd_studio.results.database",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.integration.test_historical_learning",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.integration.test_historical_learning",
+      "qualname": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 108,
+      "state_owner": "",
+      "symbol": "test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "tests": []
+    }
+  ]
+}

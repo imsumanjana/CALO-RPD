@@ -1,0 +1,4574 @@
+{
+  "path": "calo_rpd_studio/accelerated/torch_power_flow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.ZERO_IMPEDANCE_TOLERANCE",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "ZERO_IMPEDANCE_TOLERANCE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.MAX_DENSE_TORCH_BUSES",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "MAX_DENSE_TORCH_BUSES",
+      "tests": [
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.__init__",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowOptions",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "TorchPowerFlowOptions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow._branch_flows",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchBranchResult",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "TorchBranchResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "TorchPowerFlowResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult.total_loss_mw",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "total_loss_mw",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow._branch_flows",
+        "calo_rpd_studio.accelerated.torch_power_flow._branch_flows_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage",
+        "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._required_generation",
+        "calo_rpd_studio.accelerated.torch_power_flow._required_generation_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._sbus",
+        "calo_rpd_studio.accelerated.torch_power_flow._sbus_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance",
+        "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_batch_torch",
+        "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_torch",
+        "calo_rpd_studio.accelerated.torch_power_flow.torch_l_index"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._torch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "_torch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pq.astype",
+          "target": "pq.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pv.astype",
+          "target": "pv.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ref.astype",
+          "target": "ref.astype"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "astype": "attribute",
+        "np.where": "attribute",
+        "pq.astype": "attribute",
+        "pv.astype": "attribute",
+        "ref.astype": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch._same_types"
+      ],
+      "calls": [
+        "ValueError",
+        "astype",
+        "np.where",
+        "pq.astype",
+        "pv.astype",
+        "ref.astype"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._types",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case)",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "_types",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "complex",
+          "target": "complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.diag",
+          "target": "torch.diag"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_torch": "name",
+        "abs": "name",
+        "case.bus_index_map": "attribute",
+        "complex": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.conj": "attribute",
+        "np.deg2rad": "attribute",
+        "np.exp": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.diag": "attribute",
+        "torch.tensor": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start",
+        "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance",
+        "tests.unit.test_v660_remaining_audit.test_c05_dense_torch_large_case_is_bounded_before_allocation"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "_torch",
+        "abs",
+        "case.bus_index_map",
+        "complex",
+        "enumerate",
+        "float",
+        "int",
+        "np.conj",
+        "np.deg2rad",
+        "np.exp",
+        "torch.as_tensor",
+        "torch.diag",
+        "torch.tensor",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, device, dtype)",
+      "start_line": 111,
+      "state_owner": "",
+      "symbol": "build_dense_admittance",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.complex",
+          "target": "torch.complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "case.bus_index_map": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.where": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.complex": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "_torch",
+        "case.bus_index_map",
+        "float",
+        "int",
+        "np.where",
+        "torch.as_tensor",
+        "torch.complex",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 174,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._sbus",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, device, dtype)",
+      "start_line": 163,
+      "state_owner": "",
+      "symbol": "_sbus",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.polar",
+          "target": "torch.polar"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "case.bus_index_map": "attribute",
+        "copy": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.deg2rad": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.polar": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow"
+      ],
+      "calls": [
+        "_torch",
+        "case.bus_index_map",
+        "copy",
+        "float",
+        "int",
+        "np.deg2rad",
+        "torch.as_tensor",
+        "torch.polar"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 184,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, device, dtype)",
+      "start_line": 177,
+      "state_owner": "",
+      "symbol": "_initial_voltage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "f.numel",
+          "target": "f.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "history.append",
+          "target": "history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pvpq.numel",
+          "target": "pvpq.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.angle",
+          "target": "torch.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.any",
+          "target": "torch.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.arange",
+          "target": "torch.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.clamp",
+          "target": "torch.clamp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cos",
+          "target": "torch.cos"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.diagonal",
+          "target": "torch.diagonal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.finfo",
+          "target": "torch.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.isfinite",
+          "target": "torch.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.linalg.solve",
+          "target": "torch.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.max",
+          "target": "torch.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.polar",
+          "target": "torch.polar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sin",
+          "target": "torch.sin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trial_f.numel",
+          "target": "trial_f.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "v.numel",
+          "target": "v.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "v0.clone",
+          "target": "v0.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "va.clone",
+          "target": "va.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm.clone",
+          "target": "vm.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm.square",
+          "target": "vm.square"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "bool": "name",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "f.numel": "attribute",
+        "float": "name",
+        "history.append": "attribute",
+        "np.isfinite": "attribute",
+        "pvpq.numel": "attribute",
+        "range": "name",
+        "torch.abs": "attribute",
+        "torch.all": "attribute",
+        "torch.angle": "attribute",
+        "torch.any": "attribute",
+        "torch.arange": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.cat": "attribute",
+        "torch.clamp": "attribute",
+        "torch.conj": "attribute",
+        "torch.cos": "attribute",
+        "torch.diagonal": "attribute",
+        "torch.finfo": "attribute",
+        "torch.isfinite": "attribute",
+        "torch.linalg.solve": "attribute",
+        "torch.max": "attribute",
+        "torch.polar": "attribute",
+        "torch.sin": "attribute",
+        "trial_f.numel": "attribute",
+        "v.numel": "attribute",
+        "v0.clone": "attribute",
+        "va.clone": "attribute",
+        "vm.clone": "attribute",
+        "vm.square": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "_torch",
+        "bool",
+        "cpu",
+        "detach",
+        "f.numel",
+        "float",
+        "history.append",
+        "np.isfinite",
+        "pvpq.numel",
+        "range",
+        "torch.abs",
+        "torch.all",
+        "torch.angle",
+        "torch.any",
+        "torch.arange",
+        "torch.as_tensor",
+        "torch.cat",
+        "torch.clamp",
+        "torch.conj",
+        "torch.cos",
+        "torch.diagonal",
+        "torch.finfo",
+        "torch.isfinite",
+        "torch.linalg.solve",
+        "torch.max",
+        "torch.polar",
+        "torch.sin",
+        "trial_f.numel",
+        "v.numel",
+        "v0.clone",
+        "va.clone",
+        "vm.clone",
+        "vm.square"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "Dense FP64 Newton solve with CPU-reference backtracking/damping semantics.",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_torch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(ybus, sbus, v0, ref, pv, pq, tolerance, max_iterations, minimum_damping)",
+      "start_line": 187,
+      "state_owner": "",
+      "symbol": "solve_newton_raphson_torch",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "float": "name",
+        "torch.as_tensor": "attribute",
+        "torch.conj": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow"
+      ],
+      "calls": [
+        "_torch",
+        "float",
+        "torch.as_tensor",
+        "torch.conj"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 298,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._required_generation",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, voltage, ybus)",
+      "start_line": 291,
+      "state_owner": "",
+      "symbol": "_required_generation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "distribute_reactive_power",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "online_generators_at_bus",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pg.detach",
+          "target": "pg.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qg.detach",
+          "target": "qg.detach"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "cpu": "attribute",
+        "distribute_reactive_power": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute",
+        "online_generators_at_bus": "name",
+        "pg.detach": "attribute",
+        "qg.detach": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "astype",
+        "cpu",
+        "distribute_reactive_power",
+        "enumerate",
+        "float",
+        "int",
+        "np.asarray",
+        "np.sum",
+        "online_generators_at_bus",
+        "pg.detach",
+        "qg.detach"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+      ],
+      "doc": "",
+      "end_line": 311,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._update_outputs",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, pg, qg)",
+      "start_line": 301,
+      "state_owner": "",
+      "symbol": "_update_outputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TorchBranchResult",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchBranchResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.maximum",
+          "target": "torch.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sum",
+          "target": "torch.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        }
+      ],
+      "call_forms": {
+        "TorchBranchResult": "name",
+        "_torch": "name",
+        "case.bus_index_map": "attribute",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "float": "name",
+        "int": "name",
+        "torch.abs": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.conj": "attribute",
+        "torch.maximum": "attribute",
+        "torch.sum": "attribute",
+        "torch.where": "attribute",
+        "torch.zeros_like": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow"
+      ],
+      "calls": [
+        "TorchBranchResult",
+        "_torch",
+        "case.bus_index_map",
+        "cpu",
+        "detach",
+        "float",
+        "int",
+        "torch.abs",
+        "torch.as_tensor",
+        "torch.conj",
+        "torch.maximum",
+        "torch.sum",
+        "torch.where",
+        "torch.zeros_like"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchBranchResult",
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 333,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._branch_flows",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, voltage, yf, yt)",
+      "start_line": 314,
+      "state_owner": "",
+      "symbol": "_branch_flows",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchPowerFlowOptions",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchPowerFlowResult",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_branch_flows",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._branch_flows"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_initial_voltage",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_required_generation",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._required_generation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sbus",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._sbus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_types",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._types"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_update_outputs",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._update_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_dense_admittance",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_newton_raphson_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_torch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_q_limits",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "distribute_reactive_power",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "history.extend",
+          "target": "history.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "input_case.clone",
+          "target": "input_case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qg.detach",
+          "target": "qg.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.angle",
+          "target": "torch.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.rad2deg",
+          "target": "torch.rad2deg"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "violations.append",
+          "target": "violations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "TorchPowerFlowOptions": "name",
+        "TorchPowerFlowResult": "name",
+        "_branch_flows": "name",
+        "_initial_voltage": "name",
+        "_required_generation": "name",
+        "_sbus": "name",
+        "_torch": "name",
+        "_types": "name",
+        "_update_outputs": "name",
+        "aggregate_q_limits": "name",
+        "build_dense_admittance": "name",
+        "cpu": "attribute",
+        "distribute_reactive_power": "name",
+        "float": "name",
+        "history.extend": "attribute",
+        "input_case.clone": "attribute",
+        "int": "name",
+        "np.asarray": "attribute",
+        "qg.detach": "attribute",
+        "range": "name",
+        "solve_newton_raphson_torch": "name",
+        "torch.abs": "attribute",
+        "torch.angle": "attribute",
+        "torch.rad2deg": "attribute",
+        "violations.append": "attribute",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem.accelerator_solution_state",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "RuntimeError",
+        "TorchPowerFlowOptions",
+        "TorchPowerFlowResult",
+        "_branch_flows",
+        "_initial_voltage",
+        "_required_generation",
+        "_sbus",
+        "_torch",
+        "_types",
+        "_update_outputs",
+        "aggregate_q_limits",
+        "build_dense_admittance",
+        "cpu",
+        "distribute_reactive_power",
+        "float",
+        "history.extend",
+        "input_case.clone",
+        "int",
+        "np.asarray",
+        "qg.detach",
+        "range",
+        "solve_newton_raphson_torch",
+        "torch.abs",
+        "torch.angle",
+        "torch.rad2deg",
+        "violations.append",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowOptions",
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult",
+        "calo_rpd_studio.accelerated.torch_power_flow._branch_flows",
+        "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage",
+        "calo_rpd_studio.accelerated.torch_power_flow._required_generation",
+        "calo_rpd_studio.accelerated.torch_power_flow._sbus",
+        "calo_rpd_studio.accelerated.torch_power_flow._torch",
+        "calo_rpd_studio.accelerated.torch_power_flow._types",
+        "calo_rpd_studio.accelerated.torch_power_flow._update_outputs",
+        "calo_rpd_studio.accelerated.torch_power_flow.build_dense_admittance",
+        "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_torch",
+        "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+      ],
+      "doc": "",
+      "end_line": 458,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(input_case, device, dtype, options)",
+      "start_line": 336,
+      "state_owner": "",
+      "symbol": "run_torch_ac_power_flow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full",
+          "target": "torch.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.linalg.solve",
+          "target": "torch.linalg.solve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.max",
+          "target": "torch.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "astype": "attribute",
+        "cpu": "attribute",
+        "detach": "attribute",
+        "float": "name",
+        "np.where": "attribute",
+        "torch.abs": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.full": "attribute",
+        "torch.linalg.solve": "attribute",
+        "torch.max": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._objective"
+      ],
+      "calls": [
+        "_torch",
+        "astype",
+        "cpu",
+        "detach",
+        "float",
+        "np.where",
+        "torch.abs",
+        "torch.as_tensor",
+        "torch.full",
+        "torch.linalg.solve",
+        "torch.max",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 480,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.torch_l_index",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(case, voltage, ybus)",
+      "start_line": 461,
+      "state_owner": "",
+      "symbol": "torch_l_index",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "converged.detach",
+          "target": "converged.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "damping_values.append",
+          "target": "damping_values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "detach",
+          "target": "detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expand",
+          "target": "expand"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "info.to",
+          "target": "info.to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iterations.detach",
+          "target": "iterations.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "norms.detach",
+          "target": "norms.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numpy",
+          "target": "numpy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pq_t.numel",
+          "target": "pq_t.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pvpq.numel",
+          "target": "pvpq.numel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solve_rhs.unsqueeze",
+          "target": "solve_rhs.unsqueeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "solved.squeeze",
+          "target": "solved.squeeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "squeeze",
+          "target": "squeeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.angle",
+          "target": "torch.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.any",
+          "target": "torch.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.arange",
+          "target": "torch.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.bmm",
+          "target": "torch.bmm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.clamp",
+          "target": "torch.clamp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cos",
+          "target": "torch.cos"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.diagonal",
+          "target": "torch.diagonal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.eye",
+          "target": "torch.eye"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.finfo",
+          "target": "torch.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full",
+          "target": "torch.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full_like",
+          "target": "torch.full_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.isfinite",
+          "target": "torch.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.linalg.solve_ex",
+          "target": "torch.linalg.solve_ex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.max",
+          "target": "torch.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.polar",
+          "target": "torch.polar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sin",
+          "target": "torch.sin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trial.unsqueeze",
+          "target": "trial.unsqueeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unsqueeze",
+          "target": "unsqueeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "v.clone",
+          "target": "v.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "v.unsqueeze",
+          "target": "v.unsqueeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "v0.clone",
+          "target": "v0.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "va.clone",
+          "target": "va.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm.clone",
+          "target": "vm.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "vm.square",
+          "target": "vm.square"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "append": "attribute",
+        "bool": "name",
+        "converged.detach": "attribute",
+        "cpu": "attribute",
+        "damping_values.append": "attribute",
+        "detach": "attribute",
+        "enumerate": "name",
+        "expand": "attribute",
+        "float": "name",
+        "info.to": "attribute",
+        "int": "name",
+        "iterations.detach": "attribute",
+        "len": "name",
+        "min": "name",
+        "norms.detach": "attribute",
+        "numpy": "attribute",
+        "pq_t.numel": "attribute",
+        "pvpq.numel": "attribute",
+        "range": "name",
+        "solve_rhs.unsqueeze": "attribute",
+        "solved.squeeze": "attribute",
+        "squeeze": "attribute",
+        "torch.abs": "attribute",
+        "torch.all": "attribute",
+        "torch.angle": "attribute",
+        "torch.any": "attribute",
+        "torch.arange": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.bmm": "attribute",
+        "torch.cat": "attribute",
+        "torch.clamp": "attribute",
+        "torch.conj": "attribute",
+        "torch.cos": "attribute",
+        "torch.diagonal": "attribute",
+        "torch.eye": "attribute",
+        "torch.finfo": "attribute",
+        "torch.full": "attribute",
+        "torch.full_like": "attribute",
+        "torch.isfinite": "attribute",
+        "torch.linalg.solve_ex": "attribute",
+        "torch.max": "attribute",
+        "torch.ones": "attribute",
+        "torch.polar": "attribute",
+        "torch.sin": "attribute",
+        "torch.where": "attribute",
+        "torch.zeros": "attribute",
+        "torch.zeros_like": "attribute",
+        "trial.unsqueeze": "attribute",
+        "unsqueeze": "attribute",
+        "v.clone": "attribute",
+        "v.unsqueeze": "attribute",
+        "v0.clone": "attribute",
+        "va.clone": "attribute",
+        "vm.clone": "attribute",
+        "vm.square": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentORPDEvaluator._solve_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_torch",
+        "append",
+        "bool",
+        "converged.detach",
+        "cpu",
+        "damping_values.append",
+        "detach",
+        "enumerate",
+        "expand",
+        "float",
+        "info.to",
+        "int",
+        "iterations.detach",
+        "len",
+        "min",
+        "norms.detach",
+        "numpy",
+        "pq_t.numel",
+        "pvpq.numel",
+        "range",
+        "solve_rhs.unsqueeze",
+        "solved.squeeze",
+        "squeeze",
+        "torch.abs",
+        "torch.all",
+        "torch.angle",
+        "torch.any",
+        "torch.arange",
+        "torch.as_tensor",
+        "torch.bmm",
+        "torch.cat",
+        "torch.clamp",
+        "torch.conj",
+        "torch.cos",
+        "torch.diagonal",
+        "torch.eye",
+        "torch.finfo",
+        "torch.full",
+        "torch.full_like",
+        "torch.isfinite",
+        "torch.linalg.solve_ex",
+        "torch.max",
+        "torch.ones",
+        "torch.polar",
+        "torch.sin",
+        "torch.where",
+        "torch.zeros",
+        "torch.zeros_like",
+        "trial.unsqueeze",
+        "unsqueeze",
+        "v.clone",
+        "v.unsqueeze",
+        "v0.clone",
+        "va.clone",
+        "vm.clone",
+        "vm.square"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "Batched dense Newton-Raphson with per-candidate CPU-parity backtracking.",
+      "end_line": 660,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_batch_torch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(ybus, sbus, v0, ref, pv, pq, tolerance, max_iterations, collect_history, minimum_damping, host_early_exit)",
+      "start_line": 483,
+      "state_owner": "",
+      "symbol": "solve_newton_raphson_batch_torch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 671,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.TorchBatchedAdmittance",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 664,
+      "state_owner": "",
+      "symbol": "TorchBatchedAdmittance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchBatchedAdmittance",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchBatchedAdmittance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expand",
+          "target": "expand"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.bus_index_map",
+          "target": "first.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argwhere",
+          "target": "np.argwhere"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.hypot",
+          "target": "np.hypot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.arange",
+          "target": "torch.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.complex",
+          "target": "torch.complex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.deg2rad",
+          "target": "torch.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones_like",
+          "target": "torch.ones_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.polar",
+          "target": "torch.polar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ybus.index_put_",
+          "target": "ybus.index_put_"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "TorchBatchedAdmittance": "name",
+        "ValueError": "name",
+        "_torch": "name",
+        "astype": "attribute",
+        "copy": "attribute",
+        "expand": "attribute",
+        "first.bus_index_map": "attribute",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "np.any": "attribute",
+        "np.argwhere": "attribute",
+        "np.array_equal": "attribute",
+        "np.asarray": "attribute",
+        "np.hypot": "attribute",
+        "np.stack": "attribute",
+        "torch.abs": "attribute",
+        "torch.arange": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.complex": "attribute",
+        "torch.conj": "attribute",
+        "torch.deg2rad": "attribute",
+        "torch.ones_like": "attribute",
+        "torch.polar": "attribute",
+        "torch.where": "attribute",
+        "torch.zeros": "attribute",
+        "torch.zeros_like": "attribute",
+        "tuple": "name",
+        "ybus.index_put_": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+        "tests.unit.test_v650_must_resolve.test_h05_single_and_batched_torch_reject_same_near_zero_active_impedance"
+      ],
+      "calls": [
+        "RuntimeError",
+        "TorchBatchedAdmittance",
+        "ValueError",
+        "_torch",
+        "astype",
+        "copy",
+        "expand",
+        "first.bus_index_map",
+        "float",
+        "int",
+        "len",
+        "np.any",
+        "np.argwhere",
+        "np.array_equal",
+        "np.asarray",
+        "np.hypot",
+        "np.stack",
+        "torch.abs",
+        "torch.arange",
+        "torch.as_tensor",
+        "torch.complex",
+        "torch.conj",
+        "torch.deg2rad",
+        "torch.ones_like",
+        "torch.polar",
+        "torch.where",
+        "torch.zeros",
+        "torch.zeros_like",
+        "tuple",
+        "ybus.index_put_"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchBatchedAdmittance",
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "Build candidate-specific Y-bus and branch coefficients in one tensor operation.",
+      "end_line": 759,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cases, device, dtype)",
+      "start_line": 674,
+      "state_owner": "",
+      "symbol": "build_batched_admittance",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.complex",
+          "target": "torch.complex"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "case.bus_index_map": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.stack": "attribute",
+        "np.where": "attribute",
+        "np.zeros": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.complex": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_torch",
+        "case.bus_index_map",
+        "enumerate",
+        "float",
+        "int",
+        "len",
+        "np.asarray",
+        "np.stack",
+        "np.where",
+        "np.zeros",
+        "torch.as_tensor",
+        "torch.complex"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 780,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._sbus_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cases, device, dtype)",
+      "start_line": 762,
+      "state_owner": "",
+      "symbol": "_sbus_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.polar",
+          "target": "torch.polar"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "case.bus_index_map": "attribute",
+        "copy": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.deg2rad": "attribute",
+        "np.stack": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.polar": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_torch",
+        "case.bus_index_map",
+        "copy",
+        "enumerate",
+        "float",
+        "int",
+        "np.deg2rad",
+        "np.stack",
+        "torch.as_tensor",
+        "torch.polar"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 794,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cases, device, dtype)",
+      "start_line": 783,
+      "state_owner": "",
+      "symbol": "_initial_voltage_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "squeeze",
+          "target": "squeeze"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.matmul",
+          "target": "torch.matmul"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "voltage.unsqueeze",
+          "target": "voltage.unsqueeze"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "np.stack": "attribute",
+        "squeeze": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.conj": "attribute",
+        "torch.matmul": "attribute",
+        "voltage.unsqueeze": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_torch",
+        "np.stack",
+        "squeeze",
+        "torch.as_tensor",
+        "torch.conj",
+        "torch.matmul",
+        "voltage.unsqueeze"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 805,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._required_generation_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cases, voltage, ybus)",
+      "start_line": 797,
+      "state_owner": "",
+      "symbol": "_required_generation_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.stack",
+          "target": "np.stack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.conj",
+          "target": "torch.conj"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.maximum",
+          "target": "torch.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sum",
+          "target": "torch.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.where",
+          "target": "torch.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        }
+      ],
+      "call_forms": {
+        "_torch": "name",
+        "np.stack": "attribute",
+        "torch.abs": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.conj": "attribute",
+        "torch.maximum": "attribute",
+        "torch.sum": "attribute",
+        "torch.where": "attribute",
+        "torch.zeros_like": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_torch",
+        "np.stack",
+        "torch.abs",
+        "torch.as_tensor",
+        "torch.conj",
+        "torch.maximum",
+        "torch.sum",
+        "torch.where",
+        "torch.zeros_like"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._torch"
+      ],
+      "doc": "",
+      "end_line": 827,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow._branch_flows_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cases, voltage, admittance)",
+      "start_line": 808,
+      "state_owner": "",
+      "symbol": "_branch_flows_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchBranchResult",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchBranchResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchPowerFlowOptions",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchPowerFlowResult",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_branch_flows_batch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._branch_flows_batch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_initial_voltage_batch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage_batch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_required_generation_batch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._required_generation_batch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sbus_batch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._sbus_batch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._torch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_types",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._types"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_update_outputs",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._update_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_batched_admittance",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_torch_ac_power_flow",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "_same_types",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch._same_types"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_newton_raphson_batch_torch",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_batch_torch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_q_limits",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.clone",
+          "target": "case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iterations.detach",
+          "target": "iterations.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "losses.detach",
+          "target": "losses.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mismatch.detach",
+          "target": "mismatch.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qg_batch.detach",
+          "target": "qg_batch.detach"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "results.append",
+          "target": "results.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.abs",
+          "target": "torch.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.angle",
+          "target": "torch.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.rad2deg",
+          "target": "torch.rad2deg"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "violations.append",
+          "target": "violations.append"
+        }
+      ],
+      "call_forms": {
+        "TorchBranchResult": "name",
+        "TorchPowerFlowOptions": "name",
+        "TorchPowerFlowResult": "name",
+        "_branch_flows_batch": "name",
+        "_initial_voltage_batch": "name",
+        "_required_generation_batch": "name",
+        "_same_types": "name",
+        "_sbus_batch": "name",
+        "_torch": "name",
+        "_types": "name",
+        "_update_outputs": "name",
+        "aggregate_q_limits": "name",
+        "any": "name",
+        "bool": "name",
+        "build_batched_admittance": "name",
+        "case.clone": "attribute",
+        "cpu": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "iterations.detach": "attribute",
+        "losses.detach": "attribute",
+        "mismatch.detach": "attribute",
+        "np.asarray": "attribute",
+        "qg_batch.detach": "attribute",
+        "results.append": "attribute",
+        "run_torch_ac_power_flow": "name",
+        "solve_newton_raphson_batch_torch": "name",
+        "torch.abs": "attribute",
+        "torch.angle": "attribute",
+        "torch.rad2deg": "attribute",
+        "violations.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._evaluate_population_direct"
+      ],
+      "calls": [
+        "TorchBranchResult",
+        "TorchPowerFlowOptions",
+        "TorchPowerFlowResult",
+        "_branch_flows_batch",
+        "_initial_voltage_batch",
+        "_required_generation_batch",
+        "_same_types",
+        "_sbus_batch",
+        "_torch",
+        "_types",
+        "_update_outputs",
+        "aggregate_q_limits",
+        "any",
+        "bool",
+        "build_batched_admittance",
+        "case.clone",
+        "cpu",
+        "enumerate",
+        "float",
+        "int",
+        "iterations.detach",
+        "losses.detach",
+        "mismatch.detach",
+        "np.asarray",
+        "qg_batch.detach",
+        "results.append",
+        "run_torch_ac_power_flow",
+        "solve_newton_raphson_batch_torch",
+        "torch.abs",
+        "torch.angle",
+        "torch.rad2deg",
+        "violations.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchBranchResult",
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowOptions",
+        "calo_rpd_studio.accelerated.torch_power_flow.TorchPowerFlowResult",
+        "calo_rpd_studio.accelerated.torch_power_flow._branch_flows_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._initial_voltage_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._required_generation_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._sbus_batch",
+        "calo_rpd_studio.accelerated.torch_power_flow._torch",
+        "calo_rpd_studio.accelerated.torch_power_flow._types",
+        "calo_rpd_studio.accelerated.torch_power_flow._update_outputs",
+        "calo_rpd_studio.accelerated.torch_power_flow.build_batched_admittance",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch._same_types",
+        "calo_rpd_studio.accelerated.torch_power_flow.solve_newton_raphson_batch_torch",
+        "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits"
+      ],
+      "doc": "Evaluate one candidate batch with genuinely batched FP64 network construction and NR solves.",
+      "end_line": 937,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(input_cases, device, dtype, options)",
+      "start_line": 830,
+      "state_owner": "",
+      "symbol": "run_torch_ac_power_flow_batch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_types",
+          "target": "calo_rpd_studio.accelerated.torch_power_flow._types"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "_types": "name",
+        "all": "name",
+        "np.array_equal": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch"
+      ],
+      "calls": [
+        "_types",
+        "all",
+        "np.array_equal",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_power_flow._types"
+      ],
+      "doc": "",
+      "end_line": 849,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/torch_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BR_B": "calo_rpd_studio.power_system.case_model.BR_B",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "GS": "calo_rpd_studio.power_system.case_model.GS",
+        "PG": "calo_rpd_studio.power_system.case_model.PG",
+        "PQ": "calo_rpd_studio.power_system.case_model.PQ",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "QD": "calo_rpd_studio.power_system.case_model.QD",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "RATE_A": "calo_rpd_studio.power_system.case_model.RATE_A",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "SHIFT": "calo_rpd_studio.power_system.case_model.SHIFT",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VA": "calo_rpd_studio.power_system.case_model.VA",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.pv_pq_switching",
+        "dataclasses",
+        "numpy",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.torch_power_flow",
+      "qualname": "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch._same_types",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(other)",
+      "start_line": 848,
+      "state_owner": "",
+      "symbol": "_same_types",
+      "tests": []
+    }
+  ]
+}

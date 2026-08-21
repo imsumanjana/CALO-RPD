@@ -1,0 +1,627 @@
+{
+  "path": "tests/unit/test_v690_release_integrity.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v690_release_integrity.test_v690_freeze_verifies_vram_residency_scope",
+        "tests.unit.test_v690_release_integrity.test_v690_metadata_and_qualification_boundaries_are_truthful",
+        "tests.unit.test_v690_release_integrity.test_v690_release_evidence_records_all_eight_closures",
+        "tests.unit.test_v690_release_integrity.test_v690_release_identity_is_consistent",
+        "tests.unit.test_v690_release_integrity.test_v690_root_manifest_matches_every_packaged_file"
+      ],
+      "calls": [
+        "Path",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity._root",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_root",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v690_release_integrity._root"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tomllib.loads",
+          "target": "tomllib.loads"
+        }
+      ],
+      "call_forms": {
+        "_root": "name",
+        "json.loads": "attribute",
+        "read_text": "attribute",
+        "tomllib.loads": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_root",
+        "json.loads",
+        "read_text",
+        "tomllib.loads"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v690_release_integrity._root"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity.test_v690_release_identity_is_consistent",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "test_v690_release_identity_is_consistent",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_freeze_manifest",
+          "target": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "freeze.read_text",
+          "target": "freeze.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v690_release_integrity._root"
+        }
+      ],
+      "call_forms": {
+        "_root": "name",
+        "freeze.read_text": "attribute",
+        "json.loads": "attribute",
+        "verify_freeze_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_root",
+        "freeze.read_text",
+        "json.loads",
+        "verify_freeze_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+        "tests.unit.test_v690_release_integrity._root"
+      ],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity.test_v690_freeze_verifies_vram_residency_scope",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "test_v690_freeze_verifies_vram_residency_scope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "csv.DictReader",
+          "target": "csv.DictReader"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "open",
+          "target": "open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.values",
+          "target": "rows.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v690_release_integrity._root"
+        }
+      ],
+      "call_forms": {
+        "_root": "name",
+        "all": "name",
+        "csv.DictReader": "attribute",
+        "is_file": "attribute",
+        "open": "attribute",
+        "range": "name",
+        "rows.values": "attribute",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_root",
+        "all",
+        "csv.DictReader",
+        "is_file",
+        "open",
+        "range",
+        "rows.values",
+        "set"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v690_release_integrity._root"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity.test_v690_release_evidence_records_all_eight_closures",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "test_v690_release_evidence_records_all_eight_closures",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v690_release_integrity._root"
+        }
+      ],
+      "call_forms": {
+        "_root": "name",
+        "json.loads": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_root",
+        "json.loads",
+        "read_text"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v690_release_integrity._root"
+      ],
+      "doc": "",
+      "end_line": 95,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity.test_v690_metadata_and_qualification_boundaries_are_truthful",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "test_v690_metadata_and_qualification_boundaries_are_truthful",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PurePosixPath",
+          "target": "PurePosixPath"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifact_path.is_file",
+          "target": "artifact_path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "artifact_path.read_bytes",
+          "target": "artifact_path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.split",
+          "target": "line.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_absolute",
+          "target": "path.is_absolute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.joinpath",
+          "target": "root.joinpath"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.items",
+          "target": "rows.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v690_release_integrity._root"
+        }
+      ],
+      "call_forms": {
+        "PurePosixPath": "name",
+        "_root": "name",
+        "artifact_path.is_file": "attribute",
+        "artifact_path.read_bytes": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "line.split": "attribute",
+        "line.strip": "attribute",
+        "path.is_absolute": "attribute",
+        "read_text": "attribute",
+        "root.joinpath": "attribute",
+        "rows.items": "attribute",
+        "splitlines": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PurePosixPath",
+        "_root",
+        "artifact_path.is_file",
+        "artifact_path.read_bytes",
+        "hashlib.sha256",
+        "hexdigest",
+        "line.split",
+        "line.strip",
+        "path.is_absolute",
+        "read_text",
+        "root.joinpath",
+        "rows.items",
+        "splitlines"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v690_release_integrity._root"
+      ],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "tests/unit/test_v690_release_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FREEZE_ID": "calo_rpd_studio.version.FREEZE_ID",
+        "FREEZE_MANIFEST": "calo_rpd_studio.version.FREEZE_MANIFEST",
+        "Path": "pathlib.Path",
+        "PurePosixPath": "pathlib.PurePosixPath",
+        "RELEASE_NAME": "calo_rpd_studio.version.RELEASE_NAME",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "csv": "csv",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "tomllib": "tomllib",
+        "verify_freeze_manifest": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking.freeze",
+        "calo_rpd_studio.version",
+        "csv",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest",
+        "tomllib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v690_release_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v690_release_integrity",
+      "qualname": "tests.unit.test_v690_release_integrity.test_v690_root_manifest_matches_every_packaged_file",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "test_v690_root_manifest_matches_every_packaged_file",
+      "tests": []
+    }
+  ]
+}

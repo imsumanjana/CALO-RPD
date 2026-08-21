@@ -1,0 +1,381 @@
+{
+  "path": "tests/unit/test_bulk_validation.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+        "tests.unit.test_bulk_validation.test_bulk_validation_selection_skips_verified_by_default"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation._FakeDatabase",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "_FakeDatabase",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 30,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation._FakeDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation._FakeDatabase.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        }
+      ],
+      "call_forms": {
+        "dict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "dict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation._FakeDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation._FakeDatabase.list_runs",
+      "semantic_tags": [],
+      "signature": "(self, experiment_id)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "list_runs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "next": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "next"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation._FakeDatabase",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation._FakeDatabase.get_run",
+      "semantic_tags": [],
+      "signature": "(self, run_id)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "get_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validation_module.select_runs_for_validation",
+          "target": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeDatabase",
+          "target": "tests.unit.test_bulk_validation._FakeDatabase"
+        }
+      ],
+      "call_forms": {
+        "_FakeDatabase": "name",
+        "validation_module.select_runs_for_validation": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_FakeDatabase",
+        "validation_module.select_runs_for_validation"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "tests.unit.test_bulk_validation._FakeDatabase"
+      ],
+      "doc": "",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation.test_bulk_validation_selection_skips_verified_by_default",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "test_bulk_validation_selection_skips_verified_by_default",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validation_module.select_runs_for_validation",
+          "target": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validation_module.validate_runs",
+          "target": "calo_rpd_studio.benchmarking.validation.validate_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeDatabase",
+          "target": "tests.unit.test_bulk_validation._FakeDatabase"
+        }
+      ],
+      "call_forms": {
+        "_FakeDatabase": "name",
+        "monkeypatch.setattr": "attribute",
+        "validation_module.select_runs_for_validation": "attribute",
+        "validation_module.validate_runs": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_FakeDatabase",
+        "monkeypatch.setattr",
+        "validation_module.select_runs_for_validation",
+        "validation_module.validate_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.validation.select_runs_for_validation",
+        "calo_rpd_studio.benchmarking.validation.validate_runs",
+        "tests.unit.test_bulk_validation._FakeDatabase"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "tests/unit/test_bulk_validation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "validation_module": "calo_rpd_studio.benchmarking.validation"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.benchmarking"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_bulk_validation",
+      "qualname": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress.fake_validate",
+      "semantic_tags": [],
+      "signature": "(_database, run_id)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "fake_validate",
+      "tests": []
+    }
+  ]
+}

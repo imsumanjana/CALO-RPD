@@ -1,0 +1,3395 @@
+{
+  "path": "calo_rpd_studio/accelerated/throughput_engine.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine._LOG",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger.add"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.StageTiming",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "StageTiming",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.StageTiming",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.StageTiming.items_per_second",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "items_per_second",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Low-overhead cumulative timing ledger.",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "PerformanceLedger",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Lock",
+          "target": "threading.Lock"
+        }
+      ],
+      "call_forms": {
+        "threading.Lock": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "threading.Lock"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "StageTiming",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.StageTiming"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._records.setdefault",
+          "target": "self._records.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "StageTiming": "name",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "self._records.setdefault": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "StageTiming",
+        "float",
+        "int",
+        "max",
+        "self._records.setdefault",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.StageTiming"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger.add",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, stage, seconds, items)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "add",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self._records.items",
+          "target": "self._records.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._records.values",
+          "target": "self._records.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "self._records.items": "attribute",
+        "self._records.values": "attribute",
+        "sorted": "name",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self._records.items",
+        "self._records.values",
+        "sorted",
+        "sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.PerformanceLedger.snapshot",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "GLOBAL_LEDGER",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._evaluate_population_direct"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Context manager for cumulative hot-path timing.",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "timed_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "int": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, stage, items, ledger)",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "time.perf_counter"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage.__enter__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "__enter__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.ledger.add",
+          "target": "self.ledger.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "self.ledger.add": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.ledger.add",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.timed_stage.__exit__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, exc_type, exc, tb)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "__exit__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.from_dict",
+        "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 110,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "DeviceCalibration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "ThroughputProfile",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.save"
+      ],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 124,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceCalibration",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "DeviceCalibration": "name",
+        "cls": "name",
+        "dict": "name",
+        "float": "name",
+        "int": "name",
+        "items": "attribute",
+        "payload.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.load"
+      ],
+      "calls": [
+        "DeviceCalibration",
+        "cls",
+        "dict",
+        "float",
+        "int",
+        "items",
+        "payload.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration"
+      ],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.from_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cls, payload)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "from_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.to_dict",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "destination.parent.mkdir": "attribute",
+        "destination.write_text": "attribute",
+        "json.dumps": "attribute",
+        "self.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "destination.parent.mkdir",
+        "destination.write_text",
+        "json.dumps",
+        "self.to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.to_dict"
+      ],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.save",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, path)",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "save",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls.from_dict",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "cls.from_dict": "attribute",
+        "json.loads": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [
+        "Path",
+        "cls.from_dict",
+        "json.loads",
+        "read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.from_dict"
+      ],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.ThroughputProfile.load",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cls, path)",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.submit"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 162,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine._BatchRequest",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "_BatchRequest",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._persistent_actor_broker",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_does_not_merge_numpy_and_torch_requests",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_merges_compatible_population_requests",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_preserves_original_concatenation_error_and_recovers",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_rejects_non_matrix_candidates_without_blocking",
+        "tests.unit.test_v57_audit_closure_integration.test_cross_run_broker_propagates_worker_evaluator_failure_without_hanging"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Combine compatible synchronous population-evaluation requests across run threads.",
+      "end_line": 411,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 165,
+      "state_owner": "",
+      "symbol": "CrossRunBatchBroker",
+      "tests": [
+        "tests/unit/test_v31_batched_throughput.py",
+        "tests/unit/test_v57_audit_closure_integration.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue.Queue",
+          "target": "queue.Queue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._thread.start",
+          "target": "self._thread.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Event",
+          "target": "threading.Event"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Thread",
+          "target": "threading.Thread"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "queue.Queue": "attribute",
+        "self._thread.start": "attribute",
+        "threading.Event": "attribute",
+        "threading.Thread": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "int",
+        "max",
+        "queue.Queue",
+        "self._thread.start",
+        "threading.Event",
+        "threading.Thread"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 190,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, batch_window_ms, max_candidates, ledger)",
+      "start_line": 175,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "array.unsqueeze",
+          "target": "array.unsqueeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_BatchRequest",
+          "target": "calo_rpd_studio.accelerated.throughput_engine._BatchRequest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "request.ready.wait",
+          "target": "request.ready.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.is_set",
+          "target": "self._closed.is_set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.set",
+          "target": "self._closed.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._queue.put",
+          "target": "self._queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._thread.is_alive",
+          "target": "self._thread.is_alive"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_BatchRequest": "name",
+        "array.unsqueeze": "attribute",
+        "getattr": "name",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name",
+        "np.asarray": "attribute",
+        "request.ready.wait": "attribute",
+        "self._closed.is_set": "attribute",
+        "self._closed.set": "attribute",
+        "self._queue.put": "attribute",
+        "self._thread.is_alive": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "_BatchRequest",
+        "array.unsqueeze",
+        "getattr",
+        "isinstance",
+        "len",
+        "list",
+        "np.asarray",
+        "request.ready.wait",
+        "self._closed.is_set",
+        "self._closed.set",
+        "self._queue.put",
+        "self._thread.is_alive"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine._BatchRequest"
+      ],
+      "doc": "",
+      "end_line": 229,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.submit",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, evaluator, candidates)",
+      "start_line": 192,
+      "state_owner": "",
+      "symbol": "submit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "signature",
+          "target": "signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "callable": "name",
+        "getattr": "name",
+        "int": "name",
+        "isinstance": "name",
+        "np.asarray": "attribute",
+        "signature": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._run"
+      ],
+      "calls": [
+        "_LOG.debug",
+        "callable",
+        "getattr",
+        "int",
+        "isinstance",
+        "np.asarray",
+        "signature",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 252,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._signature",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(evaluator, candidates)",
+      "start_line": 232,
+      "state_owner": "",
+      "symbol": "_signature",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "direct",
+          "target": "direct"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "matrices.append",
+          "target": "matrices.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.concatenate",
+          "target": "np.concatenate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "offsets.append",
+          "target": "offsets.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "request.ready.set",
+          "target": "request.ready.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.ledger.add",
+          "target": "self.ledger.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tensor_direct",
+          "target": "tensor_direct"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_evaluations",
+          "target": "to_evaluations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cat",
+          "target": "torch.cat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "TypeError": "name",
+        "ValueError": "name",
+        "all": "name",
+        "bool": "name",
+        "callable": "name",
+        "direct": "name",
+        "getattr": "name",
+        "int": "name",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name",
+        "matrices.append": "attribute",
+        "np.asarray": "attribute",
+        "np.concatenate": "attribute",
+        "offsets.append": "attribute",
+        "request.ready.set": "attribute",
+        "self.ledger.add": "attribute",
+        "tensor_direct": "name",
+        "time.perf_counter": "attribute",
+        "to_evaluations": "attribute",
+        "torch.cat": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._run"
+      ],
+      "calls": [
+        "RuntimeError",
+        "TypeError",
+        "ValueError",
+        "all",
+        "bool",
+        "callable",
+        "direct",
+        "getattr",
+        "int",
+        "isinstance",
+        "len",
+        "list",
+        "matrices.append",
+        "np.asarray",
+        "np.concatenate",
+        "offsets.append",
+        "request.ready.set",
+        "self.ledger.add",
+        "tensor_direct",
+        "time.perf_counter",
+        "to_evaluations",
+        "torch.cat",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 332,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._flush_group",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, requests)",
+      "start_line": 254,
+      "state_owner": "",
+      "symbol": "_flush_group",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "backlog.append",
+          "target": "backlog.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "backlog.pop",
+          "target": "backlog.pop"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._flush_group",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._flush_group"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._signature",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.ready.set",
+          "target": "first.ready.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group.append",
+          "target": "group.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pending.append",
+          "target": "pending.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "request.ready.set",
+          "target": "request.ready.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.is_set",
+          "target": "self._closed.is_set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.set",
+          "target": "self._closed.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._queue.get",
+          "target": "self._queue.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._queue.get_nowait",
+          "target": "self._queue.get_nowait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "backlog.append": "attribute",
+        "backlog.pop": "attribute",
+        "first.ready.set": "attribute",
+        "group.append": "attribute",
+        "len": "name",
+        "pending.append": "attribute",
+        "request.ready.set": "attribute",
+        "self._closed.is_set": "attribute",
+        "self._closed.set": "attribute",
+        "self._flush_group": "attribute",
+        "self._queue.get": "attribute",
+        "self._queue.get_nowait": "attribute",
+        "self._signature": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "backlog.append",
+        "backlog.pop",
+        "first.ready.set",
+        "group.append",
+        "len",
+        "pending.append",
+        "request.ready.set",
+        "self._closed.is_set",
+        "self._closed.set",
+        "self._flush_group",
+        "self._queue.get",
+        "self._queue.get_nowait",
+        "self._signature",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._flush_group",
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._signature"
+      ],
+      "doc": "",
+      "end_line": 397,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker._run",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 334,
+      "state_owner": "",
+      "symbol": "_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.is_set",
+          "target": "self._closed.is_set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._closed.set",
+          "target": "self._closed.set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._queue.put",
+          "target": "self._queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._thread.join",
+          "target": "self._thread.join"
+        }
+      ],
+      "call_forms": {
+        "self._closed.is_set": "attribute",
+        "self._closed.set": "attribute",
+        "self._queue.put": "attribute",
+        "self._thread.join": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.__exit__"
+      ],
+      "calls": [
+        "self._closed.is_set",
+        "self._closed.set",
+        "self._queue.put",
+        "self._thread.join"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 404,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.close",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 399,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 407,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.__enter__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 406,
+      "state_owner": "",
+      "symbol": "__enter__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.close"
+        }
+      ],
+      "call_forms": {
+        "self.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.close"
+      ],
+      "doc": "",
+      "end_line": 411,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker.__exit__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, exc_type, exc, tb)",
+      "start_line": 409,
+      "state_owner": "",
+      "symbol": "__exit__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "counts.values",
+          "target": "counts.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "names.index",
+          "target": "names.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.floor",
+          "target": "np.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "positive.values",
+          "target": "positive.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "counts.values": "attribute",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "max": "name",
+        "names.index": "attribute",
+        "np.floor": "attribute",
+        "positive.values": "attribute",
+        "sorted": "name",
+        "sum": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "calo_rpd_studio.compute.resource_scheduler.throughput_worker_slots"
+      ],
+      "calls": [
+        "counts.values",
+        "enumerate",
+        "float",
+        "int",
+        "len",
+        "list",
+        "max",
+        "names.index",
+        "np.floor",
+        "positive.values",
+        "sorted",
+        "sum"
+      ],
+      "calls_resolved": [],
+      "doc": "Integer allocation proportional to non-negative measured throughputs.",
+      "end_line": 429,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(total, weights)",
+      "start_line": 414,
+      "state_owner": "",
+      "symbol": "largest_remainder_counts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "largest_remainder_counts",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enabled.get",
+          "target": "enabled.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throughputs.get",
+          "target": "throughputs.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throughputs.items",
+          "target": "throughputs.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.values",
+          "target": "weights.values"
+        }
+      ],
+      "call_forms": {
+        "enabled.get": "attribute",
+        "float": "name",
+        "int": "name",
+        "largest_remainder_counts": "name",
+        "max": "name",
+        "sum": "name",
+        "throughputs.get": "attribute",
+        "throughputs.items": "attribute",
+        "weights.values": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.resource_scheduler.build_throughput_lane_plan",
+        "tests.unit.test_v31_batched_throughput.test_measured_throughput_allocation_uses_observed_capacity"
+      ],
+      "calls": [
+        "enabled.get",
+        "float",
+        "int",
+        "largest_remainder_counts",
+        "max",
+        "sum",
+        "throughputs.get",
+        "throughputs.items",
+        "weights.values"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.largest_remainder_counts"
+      ],
+      "doc": "Allocate whole jobs according to measured device throughput.",
+      "end_line": 446,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(total_jobs, throughputs, enabled)",
+      "start_line": 432,
+      "state_owner": "",
+      "symbol": "measured_throughput_allocation",
+      "tests": [
+        "tests/unit/test_v31_batched_throughput.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.warning",
+          "target": "_LOG.warning"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceCalibration",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "device.startswith",
+          "target": "device.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evaluator._evaluate_population_direct",
+          "target": "evaluator._evaluate_population_direct"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        }
+      ],
+      "call_forms": {
+        "DeviceCalibration": "name",
+        "_LOG.warning": "attribute",
+        "device.startswith": "attribute",
+        "evaluator._evaluate_population_direct": "attribute",
+        "float": "name",
+        "getattr": "name",
+        "hasattr": "name",
+        "int": "name",
+        "iter": "name",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "next": "name",
+        "np.random.default_rng": "attribute",
+        "range": "name",
+        "rng.random": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "time.perf_counter": "attribute",
+        "torch.cuda.synchronize": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main"
+      ],
+      "calls": [
+        "DeviceCalibration",
+        "_LOG.warning",
+        "device.startswith",
+        "evaluator._evaluate_population_direct",
+        "float",
+        "getattr",
+        "hasattr",
+        "int",
+        "iter",
+        "len",
+        "max",
+        "min",
+        "next",
+        "np.random.default_rng",
+        "range",
+        "rng.random",
+        "sorted",
+        "str",
+        "time.perf_counter",
+        "torch.cuda.synchronize"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.DeviceCalibration"
+      ],
+      "doc": "Measure a problem/device pair and choose the best stable candidate batch size.",
+      "end_line": 535,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/throughput_engine.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "json": "json",
+        "logging": "logging",
+        "np": "numpy",
+        "queue": "queue",
+        "threading": "threading",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "json",
+        "logging",
+        "numpy",
+        "pathlib",
+        "queue",
+        "threading",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.throughput_engine",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.throughput_engine",
+      "qualname": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(evaluator, batch_sizes, repetitions, seed, synchronize)",
+      "start_line": 449,
+      "state_owner": "",
+      "symbol": "calibrate_evaluator",
+      "tests": []
+    }
+  ]
+}

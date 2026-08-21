@@ -1,0 +1,59 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/contingencies.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/cvar.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/scenario_generator.py"
+    }
+  ],
+  "path": "tests/unit/test_robustness.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_robustness.test_cvar_and_seeded_scenarios",
+      "to": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_robustness.test_cvar_and_seeded_scenarios",
+      "to": "calo_rpd_studio.robustness.scenario_generator.ScenarioGeneratorConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_robustness.test_cvar_and_seeded_scenarios",
+      "to": "calo_rpd_studio.robustness.scenario_generator.generate_load_scenarios"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+      "to": "apply"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+      "to": "astype"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+      "to": "calo_rpd_studio.robustness.contingencies.n_minus_one_generator_scenarios"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_robustness.test_generator_outage_preserves_reference",
+      "to": "np.sum"
+    }
+  ]
+}

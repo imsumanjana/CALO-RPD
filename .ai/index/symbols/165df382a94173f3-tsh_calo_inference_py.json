@@ -1,0 +1,2514 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.FROZEN_CALO_BASELINE_IDENTITY",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "FROZEN_CALO_BASELINE_IDENTITY",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.InferenceMemoryAdmission",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "InferenceMemoryAdmission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence.main"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Non-serializable authority for evaluating, never deploying, one candidate ensemble.",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "QualificationCandidateAuthority",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.qualification_run_id.strip",
+          "target": "self.qualification_run_id.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.source_commit.strip",
+          "target": "self.source_commit.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "len": "name",
+        "lower": "attribute",
+        "protected_holdout_matches": "name",
+        "self.qualification_run_id.strip": "attribute",
+        "self.source_commit.strip": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "any",
+        "len",
+        "lower",
+        "protected_holdout_matches",
+        "self.qualification_run_id.strip",
+        "self.source_commit.strip",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_component_ablation.test_ablation_profiles_cover_A_E_and_cannot_smuggle_experimental_F"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "A fixed A–E removal profile that cannot arrive through serialized runtime config.",
+      "end_line": 117,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOComponentAblationProfile",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "TSHCALOComponentAblationProfile",
+      "tests": [
+        "tests/unit/test_tsh_calo_component_ablation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 117,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOComponentAblationProfile",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOComponentAblationProfile.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationCampaign._run_owned",
+        "tests.unit.test_tsh_calo_component_ablation.test_component_authority_rejects_protected_identity_and_invalid_policy"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Non-serializable authority for development-only component removal evidence.",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "ComponentAblationAuthority",
+      "tests": [
+        "tests/unit/test_tsh_calo_component_ablation.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.profile.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_matches",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.campaign_id.strip",
+          "target": "self.campaign_id.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.source_commit.strip",
+          "target": "self.source_commit.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "len": "name",
+        "lower": "attribute",
+        "protected_holdout_matches": "name",
+        "self.campaign_id.strip": "attribute",
+        "self.profile.validate": "attribute",
+        "self.source_commit.strip": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority.validate"
+      ],
+      "calls": [
+        "ValueError",
+        "any",
+        "len",
+        "lower",
+        "protected_holdout_matches",
+        "self.campaign_id.strip",
+        "self.profile.validate",
+        "self.source_commit.strip",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority.validate",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches"
+      ],
+      "doc": "",
+      "end_line": 145,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 132,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+        "tests.unit.test_tsh_calo_device_equivalence._result"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 157,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 149,
+      "state_owner": "",
+      "symbol": "TSHCALOInferenceResult",
+      "tests": [
+        "tests/unit/test_tsh_calo_device_equivalence.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.virtual_memory",
+          "target": "psutil.virtual_memory"
+        }
+      ],
+      "call_forms": {
+        "calculate_available_memory_admission": "name",
+        "int": "name",
+        "psutil.virtual_memory": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device"
+      ],
+      "calls": [
+        "calculate_available_memory_admission",
+        "int",
+        "psutil.virtual_memory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "()",
+      "start_line": 160,
+      "state_owner": "",
+      "symbol": "_cpu_admission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "MemoryError",
+          "target": "MemoryError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "InferenceMemoryAdmission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.InferenceMemoryAdmission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_cpu_admission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.startswith",
+          "target": "requested.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.stat",
+          "target": "source.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "FileNotFoundError": "name",
+        "InferenceMemoryAdmission": "name",
+        "MemoryError": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_cpu_admission": "name",
+        "calculate_available_memory_admission": "name",
+        "int": "name",
+        "lower": "attribute",
+        "max": "name",
+        "requested.startswith": "attribute",
+        "source.is_file": "attribute",
+        "source.stat": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.mem_get_info": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+        "tests.unit.test_tsh_calo_inference.test_safe80_admission_uses_currently_free_vram_and_falls_back_only_when_needed"
+      ],
+      "calls": [
+        "FileNotFoundError",
+        "InferenceMemoryAdmission",
+        "MemoryError",
+        "Path",
+        "RuntimeError",
+        "ValueError",
+        "_cpu_admission",
+        "calculate_available_memory_admission",
+        "int",
+        "lower",
+        "max",
+        "requested.startswith",
+        "source.is_file",
+        "source.stat",
+        "str",
+        "strip",
+        "torch.cuda.is_available",
+        "torch.cuda.mem_get_info",
+        "torch.device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.InferenceMemoryAdmission",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission",
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "Admit a conservative serialized-model working set against current free memory.",
+      "end_line": 221,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(checkpoint_path, requested_device, allow_cpu_fallback)",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "admit_inference_device",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation._ComponentAblationOptimizer._build_inference_controller",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer._build_inference_controller",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._QualificationCandidateOptimizer._build_inference_controller",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._controller",
+        "tests.unit.test_tsh_calo_inference._controller",
+        "tests.unit.test_tsh_calo_inference.test_runtime_rejects_a_binding_whose_frozen_qualification_receipt_was_mutated",
+        "tests.unit.test_tsh_calo_inference.test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Consume one qualified, active, immutable ensemble binding or fail explicitly.",
+      "end_line": 505,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 224,
+      "state_owner": "",
+      "symbol": "TSHCALOInferenceController",
+      "tests": [
+        "tests/unit/test_tsh_calo_inference.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._load",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manual_seed",
+          "target": "manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.Generator",
+          "target": "torch.Generator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "bool": "name",
+        "dict": "name",
+        "int": "name",
+        "lower": "attribute",
+        "manual_seed": "attribute",
+        "self._load": "attribute",
+        "str": "name",
+        "torch.Generator": "attribute",
+        "torch.device": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "bool",
+        "dict",
+        "int",
+        "lower",
+        "manual_seed",
+        "self._load",
+        "str",
+        "torch.Generator",
+        "torch.device",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load"
+      ],
+      "doc": "",
+      "end_line": 265,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, binding, ood_calibration, expected_ood_calibration_sha256, deterministic, seed, requested_device, allow_cpu_fallback, baseline_fallback_permitted, _qualification_authority, _component_ablation_authority)",
+      "start_line": 229,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "MemoryError",
+          "target": "MemoryError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authority.validate",
+          "target": "authority.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "binding.get",
+          "target": "binding.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "load_tsh_calo_ensemble",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "InferenceMemoryAdmission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.InferenceMemoryAdmission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_cpu_admission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "admit_inference_device",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_tsh_calo_qualification_receipt",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOFeatureFlags",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ood_calibration_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected.items",
+          "target": "expected.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "flags.validate",
+          "target": "flags.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manual_seed",
+          "target": "manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.artifact.training_provenance.get",
+          "target": "self.artifact.training_provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.Generator",
+          "target": "torch.Generator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.empty_cache",
+          "target": "torch.cuda.empty_cache"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "InferenceMemoryAdmission": "name",
+        "MemoryError": "name",
+        "RuntimeError": "name",
+        "TSHCALOFeatureFlags": "name",
+        "ValueError": "name",
+        "_cpu_admission": "name",
+        "admit_inference_device": "name",
+        "asdict": "name",
+        "authority.validate": "attribute",
+        "binding.get": "attribute",
+        "bool": "name",
+        "dict": "name",
+        "expected.items": "attribute",
+        "flags.validate": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "list": "name",
+        "load_tsh_calo_ensemble": "name",
+        "load_tsh_calo_qualification_receipt": "name",
+        "lower": "attribute",
+        "manual_seed": "attribute",
+        "ood_calibration_sha256": "name",
+        "self.artifact.training_provenance.get": "attribute",
+        "str": "name",
+        "torch.Generator": "attribute",
+        "torch.cuda.empty_cache": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.__init__"
+      ],
+      "calls": [
+        "InferenceMemoryAdmission",
+        "MemoryError",
+        "RuntimeError",
+        "TSHCALOFeatureFlags",
+        "ValueError",
+        "_cpu_admission",
+        "admit_inference_device",
+        "asdict",
+        "authority.validate",
+        "binding.get",
+        "bool",
+        "dict",
+        "expected.items",
+        "flags.validate",
+        "int",
+        "json.dumps",
+        "list",
+        "load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt",
+        "lower",
+        "manual_seed",
+        "ood_calibration_sha256",
+        "self.artifact.training_provenance.get",
+        "str",
+        "torch.Generator",
+        "torch.cuda.empty_cache",
+        "torch.device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.load_tsh_calo_ensemble",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.InferenceMemoryAdmission",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference._cpu_admission",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.admit_inference_device",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256"
+      ],
+      "doc": "",
+      "end_line": 373,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._load",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, requested_device, allow_cpu_fallback, seed)",
+      "start_line": 267,
+      "state_owner": "",
+      "symbol": "_load",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_policy_fallback",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "resolve_policy_fallback": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide"
+      ],
+      "calls": [
+        "bool",
+        "resolve_policy_fallback"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback"
+      ],
+      "doc": "",
+      "end_line": 382,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.fallback_decision",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, reason)",
+      "start_line": 375,
+      "state_owner": "",
+      "symbol": "fallback_decision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._provenance",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.fallback_decision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.fallback_decision"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOInferenceResult",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EnsembleDisagreement",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShieldConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "UncertaintySafetyShield",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "UncertaintySafetyShield.sample",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.sample"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_policy_ensemble",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "topology_ood_signature",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ensemble.mean_output.value.item",
+          "target": "ensemble.mean_output.value.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.forward_prepared_components",
+          "target": "network.forward_prepared_components"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.prepare_state",
+          "target": "network.prepare_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.ood_calibration.score_and_attenuation",
+          "target": "self.ood_calibration.score_and_attenuation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.inference_mode",
+          "target": "torch.inference_mode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros_like",
+          "target": "torch.zeros_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "EnsembleDisagreement": "name",
+        "ShieldConfig": "name",
+        "TSHCALOInferenceResult": "name",
+        "UncertaintySafetyShield": "name",
+        "UncertaintySafetyShield.sample": "attribute",
+        "aggregate_policy_ensemble": "name",
+        "ensemble.mean_output.value.item": "attribute",
+        "float": "name",
+        "hierarchical_action": "name",
+        "network.forward_prepared_components": "attribute",
+        "network.prepare_state": "attribute",
+        "resolve": "attribute",
+        "self._provenance": "attribute",
+        "self.fallback_decision": "attribute",
+        "self.ood_calibration.score_and_attenuation": "attribute",
+        "state.validate": "attribute",
+        "topology_ood_signature": "name",
+        "torch.as_tensor": "attribute",
+        "torch.inference_mode": "attribute",
+        "torch.zeros_like": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "EnsembleDisagreement",
+        "ShieldConfig",
+        "TSHCALOInferenceResult",
+        "UncertaintySafetyShield",
+        "UncertaintySafetyShield.sample",
+        "aggregate_policy_ensemble",
+        "ensemble.mean_output.value.item",
+        "float",
+        "hierarchical_action",
+        "network.forward_prepared_components",
+        "network.prepare_state",
+        "resolve",
+        "self._provenance",
+        "self.fallback_decision",
+        "self.ood_calibration.score_and_attenuation",
+        "state.validate",
+        "topology_ood_signature",
+        "torch.as_tensor",
+        "torch.inference_mode",
+        "torch.zeros_like",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._provenance",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.fallback_decision",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield.sample",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature"
+      ],
+      "doc": "",
+      "end_line": 480,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, state, action_mask, learner_groups, learner_contexts, bandit, safety)",
+      "start_line": 384,
+      "state_owner": "",
+      "symbol": "decide",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.binding.get",
+          "target": "self.binding.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "int": "name",
+        "self.binding.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController.decide"
+      ],
+      "calls": [
+        "asdict",
+        "int",
+        "self.binding.get",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 505,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_inference.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnsembleDisagreement": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.EnsembleDisagreement",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "OODCalibration": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.OODCalibration",
+        "Path": "pathlib.Path",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "SafetyEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SafetyEnvelope",
+        "ShieldConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldConfig",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "SlidingWindowContextualBandit": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.SlidingWindowContextualBandit",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "TSHCALOFeatureFlags": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "TSH_CALO_ALGORITHM_VERSION": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_VERSION",
+        "TSH_CALO_QUALIFICATION_RECEIPT_KEY": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSH_CALO_QUALIFICATION_RECEIPT_KEY",
+        "TSH_CALO_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_STATE_SCHEMA",
+        "TSH_CALO_TRAINING_ENVIRONMENT": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_TRAINING_ENVIRONMENT",
+        "UncertaintySafetyShield": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.UncertaintySafetyShield",
+        "aggregate_policy_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.aggregate_policy_ensemble",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "json": "json",
+        "load_tsh_calo_ensemble": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.load_tsh_calo_ensemble",
+        "load_tsh_calo_qualification_receipt": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.load_tsh_calo_qualification_receipt",
+        "ood_calibration_sha256": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ood_calibration_sha256",
+        "protected_holdout_matches": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "psutil": "psutil",
+        "resolve_policy_fallback": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.resolve_policy_fallback",
+        "topology_ood_signature": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.topology_ood_signature",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".tsh_calo_policy",
+        ".tsh_calo_policy_artifact",
+        ".tsh_calo_qualification",
+        ".tsh_calo_schema",
+        ".tsh_calo_shield",
+        "__future__",
+        "calo_rpd_studio.compute.memory_budget",
+        "calo_rpd_studio.power_system.case_identity",
+        "dataclasses",
+        "json",
+        "pathlib",
+        "psutil",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceController._provenance",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, runtime_rejection)",
+      "start_line": 482,
+      "state_owner": "",
+      "symbol": "_provenance",
+      "tests": []
+    }
+  ]
+}

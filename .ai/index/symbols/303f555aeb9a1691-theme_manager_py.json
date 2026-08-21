@@ -1,0 +1,446 @@
+{
+  "path": "calo_rpd_studio/gui/themes/theme_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QColor",
+          "target": "QColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "palette.setColor",
+          "target": "palette.setColor"
+        }
+      ],
+      "call_forms": {
+        "QColor": "name",
+        "palette.setColor": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.themes.theme_manager._dark_palette",
+        "calo_rpd_studio.gui.themes.theme_manager._light_palette"
+      ],
+      "calls": [
+        "QColor",
+        "palette.setColor"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/theme_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DARK_STYLESHEET": "calo_rpd_studio.gui.themes.dark.DARK_STYLESHEET",
+        "DARK_TOKENS": "calo_rpd_studio.gui.themes.tokens.DARK_TOKENS",
+        "LIGHT_STYLESHEET": "calo_rpd_studio.gui.themes.light.LIGHT_STYLESHEET",
+        "LIGHT_TOKENS": "calo_rpd_studio.gui.themes.tokens.LIGHT_TOKENS",
+        "ModernSpinBoxStyle": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "annotations": "__future__.annotations",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".dark",
+        ".light",
+        ".modern_spin_style",
+        ".runtime_fonts",
+        ".tokens",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.theme_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.theme_manager",
+      "qualname": "calo_rpd_studio.gui.themes.theme_manager._set_palette_color",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(palette, role, value)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_set_palette_color",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QColor",
+          "target": "QColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPalette",
+          "target": "QPalette"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_set_palette_color",
+          "target": "calo_rpd_studio.gui.themes.theme_manager._set_palette_color"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.setColor",
+          "target": "p.setColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.items",
+          "target": "values.items"
+        }
+      ],
+      "call_forms": {
+        "QColor": "name",
+        "QPalette": "name",
+        "_set_palette_color": "name",
+        "p.setColor": "attribute",
+        "values.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+      ],
+      "calls": [
+        "QColor",
+        "QPalette",
+        "_set_palette_color",
+        "p.setColor",
+        "values.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.theme_manager._set_palette_color"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/theme_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DARK_STYLESHEET": "calo_rpd_studio.gui.themes.dark.DARK_STYLESHEET",
+        "DARK_TOKENS": "calo_rpd_studio.gui.themes.tokens.DARK_TOKENS",
+        "LIGHT_STYLESHEET": "calo_rpd_studio.gui.themes.light.LIGHT_STYLESHEET",
+        "LIGHT_TOKENS": "calo_rpd_studio.gui.themes.tokens.LIGHT_TOKENS",
+        "ModernSpinBoxStyle": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "annotations": "__future__.annotations",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".dark",
+        ".light",
+        ".modern_spin_style",
+        ".runtime_fonts",
+        ".tokens",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.theme_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.theme_manager",
+      "qualname": "calo_rpd_studio.gui.themes.theme_manager._light_palette",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "()",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_light_palette",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QColor",
+          "target": "QColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPalette",
+          "target": "QPalette"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_set_palette_color",
+          "target": "calo_rpd_studio.gui.themes.theme_manager._set_palette_color"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.setColor",
+          "target": "p.setColor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.items",
+          "target": "values.items"
+        }
+      ],
+      "call_forms": {
+        "QColor": "name",
+        "QPalette": "name",
+        "_set_palette_color": "name",
+        "p.setColor": "attribute",
+        "values.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+      ],
+      "calls": [
+        "QColor",
+        "QPalette",
+        "_set_palette_color",
+        "p.setColor",
+        "values.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.theme_manager._set_palette_color"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/theme_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DARK_STYLESHEET": "calo_rpd_studio.gui.themes.dark.DARK_STYLESHEET",
+        "DARK_TOKENS": "calo_rpd_studio.gui.themes.tokens.DARK_TOKENS",
+        "LIGHT_STYLESHEET": "calo_rpd_studio.gui.themes.light.LIGHT_STYLESHEET",
+        "LIGHT_TOKENS": "calo_rpd_studio.gui.themes.tokens.LIGHT_TOKENS",
+        "ModernSpinBoxStyle": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "annotations": "__future__.annotations",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".dark",
+        ".light",
+        ".modern_spin_style",
+        ".runtime_fonts",
+        ".tokens",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.theme_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.theme_manager",
+      "qualname": "calo_rpd_studio.gui.themes.theme_manager._dark_palette",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "()",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "_dark_palette",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "app.setPalette",
+          "target": "app.setPalette"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setStyle",
+          "target": "app.setStyle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setStyleSheet",
+          "target": "app.setStyleSheet"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ModernSpinBoxStyle",
+          "target": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ensure_application_font",
+          "target": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_dark_palette",
+          "target": "calo_rpd_studio.gui.themes.theme_manager._dark_palette"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_light_palette",
+          "target": "calo_rpd_studio.gui.themes.theme_manager._light_palette"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "ModernSpinBoxStyle": "name",
+        "_dark_palette": "name",
+        "_light_palette": "name",
+        "app.setPalette": "attribute",
+        "app.setStyle": "attribute",
+        "app.setStyleSheet": "attribute",
+        "ensure_application_font": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.application.main",
+        "calo_rpd_studio.app.application.main.on_theme_changed",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render",
+        "calo_rpd_studio.scripts.validate_phase3_workspace_accessibility.validate_workspace_accessibility",
+        "calo_rpd_studio.scripts.validate_phase6_gui_contracts.validate"
+      ],
+      "calls": [
+        "ModernSpinBoxStyle",
+        "_dark_palette",
+        "_light_palette",
+        "app.setPalette",
+        "app.setStyle",
+        "app.setStyleSheet",
+        "ensure_application_font",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+        "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "calo_rpd_studio.gui.themes.theme_manager._dark_palette",
+        "calo_rpd_studio.gui.themes.theme_manager._light_palette"
+      ],
+      "doc": "Apply a deterministic application palette and matching stylesheet.",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/themes/theme_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DARK_STYLESHEET": "calo_rpd_studio.gui.themes.dark.DARK_STYLESHEET",
+        "DARK_TOKENS": "calo_rpd_studio.gui.themes.tokens.DARK_TOKENS",
+        "LIGHT_STYLESHEET": "calo_rpd_studio.gui.themes.light.LIGHT_STYLESHEET",
+        "LIGHT_TOKENS": "calo_rpd_studio.gui.themes.tokens.LIGHT_TOKENS",
+        "ModernSpinBoxStyle": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QColor": "PyQt6.QtGui.QColor",
+        "QPalette": "PyQt6.QtGui.QPalette",
+        "annotations": "__future__.annotations",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".dark",
+        ".light",
+        ".modern_spin_style",
+        ".runtime_fonts",
+        ".tokens",
+        "PyQt6.QtGui",
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.themes.theme_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.themes.theme_manager",
+      "qualname": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(app, name)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "apply_theme",
+      "tests": []
+    }
+  ]
+}

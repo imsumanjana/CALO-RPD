@@ -1,0 +1,179 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/lshade.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    }
+  ],
+  "path": "tests/unit/test_lshade.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.SphereProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.SphereProblem.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.SphereProblem.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.SphereProblem.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.SphereProblem.evaluate_population",
+      "to": "tests.unit.test_lshade.SphereProblem.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.SphereProblem.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.SphereProblem.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter",
+      "to": "calo_rpd_studio.algorithms.lshade.constrained_improvement"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "startswith"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "tests.unit.test_lshade.SphereProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_accounts_exact_budget_and_reduces_population",
+      "to": "zip"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "to": "run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_lshade_tiny_budget_finishes_without_invalid_mutation",
+      "to": "tests.unit.test_lshade.SphereProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_parent_midpoint_repair_matches_reference_equation",
+      "to": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_parent_midpoint_repair_matches_reference_equation",
+      "to": "np.array"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_parent_midpoint_repair_matches_reference_equation",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_positive_round_matches_reference_cpp_size_rounding",
+      "to": "calo_rpd_studio.algorithms.lshade.positive_round"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "to": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "to": "np.array"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means",
+      "to": "pytest.approx"
+    }
+  ]
+}

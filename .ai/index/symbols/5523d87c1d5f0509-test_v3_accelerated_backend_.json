@@ -1,0 +1,574 @@
+{
+  "path": "tests/unit/test_v3_accelerated_backend.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parity_check",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "ORPDProblem": "name",
+        "np.random.default_rng": "attribute",
+        "parity_check": "name",
+        "random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "ORPDProblem",
+        "np.random.default_rng",
+        "parity_check",
+        "random"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_torch_fp64_orpd_backend_matches_cpu_reference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population",
+          "target": "problem.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "all": "name",
+        "len": "name",
+        "np.random.default_rng": "attribute",
+        "problem.evaluate_population": "attribute",
+        "random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "all",
+        "len",
+        "np.random.default_rng",
+        "problem.evaluate_population",
+        "random"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.test_accelerated_population_evaluation_reports_backend",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "test_accelerated_population_evaluation_reports_backend",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "SphereProblem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate_population"
+      ],
+      "calls": [
+        "Evaluation",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate"
+      ],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.SphereProblem.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "create_optimizer",
+          "target": "calo_rpd_studio.algorithms.registry.create_optimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "optimizer.run",
+          "target": "optimizer.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.update",
+          "target": "parameters.update"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SphereProblem",
+          "target": "tests.unit.test_v3_accelerated_backend.SphereProblem"
+        }
+      ],
+      "call_forms": {
+        "OptimizerConfig": "name",
+        "SphereProblem": "name",
+        "create_optimizer": "name",
+        "dict": "name",
+        "np.isfinite": "attribute",
+        "optimizer.run": "attribute",
+        "parameters.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "OptimizerConfig",
+        "SphereProblem",
+        "create_optimizer",
+        "dict",
+        "np.isfinite",
+        "optimizer.run",
+        "parameters.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "tests.unit.test_v3_accelerated_backend.SphereProblem"
+      ],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "tests/unit/test_v3_accelerated_backend.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "annotations": "__future__.annotations",
+        "create_optimizer": "calo_rpd_studio.algorithms.registry.create_optimizer",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.orpd.problem",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v3_accelerated_backend",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v3_accelerated_backend",
+      "qualname": "tests.unit.test_v3_accelerated_backend.test_all_registered_baselines_declare_their_compute_kernel",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_all_registered_baselines_declare_their_compute_kernel",
+      "tests": []
+    }
+  ]
+}

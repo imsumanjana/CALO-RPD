@@ -1,0 +1,289 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/base_optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/heterogeneous_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/benchmarking/campaign.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/publication_export.py"
+    }
+  ],
+  "path": "tests/unit/test_v34_release_blockers.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+      "to": "calo_rpd_studio.orpd.problem.Evaluation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate",
+      "to": "np.sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate_population",
+      "to": "tests.unit.test_v34_release_blockers.SphereProblem.evaluate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.solution_state",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.SphereProblem.solution_state",
+      "to": "tolist"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers._insert_verified_run",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers._insert_verified_run",
+      "to": "db.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers._insert_verified_run",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers._insert_verified_run",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "calo_rpd_studio.benchmarking.campaign.write_campaign_plan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_plan_persists_exact_formulation_manifest",
+      "to": "pytest.importorskip"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "to": "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "to": "calo_rpd_studio.benchmarking.campaign.build_campaign"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "calo_rpd_studio.algorithms.registry.create_optimizer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_every_optimizer_matches_seeded_release_snapshot_and_budget",
+      "to": "tests.unit.test_v34_release_blockers.SphereProblem"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_gpu_maximum_training_defaults_and_cuda_to_cpu_fallback_order",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.HeterogeneousTrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_gpu_maximum_training_defaults_and_cuda_to_cpu_fallback_order",
+      "to": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "calo_rpd_studio.results.publication_export.PublicationExporter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "db.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "export"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "pd.read_csv"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "tests.unit.test_v34_release_blockers._insert_verified_run"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+      "to": "uuid.uuid4"
+    }
+  ]
+}

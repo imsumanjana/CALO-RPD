@@ -1,0 +1,1200 @@
+{
+  "path": "calo_rpd_studio/power_system/ac_power_flow.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator._run_pypower_with_pv_q_switching",
+        "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "PowerFlowOptions",
+      "tests": [
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions.validate"
+        }
+      ],
+      "call_forms": {
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions.validate"
+      ],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions.__post_init__"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "int",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowResult",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "PowerFlowResult",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "float": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowResult",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowResult.total_loss_mw",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "total_loss_mw",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "astype": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "ValueError",
+        "astype",
+        "np.where"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow._types",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "_types",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "case.bus_index_map": "attribute",
+        "int": "name",
+        "np.where": "attribute",
+        "np.zeros": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "tests.unit.test_v650_must_resolve.test_c04_torch_newton_matches_cpu_backtracking_on_stressed_start"
+      ],
+      "calls": [
+        "case.bus_index_map",
+        "int",
+        "np.where",
+        "np.zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow._sbus",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "_sbus",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.deg2rad",
+          "target": "np.deg2rad"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.exp",
+          "target": "np.exp"
+        }
+      ],
+      "call_forms": {
+        "case.bus_index_map": "attribute",
+        "copy": "attribute",
+        "int": "name",
+        "np.deg2rad": "attribute",
+        "np.exp": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "case.bus_index_map",
+        "copy",
+        "int",
+        "np.deg2rad",
+        "np.exp"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow._v0",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "_v0",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.conj",
+          "target": "np.conj"
+        }
+      ],
+      "call_forms": {
+        "np.conj": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "np.conj"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow._required",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, v, y)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "_required",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "distribute_reactive_power",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "online_generators_at_bus",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "distribute_reactive_power": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "np.sum": "attribute",
+        "online_generators_at_bus": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._contexts_from_device_arrays",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "astype",
+        "distribute_reactive_power",
+        "enumerate",
+        "float",
+        "int",
+        "np.sum",
+        "online_generators_at_bus"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+      ],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow._update_outputs",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, pg, qg)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "_update_outputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PowerFlowOptions",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PowerFlowResult",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_required",
+          "target": "calo_rpd_studio.power_system.ac_power_flow._required"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sbus",
+          "target": "calo_rpd_studio.power_system.ac_power_flow._sbus"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_types",
+          "target": "calo_rpd_studio.power_system.ac_power_flow._types"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_update_outputs",
+          "target": "calo_rpd_studio.power_system.ac_power_flow._update_outputs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_v0",
+          "target": "calo_rpd_studio.power_system.ac_power_flow._v0"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_branch_flows",
+          "target": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "solve_newton_raphson",
+          "target": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "aggregate_q_limits",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "distribute_reactive_power",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_ybus",
+          "target": "calo_rpd_studio.power_system.ybus.build_ybus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "history.extend",
+          "target": "history.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "input_case.clone",
+          "target": "input_case.clone"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.abs",
+          "target": "np.abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.angle",
+          "target": "np.angle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.rad2deg",
+          "target": "np.rad2deg"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "options.validate",
+          "target": "options.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "violations.append",
+          "target": "violations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "PowerFlowOptions": "name",
+        "PowerFlowResult": "name",
+        "RuntimeError": "name",
+        "_required": "name",
+        "_sbus": "name",
+        "_types": "name",
+        "_update_outputs": "name",
+        "_v0": "name",
+        "aggregate_q_limits": "name",
+        "build_ybus": "name",
+        "calculate_branch_flows": "name",
+        "distribute_reactive_power": "name",
+        "float": "name",
+        "history.extend": "attribute",
+        "input_case.clone": "attribute",
+        "int": "name",
+        "np.abs": "attribute",
+        "np.angle": "attribute",
+        "np.rad2deg": "attribute",
+        "options.validate": "attribute",
+        "range": "name",
+        "solve_newton_raphson": "name",
+        "violations.append": "attribute",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._independent_validate",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.run_pf",
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "calo_rpd_studio.scripts.validate_cases.main",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+        "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+        "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+        "tests.unit.test_power_flow.test_ybus_and_power_flow",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state"
+      ],
+      "calls": [
+        "PowerFlowOptions",
+        "PowerFlowResult",
+        "RuntimeError",
+        "_required",
+        "_sbus",
+        "_types",
+        "_update_outputs",
+        "_v0",
+        "aggregate_q_limits",
+        "build_ybus",
+        "calculate_branch_flows",
+        "distribute_reactive_power",
+        "float",
+        "history.extend",
+        "input_case.clone",
+        "int",
+        "np.abs",
+        "np.angle",
+        "np.rad2deg",
+        "options.validate",
+        "range",
+        "solve_newton_raphson",
+        "violations.append",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowResult",
+        "calo_rpd_studio.power_system.ac_power_flow._required",
+        "calo_rpd_studio.power_system.ac_power_flow._sbus",
+        "calo_rpd_studio.power_system.ac_power_flow._types",
+        "calo_rpd_studio.power_system.ac_power_flow._update_outputs",
+        "calo_rpd_studio.power_system.ac_power_flow._v0",
+        "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson",
+        "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "calo_rpd_studio.power_system.ybus.build_ybus"
+      ],
+      "doc": "",
+      "end_line": 224,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/ac_power_flow.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BranchFlowResult": "calo_rpd_studio.power_system.branch_flows.BranchFlowResult",
+        "REACTIVE_ALLOCATION_CONVENTION": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+        "aggregate_q_limits": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "annotations": "__future__.annotations",
+        "build_ybus": "calo_rpd_studio.power_system.ybus.build_ybus",
+        "calculate_branch_flows": "calo_rpd_studio.power_system.branch_flows.calculate_branch_flows",
+        "dataclass": "dataclasses.dataclass",
+        "distribute_reactive_power": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+        "field": "dataclasses.field",
+        "math": "math",
+        "np": "numpy",
+        "online_generators_at_bus": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+        "solve_newton_raphson": "calo_rpd_studio.power_system.newton_raphson.solve_newton_raphson"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".branch_flows",
+        ".case_model",
+        ".newton_raphson",
+        ".pv_pq_switching",
+        ".ybus",
+        "__future__",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.ac_power_flow",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.ac_power_flow",
+      "qualname": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(input_case, options, retain_linearization)",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "run_ac_power_flow",
+      "tests": [
+        "tests/scientific/test_ieee_cases.py",
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_power_flow.py",
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,729 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/reward.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/topology_context.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/transition_kernel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_schema.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/variable_decoder.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_independent_training.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._config",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._config",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._config",
+      "to": "dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._config",
+      "to": "tests.unit.test_tsh_calo_independent_training._sha"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._config",
+      "to": "values.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+      "to": "np.arange"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._mask_and_learners",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._rollout",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._rollout",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._rollout",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._rollout",
+      "to": "trainer.sample_action"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._sha",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._sha",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._sha",
+      "to": "label.encode"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "np.full"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._state",
+      "to": "np.linspace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._transition",
+      "to": "calo_rpd_studio.algorithms.calo.reward.RewardComponents"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training._transition",
+      "to": "calo_rpd_studio.algorithms.calo.transition_kernel.TransitionResult"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training._transition",
+      "to": "np.empty"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_builtin_architecture_export_reaches_scientific_completion_gate",
+      "to": "trainer.export_unqualified_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "replace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "tests.unit.test_tsh_calo_independent_training._sha"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_exact_resume_rejects_hash_and_scientific_design_drift",
+      "to": "trainer.save_resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "collector.build_batch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "collector.commit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "collector.discard_pending"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "collector.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "object"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae",
+      "to": "tests.unit.test_tsh_calo_independent_training._transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "clone"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "metrics.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "np.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "tensor.detach"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "tests.unit.test_tsh_calo_independent_training._rollout"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "torch.equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "trainer.device_provenance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "trainer.network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_independent_ppo_update_is_finite_and_changes_policy",
+      "to": "trainer.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALORolloutCollector.from_state_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "collector.build_batch"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "collector.commit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "collector.sample"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "collector.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "restored.build_batch"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_rollout_collector_checkpoint_is_exact_and_design_bound",
+      "to": "tests.unit.test_tsh_calo_independent_training._transition"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "action.group_operators.copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "action.learner_operators.copy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "np.flatnonzero"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "replace"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "trainer.sample_action"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_action_rejects_mask_bypass",
+      "to": "validate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "tests.unit.test_tsh_calo_independent_training._rollout"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "trainer.export_unqualified_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_cannot_export_without_update_and_counted_episode_receipt",
+      "to": "trainer.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSHCALOFeatureFlags"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "config.scientific_design_hash"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "scientific_design_hash"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_config_is_independent_hashed_and_rejects_protected_cases",
+      "to": "validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_module_has_no_experiment_registry_or_activation_authority",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_module_has_no_experiment_registry_or_activation_authority",
+      "to": "read_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.load_resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "np.testing.assert_allclose"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "restored.network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "restored.sample_action"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "tests.unit.test_tsh_calo_independent_training._rollout"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "torch.testing.assert_close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "trainer.network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "trainer.sample_action"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "trainer.save_resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_resume_restores_exact_model_optimizer_and_action_rng",
+      "to": "trainer.update"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "tests.unit.test_tsh_calo_independent_training._config"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "tests.unit.test_tsh_calo_independent_training._mask_and_learners"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "tests.unit.test_tsh_calo_independent_training._state"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "trainer.close"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+      "to": "trainer.sample_action"
+    }
+  ]
+}

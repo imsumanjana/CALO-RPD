@@ -1,0 +1,2902 @@
+{
+  "path": "calo_rpd_studio/app/workflow_manager.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.next_descriptor"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowDescriptor",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "WorkflowDescriptor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "workspace_index_for_key",
+          "target": "calo_rpd_studio.app.workspaces.workspace_index_for_key"
+        }
+      ],
+      "call_forms": {
+        "workspace_index_for_key": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "workspace_index_for_key"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workspaces.workspace_index_for_key"
+      ],
+      "doc": "Compatibility view for old callers; v6 logic is key-based.",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowDescriptor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowDescriptor.workspace_index",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "workspace_index",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "constant",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.SETUP_STEPS",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "SETUP_STEPS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_guided_workflow.test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence",
+        "tests.gui.test_guided_workflow.test_policy_free_submitted_stage_keeps_individual_case_setup_available",
+        "tests.gui.test_guided_workflow.test_post_experiment_sequence_uses_keyed_workspace_gates",
+        "tests.gui.test_guided_workflow.test_workflow_locks_power_system_until_governing_policy_then_prerequisites",
+        "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
+        "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
+        "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
+        "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Controls workspace availability using stable keys instead of stack positions.",
+      "end_line": 598,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "WorkflowManager",
+      "tests": [
+        "tests/gui/test_guided_workflow.py",
+        "tests/unit/test_calo_v41_workflow_restore.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "set": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "set",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.invalidate_from",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.invalidate_individual_from",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_completed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_individual_completed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore"
+      ],
+      "calls": [
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(key)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "_normalise_completed_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.clear",
+          "target": "self.completed.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.clear",
+          "target": "self.individual_completed.clear"
+        }
+      ],
+      "call_forms": {
+        "self.changed.emit": "attribute",
+        "self.completed.clear": "attribute",
+        "self.individual_completed.clear": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.changed.emit",
+        "self.completed.clear",
+        "self.individual_completed.clear"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.reset",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "reset",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "order.index",
+          "target": "order.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.difference_update",
+          "target": "self.completed.difference_update"
+        }
+      ],
+      "call_forms": {
+        "order.index": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.completed.difference_update": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.invalidate_from",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_completed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.notify_governing_policy_changed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore"
+      ],
+      "calls": [
+        "order.index",
+        "self._normalise_completed_key",
+        "self.completed.difference_update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+      ],
+      "doc": "",
+      "end_line": 117,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "_invalidate_after",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._invalidate_after",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.discard",
+          "target": "self.completed.discard"
+        }
+      ],
+      "call_forms": {
+        "self._invalidate_after": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.changed.emit": "attribute",
+        "self.completed.discard": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._invalidate_after",
+        "self._normalise_completed_key",
+        "self.changed.emit",
+        "self.completed.discard"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.invalidate_from",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "invalidate_from",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._invalidate_after",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.add",
+          "target": "self.completed.add"
+        }
+      ],
+      "call_forms": {
+        "self._invalidate_after": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.changed.emit": "attribute",
+        "self.completed.add": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._invalidate_after",
+        "self._normalise_completed_key",
+        "self.changed.emit",
+        "self.completed.add"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+      ],
+      "doc": "",
+      "end_line": 129,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 125,
+      "state_owner": "",
+      "symbol": "mark_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "order.index",
+          "target": "order.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.difference_update",
+          "target": "self.individual_completed.difference_update"
+        }
+      ],
+      "call_forms": {
+        "order.index": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.changed.emit": "attribute",
+        "self.individual_completed.difference_update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "order.index",
+        "self._normalise_completed_key",
+        "self.changed.emit",
+        "self.individual_completed.difference_update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+      ],
+      "doc": "Invalidate only the direct Individual setup sequence.",
+      "end_line": 140,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.invalidate_individual_from",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "invalidate_individual_from",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "order.index",
+          "target": "order.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.add",
+          "target": "self.individual_completed.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.difference_update",
+          "target": "self.individual_completed.difference_update"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "order.index": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.changed.emit": "attribute",
+        "self.individual_completed.add": "attribute",
+        "self.individual_completed.difference_update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "order.index",
+        "self._normalise_completed_key",
+        "self.changed.emit",
+        "self.individual_completed.add",
+        "self.individual_completed.difference_update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+      ],
+      "doc": "Complete one direct Individual setup step without satisfying Workspace gates.",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_individual_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 142,
+      "state_owner": "",
+      "symbol": "mark_individual_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "control.active_stage",
+          "target": "control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "control.active_stage": "attribute",
+        "getattr": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.notify_governing_policy_changed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore"
+      ],
+      "calls": [
+        "control.active_stage",
+        "getattr",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "_individual_stage_algorithm_names",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_algorithm_names",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "self._individual_stage_algorithm_names": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.individual_setup_state_key",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.notify_governing_policy_changed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore"
+      ],
+      "calls": [
+        "any",
+        "self._individual_stage_algorithm_names"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 161,
+      "state_owner": "",
+      "symbol": "_individual_stage_requires_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_algorithm_names",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_requires_policy",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._invalidate_after",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "current_sha.lower",
+          "target": "current_sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "previous_sha.lower",
+          "target": "previous_sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.add",
+          "target": "self.completed.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.discard",
+          "target": "self.completed.discard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.clear",
+          "target": "self.individual_completed.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "current_sha.lower": "attribute",
+        "previous_sha.lower": "attribute",
+        "self._individual_stage_algorithm_names": "attribute",
+        "self._individual_stage_requires_policy": "attribute",
+        "self._invalidate_after": "attribute",
+        "self.changed.emit": "attribute",
+        "self.completed.add": "attribute",
+        "self.completed.discard": "attribute",
+        "self.governing_policy_status": "attribute",
+        "self.individual_completed.clear": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "current_sha.lower",
+        "previous_sha.lower",
+        "self._individual_stage_algorithm_names",
+        "self._individual_stage_requires_policy",
+        "self._invalidate_after",
+        "self.changed.emit",
+        "self.completed.add",
+        "self.completed.discard",
+        "self.governing_policy_status",
+        "self.individual_completed.clear",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "Re-evaluate the governing policy and invalidate downstream bindings on an identity change.",
+      "end_line": 191,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.notify_governing_policy_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 168,
+      "state_owner": "",
+      "symbol": "notify_governing_policy_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.state.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        }
+      ],
+      "call_forms": {
+        "self.state.governing_policy_status": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.notify_governing_policy_changed",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.snapshot",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key"
+      ],
+      "calls": [
+        "self.state.governing_policy_status"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "",
+      "end_line": 194,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 193,
+      "state_owner": "",
+      "symbol": "governing_policy_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.governing_policy_status": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.snapshot"
+      ],
+      "calls": [
+        "bool",
+        "self.governing_policy_status"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "",
+      "end_line": 197,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 196,
+      "state_owner": "",
+      "symbol": "governing_policy_ready",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_experiment_started",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 199,
+      "state_owner": "",
+      "symbol": "mark_experiment_started",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 212,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_experiment_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 207,
+      "state_owner": "",
+      "symbol": "mark_experiment_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name",
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "max",
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 222,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_experiment_stopped",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 214,
+      "state_owner": "",
+      "symbol": "mark_experiment_stopped",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 228,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_statistics_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 224,
+      "state_owner": "",
+      "symbol": "mark_statistics_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 233,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.mark_results_reviewed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 230,
+      "state_owner": "",
+      "symbol": "mark_results_reviewed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name",
+        "self.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "max",
+        "self.changed.emit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 237,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.set_verified_results",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, count)",
+      "start_line": 235,
+      "state_owner": "",
+      "symbol": "set_verified_results",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_ready",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.add",
+          "target": "completed.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "completed.add": "attribute",
+        "int": "name",
+        "self.governing_policy_ready": "attribute",
+        "self.governing_policy_status": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "completed.add",
+        "int",
+        "self.governing_policy_ready",
+        "self.governing_policy_status",
+        "set",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "",
+      "end_line": 255,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.snapshot",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 239,
+      "state_owner": "",
+      "symbol": "snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_algorithm_names",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_requires_policy",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._invalidate_after",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "current_sha.lower",
+          "target": "current_sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved_sha.lower",
+          "target": "saved_sha.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.add",
+          "target": "self.completed.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.discard",
+          "target": "self.completed.discard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.individual_completed.clear",
+          "target": "self.individual_completed.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "current_sha.lower": "attribute",
+        "data.get": "attribute",
+        "dict": "name",
+        "int": "name",
+        "max": "name",
+        "saved_sha.lower": "attribute",
+        "self._individual_stage_algorithm_names": "attribute",
+        "self._individual_stage_requires_policy": "attribute",
+        "self._invalidate_after": "attribute",
+        "self._normalise_completed_key": "attribute",
+        "self.changed.emit": "attribute",
+        "self.completed.add": "attribute",
+        "self.completed.discard": "attribute",
+        "self.governing_policy_status": "attribute",
+        "self.individual_completed.clear": "attribute",
+        "set": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "current_sha.lower",
+        "data.get",
+        "dict",
+        "int",
+        "max",
+        "saved_sha.lower",
+        "self._individual_stage_algorithm_names",
+        "self._individual_stage_requires_policy",
+        "self._invalidate_after",
+        "self._normalise_completed_key",
+        "self.changed.emit",
+        "self.completed.add",
+        "self.completed.discard",
+        "self.governing_policy_status",
+        "self.individual_completed.clear",
+        "set",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_algorithm_names",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._invalidate_after",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "",
+      "end_line": 318,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.restore",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, payload, infer_experiment, experiment_completed, verified_results, inferred_completed)",
+      "start_line": 257,
+      "state_owner": "",
+      "symbol": "restore",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._normalise_completed_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_ready",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_active_portfolio_goal",
+          "target": "self.state.database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self._normalise_completed_key": "attribute",
+        "self.governing_policy_ready": "attribute",
+        "self.state.database.get_active_portfolio_goal": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.individual_setup_state_key",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.next_descriptor",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.progress",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key"
+      ],
+      "calls": [
+        "bool",
+        "self._normalise_completed_key",
+        "self.governing_policy_ready",
+        "self.state.database.get_active_portfolio_goal",
+        "self.state.execution_control.active_stage",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._normalise_completed_key",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_ready"
+      ],
+      "doc": "",
+      "end_line": 335,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 320,
+      "state_owner": "",
+      "symbol": "_setup_complete",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "governing_policy_user_message",
+          "target": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._setup_complete",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.governing_policy_status",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "latest.get",
+          "target": "latest.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_active_portfolio_goal",
+          "target": "self.state.database.get_active_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.get_latest_portfolio_goal",
+          "target": "self.state.database.get_latest_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "getattr": "name",
+        "governing_policy_user_message": "name",
+        "latest.get": "attribute",
+        "self._setup_complete": "attribute",
+        "self.governing_policy_status": "attribute",
+        "self.state.database.get_active_portfolio_goal": "attribute",
+        "self.state.database.get_latest_portfolio_goal": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state"
+      ],
+      "calls": [
+        "bool",
+        "getattr",
+        "governing_policy_user_message",
+        "latest.get",
+        "self._setup_complete",
+        "self.governing_policy_status",
+        "self.state.database.get_active_portfolio_goal",
+        "self.state.database.get_latest_portfolio_goal",
+        "self.state.execution_control.active_stage",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.governing_policy_status"
+      ],
+      "doc": "Return visual state/reason for a stable workspace key.",
+      "end_line": 484,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 337,
+      "state_owner": "",
+      "symbol": "workspace_state_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.workspace_state_key",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "workspace_key_for_index",
+          "target": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name",
+        "self.workspace_state_key": "attribute",
+        "str": "name",
+        "workspace_key_for_index": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.is_workspace_enabled"
+      ],
+      "calls": [
+        "isinstance",
+        "self.workspace_state_key",
+        "str",
+        "workspace_key_for_index"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state_key",
+        "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      ],
+      "doc": "",
+      "end_line": 488,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace)",
+      "start_line": 486,
+      "state_owner": "",
+      "symbol": "workspace_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._individual_stage_requires_policy",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._setup_complete",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.execution_control.active_stage",
+          "target": "self.state.execution_control.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "self._individual_stage_requires_policy": "attribute",
+        "self._setup_complete": "attribute",
+        "self.state.execution_control.active_stage": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "self._individual_stage_requires_policy",
+        "self._setup_complete",
+        "self.state.execution_control.active_stage",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._individual_stage_requires_policy",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+      ],
+      "doc": "Return direct Individual setup prerequisites without Workspace Portfolio coupling.",
+      "end_line": 525,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.individual_setup_state_key",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, key)",
+      "start_line": 490,
+      "state_owner": "",
+      "symbol": "individual_setup_state_key",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.workspace_state",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state"
+        }
+      ],
+      "call_forms": {
+        "self.workspace_state": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.workspace_state"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager.workspace_state"
+      ],
+      "doc": "",
+      "end_line": 528,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.is_workspace_enabled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, workspace)",
+      "start_line": 527,
+      "state_owner": "",
+      "symbol": "is_workspace_enabled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "WorkflowDescriptor",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._setup_complete",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+        }
+      ],
+      "call_forms": {
+        "WorkflowDescriptor": "name",
+        "self._setup_complete": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "WorkflowDescriptor",
+        "self._setup_complete"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowDescriptor",
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+      ],
+      "doc": "",
+      "end_line": 581,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.next_descriptor",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 530,
+      "state_owner": "",
+      "symbol": "next_descriptor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._setup_complete",
+          "target": "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "self._setup_complete": "attribute",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "self._setup_complete",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.workflow_manager.WorkflowManager._setup_complete"
+      ],
+      "doc": "",
+      "end_line": 598,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/workflow_manager.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "QObject": "PyQt6.QtCore.QObject",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+        "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".workspaces",
+        "PyQt6.QtCore",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_readiness",
+        "calo_rpd_studio.algorithms.registry",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.workflow_manager",
+      "qualname": "calo_rpd_studio.app.workflow_manager.WorkflowManager.progress",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 583,
+      "state_owner": "",
+      "symbol": "progress",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,596 @@
+{
+  "path": "tests/unit/test_study_strength.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_study_strength",
+          "target": "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.portfolio.required_runs",
+          "target": "config.portfolio.required_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "apply_study_strength": "name",
+        "config.portfolio.required_runs": "attribute",
+        "config.validate": "attribute",
+        "list": "name",
+        "pytest.mark.parametrize": "attribute",
+        "recommend_paired_runs": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "apply_study_strength",
+        "config.portfolio.required_runs",
+        "config.validate",
+        "list",
+        "pytest.mark.parametrize",
+        "recommend_paired_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_study_strength_applies_one_coherent_valid_protocol",
+      "semantic_tags": [],
+      "signature": "(strength, scenario_mode)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "test_study_strength_applies_one_coherent_valid_protocol",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_study_strength",
+          "target": "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "apply_study_strength": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "apply_study_strength"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_study_strength_does_not_modify_governing_policy_binding",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "test_study_strength_does_not_modify_governing_policy_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "before.to_dict",
+          "target": "before.to_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_study_strength",
+          "target": "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_study_protocol_change",
+          "target": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.lower",
+          "target": "item.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.startswith",
+          "target": "item.startswith"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "any": "name",
+        "apply_study_strength": "name",
+        "before.to_dict": "attribute",
+        "item.lower": "attribute",
+        "item.startswith": "attribute",
+        "summarize_study_protocol_change": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "any",
+        "apply_study_strength",
+        "before.to_dict",
+        "item.lower",
+        "item.startswith",
+        "summarize_study_protocol_change"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      ],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guidance",
+          "target": "guidance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guidance.lower",
+          "target": "guidance.lower"
+        }
+      ],
+      "call_forms": {
+        "guidance": "attribute",
+        "guidance.lower": "attribute",
+        "study_strength_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "guidance",
+        "guidance.lower",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_strength_guidance_reports_outputs_runs_and_honest_limitations",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "test_strength_guidance_reports_outputs_runs_and_honest_limitations",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "study_strength_plan",
+          "target": "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "pytest.raises": "attribute",
+        "recommend_paired_runs": "name",
+        "study_strength_plan": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "pytest.raises",
+        "recommend_paired_runs",
+        "study_strength_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "calo_rpd_studio.experiments.study_strength.study_strength_plan"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_power_aware_run_planner_is_monotone_and_multiplicity_aware",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "test_power_aware_run_planner_is_monotone_and_multiplicity_aware",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "recommend_paired_runs",
+          "target": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+        }
+      ],
+      "call_forms": {
+        "recommend_paired_runs": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "recommend_paired_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.study_strength.recommend_paired_runs"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_low_strength_is_explicitly_screening_not_powered",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "test_low_strength_is_explicitly_screening_not_powered",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_study_strength",
+          "target": "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "apply_study_strength": "name",
+        "config.to_dict": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "apply_study_strength",
+        "config.to_dict",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.experiments.study_strength.apply_study_strength"
+      ],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "tests/unit/test_study_strength.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "StudyStrength": "calo_rpd_studio.experiments.study_strength.StudyStrength",
+        "annotations": "__future__.annotations",
+        "apply_study_strength": "calo_rpd_studio.experiments.study_strength.apply_study_strength",
+        "pytest": "pytest",
+        "recommend_paired_runs": "calo_rpd_studio.experiments.study_strength.recommend_paired_runs",
+        "study_strength_plan": "calo_rpd_studio.experiments.study_strength.study_strength_plan",
+        "summarize_study_protocol_change": "calo_rpd_studio.experiments.study_strength.summarize_study_protocol_change"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.study_strength",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_study_strength",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_study_strength",
+      "qualname": "tests.unit.test_study_strength.test_study_strength_round_trip_is_serialized",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "test_study_strength_round_trip_is_serialized",
+      "tests": []
+    }
+  ]
+}

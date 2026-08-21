@@ -1,0 +1,617 @@
+{
+  "path": "tests/unit/test_resource_recovery_evidence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_bounded_pressure_bytes",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "_bounded_pressure_bytes": "name",
+        "int": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_bounded_pressure_bytes",
+        "int"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+      ],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_is_bounded_by_fraction_and_absolute_ceiling",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "test_pressure_probe_is_bounded_by_fraction_and_absolute_ceiling",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_bounded_pressure_bytes",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "_bounded_pressure_bytes": "name",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_bounded_pressure_bytes",
+        "pytest.mark.parametrize",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_rejects_unsafe_or_unusable_requests",
+      "semantic_tags": [],
+      "signature": "(free_bytes, fraction, maximum_mib, message)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_pressure_probe_rejects_unsafe_or_unusable_requests",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_recovery_within_tolerance",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "_recovery_within_tolerance": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_recovery_within_tolerance",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance"
+      ],
+      "doc": "",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_recovery_tolerance_is_explicit_and_never_negative",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "test_recovery_tolerance_is_explicit_and_never_negative",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "recovery_module._staged_host_probe",
+          "target": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item",
+          "target": "item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "FakeProblem",
+          "target": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem"
+        }
+      ],
+      "call_forms": {
+        "FakeProblem": "name",
+        "item": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "np.asarray": "attribute",
+        "recovery_module._staged_host_probe": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "FakeProblem",
+        "item",
+        "monkeypatch.setattr",
+        "np.asarray",
+        "recovery_module._staged_host_probe"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe",
+        "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem"
+      ],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "FakeEvaluator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator._move_full_request_to_device",
+      "semantic_tags": [],
+      "signature": "(population)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "_move_full_request_to_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "FakeProblem",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "FakeEvaluator",
+          "target": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator"
+        }
+      ],
+      "call_forms": {
+        "FakeEvaluator": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "FakeEvaluator"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._device_resident_evaluator._move_full_request_to_device",
+          "target": "self._device_resident_evaluator._move_full_request_to_device"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "len": "name",
+        "pytest.raises": "attribute",
+        "self._device_resident_evaluator._move_full_request_to_device": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "len",
+        "pytest.raises",
+        "self._device_resident_evaluator._move_full_request_to_device"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_resource_recovery_evidence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SimpleNamespace": "types.SimpleNamespace",
+        "_MIB": "calo_rpd_studio.scripts.validate_resource_recovery._MIB",
+        "_bounded_pressure_bytes": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes",
+        "_recovery_within_tolerance": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "recovery_module": "calo_rpd_studio.scripts.validate_resource_recovery",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.validate_resource_recovery",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_resource_recovery_evidence",
+      "qualname": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.evaluate_population_tensor",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "evaluate_population_tensor",
+      "tests": []
+    }
+  ]
+}

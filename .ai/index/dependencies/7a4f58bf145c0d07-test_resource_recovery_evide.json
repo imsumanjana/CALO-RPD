@@ -1,0 +1,97 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/scripts/validate_resource_recovery.py"
+    }
+  ],
+  "path": "tests/unit/test_resource_recovery_evidence.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_is_bounded_by_fraction_and_absolute_ceiling",
+      "to": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_is_bounded_by_fraction_and_absolute_ceiling",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_rejects_unsafe_or_unusable_requests",
+      "to": "calo_rpd_studio.scripts.validate_resource_recovery._bounded_pressure_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_rejects_unsafe_or_unusable_requests",
+      "to": "pytest.mark.parametrize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_pressure_probe_rejects_unsafe_or_unusable_requests",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_resource_recovery_evidence.test_recovery_tolerance_is_explicit_and_never_negative",
+      "to": "calo_rpd_studio.scripts.validate_resource_recovery._recovery_within_tolerance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_recovery_tolerance_is_explicit_and_never_negative",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "to": "calo_rpd_studio.scripts.validate_resource_recovery._staged_host_probe"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "to": "item"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "to": "np.asarray"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom",
+      "to": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.__init__",
+      "to": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeEvaluator"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.evaluate_population_tensor",
+      "to": "SimpleNamespace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.evaluate_population_tensor",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.evaluate_population_tensor",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_resource_recovery_evidence.test_staged_host_probe_injects_only_the_initial_upload_oom.FakeProblem.evaluate_population_tensor",
+      "to": "self._device_resident_evaluator._move_full_request_to_device"
+    }
+  ]
+}

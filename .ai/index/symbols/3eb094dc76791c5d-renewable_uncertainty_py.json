@@ -1,0 +1,181 @@
+{
+  "path": "calo_rpd_studio/robustness/renewable_uncertainty.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.normal",
+          "target": "rng.normal"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name",
+        "float": "name",
+        "np.clip": "attribute",
+        "out.append": "attribute",
+        "range": "name",
+        "rng.normal": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+      ],
+      "calls": [
+        "Scenario",
+        "float",
+        "np.clip",
+        "out.append",
+        "range",
+        "rng.normal"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/renewable_uncertainty.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.renewable_uncertainty",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.renewable_uncertainty",
+      "qualname": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(count, bus_number, rated_mw, mean_capacity_factor, std_capacity_factor, rng)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "renewable_scenarios",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "case.bus_index_map": "attribute",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "case.bus_index_map",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/renewable_uncertainty.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario",
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.renewable_uncertainty",
+      "qualname": "calo_rpd_studio.robustness.renewable_uncertainty.renewable_scenarios.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, mw)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    }
+  ]
+}

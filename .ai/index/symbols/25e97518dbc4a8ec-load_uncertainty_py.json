@@ -1,0 +1,112 @@
+{
+  "path": "calo_rpd_studio/robustness/load_uncertainty.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Scenario",
+          "target": "calo_rpd_studio.robustness.scenario.Scenario"
+        }
+      ],
+      "call_forms": {
+        "Scenario": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Scenario"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.scenario.Scenario"
+      ],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/load_uncertainty.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.load_uncertainty",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.load_uncertainty",
+      "qualname": "calo_rpd_studio.robustness.load_uncertainty.load_scale_scenario",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(name, p_scale, q_scale, weight)",
+      "start_line": 6,
+      "state_owner": "",
+      "symbol": "load_scale_scenario",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/load_uncertainty.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Scenario": "calo_rpd_studio.robustness.scenario.Scenario"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".scenario"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.load_uncertainty.load_scale_scenario",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.load_uncertainty",
+      "qualname": "calo_rpd_studio.robustness.load_uncertainty.load_scale_scenario.transform",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "transform",
+      "tests": []
+    }
+  ]
+}

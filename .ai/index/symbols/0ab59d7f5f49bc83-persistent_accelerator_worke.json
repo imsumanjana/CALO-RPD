@@ -1,0 +1,1920 @@
+{
+  "path": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._LOG",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "bind_config_to_device",
+          "target": "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+        }
+      ],
+      "call_forms": {
+        "bind_config_to_device": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job"
+      ],
+      "calls": [
+        "bind_config_to_device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_binding.bind_config_to_device"
+      ],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, compute_device, item)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "configure_item_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.set_num_interop_threads",
+          "target": "torch.set_num_interop_threads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.set_num_threads",
+          "target": "torch.set_num_threads"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "torch.set_num_interop_threads": "attribute",
+        "torch.set_num_threads": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main"
+      ],
+      "calls": [
+        "_LOG.debug",
+        "torch.set_num_interop_threads",
+        "torch.set_num_threads"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._configure_numeric_threads",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "_configure_numeric_threads",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ThreadPoolExecutor",
+          "target": "ThreadPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.close",
+          "target": "broker.close"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "clear_cross_run_broker",
+          "target": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "set_cross_run_broker",
+          "target": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calibrate_evaluator",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_configure_numeric_threads",
+          "target": "calo_rpd_studio.compute.persistent_accelerator_worker._configure_numeric_threads"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "configure_item_device",
+          "target": "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command.get",
+          "target": "command.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command_queue.get",
+          "target": "command_queue.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "executor.shutdown",
+          "target": "executor.shutdown"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "executor.submit",
+          "target": "executor.submit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "future.done",
+          "target": "future.done"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "future.result",
+          "target": "future.result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "futures.items",
+          "target": "futures.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "futures.pop",
+          "target": "futures.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result_queue.put",
+          "target": "result_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "CrossRunBatchBroker": "name",
+        "ThreadPoolExecutor": "name",
+        "_configure_numeric_threads": "name",
+        "bool": "name",
+        "broker.close": "attribute",
+        "build_problem": "name",
+        "calibrate_evaluator": "name",
+        "clear_cross_run_broker": "name",
+        "command.get": "attribute",
+        "command_queue.get": "attribute",
+        "configure_item_device": "name",
+        "executor.shutdown": "attribute",
+        "executor.submit": "attribute",
+        "future.done": "attribute",
+        "future.result": "attribute",
+        "futures.items": "attribute",
+        "futures.pop": "attribute",
+        "int": "name",
+        "list": "name",
+        "max": "name",
+        "result_queue.put": "attribute",
+        "set_cross_run_broker": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CrossRunBatchBroker",
+        "ThreadPoolExecutor",
+        "_configure_numeric_threads",
+        "bool",
+        "broker.close",
+        "build_problem",
+        "calibrate_evaluator",
+        "clear_cross_run_broker",
+        "command.get",
+        "command_queue.get",
+        "configure_item_device",
+        "executor.shutdown",
+        "executor.submit",
+        "future.done",
+        "future.result",
+        "futures.items",
+        "futures.pop",
+        "int",
+        "list",
+        "max",
+        "result_queue.put",
+        "set_cross_run_broker",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "calo_rpd_studio.compute.persistent_accelerator_worker._configure_numeric_threads",
+        "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem"
+      ],
+      "doc": "",
+      "end_line": 231,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(command_queue, result_queue, progress_queue, cancel_event, device, slots, batch_window_ms, max_cross_run_batch, cross_run_batching)",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "_worker_main",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "GLOBAL_LEDGER.snapshot",
+          "target": "GLOBAL_LEDGER.snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.exception",
+          "target": "_LOG.exception"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "configure_item_device",
+          "target": "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ablation",
+          "target": "calo_rpd_studio.experiments.calo_ablation.run_ablation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "failed_run_from_exception",
+          "target": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_single",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_single"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_event.is_set",
+          "target": "cancel_event.is_set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "completed.result.metadata.update",
+          "target": "completed.result.metadata.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "GLOBAL_LEDGER.snapshot": "attribute",
+        "ValueError": "name",
+        "_LOG.exception": "attribute",
+        "bool": "name",
+        "cancel_event.is_set": "attribute",
+        "completed.result.metadata.update": "attribute",
+        "configure_item_device": "name",
+        "failed_run_from_exception": "name",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "max": "name",
+        "run_ablation": "name",
+        "run_single": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "GLOBAL_LEDGER.snapshot",
+        "ValueError",
+        "_LOG.exception",
+        "bool",
+        "cancel_event.is_set",
+        "completed.result.metadata.update",
+        "configure_item_device",
+        "failed_run_from_exception",
+        "float",
+        "getattr",
+        "int",
+        "max",
+        "run_ablation",
+        "run_single",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker.configure_item_device",
+        "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "calo_rpd_studio.experiments.experiment_runner.run_single"
+      ],
+      "doc": "",
+      "end_line": 167,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(command)",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "run_job",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_event.is_set",
+          "target": "cancel_event.is_set"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "cancel_event.is_set": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "cancel_event.is_set"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job.cancelled",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "()",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "data.update",
+          "target": "data.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "progress_queue.put",
+          "target": "progress_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "data.update": "attribute",
+        "dict": "name",
+        "int": "name",
+        "payload.get": "attribute",
+        "progress_queue.put": "attribute",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "data.update",
+        "dict",
+        "int",
+        "payload.get",
+        "progress_queue.put",
+        "time.monotonic"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker._worker_main.run_job.emit",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(payload)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "emit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._run_parallel_throughput"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Parent-side handle for one persistent device process.",
+      "end_line": 339,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 234,
+      "state_owner": "",
+      "symbol": "PersistentAcceleratorPool",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.Process",
+          "target": "context.Process"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.Queue",
+          "target": "context.Queue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mp.get_context",
+          "target": "mp.get_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.start",
+          "target": "self.process.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "context.Process": "attribute",
+        "context.Queue": "attribute",
+        "float": "name",
+        "int": "name",
+        "max": "name",
+        "mp.get_context": "attribute",
+        "self.process.start": "attribute",
+        "set": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "context.Process",
+        "context.Queue",
+        "float",
+        "int",
+        "max",
+        "mp.get_context",
+        "self.process.start",
+        "set",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 273,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.__init__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, device, slots, progress_queue, cancel_event, batch_window_ms, max_cross_run_batch, cross_run_batching, context)",
+      "start_line": 237,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 277,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.available_slots",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 276,
+      "state_owner": "",
+      "symbol": "available_slots",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.active_jobs.add",
+          "target": "self.active_jobs.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_queue.put",
+          "target": "self.command_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.active_jobs.add": "attribute",
+        "self.command_queue.put": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.active_jobs.add",
+        "self.command_queue.put",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 291,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.submit",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, job_id, config, mode, item, seeds)",
+      "start_line": 279,
+      "state_owner": "",
+      "symbol": "submit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_queue.put",
+          "target": "self.command_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "self.command_queue.put": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "self.command_queue.put",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 311,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.calibrate",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, request_id, config, scenario_seed, batch_sizes, repetitions)",
+      "start_line": 293,
+      "state_owner": "",
+      "symbol": "calibrate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "out.append",
+          "target": "out.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.active_jobs.discard",
+          "target": "self.active_jobs.discard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.result_queue.get_nowait",
+          "target": "self.result_queue.get_nowait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "item.get": "attribute",
+        "out.append": "attribute",
+        "self.active_jobs.discard": "attribute",
+        "self.result_queue.get_nowait": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "item.get",
+        "out.append",
+        "self.active_jobs.discard",
+        "self.result_queue.get_nowait",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 324,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.poll",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 313,
+      "state_owner": "",
+      "symbol": "poll",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.command_queue.put",
+          "target": "self.command_queue.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.is_alive",
+          "target": "self.process.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.join",
+          "target": "self.process.join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.process.terminate",
+          "target": "self.process.terminate"
+        }
+      ],
+      "call_forms": {
+        "self.command_queue.put": "attribute",
+        "self.process.is_alive": "attribute",
+        "self.process.join": "attribute",
+        "self.process.terminate": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.__exit__"
+      ],
+      "calls": [
+        "self.command_queue.put",
+        "self.process.is_alive",
+        "self.process.join",
+        "self.process.terminate"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 332,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.close",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, timeout)",
+      "start_line": 326,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 335,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.__enter__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 334,
+      "state_owner": "",
+      "symbol": "__enter__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.close"
+        }
+      ],
+      "call_forms": {
+        "self.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.close"
+      ],
+      "doc": "",
+      "end_line": 339,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/persistent_accelerator_worker.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ABLATION_MODE": "calo_rpd_studio.experiments.execution_plan.ABLATION_MODE",
+        "Any": "typing.Any",
+        "COMPARISON_MODE": "calo_rpd_studio.experiments.execution_plan.COMPARISON_MODE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "GLOBAL_LEDGER": "calo_rpd_studio.accelerated.throughput_engine.GLOBAL_LEDGER",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "bind_config_to_device": "calo_rpd_studio.compute.device_binding.bind_config_to_device",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calibrate_evaluator": "calo_rpd_studio.accelerated.throughput_engine.calibrate_evaluator",
+        "clear_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.clear_cross_run_broker",
+        "failed_run_from_exception": "calo_rpd_studio.experiments.experiment_runner.failed_run_from_exception",
+        "logging": "logging",
+        "mp": "multiprocessing",
+        "queue": "queue",
+        "run_ablation": "calo_rpd_studio.experiments.calo_ablation.run_ablation",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "set_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.set_cross_run_broker",
+        "time": "time",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.runtime_context",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.compute.device_binding",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "concurrent.futures",
+        "logging",
+        "multiprocessing",
+        "queue",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.persistent_accelerator_worker",
+      "qualname": "calo_rpd_studio.compute.persistent_accelerator_worker.PersistentAcceleratorPool.__exit__",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self, exc_type, exc, tb)",
+      "start_line": 337,
+      "state_owner": "",
+      "symbol": "__exit__",
+      "tests": []
+    }
+  ]
+}

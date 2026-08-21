@@ -1,0 +1,1299 @@
+{
+  "path": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Ignore only the benign Qt deleted-canvas race from a queued idle redraw.",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.SafeFigureCanvasQTAgg",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "SafeFigureCanvasQTAgg",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "draw",
+          "target": "draw"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "draw": "attribute",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "draw",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.SafeFigureCanvasQTAgg",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.SafeFigureCanvasQTAgg.draw",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "draw",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel.__init__",
+        "calo_rpd_studio.gui.panels.statistical_analysis_panel.StatisticalAnalysisPanel.__init__",
+        "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+        "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+        "tests.gui.test_gui_startup.test_plot_toolbar_exposes_typography_controls",
+        "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Reusable scientific plot surface.",
+      "end_line": 199,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "ScientificPlotWidget",
+      "tests": [
+        "tests/gui/test_gui_startup.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotFormattingToolbar",
+          "target": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeFigureCanvasQTAgg",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.SafeFigureCanvasQTAgg"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "canvas_host.setObjectName",
+          "target": "canvas_host.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host_layout.addWidget",
+          "target": "host_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host_layout.setAlignment",
+          "target": "host_layout.setAlignment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host_layout.setContentsMargins",
+          "target": "host_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.set_title",
+          "target": "self.axis.set_title"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.set_xlabel",
+          "target": "self.axis.set_xlabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.set_ylabel",
+          "target": "self.axis.set_ylabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.canvas.destroyed.connect",
+          "target": "self.canvas.destroyed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.canvas.setFixedSize",
+          "target": "self.canvas.setFixedSize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.canvas.setSizePolicy",
+          "target": "self.canvas.setSizePolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.figure.add_subplot",
+          "target": "self.figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.register",
+          "target": "self.manager.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotFormattingToolbar": "name",
+        "PlotManager": "name",
+        "QHBoxLayout": "name",
+        "QVBoxLayout": "name",
+        "QWidget": "name",
+        "SafeFigureCanvasQTAgg": "name",
+        "__init__": "attribute",
+        "bool": "name",
+        "canvas_host.setObjectName": "attribute",
+        "deepcopy": "name",
+        "float": "name",
+        "host_layout.addWidget": "attribute",
+        "host_layout.setAlignment": "attribute",
+        "host_layout.setContentsMargins": "attribute",
+        "int": "name",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "max": "name",
+        "min": "name",
+        "self.axis.set_title": "attribute",
+        "self.axis.set_xlabel": "attribute",
+        "self.axis.set_ylabel": "attribute",
+        "self.canvas.destroyed.connect": "attribute",
+        "self.canvas.setFixedSize": "attribute",
+        "self.canvas.setSizePolicy": "attribute",
+        "self.figure.add_subplot": "attribute",
+        "self.manager.register": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotFormattingToolbar",
+        "PlotManager",
+        "QHBoxLayout",
+        "QVBoxLayout",
+        "QWidget",
+        "SafeFigureCanvasQTAgg",
+        "__init__",
+        "bool",
+        "canvas_host.setObjectName",
+        "deepcopy",
+        "float",
+        "host_layout.addWidget",
+        "host_layout.setAlignment",
+        "host_layout.setContentsMargins",
+        "int",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "max",
+        "min",
+        "self.axis.set_title",
+        "self.axis.set_xlabel",
+        "self.axis.set_ylabel",
+        "self.canvas.destroyed.connect",
+        "self.canvas.setFixedSize",
+        "self.canvas.setSizePolicy",
+        "self.figure.add_subplot",
+        "self.manager.register",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "calo_rpd_studio.gui.plotting.scientific_plot.SafeFigureCanvasQTAgg",
+        "calo_rpd_studio.visualization.plot_manager.PlotManager"
+      ],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, manager, parent, title, xlabel, ylabel, square_preview, square_export, square_preview_size, auto_fit_visible_data, auto_include_zero, auto_scale_padding)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget._cancel_pending_canvas_draw",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *_args)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "_cancel_pending_canvas_draw",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.format_toolbar.configure_preview_series",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.configure_preview_series"
+        }
+      ],
+      "call_forms": {
+        "self.format_toolbar.configure_preview_series": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.configure_preview_series"
+      ],
+      "calls": [
+        "self.format_toolbar.configure_preview_series"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.configure_preview_series"
+      ],
+      "doc": "Expose host-controlled selective preview through the compact Plot Tools strip.",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.configure_preview_series",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, options_provider, selection_provider, selection_callback)",
+      "start_line": 106,
+      "state_owner": "",
+      "symbol": "configure_preview_series",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "output.append",
+          "target": "output.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.series_labels",
+          "target": "self.manager.series_labels"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.style.legend_label_overrides.get",
+          "target": "self.style.legend_label_overrides.get"
+        }
+      ],
+      "call_forms": {
+        "output.append": "attribute",
+        "self.manager.series_labels": "attribute",
+        "self.style.legend_label_overrides.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "output.append",
+        "self.manager.series_labels",
+        "self.style.legend_label_overrides.get"
+      ],
+      "calls_resolved": [],
+      "doc": "Return ``(original_label, displayed_legend_label)`` pairs for export selection.",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.export_series_options",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "export_series_options",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.apply",
+          "target": "self.manager.apply"
+        }
+      ],
+      "call_forms": {
+        "deepcopy": "name",
+        "self.manager.apply": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "deepcopy",
+        "self.manager.apply"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.apply_style",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, style)",
+      "start_line": 122,
+      "state_owner": "",
+      "symbol": "apply_style",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.format_toolbar.sync_auto_scale_from_style",
+          "target": "self.format_toolbar.sync_auto_scale_from_style"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "self.format_toolbar.sync_auto_scale_from_style": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "self.format_toolbar.sync_auto_scale_from_style"
+      ],
+      "calls_resolved": [],
+      "doc": "Update metric-specific automatic scaling without altering numerical data.",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.set_auto_scale_context",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, include_zero)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "set_auto_scale_context",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.axis.clear",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+        }
+      ],
+      "call_forms": {
+        "self.axis.clear": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear",
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.plot_series",
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.plot_xy_series",
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.show_message"
+      ],
+      "calls": [
+        "self.axis.clear"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+      ],
+      "doc": "",
+      "end_line": 134,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "clear",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.axis.clear",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.text",
+          "target": "self.axis.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.apply",
+          "target": "self.manager.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.axis.clear": "attribute",
+        "self.axis.text": "attribute",
+        "self.manager.apply": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.axis.clear",
+        "self.axis.text",
+        "self.manager.apply",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+      ],
+      "doc": "Render an informative empty-state message instead of a visually blank chart.",
+      "end_line": 162,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.show_message",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message, title, xlabel, ylabel)",
+      "start_line": 136,
+      "state_owner": "",
+      "symbol": "show_message",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.axis.clear",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.plot",
+          "target": "self.axis.plot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.apply",
+          "target": "self.manager.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "series.items",
+          "target": "series.items"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "range": "name",
+        "self.axis.clear": "attribute",
+        "self.axis.plot": "attribute",
+        "self.manager.apply": "attribute",
+        "series.items": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "range",
+        "self.axis.clear",
+        "self.axis.plot",
+        "self.manager.apply",
+        "series.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+      ],
+      "doc": "",
+      "end_line": 175,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.plot_series",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, series, title, xlabel, ylabel)",
+      "start_line": 164,
+      "state_owner": "",
+      "symbol": "plot_series",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.axis.clear",
+          "target": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.axis.plot",
+          "target": "self.axis.plot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manager.apply",
+          "target": "self.manager.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "series.items",
+          "target": "series.items"
+        }
+      ],
+      "call_forms": {
+        "len": "name",
+        "self.axis.clear": "attribute",
+        "self.axis.plot": "attribute",
+        "self.manager.apply": "attribute",
+        "series.items": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "len",
+        "self.axis.clear",
+        "self.axis.plot",
+        "self.manager.apply",
+        "series.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.clear"
+      ],
+      "doc": "Plot mapping of label -> (x_values, y_values) without inventing an x-axis.",
+      "end_line": 199,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/plotting/scientific_plot.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "FigureCanvasQTAgg": "matplotlib.backends.backend_qtagg.FigureCanvasQTAgg",
+        "PlotFormattingToolbar": "calo_rpd_studio.gui.plotting.plot_format_toolbar.PlotFormattingToolbar",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QSizePolicy": "PyQt6.QtWidgets.QSizePolicy",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "Qt": "PyQt6.QtCore.Qt",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".plot_format_toolbar",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "copy",
+        "matplotlib.backends.backend_qtagg",
+        "matplotlib.figure"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.plotting.scientific_plot",
+      "qualname": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget.plot_xy_series",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, series, title, xlabel, ylabel)",
+      "start_line": 177,
+      "state_owner": "",
+      "symbol": "plot_xy_series",
+      "tests": []
+    }
+  ]
+}

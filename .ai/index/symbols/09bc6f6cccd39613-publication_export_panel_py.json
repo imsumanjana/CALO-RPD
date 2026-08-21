@@ -1,0 +1,3250 @@
+{
+  "path": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_standard"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_StandardExportWorker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, database, experiment_id, directory)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker.cancel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PublicationExporter",
+          "target": "calo_rpd_studio.results.publication_export.PublicationExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancelled.emit",
+          "target": "self.cancelled.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.emit",
+          "target": "self.completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.failed.emit",
+          "target": "self.failed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "PublicationExporter": "name",
+        "export": "attribute",
+        "self.cancelled.emit": "attribute",
+        "self.completed.emit": "attribute",
+        "self.failed.emit": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PublicationExporter",
+        "export",
+        "self.cancelled.emit",
+        "self.completed.emit",
+        "self.failed.emit",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.publication_export.PublicationExporter"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker.run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "_PortfolioExportWorker",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, database, experiment_id, directory)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker.cancel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 76,
+      "state_owner": "",
+      "symbol": "cancel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioExporter",
+          "target": "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancelled.emit",
+          "target": "self.cancelled.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.completed.emit",
+          "target": "self.completed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.failed.emit",
+          "target": "self.failed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "PortfolioExporter": "name",
+        "export": "attribute",
+        "self.cancelled.emit": "attribute",
+        "self.completed.emit": "attribute",
+        "self.failed.emit": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioExporter",
+        "export",
+        "self.cancelled.emit",
+        "self.completed.emit",
+        "self.failed.emit",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.exporter.PortfolioExporter"
+      ],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker.run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 430,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "PublicationExportPanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QFormLayout",
+          "target": "QFormLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLineEdit",
+          "target": "QLineEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QProgressBar",
+          "target": "QProgressBar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTextEdit",
+          "target": "QTextEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actions.addStretch",
+          "target": "actions.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "actions.addWidget",
+          "target": "actions.addWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.export_portfolio",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.refresh"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SectionCard",
+          "target": "calo_rpd_studio.gui.widgets.section_card.SectionCard"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "card.layout_root.addLayout",
+          "target": "card.layout_root.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "card.layout_root.addWidget",
+          "target": "card.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "choose.clicked.connect",
+          "target": "choose.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "experiment_row.addWidget",
+          "target": "experiment_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "form.addRow",
+          "target": "form.addRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "form.setFieldGrowthPolicy",
+          "target": "form.setFieldGrowthPolicy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_row.addWidget",
+          "target": "output_row.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.clicked.connect",
+          "target": "portfolio.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "portfolio.setObjectName",
+          "target": "portfolio.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh.clicked.connect",
+          "target": "refresh.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resume.clicked.connect",
+          "target": "resume.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.clicked.connect",
+          "target": "self.cancel_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setMaximumHeight",
+          "target": "self.progress.setMaximumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setRange",
+          "target": "self.progress.setRange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setTextVisible",
+          "target": "self.progress.setTextVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.setMinimumHeight",
+          "target": "self.status.setMinimumHeight"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.setReadOnly",
+          "target": "self.status.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "standard.clicked.connect",
+          "target": "standard.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.runs_changed.connect",
+          "target": "state.runs_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.task_status.cancel_requested.connect",
+          "target": "state.task_status.cancel_requested.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QComboBox": "name",
+        "QFormLayout": "name",
+        "QHBoxLayout": "name",
+        "QLineEdit": "name",
+        "QProgressBar": "name",
+        "QPushButton": "name",
+        "QTextEdit": "name",
+        "SectionCard": "name",
+        "__init__": "attribute",
+        "actions.addStretch": "attribute",
+        "actions.addWidget": "attribute",
+        "card.layout_root.addLayout": "attribute",
+        "card.layout_root.addWidget": "attribute",
+        "choose.clicked.connect": "attribute",
+        "experiment_row.addWidget": "attribute",
+        "form.addRow": "attribute",
+        "form.setFieldGrowthPolicy": "attribute",
+        "output_row.addWidget": "attribute",
+        "portfolio.clicked.connect": "attribute",
+        "portfolio.setObjectName": "attribute",
+        "refresh.clicked.connect": "attribute",
+        "resume.clicked.connect": "attribute",
+        "self.cancel_button.clicked.connect": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.export_portfolio": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.progress.setMaximumHeight": "attribute",
+        "self.progress.setRange": "attribute",
+        "self.progress.setTextVisible": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.refresh": "attribute",
+        "self.status.setMinimumHeight": "attribute",
+        "self.status.setReadOnly": "attribute",
+        "standard.clicked.connect": "attribute",
+        "state.runs_changed.connect": "attribute",
+        "state.task_status.cancel_requested.connect": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QComboBox",
+        "QFormLayout",
+        "QHBoxLayout",
+        "QLineEdit",
+        "QProgressBar",
+        "QPushButton",
+        "QTextEdit",
+        "SectionCard",
+        "__init__",
+        "actions.addStretch",
+        "actions.addWidget",
+        "card.layout_root.addLayout",
+        "card.layout_root.addWidget",
+        "choose.clicked.connect",
+        "experiment_row.addWidget",
+        "form.addRow",
+        "form.setFieldGrowthPolicy",
+        "output_row.addWidget",
+        "portfolio.clicked.connect",
+        "portfolio.setObjectName",
+        "refresh.clicked.connect",
+        "resume.clicked.connect",
+        "self.cancel_button.clicked.connect",
+        "self.cancel_button.setEnabled",
+        "self.export_portfolio",
+        "self.layout_root.addWidget",
+        "self.progress.setMaximumHeight",
+        "self.progress.setRange",
+        "self.progress.setTextVisible",
+        "self.progress.setValue",
+        "self.refresh",
+        "self.status.setMinimumHeight",
+        "self.status.setReadOnly",
+        "standard.clicked.connect",
+        "state.runs_changed.connect",
+        "state.task_status.cancel_requested.connect",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.refresh",
+        "calo_rpd_studio.gui.widgets.section_card.SectionCard"
+      ],
+      "doc": "",
+      "end_line": 157,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, parent)",
+      "start_line": 96,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.addItem",
+          "target": "self.experiment.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.clear",
+          "target": "self.experiment.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_experiments",
+          "target": "self.state.database.list_experiments"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "self.experiment.addItem": "attribute",
+        "self.experiment.clear": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.state.database.list_experiments": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.__init__",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.resume_task_by_id"
+      ],
+      "calls": [
+        "max",
+        "self.experiment.addItem",
+        "self.experiment.clear",
+        "self.experiment.currentData",
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.state.database.list_experiments"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.refresh",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 159,
+      "state_owner": "",
+      "symbol": "refresh",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QFileDialog.getExistingDirectory",
+          "target": "QFileDialog.getExistingDirectory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.setText",
+          "target": "self.directory.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.text",
+          "target": "self.directory.text"
+        }
+      ],
+      "call_forms": {
+        "QFileDialog.getExistingDirectory": "attribute",
+        "self.directory.setText": "attribute",
+        "self.directory.text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QFileDialog.getExistingDirectory",
+        "self.directory.setText",
+        "self.directory.text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 177,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.choose",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 170,
+      "state_owner": "",
+      "symbol": "choose",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_StandardExportWorker",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.text",
+          "target": "self.directory.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.cancelled.connect",
+          "target": "self.worker.cancelled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.completed.connect",
+          "target": "self.worker.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.failed.connect",
+          "target": "self.worker.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.finished.connect",
+          "target": "self.worker.finished.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.isRunning",
+          "target": "self.worker.isRunning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.progress.connect",
+          "target": "self.worker.progress.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.start",
+          "target": "self.worker.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "task.begin",
+          "target": "task.begin"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.information": "attribute",
+        "_StandardExportWorker": "name",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.directory.text": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.status.append": "attribute",
+        "self.worker.cancelled.connect": "attribute",
+        "self.worker.completed.connect": "attribute",
+        "self.worker.failed.connect": "attribute",
+        "self.worker.finished.connect": "attribute",
+        "self.worker.isRunning": "attribute",
+        "self.worker.progress.connect": "attribute",
+        "self.worker.start": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "task.begin": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.information",
+        "_StandardExportWorker",
+        "self.cancel_button.setEnabled",
+        "self.directory.text",
+        "self.experiment.currentData",
+        "self.progress.setValue",
+        "self.status.append",
+        "self.worker.cancelled.connect",
+        "self.worker.completed.connect",
+        "self.worker.failed.connect",
+        "self.worker.finished.connect",
+        "self.worker.isRunning",
+        "self.worker.progress.connect",
+        "self.worker.start",
+        "str",
+        "strip",
+        "task.begin"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.publication_export_panel._StandardExportWorker"
+      ],
+      "doc": "",
+      "end_line": 204,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_standard",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "export_standard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.update",
+          "target": "self.state.task_status.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "payload.get": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state.task_status.update": "attribute",
+        "self.status.append": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "payload.get",
+        "self.progress.setValue",
+        "self.state.task_status.update",
+        "self.status.append",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 212,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._standard_progress",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, payload)",
+      "start_line": 206,
+      "state_owner": "",
+      "symbol": "_standard_progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.list_runs",
+          "target": "self.state.database.list_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.finish",
+          "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "len": "name",
+        "resolve": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state.database.list_runs": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "self.status.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "len",
+        "resolve",
+        "self.experiment.currentData",
+        "self.progress.setValue",
+        "self.state.database.list_runs",
+        "self.state.task_status.finish",
+        "self.status.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 225,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._standard_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 214,
+      "state_owner": "",
+      "symbol": "_standard_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.cancelled",
+          "target": "self.state.task_status.cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute",
+        "self.state.task_status.cancelled": "attribute",
+        "self.status.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "resolve",
+        "self.state.task_status.cancelled",
+        "self.status.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 231,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._standard_cancelled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 227,
+      "state_owner": "",
+      "symbol": "_standard_cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.fail",
+          "target": "self.state.task_status.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "self.state.task_status.fail": "attribute",
+        "self.status.append": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.state.task_status.fail",
+        "self.status.append",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 242,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._standard_failed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message)",
+      "start_line": 233,
+      "state_owner": "",
+      "symbol": "_standard_failed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "item.state.get",
+          "target": "item.state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "item.state.get": "attribute",
+        "self.state.resume_service.unfinished": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio"
+      ],
+      "calls": [
+        "item.state.get",
+        "self.state.resume_service.unfinished",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 250,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._resume_record",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, experiment_id)",
+      "start_line": 244,
+      "state_owner": "",
+      "symbol": "_resume_record",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.critical",
+          "target": "QMessageBox.critical"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.export_portfolio",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.refresh"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.state.get",
+          "target": "item.state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.setText",
+          "target": "self.directory.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.findData",
+          "target": "self.experiment.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.setCurrentIndex",
+          "target": "self.experiment.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.unfinished",
+          "target": "self.state.resume_service.unfinished"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "QMessageBox.critical": "attribute",
+        "QMessageBox.information": "attribute",
+        "item.state.get": "attribute",
+        "next": "name",
+        "self.directory.setText": "attribute",
+        "self.experiment.findData": "attribute",
+        "self.experiment.setCurrentIndex": "attribute",
+        "self.export_portfolio": "attribute",
+        "self.refresh": "attribute",
+        "self.state.resume_service.unfinished": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QMessageBox.critical",
+        "QMessageBox.information",
+        "item.state.get",
+        "next",
+        "self.directory.setText",
+        "self.experiment.findData",
+        "self.experiment.setCurrentIndex",
+        "self.export_portfolio",
+        "self.refresh",
+        "self.state.resume_service.unfinished",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.refresh"
+      ],
+      "doc": "Resume one specifically identified retained portfolio-export record.",
+      "end_line": 291,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.resume_task_by_id",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, task_id)",
+      "start_line": 252,
+      "state_owner": "",
+      "symbol": "resume_task_by_id",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.information",
+          "target": "QMessageBox.information"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QMessageBox.question",
+          "target": "QMessageBox.question"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._resume_record",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._resume_record"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_PortfolioExportWorker",
+          "target": "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.is_file",
+          "target": "manifest.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record_state.get",
+          "target": "record_state.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.setText",
+          "target": "self.directory.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.directory.text",
+          "target": "self.directory.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.experiment.currentData",
+          "target": "self.experiment.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.register",
+          "target": "self.state.resume_service.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.begin",
+          "target": "self.state.task_status.begin"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.cancelled.connect",
+          "target": "self.worker.cancelled.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.completed.connect",
+          "target": "self.worker.completed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.failed.connect",
+          "target": "self.worker.failed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.finished.connect",
+          "target": "self.worker.finished.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.isRunning",
+          "target": "self.worker.isRunning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.progress.connect",
+          "target": "self.worker.progress.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.start",
+          "target": "self.worker.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "QMessageBox.information": "attribute",
+        "QMessageBox.question": "attribute",
+        "_PortfolioExportWorker": "name",
+        "manifest.is_file": "attribute",
+        "record_state.get": "attribute",
+        "self._resume_record": "attribute",
+        "self.cancel_button.setEnabled": "attribute",
+        "self.directory.setText": "attribute",
+        "self.directory.text": "attribute",
+        "self.experiment.currentData": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state.resume_service.register": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.begin": "attribute",
+        "self.worker.cancelled.connect": "attribute",
+        "self.worker.completed.connect": "attribute",
+        "self.worker.failed.connect": "attribute",
+        "self.worker.finished.connect": "attribute",
+        "self.worker.isRunning": "attribute",
+        "self.worker.progress.connect": "attribute",
+        "self.worker.start": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.__init__",
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.resume_task_by_id"
+      ],
+      "calls": [
+        "Path",
+        "QMessageBox.information",
+        "QMessageBox.question",
+        "_PortfolioExportWorker",
+        "manifest.is_file",
+        "record_state.get",
+        "self._resume_record",
+        "self.cancel_button.setEnabled",
+        "self.directory.setText",
+        "self.directory.text",
+        "self.experiment.currentData",
+        "self.progress.setValue",
+        "self.state.resume_service.register",
+        "self.state.resume_service.update",
+        "self.state.task_status.begin",
+        "self.worker.cancelled.connect",
+        "self.worker.completed.connect",
+        "self.worker.failed.connect",
+        "self.worker.finished.connect",
+        "self.worker.isRunning",
+        "self.worker.progress.connect",
+        "self.worker.start",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._resume_record",
+        "calo_rpd_studio.gui.panels.publication_export_panel._PortfolioExportWorker"
+      ],
+      "doc": "",
+      "end_line": 364,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.export_portfolio",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, resume)",
+      "start_line": 293,
+      "state_owner": "",
+      "symbol": "export_portfolio",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.update",
+          "target": "self.state.task_status.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "payload.get": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.update": "attribute",
+        "self.status.append": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "payload.get",
+        "self.progress.setValue",
+        "self.state.resume_service.update",
+        "self.state.task_status.update",
+        "self.status.append",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 382,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_progress",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, payload)",
+      "start_line": 366,
+      "state_owner": "",
+      "symbol": "_portfolio_progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.update",
+          "target": "self.state.task_status.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.cancel",
+          "target": "self.worker.cancel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.worker.isRunning",
+          "target": "self.worker.isRunning"
+        }
+      ],
+      "call_forms": {
+        "self.cancel_button.setEnabled": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.update": "attribute",
+        "self.worker.cancel": "attribute",
+        "self.worker.isRunning": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.cancel_button.setEnabled",
+        "self.state.resume_service.update",
+        "self.state.task_status.update",
+        "self.worker.cancel",
+        "self.worker.isRunning"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 393,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel.cancel_export",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 384,
+      "state_owner": "",
+      "symbol": "cancel_export",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.progress.setValue",
+          "target": "self.progress.setValue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.finish",
+          "target": "self.state.task_status.finish"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute",
+        "self.progress.setValue": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.finish": "attribute",
+        "self.status.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "resolve",
+        "self.progress.setValue",
+        "self.state.resume_service.update",
+        "self.state.task_status.finish",
+        "self.status.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 401,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_completed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 395,
+      "state_owner": "",
+      "symbol": "_portfolio_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.cancelled",
+          "target": "self.state.task_status.cancelled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute",
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.cancelled": "attribute",
+        "self.status.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "resolve",
+        "self.state.resume_service.update",
+        "self.state.task_status.cancelled",
+        "self.status.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 412,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_cancelled",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 403,
+      "state_owner": "",
+      "symbol": "_portfolio_cancelled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "show_error",
+          "target": "calo_rpd_studio.gui.user_feedback.show_error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.resume_service.update",
+          "target": "self.state.resume_service.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.task_status.fail",
+          "target": "self.state.task_status.fail"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.status.append",
+          "target": "self.status.append"
+        }
+      ],
+      "call_forms": {
+        "self.state.resume_service.update": "attribute",
+        "self.state.task_status.fail": "attribute",
+        "self.status.append": "attribute",
+        "show_error": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.state.resume_service.update",
+        "self.state.task_status.fail",
+        "self.status.append",
+        "show_error"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.user_feedback.show_error"
+      ],
+      "doc": "",
+      "end_line": 426,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_failed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, message)",
+      "start_line": 414,
+      "state_owner": "",
+      "symbol": "_portfolio_failed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.cancel_button.setEnabled",
+          "target": "self.cancel_button.setEnabled"
+        }
+      ],
+      "call_forms": {
+        "self.cancel_button.setEnabled": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.cancel_button.setEnabled"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 430,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/publication_export_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PortfolioExporter": "calo_rpd_studio.portfolio.exporter.PortfolioExporter",
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QFileDialog": "PyQt6.QtWidgets.QFileDialog",
+        "QFormLayout": "PyQt6.QtWidgets.QFormLayout",
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "QProgressBar": "PyQt6.QtWidgets.QProgressBar",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QThread": "PyQt6.QtCore.QThread",
+        "ResumeStatus": "calo_rpd_studio.resume.models.ResumeStatus",
+        "ResumeTaskType": "calo_rpd_studio.resume.models.ResumeTaskType",
+        "SectionCard": "calo_rpd_studio.gui.widgets.section_card.SectionCard",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.user_feedback",
+        "calo_rpd_studio.gui.widgets.section_card",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.portfolio.exporter",
+        "calo_rpd_studio.results.publication_export",
+        "calo_rpd_studio.resume.models",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.publication_export_panel",
+      "qualname": "calo_rpd_studio.gui.panels.publication_export_panel.PublicationExportPanel._portfolio_finished",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 428,
+      "state_owner": "",
+      "symbol": "_portfolio_finished",
+      "tests": []
+    }
+  ]
+}

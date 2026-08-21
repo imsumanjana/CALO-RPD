@@ -1,0 +1,45 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ac_power_flow.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/voltage_stability.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/ybus.py"
+    }
+  ],
+  "path": "tests/unit/test_power_flow.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "to": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "to": "calo_rpd_studio.power_system.voltage_stability.kessel_glavitsch_l_index"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "to": "calo_rpd_studio.power_system.ybus.build_ybus"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "to": "np.all"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_power_flow.test_ybus_and_power_flow",
+      "to": "np.isfinite"
+    }
+  ]
+}

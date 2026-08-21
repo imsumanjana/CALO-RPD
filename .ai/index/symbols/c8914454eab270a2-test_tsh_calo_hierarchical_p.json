@@ -1,0 +1,1351 @@
+{
+  "path": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        }
+      ],
+      "call_forms": {
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_deterministic_action_and_per_learner_group_assignment",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_action_rejects_wrong_schema",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_policy_cpu_cuda_numerical_agreement",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_policy_outputs_versioned_global_and_group_heads",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_learner_context_conditions_independent_operator_distribution",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_stochastic_hierarchical_action_and_learner_sampling_replay_exactly",
+        "tests.unit.test_tsh_calo_hierarchical_policy.test_unavailable_group_uses_explicit_sentinel_and_cannot_receive_a_learner"
+      ],
+      "calls": [
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "_policy_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network",
+          "target": "network"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "network": "name",
+        "torch.all": "attribute",
+        "torch.manual_seed": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "double",
+        "eval",
+        "network",
+        "torch.all",
+        "torch.manual_seed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 57,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_policy_outputs_versioned_global_and_group_heads",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "test_hierarchical_policy_outputs_versioned_global_and_group_heads",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "masked_group_operator_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to",
+          "target": "to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.count_nonzero",
+          "target": "torch.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.full",
+          "target": "torch.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.nn.functional.one_hot",
+          "target": "torch.nn.functional.one_hot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "masked_group_operator_probabilities": "name",
+        "pytest.raises": "attribute",
+        "to": "attribute",
+        "torch.count_nonzero": "attribute",
+        "torch.full": "attribute",
+        "torch.nn.functional.one_hot": "attribute",
+        "torch.tensor": "attribute",
+        "torch.testing.assert_close": "attribute",
+        "torch.zeros": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "masked_group_operator_probabilities",
+        "pytest.raises",
+        "to",
+        "torch.count_nonzero",
+        "torch.full",
+        "torch.nn.functional.one_hot",
+        "torch.tensor",
+        "torch.testing.assert_close",
+        "torch.zeros",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities"
+      ],
+      "doc": "",
+      "end_line": 76,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_action_mask_assigns_zero_probability_to_invalid_and_unavailable_groups",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 60,
+      "state_owner": "",
+      "symbol": "test_action_mask_assigns_zero_probability_to_invalid_and_unavailable_groups",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.validate",
+          "target": "action.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "assign_group_conditioned_learner_operators",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "action.validate": "attribute",
+        "assign_group_conditioned_learner_operators": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "torch.all": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.ones": "attribute",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "action.validate",
+        "assign_group_conditioned_learner_operators",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "torch.all",
+        "torch.manual_seed",
+        "torch.ones",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 96,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_deterministic_action_and_per_learner_group_assignment",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "test_deterministic_action_and_per_learner_group_assignment",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "assign_group_conditioned_learner_operators",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manual_seed",
+          "target": "manual_seed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.Generator",
+          "target": "torch.Generator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "assign_group_conditioned_learner_operators": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "manual_seed": "attribute",
+        "torch.Generator": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.ones": "attribute",
+        "torch.tensor": "attribute",
+        "torch.testing.assert_close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "assign_group_conditioned_learner_operators",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "manual_seed",
+        "torch.Generator",
+        "torch.manual_seed",
+        "torch.ones",
+        "torch.tensor",
+        "torch.testing.assert_close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_stochastic_hierarchical_action_and_learner_sampling_replay_exactly",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "test_stochastic_hierarchical_action_and_learner_sampling_replay_exactly",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.context_operator_logits.zero_",
+          "target": "action.context_operator_logits.zero_"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assigned.tolist",
+          "target": "assigned.tolist"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "assign_group_conditioned_learner_operators",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "action.context_operator_logits.zero_": "attribute",
+        "assign_group_conditioned_learner_operators": "name",
+        "assigned.tolist": "attribute",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "torch.ones": "attribute",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "action.context_operator_logits.zero_",
+        "assign_group_conditioned_learner_operators",
+        "assigned.tolist",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "torch.ones",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_learner_context_conditions_independent_operator_distribution",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 134,
+      "state_owner": "",
+      "symbol": "test_learner_context_conditions_independent_operator_distribution",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "action.group_operators.tolist",
+          "target": "action.group_operators.tolist"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "assign_group_conditioned_learner_operators",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.zeros",
+          "target": "torch.zeros"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "action.group_operators.tolist": "attribute",
+        "assign_group_conditioned_learner_operators": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "pytest.raises": "attribute",
+        "torch.tensor": "attribute",
+        "torch.zeros": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "action.group_operators.tolist",
+        "assign_group_conditioned_learner_operators",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "pytest.raises",
+        "torch.tensor",
+        "torch.zeros"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_unavailable_group_uses_explicit_sentinel_and_cannot_receive_a_learner",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "test_unavailable_group_uses_explicit_sentinel_and_cannot_receive_a_learner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HierarchicalPolicyAction",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "hierarchical_action",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "invalid.validate",
+          "target": "invalid.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask": "name",
+        "HierarchicalPolicyAction": "name",
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "double": "attribute",
+        "eval": "attribute",
+        "hierarchical_action": "name",
+        "invalid.validate": "attribute",
+        "pytest.raises": "attribute",
+        "torch.ones": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "GroupActionMask",
+        "HierarchicalPolicyAction",
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "double",
+        "eval",
+        "hierarchical_action",
+        "invalid.validate",
+        "pytest.raises",
+        "torch.ones"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 190,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_action_rejects_wrong_schema",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 172,
+      "state_owner": "",
+      "symbol": "test_hierarchical_action_rejects_wrong_schema",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu",
+          "target": "cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cpu.state_dict",
+          "target": "cpu.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cuda",
+          "target": "cuda"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cuda.load_state_dict",
+          "target": "cuda.load_state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cuda_output.group_operator_logits.cpu",
+          "target": "cuda_output.group_operator_logits.cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cuda_output.regime_logits.cpu",
+          "target": "cuda_output.regime_logits.cpu"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "double",
+          "target": "double"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eval",
+          "target": "eval"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.skipif",
+          "target": "pytest.mark.skipif"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_state",
+          "target": "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.manual_seed",
+          "target": "torch.manual_seed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.testing.assert_close",
+          "target": "torch.testing.assert_close"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOPolicyNetwork": "name",
+        "_policy_state": "name",
+        "cpu": "name",
+        "cpu.state_dict": "attribute",
+        "cuda": "mixed",
+        "cuda.load_state_dict": "attribute",
+        "cuda_output.group_operator_logits.cpu": "attribute",
+        "cuda_output.regime_logits.cpu": "attribute",
+        "double": "attribute",
+        "eval": "attribute",
+        "pytest.mark.skipif": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.manual_seed": "attribute",
+        "torch.testing.assert_close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TSHCALOPolicyNetwork",
+        "_policy_state",
+        "cpu",
+        "cpu.state_dict",
+        "cuda",
+        "cuda.load_state_dict",
+        "cuda_output.group_operator_logits.cpu",
+        "cuda_output.regime_logits.cpu",
+        "double",
+        "eval",
+        "pytest.mark.skipif",
+        "torch.cuda.is_available",
+        "torch.manual_seed",
+        "torch.testing.assert_close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state"
+      ],
+      "doc": "",
+      "end_line": 215,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_hierarchical_policy.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "HierarchicalPolicyAction": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.HierarchicalPolicyAction",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.TSHCALOPolicyNetwork",
+        "TSH_CALO_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ACTION_SCHEMA",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "assign_group_conditioned_learner_operators": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.assign_group_conditioned_learner_operators",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "hierarchical_action": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.hierarchical_action",
+        "masked_group_operator_probabilities": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.masked_group_operator_probabilities",
+        "np": "numpy",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_hierarchical_policy",
+      "qualname": "tests.unit.test_tsh_calo_hierarchical_policy.test_hierarchical_policy_cpu_cuda_numerical_agreement",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 194,
+      "state_owner": "",
+      "symbol": "test_hierarchical_policy_cpu_cuda_numerical_agreement",
+      "tests": []
+    }
+  ]
+}

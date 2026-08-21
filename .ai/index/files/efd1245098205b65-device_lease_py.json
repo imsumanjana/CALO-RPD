@@ -1,0 +1,68 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:c6df06221c148f792fe53a5087c6b5718bac1eee",
+    "content_sha256": "d409ea2fd14a590f07c2df5c247ed634eeb46b0d8ab8b31d6a0cc07b91dab6cc",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "BinaryIO": "typing.BinaryIO",
+      "Callable": "typing.Callable",
+      "Path": "pathlib.Path",
+      "annotations": "__future__.annotations",
+      "dataclass": "dataclasses.dataclass",
+      "fcntl": "fcntl",
+      "hashlib": "hashlib",
+      "logging": "logging",
+      "msvcrt": "msvcrt",
+      "os": "os",
+      "tempfile": "tempfile",
+      "threading": "threading",
+      "time": "time"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "fcntl",
+      "hashlib",
+      "logging",
+      "msvcrt",
+      "os",
+      "pathlib",
+      "tempfile",
+      "threading",
+      "time",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/device_lease.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 6678,
+    "state_owner": "",
+    "symbol_count": 12
+  },
+  "path": "calo_rpd_studio/compute/device_lease.py",
+  "schema_version": 2
+}

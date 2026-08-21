@@ -1,0 +1,2321 @@
+{
+  "path": "calo_rpd_studio/app/execution_control.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.state_manager.AppState.__init__",
+        "tests.integration.test_workspace_execution_control.prepared_service",
+        "tests.integration.test_workspace_execution_control.test_restart_fences_prior_instance_and_restores_staged_owner",
+        "tests.integration.test_workspace_execution_control.test_restart_marks_inflight_workspace_cell_resumable"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Own plan identity and lifecycle without owning optimizer or policy behavior.",
+      "end_line": 360,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "ExecutionControlService",
+      "tests": [
+        "tests/integration/test_workspace_execution_control.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.recover_execution_controller",
+          "target": "self.database.recover_execution_controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "self.database.recover_execution_controller": "attribute",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.database.recover_execution_controller",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, database)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AlgorithmStage",
+          "target": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "content.get",
+          "target": "content.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "AlgorithmStage": "name",
+        "content.get": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage"
+      ],
+      "calls": [
+        "AlgorithmStage",
+        "content.get",
+        "deepcopy",
+        "dict",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plans.AlgorithmStage"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(row)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "_stage_from_row",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_controller",
+          "target": "self.database.get_execution_controller"
+        }
+      ],
+      "call_forms": {
+        "self.database.get_execution_controller": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.current_owner_summary",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+      ],
+      "calls": [
+        "self.database.get_execution_controller"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "controller",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._stage_from_row",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_active_algorithm_stage",
+          "target": "self.database.get_active_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "self._stage_from_row": "attribute",
+        "self.database.get_active_algorithm_stage": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft"
+      ],
+      "calls": [
+        "self._stage_from_row",
+        "self.database.get_active_algorithm_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService._stage_from_row"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "active_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AlgorithmStage.create",
+          "target": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.replace_algorithm_stage",
+          "target": "self.database.replace_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "AlgorithmStage.create": "attribute",
+        "self.database.replace_algorithm_stage": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AlgorithmStage.create",
+        "self.database.replace_algorithm_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.submit_algorithm_stage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, config)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "submit_algorithm_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.database.discard_algorithm_stage",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage"
+        }
+      ],
+      "call_forms": {
+        "self.database.discard_algorithm_stage": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage"
+      ],
+      "calls": [
+        "self.database.discard_algorithm_stage"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage"
+      ],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_algorithm_stage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "discard_algorithm_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.active_stage",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceStudyPlan.create",
+          "target": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.create_execution_plan",
+          "target": "self.database.create_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "WorkspaceStudyPlan.create": "attribute",
+        "self.active_stage": "attribute",
+        "self.database.create_execution_plan": "attribute",
+        "self.database.get_execution_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "WorkspaceStudyPlan.create",
+        "self.active_stage",
+        "self.database.create_execution_plan",
+        "self.database.get_execution_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage",
+        "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_workspace_draft",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, config, study_algorithm_names, portfolio_goal, recommendation, applied_study_setup)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "create_workspace_draft",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.active_stage",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndividualExperimentPlan.create",
+          "target": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.create_execution_plan",
+          "target": "self.database.create_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        }
+      ],
+      "call_forms": {
+        "IndividualExperimentPlan.create": "attribute",
+        "RuntimeError": "name",
+        "self.active_stage": "attribute",
+        "self.database.create_execution_plan": "attribute",
+        "self.database.get_execution_plan": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndividualExperimentPlan.create",
+        "RuntimeError",
+        "self.active_stage",
+        "self.database.create_execution_plan",
+        "self.database.get_execution_plan"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.active_stage",
+        "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.create_individual_draft",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, config)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "create_individual_draft",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_active_execution_plan",
+          "target": "self.database.get_active_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name",
+        "self.database.get_active_execution_plan": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "isinstance",
+        "self.database.get_active_execution_plan",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.active_plan",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, kind)",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "active_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "audit_receipt_payload",
+          "target": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.set_execution_plan_audited",
+          "target": "self.database.set_execution_plan_audited"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "audit_receipt_payload": "name",
+        "dict": "name",
+        "self.database.get_execution_plan": "attribute",
+        "self.database.set_execution_plan_audited": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "audit_receipt_payload",
+        "dict",
+        "self.database.get_execution_plan",
+        "self.database.set_execution_plan_audited",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload"
+      ],
+      "doc": "",
+      "end_line": 114,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.record_audit",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, audit_payload)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "record_audit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.discard_unstarted_execution_plan",
+          "target": "self.database.discard_unstarted_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.database.discard_unstarted_execution_plan": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.database.discard_unstarted_execution_plan",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 119,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.discard_draft",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id)",
+      "start_line": 116,
+      "state_owner": "",
+      "symbol": "discard_draft",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.acquire_execution_controller",
+          "target": "self.database.acquire_execution_controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "isinstance": "name",
+        "self.database.acquire_execution_controller": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "isinstance",
+        "self.database.acquire_execution_controller",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 135,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.stage",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, kind)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.controller",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.transition",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.verify_campaign_binding",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.acquire_execution_controller",
+          "target": "self.database.acquire_execution_controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_active_algorithm_stage",
+          "target": "self.database.get_active_algorithm_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "get": "attribute",
+        "isinstance": "name",
+        "plan.get": "attribute",
+        "self.controller": "attribute",
+        "self.database.acquire_execution_controller": "attribute",
+        "self.database.get_active_algorithm_stage": "attribute",
+        "self.database.get_execution_plan": "attribute",
+        "self.transition": "attribute",
+        "self.verify_campaign_binding": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "RuntimeError",
+        "ValueError",
+        "get",
+        "isinstance",
+        "plan.get",
+        "self.controller",
+        "self.database.acquire_execution_controller",
+        "self.database.get_active_algorithm_stage",
+        "self.database.get_execution_plan",
+        "self.transition",
+        "self.verify_campaign_binding",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.controller",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding"
+      ],
+      "doc": "",
+      "end_line": 183,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.resume",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, kind)",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "resume",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.controller",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.transition_execution_plan",
+          "target": "self.database.transition_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "bool": "name",
+        "int": "name",
+        "self.controller": "attribute",
+        "self.database.transition_execution_plan": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.request_pause",
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.resume"
+      ],
+      "calls": [
+        "RuntimeError",
+        "bool",
+        "int",
+        "self.controller",
+        "self.database.transition_execution_plan",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+      ],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, expected, new_state, message, campaign_id, release_controller)",
+      "start_line": 185,
+      "state_owner": "",
+      "symbol": "transition",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.transition",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "self.database.get_execution_plan": "attribute",
+        "self.transition": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "self.database.get_execution_plan",
+        "self.transition",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+      ],
+      "doc": "",
+      "end_line": 227,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.begin_run",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, campaign_id)",
+      "start_line": 215,
+      "state_owner": "",
+      "symbol": "begin_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.transition",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+        }
+      ],
+      "call_forms": {
+        "self.transition": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.transition"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+      ],
+      "doc": "",
+      "end_line": 235,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.request_pause",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id)",
+      "start_line": 229,
+      "state_owner": "",
+      "symbol": "request_pause",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.transition",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "self.database.get_execution_plan": "attribute",
+        "self.transition": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "self.database.get_execution_plan",
+        "self.transition",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+      ],
+      "doc": "",
+      "end_line": 253,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_paused",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, campaign_id)",
+      "start_line": 237,
+      "state_owner": "",
+      "symbol": "commit_paused",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.transition",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "KeyError": "name",
+        "ValueError": "name",
+        "isinstance": "name",
+        "self.database.get_execution_plan": "attribute",
+        "self.transition": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "KeyError",
+        "ValueError",
+        "isinstance",
+        "self.database.get_execution_plan",
+        "self.transition",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.transition"
+      ],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.commit_terminal",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, lifecycle, message, campaign_id)",
+      "start_line": 255,
+      "state_owner": "",
+      "symbol": "commit_terminal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.controller",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.cancel_retained_execution_plan",
+          "target": "self.database.cancel_retained_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "self.controller": "attribute",
+        "self.database.cancel_retained_execution_plan": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "self.controller",
+        "self.database.cancel_retained_execution_plan",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+      ],
+      "doc": "Terminally close an idle/staged plan and every unfinished retained ledger row.",
+      "end_line": 299,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.cancel_retained",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, message)",
+      "start_line": 290,
+      "state_owner": "",
+      "symbol": "cancel_retained",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "KeyError",
+          "target": "KeyError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.list_workspace_plan_cells",
+          "target": "self.database.list_workspace_plan_cells"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "KeyError": "name",
+        "deepcopy": "name",
+        "dict": "name",
+        "plan.get": "attribute",
+        "self.database.get_execution_plan": "attribute",
+        "self.database.list_workspace_plan_cells": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding"
+      ],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "KeyError",
+        "deepcopy",
+        "dict",
+        "plan.get",
+        "self.database.get_execution_plan",
+        "self.database.list_workspace_plan_cells",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 326,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, cell_id)",
+      "start_line": 301,
+      "state_owner": "",
+      "symbol": "plan_configuration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.plan_configuration",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resume_contract_sha256",
+          "target": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_payload.get",
+          "target": "expected_payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_campaign",
+          "target": "self.database.get_campaign"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.get_execution_plan",
+          "target": "self.database.get_execution_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stored_payload.get",
+          "target": "stored_payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "to_dict",
+          "target": "to_dict"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "expected_payload.get": "attribute",
+        "json.loads": "attribute",
+        "resume_contract_sha256": "name",
+        "self.database.get_campaign": "attribute",
+        "self.database.get_execution_plan": "attribute",
+        "self.plan_configuration": "attribute",
+        "stored_payload.get": "attribute",
+        "str": "name",
+        "to_dict": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.resume"
+      ],
+      "calls": [
+        "RuntimeError",
+        "expected_payload.get",
+        "json.loads",
+        "resume_contract_sha256",
+        "self.database.get_campaign",
+        "self.database.get_execution_plan",
+        "self.plan_configuration",
+        "stored_payload.get",
+        "str",
+        "to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+        "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256"
+      ],
+      "doc": "Reject resume unless the stored campaign matches the exact frozen plan/cell.",
+      "end_line": 352,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.verify_campaign_binding",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, plan_id, campaign_id)",
+      "start_line": 328,
+      "state_owner": "",
+      "symbol": "verify_campaign_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.controller",
+          "target": "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.controller": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.controller",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.controller"
+      ],
+      "doc": "",
+      "end_line": 360,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/execution_control.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AlgorithmStage": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage",
+        "ControllerKind": "calo_rpd_studio.experiments.execution_plans.ControllerKind",
+        "ExecutionLifecycle": "calo_rpd_studio.experiments.execution_plans.ExecutionLifecycle",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "INDIVIDUAL_PLAN_SCHEMA": "calo_rpd_studio.experiments.execution_plans.INDIVIDUAL_PLAN_SCHEMA",
+        "IndividualExperimentPlan": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan",
+        "WorkspaceStudyPlan": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan",
+        "annotations": "__future__.annotations",
+        "audit_receipt_payload": "calo_rpd_studio.experiments.execution_plans.audit_receipt_payload",
+        "deepcopy": "copy.deepcopy",
+        "json": "json",
+        "resume_contract_sha256": "calo_rpd_studio.experiments.execution_plans.resume_contract_sha256",
+        "uuid": "uuid"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.experiment_config",
+        "copy",
+        "json",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.execution_control",
+      "qualname": "calo_rpd_studio.app.execution_control.ExecutionControlService.current_owner_summary",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 354,
+      "state_owner": "",
+      "symbol": "current_owner_summary",
+      "tests": []
+    }
+  ]
+}

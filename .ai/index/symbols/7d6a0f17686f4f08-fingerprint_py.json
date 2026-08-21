@@ -1,0 +1,624 @@
+{
+  "path": "calo_rpd_studio/portfolio/fingerprint.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint._ARTIFACT_KEYWORDS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "_ARTIFACT_KEYWORDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint._file_sha256",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_file_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_file_sha256",
+          "target": "calo_rpd_studio.portfolio.fingerprint._file_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_replace_artifact_paths",
+          "target": "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "key.lower",
+          "target": "key.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.items",
+          "target": "value.items"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_file_sha256": "name",
+        "_replace_artifact_paths": "name",
+        "any": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "key.lower": "attribute",
+        "path.is_file": "attribute",
+        "str": "name",
+        "value.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths",
+        "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint"
+      ],
+      "calls": [
+        "Path",
+        "_file_sha256",
+        "_replace_artifact_paths",
+        "any",
+        "expanduser",
+        "isinstance",
+        "key.lower",
+        "path.is_file",
+        "str",
+        "value.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.fingerprint._file_sha256",
+        "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths",
+      "semantic_tags": [],
+      "signature": "(value, key)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_replace_artifact_paths",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_normalise",
+          "target": "calo_rpd_studio.portfolio.fingerprint._normalise"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "format",
+          "target": "format"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.items",
+          "target": "value.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.resolve",
+          "target": "value.resolve"
+        }
+      ],
+      "call_forms": {
+        "_normalise": "name",
+        "format": "name",
+        "isinstance": "name",
+        "sorted": "name",
+        "str": "name",
+        "value.items": "attribute",
+        "value.resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.fingerprint._normalise",
+        "calo_rpd_studio.portfolio.fingerprint.stable_sha256"
+      ],
+      "calls": [
+        "_normalise",
+        "format",
+        "isinstance",
+        "sorted",
+        "str",
+        "value.items",
+        "value.resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.fingerprint._normalise"
+      ],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint._normalise",
+      "semantic_tags": [],
+      "signature": "(value)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "_normalise",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_normalise",
+          "target": "calo_rpd_studio.portfolio.fingerprint._normalise"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "_normalise": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "calo_rpd_studio.portfolio.fingerprint.run_fingerprint"
+      ],
+      "calls": [
+        "_normalise",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.fingerprint._normalise"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint.stable_sha256",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 54,
+      "state_owner": "",
+      "symbol": "stable_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_replace_artifact_paths",
+          "target": "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "stable_sha256",
+          "target": "calo_rpd_studio.portfolio.fingerprint.stable_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.pop",
+          "target": "data.pop"
+        }
+      ],
+      "call_forms": {
+        "_replace_artifact_paths": "name",
+        "config.to_dict": "attribute",
+        "data.pop": "attribute",
+        "stable_sha256": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+        "calo_rpd_studio.portfolio.fingerprint.run_fingerprint",
+        "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes"
+      ],
+      "calls": [
+        "_replace_artifact_paths",
+        "config.to_dict",
+        "data.pop",
+        "stable_sha256"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.fingerprint._replace_artifact_paths",
+        "calo_rpd_studio.portfolio.fingerprint.stable_sha256"
+      ],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+      "semantic_tags": [],
+      "signature": "(config)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "experiment_fingerprint",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "experiment_fingerprint",
+          "target": "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "stable_sha256",
+          "target": "calo_rpd_studio.portfolio.fingerprint.stable_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.algorithm_parameters.get",
+          "target": "config.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "config.algorithm_parameters.get": "attribute",
+        "dict": "name",
+        "experiment_fingerprint": "name",
+        "int": "name",
+        "stable_sha256": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentWorker._prepare_campaign",
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run"
+      ],
+      "calls": [
+        "config.algorithm_parameters.get",
+        "dict",
+        "experiment_fingerprint",
+        "int",
+        "stable_sha256"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.fingerprint.experiment_fingerprint",
+        "calo_rpd_studio.portfolio.fingerprint.stable_sha256"
+      ],
+      "doc": "",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/fingerprint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.fingerprint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.fingerprint",
+      "qualname": "calo_rpd_studio.portfolio.fingerprint.run_fingerprint",
+      "semantic_tags": [],
+      "signature": "(config, algorithm, run_index, seeds)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "run_fingerprint",
+      "tests": []
+    }
+  ]
+}

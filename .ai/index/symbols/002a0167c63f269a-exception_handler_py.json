@@ -1,0 +1,308 @@
+{
+  "path": "calo_rpd_studio/app/exception_handler.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.exception_handler.show_exception"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/exception_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "traceback": "traceback"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.exception_handler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.exception_handler",
+      "qualname": "calo_rpd_studio.app.exception_handler.ErrorDialog",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "ErrorDialog",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QDialogButtonBox",
+          "target": "QDialogButtonBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPlainTextEdit",
+          "target": "QPlainTextEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "box.setReadOnly",
+          "target": "box.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.accepted.connect",
+          "target": "buttons.accepted.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.rejected.connect",
+          "target": "buttons.rejected.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "label.setWordWrap",
+          "target": "label.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.resize",
+          "target": "self.resize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setWindowTitle",
+          "target": "self.setWindowTitle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QDialogButtonBox": "name",
+        "QLabel": "name",
+        "QPlainTextEdit": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "box.setReadOnly": "attribute",
+        "buttons.accepted.connect": "attribute",
+        "buttons.rejected.connect": "attribute",
+        "label.setWordWrap": "attribute",
+        "layout.addWidget": "attribute",
+        "self.resize": "attribute",
+        "self.setWindowTitle": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QDialogButtonBox",
+        "QLabel",
+        "QPlainTextEdit",
+        "QVBoxLayout",
+        "__init__",
+        "box.setReadOnly",
+        "buttons.accepted.connect",
+        "buttons.rejected.connect",
+        "label.setWordWrap",
+        "layout.addWidget",
+        "self.resize",
+        "self.setWindowTitle",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/exception_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "traceback": "traceback"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.exception_handler.ErrorDialog",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.exception_handler",
+      "qualname": "calo_rpd_studio.app.exception_handler.ErrorDialog.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, title, message, details, parent)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ErrorDialog",
+          "target": "calo_rpd_studio.app.exception_handler.ErrorDialog"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exec",
+          "target": "exec"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "traceback.format_exception",
+          "target": "traceback.format_exception"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "ErrorDialog": "name",
+        "exec": "attribute",
+        "join": "attribute",
+        "str": "name",
+        "traceback.format_exception": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ErrorDialog",
+        "exec",
+        "join",
+        "str",
+        "traceback.format_exception",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.exception_handler.ErrorDialog"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/app/exception_handler.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QDialog": "PyQt6.QtWidgets.QDialog",
+        "QDialogButtonBox": "PyQt6.QtWidgets.QDialogButtonBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "traceback": "traceback"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "traceback"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.exception_handler",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.app.exception_handler",
+      "qualname": "calo_rpd_studio.app.exception_handler.show_exception",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(parent, title, exc)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "show_exception",
+      "tests": []
+    }
+  ]
+}

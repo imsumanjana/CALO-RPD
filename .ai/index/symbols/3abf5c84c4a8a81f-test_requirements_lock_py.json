@@ -1,0 +1,220 @@
+{
+  "path": "tests/unit/test_requirements_lock.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_lock",
+          "target": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lock.write_text",
+          "target": "lock.write_text"
+        }
+      ],
+      "call_forms": {
+        "lock.write_text": "attribute",
+        "verify_lock": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "lock.write_text",
+        "verify_lock"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_requirements_lock.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "verify_lock": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock",
+        "verify_lock_contains_exact_graph": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_requirements_lock",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_requirements_lock",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_requirements_lock",
+      "qualname": "tests.unit.test_requirements_lock.test_requirements_lock_verification_accepts_exact_hashed_pins",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_requirements_lock_verification_accepts_exact_hashed_pins",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_lock",
+          "target": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lock.write_text",
+          "target": "lock.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "lock.write_text": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute",
+        "verify_lock": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "lock.write_text",
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "verify_lock"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock"
+      ],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "tests/unit/test_requirements_lock.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "verify_lock": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock",
+        "verify_lock_contains_exact_graph": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_requirements_lock",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_requirements_lock",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_requirements_lock",
+      "qualname": "tests.unit.test_requirements_lock.test_requirements_lock_verification_rejects_unreproducible_entries",
+      "semantic_tags": [],
+      "signature": "(tmp_path, content, message)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "test_requirements_lock_verification_rejects_unreproducible_entries",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "verify_lock_contains_exact_graph",
+          "target": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.write_text",
+          "target": "candidate.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reference.write_text",
+          "target": "reference.write_text"
+        }
+      ],
+      "call_forms": {
+        "candidate.write_text": "attribute",
+        "pytest.raises": "attribute",
+        "reference.write_text": "attribute",
+        "verify_lock_contains_exact_graph": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "candidate.write_text",
+        "pytest.raises",
+        "reference.write_text",
+        "verify_lock_contains_exact_graph"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+      ],
+      "doc": "",
+      "end_line": 53,
+      "entry_point": false,
+      "file": "tests/unit/test_requirements_lock.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "verify_lock": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock",
+        "verify_lock_contains_exact_graph": "calo_rpd_studio.scripts.verify_requirements_lock.verify_lock_contains_exact_graph"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.verify_requirements_lock",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_requirements_lock",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_requirements_lock",
+      "qualname": "tests.unit.test_requirements_lock.test_candidate_lock_must_preserve_reference_runtime_versions",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "test_candidate_lock_must_preserve_reference_runtime_versions",
+      "tests": []
+    }
+  ]
+}

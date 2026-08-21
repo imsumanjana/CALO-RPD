@@ -1,0 +1,202 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_generalization_guard.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "generalization-guard public/integration surface",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_single_candidate_generalization_status",
+          "target": "_single_candidate_generalization_status"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "designs.add",
+          "target": "designs.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "guarded.append",
+          "target": "guarded.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.get",
+          "target": "member.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance.get",
+          "target": "provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rows.append",
+          "target": "rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "_single_candidate_generalization_status": "name",
+        "all": "name",
+        "any": "name",
+        "bool": "name",
+        "designs.add": "attribute",
+        "dict": "name",
+        "enumerate": "name",
+        "guarded.append": "attribute",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name",
+        "lower": "attribute",
+        "member.get": "attribute",
+        "provenance.get": "attribute",
+        "row.get": "attribute",
+        "rows.append": "attribute",
+        "set": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_generalization_integration.test_mixed_or_differently_guarded_ensemble_fails_before_promotion"
+      ],
+      "calls": [
+        "_single_candidate_generalization_status",
+        "all",
+        "any",
+        "bool",
+        "designs.add",
+        "dict",
+        "enumerate",
+        "guarded.append",
+        "isinstance",
+        "len",
+        "list",
+        "lower",
+        "member.get",
+        "provenance.get",
+        "row.get",
+        "rows.append",
+        "set",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a fail-closed, homogeneous ensemble learning-health status.",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_generalization_guard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "_core": "calo_rpd_studio.algorithms.calo._tsh_calo_generalization_guard_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": true,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_generalization_guard.candidate_generalization_status",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "generalization-guard",
+        "policy-lifecycle",
+        "protected-cases",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(training_provenance)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "candidate_generalization_status",
+      "tests": [
+        "tests/unit/test_tsh_calo_generalization_integration.py"
+      ]
+    }
+  ]
+}

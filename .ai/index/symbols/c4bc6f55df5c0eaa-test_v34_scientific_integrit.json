@@ -1,0 +1,1182 @@
+{
+  "path": "tests/scientific/test_v34_scientific_integrity.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "weighted_cvar",
+          "target": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "weighted_cvar_torch",
+          "target": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.array": "attribute",
+        "pytest.approx": "attribute",
+        "torch.tensor": "attribute",
+        "weighted_cvar": "name",
+        "weighted_cvar_torch": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "np.array",
+        "pytest.approx",
+        "torch.tensor",
+        "weighted_cvar",
+        "weighted_cvar_torch"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      ],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "weighted_cvar",
+          "target": "calo_rpd_studio.robustness.cvar.weighted_cvar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "pytest.mark.parametrize": "attribute",
+        "pytest.raises": "attribute",
+        "weighted_cvar": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "weighted_cvar"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_rejects_invalid_inputs",
+      "semantic_tags": [],
+      "signature": "(values, weights, alpha)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "test_weighted_cvar_rejects_invalid_inputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoder.formulation_manifest",
+          "target": "decoder.formulation_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "case.checksum": "attribute",
+        "decoder.formulation_manifest": "attribute",
+        "len": "name",
+        "pytest.mark.parametrize": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "case.checksum",
+        "decoder.formulation_manifest",
+        "len",
+        "pytest.mark.parametrize",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "semantic_tags": [],
+      "signature": "(case_name)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decoder.decode",
+          "target": "decoder.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "decoder.decode": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.full": "attribute",
+        "np.zeros": "attribute",
+        "pytest.approx": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "decoder.decode",
+        "float",
+        "int",
+        "np.full",
+        "np.zeros",
+        "pytest.approx"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustScenarioSettings",
+          "target": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_scenarios",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_scenarios"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ExperimentConfig": "name",
+        "RobustScenarioSettings": "name",
+        "build_scenarios": "name",
+        "config.validate": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "ExperimentConfig",
+        "RobustScenarioSettings",
+        "build_scenarios",
+        "config.validate",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "test_scenario_validation_rejects_empty_and_out_of_range_requests",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustScenarioSettings",
+          "target": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checksum",
+          "target": "checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario.apply",
+          "target": "scenario.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "RobustScenarioSettings": "name",
+        "build_problem": "name",
+        "checksum": "attribute",
+        "len": "name",
+        "pytest.approx": "attribute",
+        "scenario.apply": "attribute",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "RobustScenarioSettings",
+        "build_problem",
+        "checksum",
+        "len",
+        "pytest.approx",
+        "scenario.apply",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem"
+      ],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 78,
+      "state_owner": "",
+      "symbol": "test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_case",
+          "target": "calo_rpd_studio.power_system.case_validation.validate_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clone",
+          "target": "clone"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "any": "name",
+        "clone": "attribute",
+        "validate_case": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "any",
+        "clone",
+        "validate_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+        "calo_rpd_studio.power_system.case_validation.validate_case"
+      ],
+      "doc": "",
+      "end_line": 95,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "test_case_validator_rejects_active_zero_impedance_branch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parity_check",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "random",
+          "target": "random"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "np.random.default_rng": "attribute",
+        "parity_check": "name",
+        "pytest.mark.parametrize": "attribute",
+        "random": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "CaseLoader.load",
+        "ORPDProblem",
+        "np.random.default_rng",
+        "parity_check",
+        "pytest.mark.parametrize",
+        "random"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "semantic_tags": [],
+      "signature": "(case_name)",
+      "start_line": 99,
+      "state_owner": "",
+      "symbol": "test_mixed_vector_cpu_torch_parity_for_publication_cases",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "astype": "attribute",
+        "float": "name",
+        "int": "name",
+        "np.sum": "attribute",
+        "np.where": "attribute",
+        "pytest.approx": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "astype",
+        "float",
+        "int",
+        "np.sum",
+        "np.where",
+        "pytest.approx",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 138,
+      "entry_point": false,
+      "file": "tests/scientific/test_v34_scientific_integrity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "BR_R": "calo_rpd_studio.power_system.case_model.BR_R",
+        "BR_X": "calo_rpd_studio.power_system.case_model.BR_X",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "QG": "calo_rpd_studio.power_system.case_model.QG",
+        "QMAX": "calo_rpd_studio.power_system.case_model.QMAX",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "RobustScenarioSettings": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "annotations": "__future__.annotations",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "build_scenarios": "calo_rpd_studio.experiments.experiment_runner.build_scenarios",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "torch": "torch",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case",
+        "weighted_cvar": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+        "weighted_cvar_torch": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.case_model",
+        "calo_rpd_studio.power_system.case_validation",
+        "calo_rpd_studio.robustness.cvar",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_v34_scientific_integrity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_v34_scientific_integrity",
+      "qualname": "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 115,
+      "state_owner": "",
+      "symbol": "test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+      "tests": []
+    }
+  ]
+}

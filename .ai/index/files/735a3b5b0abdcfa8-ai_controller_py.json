@@ -1,0 +1,82 @@
+{
+  "file": {
+    "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:18dc10372a235081afd782e7f222a14aebf7971a",
+    "content_sha256": "3c885411a276ee10092a26c8cc1caa814bbb18c7776ff22435a42c95d857234c",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+      "OrderedDict": "collections.OrderedDict",
+      "Path": "pathlib.Path",
+      "REGIME_NAMES": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+      "STATE_DIM": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+      "annotations": "__future__.annotations",
+      "atexit": "atexit",
+      "build_policy_vector": "calo_rpd_studio.algorithms.calo.policy_schema.build_policy_vector",
+      "dataclass": "dataclasses.dataclass",
+      "get_cross_run_broker": "calo_rpd_studio.accelerated.runtime_context.get_cross_run_broker",
+      "infer_checkpoint_schema": "calo_rpd_studio.algorithms.calo.policy_schema.infer_checkpoint_schema",
+      "load_checkpoint": "calo_rpd_studio.ai.model_io.load_checkpoint",
+      "logging": "logging",
+      "np": "numpy",
+      "queue": "queue",
+      "rule_based_regime_prior": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+      "threading": "threading",
+      "time": "time",
+      "torch": "torch",
+      "verify_checkpoint_hash": "calo_rpd_studio.ai.model_io.verify_checkpoint_hash"
+    },
+    "important_invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "imports": [
+      ".cognitive_state",
+      ".policy_network",
+      ".policy_schema",
+      "__future__",
+      "atexit",
+      "calo_rpd_studio.accelerated.runtime_context",
+      "calo_rpd_studio.ai.model_io",
+      "collections",
+      "dataclasses",
+      "logging",
+      "numpy",
+      "pathlib",
+      "queue",
+      "threading",
+      "time",
+      "torch"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "A-E are production components; F remains experimental/off.",
+      "Qualification does not activate; activation is explicit.",
+      "Training is independent of experiments."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "calo-policy",
+    "parse_error": "",
+    "path": "calo_rpd_studio/algorithms/calo/ai_controller.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "TSH-CALO",
+      "activation",
+      "policy-lifecycle",
+      "provenance",
+      "qualification"
+    ],
+    "size_bytes": 22195,
+    "state_owner": "",
+    "symbol_count": 30
+  },
+  "path": "calo_rpd_studio/algorithms/calo/ai_controller.py",
+  "schema_version": 2
+}

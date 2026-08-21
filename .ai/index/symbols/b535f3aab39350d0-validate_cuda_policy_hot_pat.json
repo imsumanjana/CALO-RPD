@@ -1,0 +1,1098 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.DEVELOPMENT_CASES",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "DEVELOPMENT_CASES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._utc_now",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "_utc_now",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_write_bytes",
+          "target": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.exists",
+          "target": "destination.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "Path": "name",
+        "destination.exists": "attribute",
+        "durable_write_bytes": "name",
+        "encode": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main"
+      ],
+      "calls": [
+        "FileExistsError",
+        "Path",
+        "destination.exists",
+        "durable_write_bytes",
+        "encode",
+        "json.dumps"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_write_bytes"
+      ],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._write_new_json",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 46,
+      "state_owner": "",
+      "symbol": "_write_new_json",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ScenarioDescriptor",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TopologyAwarePolicyState",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_topology_graph_state",
+          "target": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableDecoder",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "ORPDVariableConfig": "name",
+        "ORPDVariableDecoder": "name",
+        "RuntimeError": "name",
+        "ScenarioDescriptor": "name",
+        "TopologyAwarePolicyState": "name",
+        "build_topology_graph_state": "name",
+        "np.full": "attribute",
+        "np.linspace": "attribute",
+        "run_ac_power_flow": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "ORPDVariableConfig",
+        "ORPDVariableDecoder",
+        "RuntimeError",
+        "ScenarioDescriptor",
+        "TopologyAwarePolicyState",
+        "build_topology_graph_state",
+        "np.full",
+        "np.linspace",
+        "run_ac_power_flow"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+      "semantic_tags": [],
+      "signature": "(case_name)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "_build_policy_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "GroupActionMask.from_control_groups",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALORolloutBatch",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.sample_action",
+          "target": "trainer.sample_action"
+        }
+      ],
+      "call_forms": {
+        "GroupActionMask.from_control_groups": "attribute",
+        "TSHCALORolloutBatch": "name",
+        "len": "name",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "trainer.sample_action": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main"
+      ],
+      "calls": [
+        "GroupActionMask.from_control_groups",
+        "TSHCALORolloutBatch",
+        "len",
+        "np.arange",
+        "np.asarray",
+        "trainer.sample_action"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask.from_control_groups",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch"
+      ],
+      "doc": "",
+      "end_line": 90,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_rollout",
+      "semantic_tags": [],
+      "signature": "(trainer, state)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "_build_rollout",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.run_id.strip",
+          "target": "args.run_id.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "measure_cuda_window",
+          "target": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainer",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingResourceEnvelope",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_policy_state",
+          "target": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_build_rollout",
+          "target": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_rollout"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utc_now",
+          "target": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._utc_now"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_new_json",
+          "target": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._write_new_json"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.values",
+          "target": "metrics.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "timing.to_dict",
+          "target": "timing.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.current_device",
+          "target": "torch.cuda.current_device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.get_device_name",
+          "target": "torch.cuda.get_device_name"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.max_memory_allocated",
+          "target": "torch.cuda.max_memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.memory_allocated",
+          "target": "torch.cuda.memory_allocated"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.reset_peak_memory_stats",
+          "target": "torch.cuda.reset_peak_memory_stats"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.close",
+          "target": "trainer.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.device_provenance",
+          "target": "trainer.device_provenance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.network.parameters",
+          "target": "trainer.network.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.update",
+          "target": "trainer.update"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainer": "name",
+        "RuntimeError": "name",
+        "TSHCALOTrainingConfig": "name",
+        "TSHCALOTrainingResourceEnvelope": "name",
+        "ValueError": "name",
+        "_build_policy_state": "name",
+        "_build_rollout": "name",
+        "_utc_now": "name",
+        "_write_new_json": "name",
+        "all": "name",
+        "argparse.ArgumentParser": "attribute",
+        "args.run_id.strip": "attribute",
+        "bool": "name",
+        "encode": "attribute",
+        "float": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "int": "name",
+        "json.dumps": "attribute",
+        "max": "name",
+        "measure_cuda_window": "name",
+        "metrics.values": "attribute",
+        "np.isfinite": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "range": "name",
+        "resolve_source_identity": "name",
+        "startswith": "attribute",
+        "str": "name",
+        "timing.to_dict": "attribute",
+        "torch.cuda.current_device": "attribute",
+        "torch.cuda.get_device_name": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.max_memory_allocated": "attribute",
+        "torch.cuda.memory_allocated": "attribute",
+        "torch.cuda.reset_peak_memory_stats": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "trainer.close": "attribute",
+        "trainer.device_provenance": "attribute",
+        "trainer.network.parameters": "attribute",
+        "trainer.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainer",
+        "RuntimeError",
+        "TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope",
+        "ValueError",
+        "_build_policy_state",
+        "_build_rollout",
+        "_utc_now",
+        "_write_new_json",
+        "all",
+        "argparse.ArgumentParser",
+        "args.run_id.strip",
+        "bool",
+        "encode",
+        "float",
+        "hashlib.sha256",
+        "hexdigest",
+        "int",
+        "json.dumps",
+        "max",
+        "measure_cuda_window",
+        "metrics.values",
+        "np.isfinite",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "range",
+        "resolve_source_identity",
+        "startswith",
+        "str",
+        "timing.to_dict",
+        "torch.cuda.current_device",
+        "torch.cuda.get_device_name",
+        "torch.cuda.is_available",
+        "torch.cuda.max_memory_allocated",
+        "torch.cuda.memory_allocated",
+        "torch.cuda.reset_peak_memory_stats",
+        "torch.cuda.synchronize",
+        "trainer.close",
+        "trainer.device_provenance",
+        "trainer.network.parameters",
+        "trainer.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_rollout",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._utc_now",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._write_new_json"
+      ],
+      "doc": "",
+      "end_line": 243,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "trainer.update",
+          "target": "trainer.update"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "range": "name",
+        "trainer.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "range",
+        "trainer.update"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 156,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CUDA_NUMERICAL_TIME_SHARE_TARGET": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "GroupActionMask": "calo_rpd_studio.algorithms.calo.tsh_calo_policy.GroupActionMask",
+        "IndependentTSHCALOTrainer": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ORPDVariableDecoder": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+        "POLICY_EPOCHS_PER_BOUNDARY": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+        "Path": "pathlib.Path",
+        "ScenarioDescriptor": "calo_rpd_studio.algorithms.calo.topology_context.ScenarioDescriptor",
+        "TSHCALORolloutBatch": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALORolloutBatch",
+        "TSHCALOTrainingConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig",
+        "TSHCALOTrainingResourceEnvelope": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "build_topology_graph_state": "calo_rpd_studio.algorithms.calo.topology_context.build_topology_graph_state",
+        "datetime": "datetime.datetime",
+        "durable_write_bytes": "calo_rpd_studio.ai.model_io.durable_write_bytes",
+        "hashlib": "hashlib",
+        "json": "json",
+        "measure_cuda_window": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "np": "numpy",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "timezone": "datetime.timezone",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.cuda_timing",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.topology_context",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "datetime",
+        "hashlib",
+        "json",
+        "numpy",
+        "pathlib",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path",
+      "qualname": "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main._run_updates",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 152,
+      "state_owner": "",
+      "symbol": "_run_updates",
+      "tests": []
+    }
+  ]
+}

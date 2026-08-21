@@ -1,0 +1,675 @@
+{
+  "path": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._campaign_accounting",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._row_counted_evaluations"
+      ],
+      "calls": [
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel._valid_count",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(value)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_valid_count",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "counter",
+          "target": "counter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_valid_count": "name",
+        "callable": "name",
+        "counter": "name",
+        "getattr": "name",
+        "int": "name",
+        "isinstance": "name",
+        "row.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.refresh_policy_library",
+        "tests.gui.test_tsh_calo_policy_library_accounting.test_completed_campaign_row_prefers_exact_counted_total",
+        "tests.gui.test_tsh_calo_policy_library_accounting.test_registered_policy_without_manifest_fails_closed_instead_of_underreporting"
+      ],
+      "calls": [
+        "_valid_count",
+        "callable",
+        "counter",
+        "getattr",
+        "int",
+        "isinstance",
+        "row.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._valid_count"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel._row_counted_evaluations",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(row, registry)",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "_row_counted_evaluations",
+      "tests": [
+        "tests/gui/test_tsh_calo_policy_library_accounting.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_valid_count",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel._valid_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.items",
+          "target": "values.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.values",
+          "target": "values.values"
+        }
+      ],
+      "call_forms": {
+        "_valid_count": "name",
+        "all": "name",
+        "int": "name",
+        "row.get": "attribute",
+        "values.items": "attribute",
+        "values.values": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.import_policy",
+        "tests.gui.test_tsh_calo_policy_library_accounting.test_completed_campaign_row_prefers_exact_counted_total"
+      ],
+      "calls": [
+        "_valid_count",
+        "all",
+        "int",
+        "row.get",
+        "values.items",
+        "values.values"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._valid_count"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel._campaign_accounting",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(row)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "_campaign_accounting",
+      "tests": [
+        "tests/gui/test_tsh_calo_policy_library_accounting.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+        "tests.unit.test_scientist_gui_contract.test_normal_scientist_panels_hide_venue_and_engineering_language",
+        "tests.unit.test_scientist_gui_contract.test_policy_workspace_omits_internal_training_and_validation_modes"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Render one exact cumulative total for policy training and learning-health checks.",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "CALOIntelligencePanel",
+      "tests": [
+        "tests/gui/test_gui_startup.py",
+        "tests/unit/test_scientist_gui_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_row_counted_evaluations",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel._row_counted_evaluations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "header.setText",
+          "target": "header.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setText",
+          "target": "item.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setToolTip",
+          "target": "item.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh_policy_library",
+          "target": "refresh_policy_library"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._training_evaluation_text",
+          "target": "self._training_evaluation_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.horizontalHeaderItem",
+          "target": "self.policy_table.horizontalHeaderItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.item",
+          "target": "self.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_row_counted_evaluations": "name",
+        "enumerate": "name",
+        "header.setText": "attribute",
+        "item.setText": "attribute",
+        "item.setToolTip": "attribute",
+        "refresh_policy_library": "attribute",
+        "self._training_evaluation_text": "attribute",
+        "self.policy_table.horizontalHeaderItem": "attribute",
+        "self.policy_table.item": "attribute",
+        "super": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.import_policy"
+      ],
+      "calls": [
+        "_row_counted_evaluations",
+        "enumerate",
+        "header.setText",
+        "item.setText",
+        "item.setToolTip",
+        "refresh_policy_library",
+        "self._training_evaluation_text",
+        "self.policy_table.horizontalHeaderItem",
+        "self.policy_table.item",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._row_counted_evaluations"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.refresh_policy_library",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "refresh_policy_library",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "binder",
+          "target": "binder"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_policy_library",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.refresh_policy_library"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_campaign_accounting",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_panel._campaign_accounting"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "import_policy",
+          "target": "import_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "retained.get",
+          "target": "retained.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._selected_completed_training",
+          "target": "self._selected_completed_training"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.activity_message.emit",
+          "target": "self.activity_message.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.policy_registry.list",
+          "target": "self.state.policy_registry.list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "_campaign_accounting": "name",
+        "binder": "name",
+        "callable": "name",
+        "dict": "name",
+        "expanduser": "attribute",
+        "getattr": "name",
+        "import_policy": "attribute",
+        "isinstance": "name",
+        "next": "name",
+        "resolve": "attribute",
+        "retained.get": "attribute",
+        "self._selected_completed_training": "attribute",
+        "self.activity_message.emit": "attribute",
+        "self.refresh_policy_library": "attribute",
+        "self.state.policy_registry.list": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "super": "name",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "_campaign_accounting",
+        "binder",
+        "callable",
+        "dict",
+        "expanduser",
+        "getattr",
+        "import_policy",
+        "isinstance",
+        "next",
+        "resolve",
+        "retained.get",
+        "self._selected_completed_training",
+        "self.activity_message.emit",
+        "self.refresh_policy_library",
+        "self.state.policy_registry.list",
+        "str",
+        "strip",
+        "super",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.refresh_policy_library",
+        "calo_rpd_studio.gui.panels.calo_intelligence_panel._campaign_accounting"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_core": "calo_rpd_studio.gui.panels._calo_intelligence_panel_core",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".",
+        "__future__",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_panel",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel.import_policy",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "import_policy",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/__init__.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/source_identity.py"
+    }
+  ],
+  "path": "tests/unit/test_source_identity.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_build_declaration_is_deterministic_validated_and_never_overwritten",
+      "to": "calo_rpd_studio.compute.source_identity.write_source_declaration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_build_declaration_is_deterministic_validated_and_never_overwritten",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_build_declaration_is_deterministic_validated_and_never_overwritten",
+      "to": "path.read_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_build_declaration_is_deterministic_validated_and_never_overwritten",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_declaration_is_used_only_when_git_identity_is_unavailable",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_declaration_is_used_only_when_git_identity_is_unavailable",
+      "to": "calo_rpd_studio.compute.source_identity.write_source_declaration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_declaration_is_used_only_when_git_identity_is_unavailable",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_development_evidence_scope_still_rejects_unavailable_identity",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_development_evidence_scope_still_rejects_unavailable_identity",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_development_evidence_scope_still_rejects_unavailable_identity",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_dirty_full_identity_requires_explicit_development_evidence_scope",
+      "to": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_dirty_full_identity_requires_explicit_development_evidence_scope",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_dirty_full_identity_requires_explicit_development_evidence_scope",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_dirty_full_identity_requires_explicit_development_evidence_scope",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+      "to": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+      "to": "calo_rpd_studio.compute.source_identity.write_source_declaration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source",
+      "to": "calo_rpd_studio.compute.source_identity._git_identity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source.fake_run",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source.fake_run",
+      "to": "Result"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_live_git_identity_includes_nonignored_untracked_source.fake_run",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_malformed_or_unknown_declaration_fails_closed",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_malformed_or_unknown_declaration_fails_closed",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_malformed_or_unknown_declaration_fails_closed",
+      "to": "path.write_text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_malformed_or_unknown_declaration_fails_closed",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable",
+      "to": "calo_rpd_studio.compute.source_identity.write_source_declaration"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_source_identity.test_unavailable_development_declaration_is_never_durable",
+      "to": "pytest.raises"
+    }
+  ]
+}

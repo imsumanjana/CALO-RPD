@@ -1,0 +1,401 @@
+{
+  "path": "tests/unit/test_tsh_calo_device_equivalence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOInferenceResult",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyFallbackDecision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShieldTrace",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.tensor",
+          "target": "torch.tensor"
+        }
+      ],
+      "call_forms": {
+        "PolicyFallbackDecision": "name",
+        "ShieldTrace": "name",
+        "TSHCALOInferenceResult": "name",
+        "torch.tensor": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_device_equivalence.test_policy_comparison_requires_exact_actions_and_bounded_numerics"
+      ],
+      "calls": [
+        "PolicyFallbackDecision",
+        "ShieldTrace",
+        "TSHCALOInferenceResult",
+        "torch.tensor"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "TSHCALOInferenceResult": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "validator": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.scripts",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_device_equivalence",
+      "qualname": "tests.unit.test_tsh_calo_device_equivalence._result",
+      "semantic_tags": [],
+      "signature": "(offset, operator)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "_result",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validator._numeric_comparison",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison"
+        }
+      ],
+      "call_forms": {
+        "validator._numeric_comparison": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "validator._numeric_comparison"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._numeric_comparison"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "TSHCALOInferenceResult": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "validator": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.scripts",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_device_equivalence",
+      "qualname": "tests.unit.test_tsh_calo_device_equivalence.test_numeric_comparison_fails_closed_on_shape_nonfinite_and_tolerance",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "test_numeric_comparison_fails_closed_on_shape_nonfinite_and_tolerance",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validator._compare_results",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_result",
+          "target": "tests.unit.test_tsh_calo_device_equivalence._result"
+        }
+      ],
+      "call_forms": {
+        "_result": "name",
+        "validator._compare_results": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_result",
+        "validator._compare_results"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._compare_results",
+        "tests.unit.test_tsh_calo_device_equivalence._result"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "TSHCALOInferenceResult": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "validator": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.scripts",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_device_equivalence",
+      "qualname": "tests.unit.test_tsh_calo_device_equivalence.test_policy_comparison_requires_exact_actions_and_bounded_numerics",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "test_policy_comparison_requires_exact_actions_and_bounded_numerics",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validator._fit_development_calibration",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        }
+      ],
+      "call_forms": {
+        "monkeypatch.setattr": "attribute",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "validator._fit_development_calibration": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "monkeypatch.setattr",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "np.testing.assert_array_equal",
+        "validator._fit_development_calibration"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._fit_development_calibration"
+      ],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "TSHCALOInferenceResult": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "validator": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.scripts",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_device_equivalence",
+      "qualname": "tests.unit.test_tsh_calo_device_equivalence.test_development_calibration_is_finite_and_deterministic",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "test_development_calibration_is_finite_and_deterministic",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validator._write_new_json",
+          "target": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "pytest.raises": "attribute",
+        "validator._write_new_json": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "pytest.raises",
+        "validator._write_new_json"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._write_new_json"
+      ],
+      "doc": "",
+      "end_line": 87,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_device_equivalence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "FallbackDisposition": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.FallbackDisposition",
+        "PolicyFallbackDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.PolicyFallbackDecision",
+        "ShieldTrace": "calo_rpd_studio.algorithms.calo.tsh_calo_shield.ShieldTrace",
+        "TSHCALOInferenceResult": "calo_rpd_studio.algorithms.calo.tsh_calo_inference.TSHCALOInferenceResult",
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "validator": "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_shield",
+        "calo_rpd_studio.scripts",
+        "numpy",
+        "pytest",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_device_equivalence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_device_equivalence",
+      "qualname": "tests.unit.test_tsh_calo_device_equivalence.test_device_equivalence_evidence_refuses_overwrite",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "test_device_equivalence_evidence_refuses_overwrite",
+      "tests": []
+    }
+  ]
+}

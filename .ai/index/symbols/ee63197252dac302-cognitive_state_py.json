@@ -1,0 +1,1110 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.STATE_DIM",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "STATE_DIM",
+      "tests": [
+        "tests/unit/test_calo.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.REGIME_NAMES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "REGIME_NAMES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 14,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state._PRIOR_HIGH_STAGNATION",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_PRIOR_HIGH_STAGNATION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 15,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state._PRIOR_NO_FEASIBLE",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "_PRIOR_NO_FEASIBLE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state._PRIOR_LOW_FEASIBLE",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_PRIOR_LOW_FEASIBLE",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 17,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state._PRIOR_DEFAULT",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "_PRIOR_DEFAULT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.CognitiveState",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "CognitiveState",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.nan_to_num",
+          "target": "np.nan_to_num"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.nan_to_num": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "np.asarray",
+        "np.clip",
+        "np.nan_to_num"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.CognitiveState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.CognitiveState.vector",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "vector",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linalg.norm",
+          "target": "np.linalg.norm"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sqrt",
+          "target": "np.sqrt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.mean",
+          "target": "values.mean"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "len": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.linalg.norm": "attribute",
+        "np.mean": "attribute",
+        "np.sqrt": "attribute",
+        "values.mean": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.elite_diversity",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.state",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.step",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.observe"
+      ],
+      "calls": [
+        "float",
+        "len",
+        "max",
+        "np.asarray",
+        "np.linalg.norm",
+        "np.mean",
+        "np.sqrt",
+        "values.mean"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population)",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "population_diversity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "population_diversity",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ceil",
+          "target": "np.ceil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.ceil": "attribute",
+        "population_diversity": "name",
+        "range": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state"
+      ],
+      "calls": [
+        "int",
+        "len",
+        "max",
+        "np.asarray",
+        "np.ceil",
+        "population_diversity",
+        "range",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity"
+      ],
+      "doc": "",
+      "end_line": 85,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.elite_diversity",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, evaluations, fraction)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "elite_diversity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "float": "name",
+        "max": "name",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state"
+      ],
+      "calls": [
+        "abs",
+        "float",
+        "max",
+        "np.clip",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 92,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state._relative_improvement",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(previous, current)",
+      "start_line": 88,
+      "state_owner": "",
+      "symbol": "_relative_improvement",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CognitiveState",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.CognitiveState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_relative_improvement",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state._relative_improvement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "elite_diversity",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.elite_diversity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diversity",
+          "target": "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "population_diagnostics",
+          "target": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "transformed_violation",
+          "target": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "diagnostics.component_best.get",
+          "target": "diagnostics.component_best.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        }
+      ],
+      "call_forms": {
+        "CognitiveState": "name",
+        "_relative_improvement": "name",
+        "diagnostics.component_best.get": "attribute",
+        "elite_diversity": "name",
+        "float": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "population_diagnostics": "name",
+        "population_diversity": "name",
+        "transformed_violation": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.state",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.observe",
+        "tests.unit.test_calo.test_cognitive_state_and_policy"
+      ],
+      "calls": [
+        "CognitiveState",
+        "_relative_improvement",
+        "diagnostics.component_best.get",
+        "elite_diversity",
+        "float",
+        "max",
+        "np.asarray",
+        "np.clip",
+        "population_diagnostics",
+        "population_diversity",
+        "transformed_violation"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.cognitive_state.CognitiveState",
+        "calo_rpd_studio.algorithms.calo.cognitive_state._relative_improvement",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.elite_diversity",
+        "calo_rpd_studio.algorithms.calo.cognitive_state.population_diversity",
+        "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      ],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.build_cognitive_state",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, evaluations, epsilon, previous_best_violation, previous_best_objective, constraint_stagnation, objective_stagnation, remaining_budget, operator_credit, feasible_archive_size, feasible_archive_capacity, boundary_archive_size, boundary_archive_capacity)",
+      "start_line": 95,
+      "state_owner": "",
+      "symbol": "build_cognitive_state",
+      "tests": [
+        "tests/unit/test_calo.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "prior.sum",
+          "target": "prior.sum"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "prior.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController.decide",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment.state",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.observe"
+      ],
+      "calls": [
+        "max",
+        "prior.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "Transparent prior blended with the learned regime policy.",
+      "end_line": 160,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/cognitive_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "POLICY_CONSTRAINT_COMPONENTS": "calo_rpd_studio.algorithms.calo.diagnostics.POLICY_CONSTRAINT_COMPONENTS",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy",
+        "population_diagnostics": "calo_rpd_studio.algorithms.calo.diagnostics.population_diagnostics",
+        "transformed_violation": "calo_rpd_studio.algorithms.calo.diagnostics.transformed_violation"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".diagnostics",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.cognitive_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.cognitive_state.rule_based_regime_prior",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(state)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "rule_based_regime_prior",
+      "tests": []
+    }
+  ]
+}

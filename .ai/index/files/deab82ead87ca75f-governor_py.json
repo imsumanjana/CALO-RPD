@@ -1,0 +1,65 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:23858bc0fd0cd0372fa0acc124fbe99a980e8670",
+    "content_sha256": "144c9225ee10f2434b0c87bf85a677dc6215ae1fbd8018190788bb639363fc23",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+      "Enum": "enum.Enum",
+      "ResourceMonitor": "calo_rpd_studio.compute.resource_scheduler.ResourceMonitor",
+      "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "dataclass": "dataclasses.dataclass",
+      "deque": "collections.deque",
+      "hashlib": "hashlib",
+      "json": "json",
+      "math": "math",
+      "time": "time"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      ".resource_scheduler",
+      ".topology",
+      "__future__",
+      "collections",
+      "dataclasses",
+      "enum",
+      "hashlib",
+      "json",
+      "math",
+      "time"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/governor.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 13036,
+    "state_owner": "",
+    "symbol_count": 15
+  },
+  "path": "calo_rpd_studio/compute/governor.py",
+  "schema_version": 2
+}

@@ -1,0 +1,1018 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/experiment_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/main_window.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/settings_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/app/state_manager.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/experiment_manager_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/live_optimization_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/panels/validation_audit_panel.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/plotting/scientific_plot.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/gui/widgets/scrollable_page.py"
+    }
+  ],
+  "path": "tests/gui/test_gui_startup.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._disable_startup_side_effects",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._isolate_main_window",
+      "to": "event.accept"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._isolate_main_window",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._isolate_main_window",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._isolate_main_window",
+      "to": "type"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._isolate_main_window.detach_logging",
+      "to": "widget.activity_center.detach_logging"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline",
+      "to": "pytest.fixture"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline",
+      "to": "threading.Timer"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline",
+      "to": "watchdog.cancel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline",
+      "to": "watchdog.start"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline.abort_stuck_test",
+      "to": "faulthandler.dump_traceback"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline.abort_stuck_test",
+      "to": "os._exit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline.abort_stuck_test",
+      "to": "sys.stderr.flush"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._startup_gui_test_deadline.abort_stuck_test",
+      "to": "sys.stderr.write"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup._submit_minimal_algorithm_stage",
+      "to": "state.execution_control.submit_algorithm_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+      "to": "manager.busy.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_duplicate_experiment_start_is_rejected_without_exception",
+      "to": "manager.start_comparison"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "panel.execution_backend.count"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "panel.execution_backend.findData"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "panel.execution_backend.itemText"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_exposes_only_scientist_compute_modes",
+      "to": "range"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "calo_rpd_studio.gui.panels.experiment_manager_panel.ExperimentManagerPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.body_layout.indexOf"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.body_scroll.horizontalScrollBarPolicy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.body_scroll.objectName"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.calo.isEnabled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.compare.isEnabled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.execution_card.parentWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.fairness_card.parentWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "panel.setup_card.parentWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "tuple"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "widget.minimumHeight"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_experiment_manager_uses_guided_scrollable_order_without_compression",
+      "to": "workflow.stack.indexOf"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "all"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "check.isChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "toolbar._refresh_export_series_options"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "toolbar._selected_export_series"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "toolbar.export_series_checks.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_export_popup_series_checkboxes_follow_preview_legend",
+      "to": "widget.plot_series"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_calo_diagnostic_modes_receive_constraint_and_operator_series",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "panel.plot.axis.get_ylim"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_auto_fits_visible_data_by_default",
+      "to": "toolbar.auto_fit_visible_data.isChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "area.objectName"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "panel.findChildren"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_page_contains_vertical_scroll_area",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "panel.run_selector.findData"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "panel.run_selector.setCurrentIndex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_optimization_retains_and_switches_all_repeated_runs",
+      "to": "sorted"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "panel.metric.currentText"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "panel.plot.axis.get_ylabel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_auto_mode_uses_violation_before_feasibility",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "any"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "panel.metric.setCurrentText"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_explicit_objective_without_feasibility_shows_message",
+      "to": "text.get_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.dpi.maximum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.dpi.minimum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.dpi.value"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.height.value"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.tight.isEnabled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "toolbar.width.value"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "widget.canvas.height"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "widget.canvas.width"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_plot_is_square_and_png_dpi_range_is_600_to_2400",
+      "to": "widget.figure.get_size_inches"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "panel.plot.axis.get_title"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "panel.portfolio_view.findData"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "panel.portfolio_view.setCurrentIndex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_portfolio_selector_exposes_requested_runtime_plots",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "line.get_label"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "panel.update_progress"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "set"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "setChecked"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "toolbar._refresh_preview_series_options"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "toolbar.preview_tool_button.accessibleName"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_live_preview_series_is_inside_plot_tools_and_filters_visible_series",
+      "to": "toolbar.preview_tool_button.isHidden"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "calo_rpd_studio.app.main_window.MainWindow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "calo_rpd_studio.app.settings_manager.SettingsManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "tests.gui.test_gui_startup._disable_startup_side_effects"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "tests.gui.test_gui_startup._isolate_main_window"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_main_window_has_all_workspaces",
+      "to": "window.stack.count"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "calo_rpd_studio.app.main_window.MainWindow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "calo_rpd_studio.app.settings_manager.SettingsManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "tests.gui.test_gui_startup._disable_startup_side_effects"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_only_genuinely_long_workspaces_use_page_level_scrolling",
+      "to": "tests.gui.test_gui_startup._isolate_main_window"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_exposes_typography_controls",
+      "to": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_exposes_typography_controls",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "calo_rpd_studio.gui.plotting.scientific_plot.ScientificPlotWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.export_popup.isVisible"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.export_tool_button.accessibleName"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.findChildren"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.plot_popup.isVisible"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.plot_tool_button.accessibleName"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.style_popup.isVisible"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.style_tool_button.accessibleName"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.text_popup.isVisible"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_plot_toolbar_uses_four_focused_popup_tools",
+      "to": "toolbar.text_tool_button.accessibleName"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "hasattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "panel.new_training_button.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "panel.policy_import_button.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_policy_center_routes_training_without_legacy_training_controls",
+      "to": "qtbot.addWidget"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "calo_rpd_studio.app.main_window.MainWindow"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "calo_rpd_studio.app.settings_manager.SettingsManager"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "review_completed.emit"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "tests.gui.test_gui_startup._disable_startup_side_effects"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "tests.gui.test_gui_startup._isolate_main_window"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "tests.gui.test_gui_startup._submit_minimal_algorithm_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "validation_requested.emit"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "window.stack.currentIndex"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "window.workflow.mark_completed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "window.workflow.mark_experiment_completed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_result_review_opens_selected_run_in_validation",
+      "to": "window.workflow.mark_statistics_completed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "calo_rpd_studio.app.state_manager.AppState"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "calo_rpd_studio.gui.panels.validation_audit_panel.ValidationAuditPanel"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "panel.bulk_all_button.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "panel.bulk_cancel_button.isEnabled"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "panel.bulk_current_button.text"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "panel.bulk_progress.value"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.gui.test_gui_startup.test_validation_audit_exposes_bulk_validation_controls",
+      "to": "qtbot.addWidget"
+    }
+  ]
+}

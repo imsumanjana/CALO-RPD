@@ -1,0 +1,55 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:d391fb75e5315d6479c03553aec671f62996eab6",
+    "content_sha256": "13b042e56c477d31cd6f0b3e0ac76e3c9953dd31d18176fb361cf415b2d9c533",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+      "QObject": "PyQt6.QtCore.QObject",
+      "annotations": "__future__.annotations",
+      "dataclass": "dataclasses.dataclass",
+      "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+      "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+      "workspace_index_for_key": "calo_rpd_studio.app.workspaces.workspace_index_for_key",
+      "workspace_key_for_index": "calo_rpd_studio.app.workspaces.workspace_key_for_index"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".workspaces",
+      "PyQt6.QtCore",
+      "__future__",
+      "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "calo_rpd_studio.algorithms.registry",
+      "dataclasses"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/app/workflow_manager.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 25857,
+    "state_owner": "",
+    "symbol_count": 32
+  },
+  "path": "calo_rpd_studio/app/workflow_manager.py",
+  "schema_version": 2
+}

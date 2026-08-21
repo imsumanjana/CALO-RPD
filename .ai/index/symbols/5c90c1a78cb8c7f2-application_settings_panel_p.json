@@ -1,0 +1,1083 @@
+{
+  "path": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.app.main_window.MainWindow.__init__",
+        "tests.gui.test_history_manager.test_history_manager_is_available_from_application_settings"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "ApplicationSettingsPanel",
+      "tests": [
+        "tests/gui/test_history_manager.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QCheckBox",
+          "target": "QCheckBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QComboBox",
+          "target": "QComboBox"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QGridLayout",
+          "target": "QGridLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLineEdit",
+          "target": "QLineEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QWidget",
+          "target": "QWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.addWidget",
+          "target": "appearance_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.setColumnStretch",
+          "target": "appearance_layout.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.setContentsMargins",
+          "target": "appearance_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.setHorizontalSpacing",
+          "target": "appearance_layout.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.setRowStretch",
+          "target": "appearance_layout.setRowStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "appearance_layout.setVerticalSpacing",
+          "target": "appearance_layout.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "apply_button.clicked.connect",
+          "target": "apply_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "apply_button.setObjectName",
+          "target": "apply_button.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.addWidget",
+          "target": "assistant_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.setColumnStretch",
+          "target": "assistant_layout.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.setContentsMargins",
+          "target": "assistant_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.setHorizontalSpacing",
+          "target": "assistant_layout.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.setRowStretch",
+          "target": "assistant_layout.setRowStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_layout.setVerticalSpacing",
+          "target": "assistant_layout.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assistant_note.setWordWrap",
+          "target": "assistant_note.setWordWrap"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_history_summary",
+          "target": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.refresh_history_summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceTabs",
+          "target": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database_label.setBuddy",
+          "target": "database_label.setBuddy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database_label.setObjectName",
+          "target": "database_label.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "density_label.setBuddy",
+          "target": "density_label.setBuddy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.addWidget",
+          "target": "information_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.setColumnStretch",
+          "target": "information_layout.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.setContentsMargins",
+          "target": "information_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.setHorizontalSpacing",
+          "target": "information_layout.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.setRowStretch",
+          "target": "information_layout.setRowStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "information_layout.setVerticalSpacing",
+          "target": "information_layout.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manage.clicked.connect",
+          "target": "manage.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "save_assistant.clicked.connect",
+          "target": "save_assistant.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setAccessibleName",
+          "target": "self.database_path.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setCursorPosition",
+          "target": "self.database_path.setCursorPosition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setObjectName",
+          "target": "self.database_path.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setProperty",
+          "target": "self.database_path.setProperty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setReadOnly",
+          "target": "self.database_path.setReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database_path.setToolTip",
+          "target": "self.database_path.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.density.addItem",
+          "target": "self.density.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.density.findData",
+          "target": "self.density.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.density.setAccessibleName",
+          "target": "self.density.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.density.setCurrentIndex",
+          "target": "self.density.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.history_summary.setWordWrap",
+          "target": "self.history_summary.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.layout_root.addWidget",
+          "target": "self.layout_root.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_enabled.setChecked",
+          "target": "self.local_assistant_enabled.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_endpoint.setAccessibleName",
+          "target": "self.local_assistant_endpoint.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_model.setAccessibleName",
+          "target": "self.local_assistant_model.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_status.setWordWrap",
+          "target": "self.local_assistant_status.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.section_tabs.add_section",
+          "target": "self.section_tabs.add_section"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.settings.value",
+          "target": "self.settings.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme.addItem",
+          "target": "self.theme.addItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme.findData",
+          "target": "self.theme.findData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme.setAccessibleName",
+          "target": "self.theme.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme.setCurrentIndex",
+          "target": "self.theme.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.runs_changed.connect",
+          "target": "state.runs_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_description.setWordWrap",
+          "target": "storage_description.setWordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.addWidget",
+          "target": "storage_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.setColumnStretch",
+          "target": "storage_layout.setColumnStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.setContentsMargins",
+          "target": "storage_layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.setHorizontalSpacing",
+          "target": "storage_layout.setHorizontalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.setRowStretch",
+          "target": "storage_layout.setRowStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "storage_layout.setVerticalSpacing",
+          "target": "storage_layout.setVerticalSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "theme_label.setBuddy",
+          "target": "theme_label.setBuddy"
+        }
+      ],
+      "call_forms": {
+        "QCheckBox": "name",
+        "QComboBox": "name",
+        "QGridLayout": "name",
+        "QLabel": "name",
+        "QLineEdit": "name",
+        "QPushButton": "name",
+        "QWidget": "name",
+        "WorkspaceTabs": "name",
+        "__init__": "attribute",
+        "appearance_layout.addWidget": "attribute",
+        "appearance_layout.setColumnStretch": "attribute",
+        "appearance_layout.setContentsMargins": "attribute",
+        "appearance_layout.setHorizontalSpacing": "attribute",
+        "appearance_layout.setRowStretch": "attribute",
+        "appearance_layout.setVerticalSpacing": "attribute",
+        "apply_button.clicked.connect": "attribute",
+        "apply_button.setObjectName": "attribute",
+        "assistant_layout.addWidget": "attribute",
+        "assistant_layout.setColumnStretch": "attribute",
+        "assistant_layout.setContentsMargins": "attribute",
+        "assistant_layout.setHorizontalSpacing": "attribute",
+        "assistant_layout.setRowStretch": "attribute",
+        "assistant_layout.setVerticalSpacing": "attribute",
+        "assistant_note.setWordWrap": "attribute",
+        "database_label.setBuddy": "attribute",
+        "database_label.setObjectName": "attribute",
+        "density_label.setBuddy": "attribute",
+        "information_layout.addWidget": "attribute",
+        "information_layout.setColumnStretch": "attribute",
+        "information_layout.setContentsMargins": "attribute",
+        "information_layout.setHorizontalSpacing": "attribute",
+        "information_layout.setRowStretch": "attribute",
+        "information_layout.setVerticalSpacing": "attribute",
+        "lower": "attribute",
+        "manage.clicked.connect": "attribute",
+        "max": "name",
+        "save_assistant.clicked.connect": "attribute",
+        "self.database_path.setAccessibleName": "attribute",
+        "self.database_path.setCursorPosition": "attribute",
+        "self.database_path.setObjectName": "attribute",
+        "self.database_path.setProperty": "attribute",
+        "self.database_path.setReadOnly": "attribute",
+        "self.database_path.setToolTip": "attribute",
+        "self.density.addItem": "attribute",
+        "self.density.findData": "attribute",
+        "self.density.setAccessibleName": "attribute",
+        "self.density.setCurrentIndex": "attribute",
+        "self.history_summary.setWordWrap": "attribute",
+        "self.layout_root.addWidget": "attribute",
+        "self.local_assistant_enabled.setChecked": "attribute",
+        "self.local_assistant_endpoint.setAccessibleName": "attribute",
+        "self.local_assistant_model.setAccessibleName": "attribute",
+        "self.local_assistant_status.setWordWrap": "attribute",
+        "self.refresh_history_summary": "attribute",
+        "self.section_tabs.add_section": "attribute",
+        "self.settings.value": "attribute",
+        "self.theme.addItem": "attribute",
+        "self.theme.findData": "attribute",
+        "self.theme.setAccessibleName": "attribute",
+        "self.theme.setCurrentIndex": "attribute",
+        "state.runs_changed.connect": "attribute",
+        "storage_description.setWordWrap": "attribute",
+        "storage_layout.addWidget": "attribute",
+        "storage_layout.setColumnStretch": "attribute",
+        "storage_layout.setContentsMargins": "attribute",
+        "storage_layout.setHorizontalSpacing": "attribute",
+        "storage_layout.setRowStretch": "attribute",
+        "storage_layout.setVerticalSpacing": "attribute",
+        "str": "name",
+        "super": "name",
+        "theme_label.setBuddy": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "QCheckBox",
+        "QComboBox",
+        "QGridLayout",
+        "QLabel",
+        "QLineEdit",
+        "QPushButton",
+        "QWidget",
+        "WorkspaceTabs",
+        "__init__",
+        "appearance_layout.addWidget",
+        "appearance_layout.setColumnStretch",
+        "appearance_layout.setContentsMargins",
+        "appearance_layout.setHorizontalSpacing",
+        "appearance_layout.setRowStretch",
+        "appearance_layout.setVerticalSpacing",
+        "apply_button.clicked.connect",
+        "apply_button.setObjectName",
+        "assistant_layout.addWidget",
+        "assistant_layout.setColumnStretch",
+        "assistant_layout.setContentsMargins",
+        "assistant_layout.setHorizontalSpacing",
+        "assistant_layout.setRowStretch",
+        "assistant_layout.setVerticalSpacing",
+        "assistant_note.setWordWrap",
+        "database_label.setBuddy",
+        "database_label.setObjectName",
+        "density_label.setBuddy",
+        "information_layout.addWidget",
+        "information_layout.setColumnStretch",
+        "information_layout.setContentsMargins",
+        "information_layout.setHorizontalSpacing",
+        "information_layout.setRowStretch",
+        "information_layout.setVerticalSpacing",
+        "lower",
+        "manage.clicked.connect",
+        "max",
+        "save_assistant.clicked.connect",
+        "self.database_path.setAccessibleName",
+        "self.database_path.setCursorPosition",
+        "self.database_path.setObjectName",
+        "self.database_path.setProperty",
+        "self.database_path.setReadOnly",
+        "self.database_path.setToolTip",
+        "self.density.addItem",
+        "self.density.findData",
+        "self.density.setAccessibleName",
+        "self.density.setCurrentIndex",
+        "self.history_summary.setWordWrap",
+        "self.layout_root.addWidget",
+        "self.local_assistant_enabled.setChecked",
+        "self.local_assistant_endpoint.setAccessibleName",
+        "self.local_assistant_model.setAccessibleName",
+        "self.local_assistant_status.setWordWrap",
+        "self.refresh_history_summary",
+        "self.section_tabs.add_section",
+        "self.settings.value",
+        "self.theme.addItem",
+        "self.theme.findData",
+        "self.theme.setAccessibleName",
+        "self.theme.setCurrentIndex",
+        "state.runs_changed.connect",
+        "storage_description.setWordWrap",
+        "storage_layout.addWidget",
+        "storage_layout.setColumnStretch",
+        "storage_layout.setContentsMargins",
+        "storage_layout.setHorizontalSpacing",
+        "storage_layout.setRowStretch",
+        "storage_layout.setVerticalSpacing",
+        "str",
+        "super",
+        "theme_label.setBuddy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.refresh_history_summary",
+        "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs"
+      ],
+      "doc": "",
+      "end_line": 172,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, state, settings, parent)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.density.currentData",
+          "target": "self.density.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.density_changed.emit",
+          "target": "self.density_changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.settings.set_value",
+          "target": "self.settings.set_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.set_theme",
+          "target": "self.state.set_theme"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.theme.currentData",
+          "target": "self.theme.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self.density.currentData": "attribute",
+        "self.density_changed.emit": "attribute",
+        "self.settings.set_value": "attribute",
+        "self.state.set_theme": "attribute",
+        "self.theme.currentData": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "self.density.currentData",
+        "self.density_changed.emit",
+        "self.settings.set_value",
+        "self.state.set_theme",
+        "self.theme.currentData",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.apply",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 174,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "LocalAssistantConfig",
+          "target": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_enabled.isChecked",
+          "target": "self.local_assistant_enabled.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_endpoint.text",
+          "target": "self.local_assistant_endpoint.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_model.text",
+          "target": "self.local_assistant_model.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.local_assistant_status.setText",
+          "target": "self.local_assistant_status.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.settings.set_value",
+          "target": "self.settings.set_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.settings.sync",
+          "target": "self.settings.sync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "LocalAssistantConfig": "name",
+        "bool": "name",
+        "config.validate": "attribute",
+        "self.local_assistant_enabled.isChecked": "attribute",
+        "self.local_assistant_endpoint.text": "attribute",
+        "self.local_assistant_model.text": "attribute",
+        "self.local_assistant_status.setText": "attribute",
+        "self.settings.set_value": "attribute",
+        "self.settings.sync": "attribute",
+        "strip": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "LocalAssistantConfig",
+        "bool",
+        "config.validate",
+        "self.local_assistant_enabled.isChecked",
+        "self.local_assistant_endpoint.text",
+        "self.local_assistant_model.text",
+        "self.local_assistant_status.setText",
+        "self.settings.set_value",
+        "self.settings.sync",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantConfig"
+      ],
+      "doc": "",
+      "end_line": 201,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.save_local_assistant_settings",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 182,
+      "state_owner": "",
+      "symbol": "save_local_assistant_settings",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.history_summary.setText",
+          "target": "self.history_summary.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.state.database.history_storage_summary",
+          "target": "self.state.database.history_storage_summary"
+        }
+      ],
+      "call_forms": {
+        "self.history_summary.setText": "attribute",
+        "self.state.database.history_storage_summary": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.__init__",
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.manage_history"
+      ],
+      "calls": [
+        "self.history_summary.setText",
+        "self.state.database.history_storage_summary"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 210,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.refresh_history_summary",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 203,
+      "state_owner": "",
+      "symbol": "refresh_history_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentHistoryDialog",
+          "target": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.refresh_history_summary",
+          "target": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.refresh_history_summary"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exec",
+          "target": "exec"
+        }
+      ],
+      "call_forms": {
+        "ExperimentHistoryDialog": "name",
+        "exec": "attribute",
+        "self.refresh_history_summary": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentHistoryDialog",
+        "exec",
+        "self.refresh_history_summary"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.refresh_history_summary"
+      ],
+      "doc": "",
+      "end_line": 214,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/application_settings_panel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentHistoryDialog": "calo_rpd_studio.gui.dialogs.experiment_history_dialog.ExperimentHistoryDialog",
+        "LocalAssistantConfig": "calo_rpd_studio.assistant.LocalAssistantConfig",
+        "PRODUCT_VERSION": "calo_rpd_studio.version.PRODUCT_VERSION",
+        "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGridLayout": "PyQt6.QtWidgets.QGridLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WorkspacePage": "calo_rpd_studio.gui.widgets.workspace_page.WorkspacePage",
+        "WorkspaceTabs": "calo_rpd_studio.gui.widgets.workspace_tabs.WorkspaceTabs",
+        "annotations": "__future__.annotations",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.assistant",
+        "calo_rpd_studio.gui.dialogs.experiment_history_dialog",
+        "calo_rpd_studio.gui.widgets.workspace_page",
+        "calo_rpd_studio.gui.widgets.workspace_tabs",
+        "calo_rpd_studio.version"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.application_settings_panel",
+      "qualname": "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.manage_history",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 212,
+      "state_owner": "",
+      "symbol": "manage_history",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plans.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/models.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/planner.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/portfolio/study_planning.py"
+    }
+  ],
+  "path": "tests/unit/test_workspace_execution_plans.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.configured_stage",
+      "to": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.configured_stage",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.study_contracts",
+      "to": "tuple"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_algorithm_stage_separates_content_identity_from_record_identity",
+      "to": "calo_rpd_studio.experiments.execution_plans.AlgorithmStage.create"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_algorithm_stage_separates_content_identity_from_record_identity",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool",
+      "to": "calo_rpd_studio.portfolio.models.PortfolioConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool",
+      "to": "calo_rpd_studio.portfolio.planner.PortfolioPlanner.apply_article_preset"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool",
+      "to": "list"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_identity_ignores_workspace_portfolio_and_study_metadata",
+      "to": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_identity_ignores_workspace_portfolio_and_study_metadata",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_identity_ignores_workspace_portfolio_and_study_metadata",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_uses_complete_immutable_stage_when_editable_draft_drifts",
+      "to": "calo_rpd_studio.experiments.execution_plans.IndividualExperimentPlan.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_uses_complete_immutable_stage_when_editable_draft_drifts",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_uses_complete_immutable_stage_when_editable_draft_drifts",
+      "to": "list"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_plan_uses_complete_immutable_stage_when_editable_draft_drifts",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_validation_ignores_workspace_study_and_portfolio_requirements",
+      "to": "config.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_validation_ignores_workspace_study_and_portfolio_requirements",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_individual_validation_ignores_workspace_study_and_portfolio_requirements",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "first.content_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "first_content.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "second.content_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "second_content.pop"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_portfolio_goal_is_independent_of_concrete_study_values",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "deepcopy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "goal.content_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_recommended_five_may_be_changed_to_six_without_mutating_goal",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_scientific_job_identity_is_plan_and_cell_bound",
+      "to": "calo_rpd_studio.experiments.execution_plans.scientific_job_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_scientific_job_identity_is_plan_and_cell_bound",
+      "to": "config.to_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_scientific_job_identity_is_plan_and_cell_bound",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_workspace_plan_accepts_only_nonempty_stage_subset",
+      "to": "calo_rpd_studio.experiments.execution_plans.WorkspaceStudyPlan.create"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_workspace_plan_accepts_only_nonempty_stage_subset",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_workspace_execution_plans.test_workspace_plan_accepts_only_nonempty_stage_subset",
+      "to": "set"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_workspace_plan_accepts_only_nonempty_stage_subset",
+      "to": "tests.unit.test_workspace_execution_plans.configured_stage"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_workspace_execution_plans.test_workspace_plan_accepts_only_nonempty_stage_subset",
+      "to": "tests.unit.test_workspace_execution_plans.study_contracts"
+    }
+  ]
+}

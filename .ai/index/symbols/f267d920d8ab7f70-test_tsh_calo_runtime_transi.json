@@ -1,0 +1,683 @@
+{
+  "path": "tests/unit/test_tsh_calo_runtime_transition.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SyntheticCALOEnvironment",
+          "target": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.random.default_rng",
+          "target": "np.random.default_rng"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "SyntheticCALOEnvironment": "name",
+        "dict": "name",
+        "np.arange": "attribute",
+        "np.full": "attribute",
+        "np.ones": "attribute",
+        "np.random.default_rng": "attribute",
+        "set": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_runtime_transition.test_action_vectors_and_parameters_cannot_bypass_the_versioned_abi",
+        "tests.unit.test_tsh_calo_runtime_transition.test_group_conditioned_candidate_generation_is_seeded_and_per_learner",
+        "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+        "tests.unit.test_tsh_calo_runtime_transition.test_shielded_physics_selection_fails_closed_if_context_disappears"
+      ],
+      "calls": [
+        "SyntheticCALOEnvironment",
+        "dict",
+        "np.arange",
+        "np.full",
+        "np.ones",
+        "np.random.default_rng",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition._arguments",
+      "semantic_tags": [],
+      "signature": "(seed)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "_arguments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_tsh_offspring",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_arguments",
+          "target": "tests.unit.test_tsh_calo_runtime_transition._arguments"
+        }
+      ],
+      "call_forms": {
+        "_arguments": "name",
+        "all": "name",
+        "generate_tsh_offspring": "name",
+        "np.arange": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.testing.assert_array_equal": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_arguments",
+        "all",
+        "generate_tsh_offspring",
+        "np.arange",
+        "np.testing.assert_allclose",
+        "np.testing.assert_array_equal"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "tests.unit.test_tsh_calo_runtime_transition._arguments"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_group_conditioned_candidate_generation_is_seeded_and_per_learner",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_group_conditioned_candidate_generation_is_seeded_and_per_learner",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairContext",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_tsh_offspring",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mask",
+          "target": "mask"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.eye",
+          "target": "np.eye"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_arguments",
+          "target": "tests.unit.test_tsh_calo_runtime_transition._arguments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairContext": "name",
+        "PhysicsRepairOperator": "name",
+        "_arguments": "name",
+        "generate_tsh_offspring": "name",
+        "mask": "attribute",
+        "np.eye": "attribute",
+        "np.linspace": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.zeros": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairContext",
+        "PhysicsRepairOperator",
+        "_arguments",
+        "generate_tsh_offspring",
+        "mask",
+        "np.eye",
+        "np.linspace",
+        "np.testing.assert_allclose",
+        "np.zeros",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "tests.unit.test_tsh_calo_runtime_transition._arguments"
+      ],
+      "doc": "",
+      "end_line": 94,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PhysicsRepairOperator",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generate_tsh_offspring",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_arguments",
+          "target": "tests.unit.test_tsh_calo_runtime_transition._arguments"
+        }
+      ],
+      "call_forms": {
+        "PhysicsRepairConfig": "name",
+        "PhysicsRepairOperator": "name",
+        "_arguments": "name",
+        "generate_tsh_offspring": "name",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PhysicsRepairConfig",
+        "PhysicsRepairOperator",
+        "_arguments",
+        "generate_tsh_offspring",
+        "np.zeros",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "tests.unit.test_tsh_calo_runtime_transition._arguments"
+      ],
+      "doc": "",
+      "end_line": 104,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_shielded_physics_selection_fails_closed_if_context_disappears",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "test_shielded_physics_selection_fails_closed_if_context_disappears",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "generate_tsh_offspring",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_arguments",
+          "target": "tests.unit.test_tsh_calo_runtime_transition._arguments"
+        }
+      ],
+      "call_forms": {
+        "_arguments": "name",
+        "generate_tsh_offspring": "name",
+        "np.full": "attribute",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_arguments",
+        "generate_tsh_offspring",
+        "np.full",
+        "np.zeros",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "tests.unit.test_tsh_calo_runtime_transition._arguments"
+      ],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_action_vectors_and_parameters_cannot_bypass_the_versioned_abi",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "test_action_vectors_and_parameters_cannot_bypass_the_versioned_abi",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "tsh_calo_transition_kernel.complete_tsh_transition",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.complete_tsh_transition"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        }
+      ],
+      "call_forms": {
+        "monkeypatch.setattr": "attribute",
+        "tsh_calo_transition_kernel.complete_tsh_transition": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "monkeypatch.setattr",
+        "tsh_calo_transition_kernel.complete_tsh_transition"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.complete_tsh_transition"
+      ],
+      "doc": "",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_tsh_completion_reserves_a_distinct_precision_memory_channel",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "test_tsh_completion_reserves_a_distinct_precision_memory_channel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "observed.update",
+          "target": "observed.update"
+        }
+      ],
+      "call_forms": {
+        "observed.update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "observed.update"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_runtime_transition.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PhysicsRepairConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairConfig",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "SyntheticCALOEnvironment": "calo_rpd_studio.algorithms.calo.training.SyntheticCALOEnvironment",
+        "annotations": "__future__.annotations",
+        "generate_tsh_offspring": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+        "np": "numpy",
+        "pytest": "pytest",
+        "tsh_calo_transition_kernel": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_runtime_transition.test_tsh_completion_reserves_a_distinct_precision_memory_channel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_runtime_transition",
+      "qualname": "tests.unit.test_tsh_calo_runtime_transition.test_tsh_completion_reserves_a_distinct_precision_memory_channel.capture",
+      "semantic_tags": [],
+      "signature": "(**kwargs)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "capture",
+      "tests": []
+    }
+  ]
+}

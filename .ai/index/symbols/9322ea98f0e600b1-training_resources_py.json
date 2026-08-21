@@ -1,0 +1,907 @@
+{
+  "path": "calo_rpd_studio/compute/training_resources.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "One simultaneously executable branch slot.",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.BranchResourceSlot",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "BranchResourceSlot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "int": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 43,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources.BranchResourceSlot",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.BranchResourceSlot.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 71,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.TrainingResourcePlan",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "TrainingResourcePlan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "slot.to_dict",
+          "target": "slot.to_dict"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "slot.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "slot.to_dict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 71,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources.TrainingResourcePlan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.TrainingResourcePlan.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assigned.startswith",
+          "target": "assigned.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "assigned.startswith": "attribute",
+        "int": "name",
+        "lower": "attribute",
+        "max": "name",
+        "min": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training._branch_worker_main",
+        "tests.unit.test_v630_stage_a_reporting.test_protected_rollout_share_reporting_matches_runtime_rebinding_rules"
+      ],
+      "calls": [
+        "ValueError",
+        "assigned.startswith",
+        "int",
+        "lower",
+        "max",
+        "min",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the exact protected rollout routing executed for one admitted branch slot.",
+      "end_line": 95,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.protected_rollout_shares",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(cuda_share, cpu_share, primary_device)",
+      "start_line": 74,
+      "state_owner": "",
+      "symbol": "protected_rollout_shares",
+      "tests": [
+        "tests/unit/test_v630_stage_a_reporting.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "Return whether a full-branch accelerator is currently admissible inside Safe-80.",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources._device_has_safe_headroom",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(device, profile)",
+      "start_line": 98,
+      "state_owner": "",
+      "symbol": "_device_has_safe_headroom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "requested.startswith",
+          "target": "requested.startswith"
+        }
+      ],
+      "call_forms": {
+        "requested.startswith": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "calls": [
+        "requested.startswith"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources._primary_candidates",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(devices, requested)",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "_primary_candidates",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "int": "name",
+        "join": "attribute",
+        "max": "name",
+        "min": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.compute.training_resources.build_training_resource_plan"
+      ],
+      "calls": [
+        "RuntimeError",
+        "int",
+        "join",
+        "max",
+        "min"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 150,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources._safe_concurrency",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(total_branches, requested_concurrency, profile)",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "_safe_concurrency",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calculate",
+          "target": "calculate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ComputeTopologyService",
+          "target": "calo_rpd_studio.compute.topology.ComputeTopologyService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SafeResourceBudgetEngine",
+          "target": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BranchResourceSlot",
+          "target": "calo_rpd_studio.compute.training_resources.BranchResourceSlot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingResourcePlan",
+          "target": "calo_rpd_studio.compute.training_resources.TrainingResourcePlan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_device_has_safe_headroom",
+          "target": "calo_rpd_studio.compute.training_resources._device_has_safe_headroom"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_primary_candidates",
+          "target": "calo_rpd_studio.compute.training_resources._primary_candidates"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_safe_concurrency",
+          "target": "calo_rpd_studio.compute.training_resources._safe_concurrency"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scan",
+          "target": "scan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "slots.append",
+          "target": "slots.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "BranchResourceSlot": "name",
+        "ComputeTopologyService": "name",
+        "RuntimeError": "name",
+        "SafeResourceBudgetEngine": "name",
+        "TrainingResourcePlan": "name",
+        "_device_has_safe_headroom": "name",
+        "_primary_candidates": "name",
+        "_safe_concurrency": "name",
+        "any": "name",
+        "calculate": "attribute",
+        "enumerate": "name",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "lower": "attribute",
+        "max": "name",
+        "min": "name",
+        "range": "name",
+        "scan": "attribute",
+        "slots.append": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training._plan_branch_resources",
+        "calo_rpd_studio.algorithms.calo.competitive_training.train_policy_competitive",
+        "tests.unit.test_v610_beta_architecture._plan",
+        "tests.unit.test_v610_beta_architecture.test_beta3_dashboard_safe_parallel_cpu_capacity_matches_scheduler_minimum_budget"
+      ],
+      "calls": [
+        "BranchResourceSlot",
+        "ComputeTopologyService",
+        "RuntimeError",
+        "SafeResourceBudgetEngine",
+        "TrainingResourcePlan",
+        "_device_has_safe_headroom",
+        "_primary_candidates",
+        "_safe_concurrency",
+        "any",
+        "calculate",
+        "enumerate",
+        "getattr",
+        "int",
+        "len",
+        "list",
+        "lower",
+        "max",
+        "min",
+        "range",
+        "scan",
+        "slots.append",
+        "str",
+        "strip",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "calo_rpd_studio.compute.training_resources.BranchResourceSlot",
+        "calo_rpd_studio.compute.training_resources.TrainingResourcePlan",
+        "calo_rpd_studio.compute.training_resources._device_has_safe_headroom",
+        "calo_rpd_studio.compute.training_resources._primary_candidates",
+        "calo_rpd_studio.compute.training_resources._safe_concurrency"
+      ],
+      "doc": "Build a fail-closed, capability-aware protected branch resource plan.",
+      "end_line": 289,
+      "entry_point": false,
+      "file": "calo_rpd_studio/compute/training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CPU_SUPPORT_RESERVE_PER_BRANCH": "calo_rpd_studio.compute.topology.CPU_SUPPORT_RESERVE_PER_BRANCH",
+        "ComputeDevice": "calo_rpd_studio.compute.topology.ComputeDevice",
+        "ComputeProtectionProfile": "calo_rpd_studio.compute.topology.ComputeProtectionProfile",
+        "ComputeTopologyService": "calo_rpd_studio.compute.topology.ComputeTopologyService",
+        "ComputeTopologySnapshot": "calo_rpd_studio.compute.topology.ComputeTopologySnapshot",
+        "Iterable": "typing.Iterable",
+        "MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH": "calo_rpd_studio.compute.topology.MINIMUM_CPU_ROLLOUT_WORKERS_PER_BRANCH",
+        "SafeResourceBudgetEngine": "calo_rpd_studio.compute.topology.SafeResourceBudgetEngine",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        ".topology",
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.compute.training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.compute.training_resources",
+      "qualname": "calo_rpd_studio.compute.training_resources.build_training_resource_plan",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(config, total_branches, topology, profile)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "build_training_resource_plan",
+      "tests": [
+        "tests/unit/test_v610_beta_architecture.py"
+      ]
+    }
+  ]
+}

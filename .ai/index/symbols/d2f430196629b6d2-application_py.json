@@ -1,0 +1,287 @@
+{
+  "path": "calo_rpd_studio/app/application.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication",
+          "target": "QApplication"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.exec",
+          "target": "app.exec"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setApplicationName",
+          "target": "app.setApplicationName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setApplicationVersion",
+          "target": "app.setApplicationVersion"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setOrganizationName",
+          "target": "app.setOrganizationName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "app.setWindowIcon",
+          "target": "app.setWindowIcon"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "MainWindow",
+          "target": "calo_rpd_studio.app.main_window.MainWindow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SettingsManager",
+          "target": "calo_rpd_studio.app.settings_manager.SettingsManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "application_icon",
+          "target": "calo_rpd_studio.gui.icons.workspace_icons.application_icon"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_theme",
+          "target": "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "logging.basicConfig",
+          "target": "logging.basicConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "settings.value",
+          "target": "settings.value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.theme_changed.connect",
+          "target": "state.theme_changed.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.show",
+          "target": "window.show"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "MainWindow": "name",
+        "QApplication": "name",
+        "SettingsManager": "name",
+        "app.exec": "attribute",
+        "app.setApplicationName": "attribute",
+        "app.setApplicationVersion": "attribute",
+        "app.setOrganizationName": "attribute",
+        "app.setWindowIcon": "attribute",
+        "application_icon": "name",
+        "apply_theme": "name",
+        "logging.basicConfig": "attribute",
+        "settings.value": "attribute",
+        "state.theme_changed.connect": "attribute",
+        "str": "name",
+        "window.show": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.launcher.main"
+      ],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "MainWindow",
+        "QApplication",
+        "SettingsManager",
+        "app.exec",
+        "app.setApplicationName",
+        "app.setApplicationVersion",
+        "app.setOrganizationName",
+        "app.setWindowIcon",
+        "application_icon",
+        "apply_theme",
+        "logging.basicConfig",
+        "settings.value",
+        "state.theme_changed.connect",
+        "str",
+        "window.show"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.main_window.MainWindow",
+        "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": true,
+      "file": "calo_rpd_studio/app/application.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "application_icon": "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "logging": "logging",
+        "sys": "sys"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".experiment_manager",
+        ".main_window",
+        ".settings_manager",
+        ".state_manager",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.icons.workspace_icons",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "calo_rpd_studio.version",
+        "logging",
+        "sys"
+      ],
+      "integration_layer": "PyQt application startup",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.application",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.application",
+      "qualname": "calo_rpd_studio.app.application.main",
+      "semantic_tags": [
+        "PyQt",
+        "application",
+        "entry-point",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "()",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "apply_theme",
+          "target": "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+        }
+      ],
+      "call_forms": {
+        "apply_theme": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "apply_theme"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+      ],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": true,
+      "file": "calo_rpd_studio/app/application.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "SettingsManager": "calo_rpd_studio.app.settings_manager.SettingsManager",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "application_icon": "calo_rpd_studio.gui.icons.workspace_icons.application_icon",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "logging": "logging",
+        "sys": "sys"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".experiment_manager",
+        ".main_window",
+        ".settings_manager",
+        ".state_manager",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.icons.workspace_icons",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "calo_rpd_studio.version",
+        "logging",
+        "sys"
+      ],
+      "integration_layer": "PyQt application startup",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "function",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.app.application.main",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": true,
+      "python_module": "calo_rpd_studio.app.application",
+      "qualname": "calo_rpd_studio.app.application.main.on_theme_changed",
+      "semantic_tags": [
+        "PyQt",
+        "application",
+        "entry-point",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(name)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "on_theme_changed",
+      "tests": []
+    }
+  ]
+}

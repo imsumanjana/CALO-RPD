@@ -1,0 +1,1477 @@
+{
+  "path": "tests/unit/test_v31_batched_throughput.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_does_not_merge_numpy_and_torch_requests",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_merges_compatible_population_requests",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_preserves_original_concatenation_error_and_recovers",
+        "tests.unit.test_v31_batched_throughput.test_cross_run_broker_rejects_non_matrix_candidates_without_blocking"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_FakeEvaluator",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Lock",
+          "target": "threading.Lock"
+        }
+      ],
+      "call_forms": {
+        "threading.Lock": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "threading.Lock"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator.batch_signature",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "batch_signature",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.sum",
+          "target": "row.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.batch_lengths.append",
+          "target": "self.batch_lengths.append"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "row.sum": "attribute",
+        "self.batch_lengths.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "float",
+        "len",
+        "np.asarray",
+        "row.sum",
+        "self.batch_lengths.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput._FakeEvaluator._evaluate_population_direct",
+      "semantic_tags": [],
+      "signature": "(self, candidates)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_evaluate_population_direct",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ThreadPoolExecutor",
+          "target": "ThreadPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "barrier.wait",
+          "target": "barrier.wait"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "first.result",
+          "target": "first.result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pool.submit",
+          "target": "pool.submit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.result",
+          "target": "second.result"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeEvaluator",
+          "target": "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Barrier",
+          "target": "threading.Barrier"
+        }
+      ],
+      "call_forms": {
+        "CrossRunBatchBroker": "name",
+        "ThreadPoolExecutor": "name",
+        "_FakeEvaluator": "name",
+        "barrier.wait": "attribute",
+        "first.result": "attribute",
+        "np.full": "attribute",
+        "np.ones": "attribute",
+        "pool.submit": "attribute",
+        "second.result": "attribute",
+        "threading.Barrier": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CrossRunBatchBroker",
+        "ThreadPoolExecutor",
+        "_FakeEvaluator",
+        "barrier.wait",
+        "first.result",
+        "np.full",
+        "np.ones",
+        "pool.submit",
+        "second.result",
+        "threading.Barrier"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+      ],
+      "doc": "",
+      "end_line": 55,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_merges_compatible_population_requests",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "test_cross_run_broker_merges_compatible_population_requests",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "barrier.wait",
+          "target": "barrier.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.submit",
+          "target": "broker.submit"
+        }
+      ],
+      "call_forms": {
+        "barrier.wait": "attribute",
+        "broker.submit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "barrier.wait",
+        "broker.submit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_merges_compatible_population_requests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_merges_compatible_population_requests.submit",
+      "semantic_tags": [],
+      "signature": "(values)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "submit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "measured_throughput_allocation",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation"
+        }
+      ],
+      "call_forms": {
+        "measured_throughput_allocation": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "measured_throughput_allocation"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation"
+      ],
+      "doc": "",
+      "end_line": 63,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_measured_throughput_allocation_uses_observed_capacity",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 58,
+      "state_owner": "",
+      "symbol": "test_measured_throughput_allocation_uses_observed_capacity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_lanes",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "plan_training_lanes_from_throughput",
+          "target": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "plan_training_lanes": "name",
+        "plan_training_lanes_from_throughput": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "any",
+        "plan_training_lanes",
+        "plan_training_lanes_from_throughput"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput"
+      ],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_policy_training_plan_can_be_auto_tuned_from_measured_throughput",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "test_policy_training_plan_can_be_auto_tuned_from_measured_throughput",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentConfig.from_dict": "attribute",
+        "config.to_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentConfig.from_dict",
+        "config.to_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_v31_experiment_configuration_round_trip_preserves_throughput_fields",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "test_v31_experiment_configuration_round_trip_preserves_throughput_fields",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "AIController",
+          "target": "calo_rpd_studio.algorithms.calo.ai_controller.AIController"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.state_dict",
+          "target": "network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        }
+      ],
+      "call_forms": {
+        "AIController": "name",
+        "CALOPolicyNetwork": "name",
+        "network.state_dict": "attribute",
+        "torch.save": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AIController",
+        "CALOPolicyNetwork",
+        "network.state_dict",
+        "torch.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+      ],
+      "doc": "",
+      "end_line": 132,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "broker._thread.is_alive",
+          "target": "broker._thread.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.submit",
+          "target": "broker.submit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeEvaluator",
+          "target": "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+        }
+      ],
+      "call_forms": {
+        "CrossRunBatchBroker": "name",
+        "_FakeEvaluator": "name",
+        "broker._thread.is_alive": "attribute",
+        "broker.submit": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "np.ones": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CrossRunBatchBroker",
+        "_FakeEvaluator",
+        "broker._thread.is_alive",
+        "broker.submit",
+        "monkeypatch.setattr",
+        "np.ones",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_preserves_original_concatenation_error_and_recovers",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 135,
+      "state_owner": "",
+      "symbol": "test_cross_run_broker_preserves_original_concatenation_error_and_recovers",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 142,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_preserves_original_concatenation_error_and_recovers",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_preserves_original_concatenation_error_and_recovers.fail_concatenate",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 141,
+      "state_owner": "",
+      "symbol": "fail_concatenate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ThreadPoolExecutor",
+          "target": "ThreadPoolExecutor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "barrier.wait",
+          "target": "barrier.wait"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "numpy_result.result",
+          "target": "numpy_result.result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pool.submit",
+          "target": "pool.submit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.importorskip",
+          "target": "pytest.importorskip"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeEvaluator",
+          "target": "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Barrier",
+          "target": "threading.Barrier"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.ones",
+          "target": "torch.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch_result.result",
+          "target": "torch_result.result"
+        }
+      ],
+      "call_forms": {
+        "CrossRunBatchBroker": "name",
+        "ThreadPoolExecutor": "name",
+        "_FakeEvaluator": "name",
+        "barrier.wait": "attribute",
+        "np.ones": "attribute",
+        "numpy_result.result": "attribute",
+        "pool.submit": "attribute",
+        "pytest.importorskip": "attribute",
+        "threading.Barrier": "attribute",
+        "torch.ones": "attribute",
+        "torch_result.result": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CrossRunBatchBroker",
+        "ThreadPoolExecutor",
+        "_FakeEvaluator",
+        "barrier.wait",
+        "np.ones",
+        "numpy_result.result",
+        "pool.submit",
+        "pytest.importorskip",
+        "threading.Barrier",
+        "torch.ones",
+        "torch_result.result"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+      ],
+      "doc": "",
+      "end_line": 171,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_does_not_merge_numpy_and_torch_requests",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "test_cross_run_broker_does_not_merge_numpy_and_torch_requests",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "barrier.wait",
+          "target": "barrier.wait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.submit",
+          "target": "broker.submit"
+        }
+      ],
+      "call_forms": {
+        "barrier.wait": "attribute",
+        "broker.submit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "barrier.wait",
+        "broker.submit"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 162,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_does_not_merge_numpy_and_torch_requests",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_does_not_merge_numpy_and_torch_requests.submit",
+      "semantic_tags": [],
+      "signature": "(values)",
+      "start_line": 160,
+      "state_owner": "",
+      "symbol": "submit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "broker._thread.is_alive",
+          "target": "broker._thread.is_alive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "broker.submit",
+          "target": "broker.submit"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CrossRunBatchBroker",
+          "target": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty",
+          "target": "np.empty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.ones",
+          "target": "np.ones"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_FakeEvaluator",
+          "target": "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+        }
+      ],
+      "call_forms": {
+        "CrossRunBatchBroker": "name",
+        "_FakeEvaluator": "name",
+        "broker._thread.is_alive": "attribute",
+        "broker.submit": "attribute",
+        "np.empty": "attribute",
+        "np.ones": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CrossRunBatchBroker",
+        "_FakeEvaluator",
+        "broker._thread.is_alive",
+        "broker.submit",
+        "np.empty",
+        "np.ones",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "tests.unit.test_v31_batched_throughput._FakeEvaluator"
+      ],
+      "doc": "",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "tests/unit/test_v31_batched_throughput.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AIController": "calo_rpd_studio.algorithms.calo.ai_controller.AIController",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "CrossRunBatchBroker": "calo_rpd_studio.accelerated.throughput_engine.CrossRunBatchBroker",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "ThreadPoolExecutor": "concurrent.futures.ThreadPoolExecutor",
+        "annotations": "__future__.annotations",
+        "measured_throughput_allocation": "calo_rpd_studio.accelerated.throughput_engine.measured_throughput_allocation",
+        "np": "numpy",
+        "plan_training_lanes": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes",
+        "plan_training_lanes_from_throughput": "calo_rpd_studio.algorithms.calo.heterogeneous_training.plan_training_lanes_from_throughput",
+        "pytest": "pytest",
+        "threading": "threading",
+        "throughput_engine": "calo_rpd_studio.accelerated.throughput_engine",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.throughput_engine",
+        "calo_rpd_studio.algorithms.calo.ai_controller",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.experiments.experiment_config",
+        "concurrent.futures",
+        "numpy",
+        "pytest",
+        "threading",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v31_batched_throughput",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v31_batched_throughput",
+      "qualname": "tests.unit.test_v31_batched_throughput.test_cross_run_broker_rejects_non_matrix_candidates_without_blocking",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 174,
+      "state_owner": "",
+      "symbol": "test_cross_run_broker_rejects_non_matrix_candidates_without_blocking",
+      "tests": []
+    }
+  ]
+}

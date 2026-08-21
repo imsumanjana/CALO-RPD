@@ -1,0 +1,72 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/persistent_training_actor.py"
+    }
+  ],
+  "path": "tests/unit/test_v34_worker_protocol.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+      "to": "BytesIO"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+      "to": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+      "to": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_persistent_actor_round_trips_multiple_progress_frames",
+      "to": "stream.seek"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+      "to": "BytesIO"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+      "to": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+      "to": "calo_rpd_studio.compute.persistent_training_actor.write_frame"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_training_actor_round_trips_dictionary_frame",
+      "to": "stream.seek"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames",
+      "to": "BytesIO"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames",
+      "to": "calo_rpd_studio.compute.persistent_training_actor.read_frame"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v34_worker_protocol.test_worker_protocol_rejects_oversized_frames",
+      "to": "struct.pack"
+    }
+  ]
+}

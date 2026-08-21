@@ -1,0 +1,361 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_environment.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_receipt.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_session.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/problem.py"
+    }
+  ],
+  "path": "tests/unit/test_tsh_calo_training_session.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._environment",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.TSHCALOTrainingEnvironmentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._session",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._session",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._session",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._session",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session._sha",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session._sha",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session._sha",
+      "to": "label.encode"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._training",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._training",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session._training",
+      "to": "tests.unit.test_tsh_calo_training_session._sha"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.inspect_tsh_calo_candidate"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.build_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.canonical_reward_sequence_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.TSHCALOTrainingSessionConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "receipt.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "receipt.unsigned_payload"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "replay.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "replay_values.pop"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "session.advance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "session.trainer.export_unqualified_candidate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "session.trainer.record_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "tests.unit.test_tsh_calo_training_session._environment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "tests.unit.test_tsh_calo_training_session._session"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "tests.unit.test_tsh_calo_training_session._training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_completed_counted_session_earns_receipt_and_only_unqualified_export",
+      "to": "torch.load"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.TSHCALOTrainingSessionConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "session.advance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "session.state_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "tests.unit.test_tsh_calo_training_session._environment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "tests.unit.test_tsh_calo_training_session._session"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt",
+      "to": "tests.unit.test_tsh_calo_training_session._training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_failed_session_cannot_checkpoint_or_issue_a_receipt.failed_evaluator",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.load_resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.TSHCALOTrainingSessionConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "items"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "np.testing.assert_array_equal"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "original.advance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "original.save_resume"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "original.trainer.network.state_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "restored.advance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "restored.trainer.network.state_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "tests.unit.test_tsh_calo_training_session._environment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "tests.unit.test_tsh_calo_training_session._session"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "tests.unit.test_tsh_calo_training_session._training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_partial_session_trusted_resume_replays_rewards_updates_and_receipt_exactly",
+      "to": "torch.testing.assert_close"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.load_tsh_calo_training_episode_receipt"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.IndependentTSHCALOTrainingSession.from_state_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "calo_rpd_studio.algorithms.calo.tsh_calo_training_session.TSHCALOTrainingSessionConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "calo_rpd_studio.orpd.problem.ORPDProblem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "replace"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "session.advance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "session.receipt.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "session.state_dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "tests.unit.test_tsh_calo_training_session._environment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "tests.unit.test_tsh_calo_training_session._session"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_tsh_calo_training_session.test_session_resume_and_receipt_are_design_and_integrity_bound",
+      "to": "tests.unit.test_tsh_calo_training_session._training"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_training_session_module_has_no_experiment_or_lifecycle_authority",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_tsh_calo_training_session.test_training_session_module_has_no_experiment_or_lifecycle_authority",
+      "to": "read_text"
+    }
+  ]
+}

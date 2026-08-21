@@ -1,0 +1,571 @@
+{
+  "path": "calo_rpd_studio/power_system/case_loader.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "CaseLoader",
+      "tests": [
+        "tests/scientific/test_ieee_cases.py",
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v33_cuda_resident.py",
+        "tests/unit/test_v640_stage_b.py",
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "validate_case",
+          "target": "calo_rpd_studio.power_system.case_validation.validate_case"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.require_valid",
+          "target": "report.require_valid"
+        }
+      ],
+      "call_forms": {
+        "report.require_valid": "attribute",
+        "validate_case": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "calls": [
+        "report.require_valid",
+        "validate_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_validation.validate_case"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader._validated",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(cls, case)",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "_validated",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls._validated",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader._validated"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PowerSystemCase.from_dict",
+          "target": "calo_rpd_studio.power_system.case_model.PowerSystemCase.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "importlib.import_module",
+          "target": "importlib.import_module"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.exists",
+          "target": "path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.suffix.lower",
+          "target": "path.suffix.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "FileNotFoundError": "name",
+        "Path": "name",
+        "PowerSystemCase.from_dict": "attribute",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "cls._validated": "attribute",
+        "getattr": "name",
+        "importlib.import_module": "attribute",
+        "json.loads": "attribute",
+        "path.exists": "attribute",
+        "path.read_text": "attribute",
+        "path.suffix.lower": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.IndependentTSHCALOTrainingCampaign._build_problem",
+        "calo_rpd_studio.algorithms.calo.competitive_training._exact_development_problem",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer.restore",
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan",
+        "calo_rpd_studio.benchmarking.suite._branch_worst_case",
+        "calo_rpd_studio.benchmarking.suite._generator_worst_case",
+        "calo_rpd_studio.benchmarking.suite._renewable",
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel._apply_study_protocol",
+        "calo_rpd_studio.gui.panels.live_optimization_panel.LiveOptimizationPanel._redraw_portfolio_preview",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.load_case",
+        "calo_rpd_studio.power_system.case_identity.canonical_protected_holdout_checksums",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_identity",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "calo_rpd_studio.scripts.validate_cases.main",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+        "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+        "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+        "tests.scientific.test_v34_scientific_integrity.test_case300_reference_bus_reports_actual_unclipped_reactive_requirement",
+        "tests.scientific.test_v34_scientific_integrity.test_case_validator_rejects_active_zero_impedance_branch",
+        "tests.scientific.test_v34_scientific_integrity.test_mixed_vector_cpu_torch_parity_for_publication_cases",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+        "tests.unit.test_orpd_counted_evaluation_context.test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+        "tests.unit.test_tsh_calo_physics_repair.test_real_case30_counted_context_proposes_inside_trust_and_lattice",
+        "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates"
+      ],
+      "calls": [
+        "FileNotFoundError",
+        "Path",
+        "PowerSystemCase.from_dict",
+        "RuntimeError",
+        "ValueError",
+        "cls._validated",
+        "getattr",
+        "importlib.import_module",
+        "json.loads",
+        "path.exists",
+        "path.read_text",
+        "path.suffix.lower",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader._validated",
+        "calo_rpd_studio.power_system.case_model.PowerSystemCase.from_dict"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(cls, source)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": [
+        "tests/scientific/test_ieee_cases.py",
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_tsh_calo_physics_repair.py",
+        "tests/unit/test_v33_cuda_resident.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.dashboard_panel.DashboardPanel.__init__",
+        "calo_rpd_studio.gui.panels.power_system_panel.PowerSystemPanel.__init__",
+        "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor.__init__",
+        "tests.unit.test_v2_benchmarking.test_case300_is_exposed_by_case_loader"
+      ],
+      "calls": [
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_cases",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(cls)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "available_cases",
+      "tests": [
+        "tests/unit/test_v2_benchmarking.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "load_bundled_pglib_case",
+          "target": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case"
+        }
+      ],
+      "call_forms": {
+        "load_bundled_pglib_case": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "load_bundled_pglib_case"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case"
+      ],
+      "doc": "Load a bundled PGLib AC case without implying any ORPD controls.",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader.load_pglib",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(cls, name)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "load_pglib",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "available_bundled_pglib_cases",
+          "target": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases"
+        }
+      ],
+      "call_forms": {
+        "available_bundled_pglib_cases": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "available_bundled_pglib_cases"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases"
+      ],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_loader.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "annotations": "__future__.annotations",
+        "available_bundled_pglib_cases": "calo_rpd_studio.power_system.pglib_import.available_bundled_pglib_cases",
+        "importlib": "importlib",
+        "json": "json",
+        "load_bundled_pglib_case": "calo_rpd_studio.power_system.pglib_import.load_bundled_pglib_case",
+        "validate_case": "calo_rpd_studio.power_system.case_validation.validate_case"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        ".case_validation",
+        ".pglib_import",
+        "__future__",
+        "importlib",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_loader",
+      "qualname": "calo_rpd_studio.power_system.case_loader.CaseLoader.available_pglib_cases",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(cls)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "available_pglib_cases",
+      "tests": []
+    }
+  ]
+}

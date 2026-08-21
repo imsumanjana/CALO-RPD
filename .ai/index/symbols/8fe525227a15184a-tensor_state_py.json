@@ -1,0 +1,430 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tensor_state.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tensor_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tensor_state",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tensor_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "CALOTensorState",
+      "tests": [
+        "tests/unit/test_calo_v4.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.copy",
+          "target": "population.copy"
+        }
+      ],
+      "call_forms": {
+        "cls": "name",
+        "len": "name",
+        "list": "name",
+        "np.arange": "attribute",
+        "np.asarray": "attribute",
+        "np.zeros": "attribute",
+        "population.copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.reset",
+        "tests.unit.test_calo_v4.test_persistent_personal_best_is_not_reset_by_environmental_selection"
+      ],
+      "calls": [
+        "cls",
+        "len",
+        "list",
+        "np.arange",
+        "np.asarray",
+        "np.zeros",
+        "population.copy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tensor_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tensor_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.initialize",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, population, evaluations)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "initialize",
+      "tests": [
+        "tests/unit/test_calo_v4.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.concatenate",
+          "target": "np.concatenate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parent_lineage.max",
+          "target": "parent_lineage.max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.age.copy",
+          "target": "self.age.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.lineage_ids.copy",
+          "target": "self.lineage_ids.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.personal_best.copy",
+          "target": "self.personal_best.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.stagnation.copy",
+          "target": "self.stagnation.copy"
+        }
+      ],
+      "call_forms": {
+        "copy": "attribute",
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "list": "name",
+        "np.asarray": "attribute",
+        "np.concatenate": "attribute",
+        "np.vstack": "attribute",
+        "parent_lineage.max": "attribute",
+        "self.age.copy": "attribute",
+        "self.lineage_ids.copy": "attribute",
+        "self.personal_best.copy": "attribute",
+        "self.stagnation.copy": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "copy",
+        "enumerate",
+        "int",
+        "len",
+        "list",
+        "np.asarray",
+        "np.concatenate",
+        "np.vstack",
+        "parent_lineage.max",
+        "self.age.copy",
+        "self.lineage_ids.copy",
+        "self.personal_best.copy",
+        "self.stagnation.copy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tensor_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tensor_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.select_from_combined",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, combined_population, combined_evaluations, selected_indices, offspring_personal_best, offspring_personal_best_evaluations)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "select_from_combined",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.lineage_ids.max",
+          "target": "self.lineage_ids.max"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "enumerate": "name",
+        "int": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "self.lineage_ids.max": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "enumerate",
+        "int",
+        "len",
+        "np.asarray",
+        "self.lineage_ids.max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tensor_state.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tensor_state",
+      "qualname": "calo_rpd_studio.algorithms.calo.tensor_state.CALOTensorState.restart_indices",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, indices, new_vectors, evaluations)",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "restart_indices",
+      "tests": []
+    }
+  ]
+}

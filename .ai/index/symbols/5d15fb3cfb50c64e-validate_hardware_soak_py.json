@@ -1,0 +1,205 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_hardware_soak.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "args.run_id.strip",
+          "target": "args.run_id.strip"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_device",
+          "target": "calo_rpd_studio.accelerated.device.resolve_device"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "HardwareSoakRunner",
+          "target": "calo_rpd_studio.compute.soak.HardwareSoakRunner"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SoakConfig",
+          "target": "calo_rpd_studio.compute.soak.SoakConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output_dir.exists",
+          "target": "output_dir.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "result.to_dict",
+          "target": "result.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "HardwareSoakRunner": "name",
+        "Path": "name",
+        "RuntimeError": "name",
+        "SoakConfig": "name",
+        "ValueError": "name",
+        "argparse.ArgumentParser": "attribute",
+        "args.run_id.strip": "attribute",
+        "float": "name",
+        "json.dumps": "attribute",
+        "output_dir.exists": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "resolve_device": "name",
+        "resolve_source_identity": "name",
+        "result.to_dict": "attribute",
+        "run": "attribute",
+        "startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "FileExistsError",
+        "HardwareSoakRunner",
+        "Path",
+        "RuntimeError",
+        "SoakConfig",
+        "ValueError",
+        "argparse.ArgumentParser",
+        "args.run_id.strip",
+        "float",
+        "json.dumps",
+        "output_dir.exists",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "resolve_device",
+        "resolve_source_identity",
+        "result.to_dict",
+        "run",
+        "startswith",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.device.resolve_device",
+        "calo_rpd_studio.compute.soak.HardwareSoakRunner",
+        "calo_rpd_studio.compute.soak.SoakConfig",
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+      ],
+      "doc": "",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_hardware_soak.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "HardwareSoakRunner": "calo_rpd_studio.compute.soak.HardwareSoakRunner",
+        "Path": "pathlib.Path",
+        "SoakConfig": "calo_rpd_studio.compute.soak.SoakConfig",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "json": "json",
+        "resolve_device": "calo_rpd_studio.accelerated.device.resolve_device",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.accelerated.device",
+        "calo_rpd_studio.compute.soak",
+        "calo_rpd_studio.compute.source_identity",
+        "json",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_hardware_soak",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_hardware_soak",
+      "qualname": "calo_rpd_studio.scripts.validate_hardware_soak.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

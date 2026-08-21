@@ -1,0 +1,1001 @@
+{
+  "path": "calo_rpd_studio/orpd/constraints.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.CONSTRAINT_TOLERANCE_SCHEMA",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "CONSTRAINT_TOLERANCE_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.orpd.constraints.branch_angle_limit_violation",
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.constraints.generator_limit_violation",
+        "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+        "tests.unit.test_v660_remaining_audit.test_h03_vectorized_branch_angle_constraint_is_numerically_correct"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Engineering/numerical tolerances used identically by all scientific backends.",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "ConstraintToleranceConfig",
+      "tests": [
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig.validate"
+        }
+      ],
+      "call_forms": {
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig.validate"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "getattr": "name",
+        "math.isfinite": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig.__post_init__"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "getattr",
+        "math.isfinite",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "max": "name",
+        "np.asarray": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.constraints._normalized_above",
+        "calo_rpd_studio.orpd.constraints._normalized_below"
+      ],
+      "calls": [
+        "float",
+        "max",
+        "np.asarray",
+        "np.where"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a stable normalization scale for bounded engineering quantities.",
+      "end_line": 62,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints._safe_normalization_span",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(span, absolute_tolerance)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "_safe_normalization_span",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_safe_normalization_span",
+          "target": "calo_rpd_studio.orpd.constraints._safe_normalization_span"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "_safe_normalization_span": "name",
+        "float": "name",
+        "np.maximum": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.constraints.generator_limit_violation"
+      ],
+      "calls": [
+        "_safe_normalization_span",
+        "float",
+        "np.maximum",
+        "np.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints._safe_normalization_span"
+      ],
+      "doc": "",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints._normalized_below",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(x, lo, span, absolute_tolerance)",
+      "start_line": 65,
+      "state_owner": "",
+      "symbol": "_normalized_below",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_safe_normalization_span",
+          "target": "calo_rpd_studio.orpd.constraints._safe_normalization_span"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "_safe_normalization_span": "name",
+        "float": "name",
+        "np.maximum": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "calo_rpd_studio.orpd.constraints.generator_limit_violation",
+        "tests.unit.test_v650_must_resolve.test_h01_fixed_voltage_span_uses_stable_absolute_scale"
+      ],
+      "calls": [
+        "_safe_normalization_span",
+        "float",
+        "np.maximum",
+        "np.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints._safe_normalization_span"
+      ],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints._normalized_above",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(x, hi, span, absolute_tolerance)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "_normalized_above",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintToleranceConfig",
+          "target": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_above",
+          "target": "calo_rpd_studio.orpd.constraints._normalized_above"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_below",
+          "target": "calo_rpd_studio.orpd.constraints._normalized_below"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "ConstraintToleranceConfig": "name",
+        "_normalized_above": "name",
+        "_normalized_below": "name",
+        "float": "name",
+        "np.maximum": "attribute",
+        "np.sum": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._constraints",
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus"
+      ],
+      "calls": [
+        "ConstraintToleranceConfig",
+        "_normalized_above",
+        "_normalized_below",
+        "float",
+        "np.maximum",
+        "np.sum",
+        "np.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "calo_rpd_studio.orpd.constraints._normalized_above",
+        "calo_rpd_studio.orpd.constraints._normalized_below"
+      ],
+      "doc": "Return normalized Q and P violations for every individual online generator.",
+      "end_line": 106,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.generator_limit_violation",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, tolerances)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "generator_limit_violation",
+      "tests": [
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintToleranceConfig",
+          "target": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argsort",
+          "target": "np.argsort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array_equal",
+          "target": "np.array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.searchsorted",
+          "target": "np.searchsorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "ConstraintToleranceConfig": "name",
+        "ValueError": "name",
+        "float": "name",
+        "len": "name",
+        "np.any": "attribute",
+        "np.argsort": "attribute",
+        "np.array_equal": "attribute",
+        "np.asarray": "attribute",
+        "np.maximum": "attribute",
+        "np.searchsorted": "attribute",
+        "np.sum": "attribute",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._constraints",
+        "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+        "tests.unit.test_v590_scientific_closure.test_branch_angle_limits_are_enforced_with_matpower_semantics",
+        "tests.unit.test_v660_remaining_audit.test_h03_vectorized_branch_angle_constraint_is_numerically_correct"
+      ],
+      "calls": [
+        "ConstraintToleranceConfig",
+        "ValueError",
+        "float",
+        "len",
+        "np.any",
+        "np.argsort",
+        "np.array_equal",
+        "np.asarray",
+        "np.maximum",
+        "np.searchsorted",
+        "np.sum",
+        "np.where"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+      ],
+      "doc": "Return normalized MATPOWER ANGMIN/ANGMAX violation over active constrained branches.",
+      "end_line": 168,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.branch_angle_limit_violation",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, va_deg, tolerances)",
+      "start_line": 109,
+      "state_owner": "",
+      "symbol": "branch_angle_limit_violation",
+      "tests": [
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintViolation",
+          "target": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintToleranceConfig",
+          "target": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_above",
+          "target": "calo_rpd_studio.orpd.constraints._normalized_above"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_normalized_below",
+          "target": "calo_rpd_studio.orpd.constraints._normalized_below"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "branch_angle_limit_violation",
+          "target": "calo_rpd_studio.orpd.constraints.branch_angle_limit_violation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "generator_limit_violation",
+          "target": "calo_rpd_studio.orpd.constraints.generator_limit_violation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comp.values",
+          "target": "comp.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolerances.validate",
+          "target": "tolerances.validate"
+        }
+      ],
+      "call_forms": {
+        "ConstraintToleranceConfig": "name",
+        "ConstraintViolation": "name",
+        "_normalized_above": "name",
+        "_normalized_below": "name",
+        "branch_angle_limit_violation": "name",
+        "comp.values": "attribute",
+        "float": "name",
+        "generator_limit_violation": "name",
+        "np.maximum": "attribute",
+        "np.sum": "attribute",
+        "np.where": "attribute",
+        "sum": "name",
+        "tolerances.validate": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.problem.ORPDProblem._evaluate",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.solution_state",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run"
+      ],
+      "calls": [
+        "ConstraintToleranceConfig",
+        "ConstraintViolation",
+        "_normalized_above",
+        "_normalized_below",
+        "branch_angle_limit_violation",
+        "comp.values",
+        "float",
+        "generator_limit_violation",
+        "np.maximum",
+        "np.sum",
+        "np.where",
+        "sum",
+        "tolerances.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "calo_rpd_studio.orpd.constraints._normalized_above",
+        "calo_rpd_studio.orpd.constraints._normalized_below",
+        "calo_rpd_studio.orpd.constraints.branch_angle_limit_violation",
+        "calo_rpd_studio.orpd.constraints.generator_limit_violation"
+      ],
+      "doc": "",
+      "end_line": 205,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/constraints.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ConstraintViolation": "calo_rpd_studio.orpd.constraint_violation.ConstraintViolation",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "math": "math",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".constraint_violation",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.constraints",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.constraints",
+      "qualname": "calo_rpd_studio.orpd.constraints.evaluate_constraints",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(pf, tolerances)",
+      "start_line": 171,
+      "state_owner": "",
+      "symbol": "evaluate_constraints",
+      "tests": []
+    }
+  ]
+}

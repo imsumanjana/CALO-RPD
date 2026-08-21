@@ -1,0 +1,2663 @@
+{
+  "path": "tests/tooling/test_ai_repo_intelligence_v2.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.BUNDLE_ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "BUNDLE_ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "merged.update",
+          "target": "merged.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.copy",
+          "target": "os.environ.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "merged.update": "attribute",
+        "os.environ.copy": "attribute",
+        "subprocess.run": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_agent_guard_detects_and_repairs_all_agent_files",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_deterministic_context_queries_and_public_surface_ranking",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_entry_point_routing_understands_natural_launch_language",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_guard_install_hook_preserves_existing_hook",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_initial_index_check_idempotency_modules_and_initialization",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_malformed_source_nonfatal",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_module_test_mapping_excludes_support_and_instruction_files",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_precommit_source_ai_commit_then_init_is_byte_stable",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_repository_specific_semantic_benchmark",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_unknown_receiver_call_stays_unresolved",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_utf8_redirected_cli_output"
+      ],
+      "calls": [
+        "AssertionError",
+        "merged.update",
+        "os.environ.copy",
+        "subprocess.run"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.run",
+      "semantic_tags": [],
+      "signature": "(repo, *args, check, env)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        }
+      ],
+      "call_forms": {
+        "subprocess.run": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_precommit_source_ai_commit_then_init_is_byte_stable",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup"
+      ],
+      "calls": [
+        "subprocess.run"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.git",
+      "semantic_tags": [],
+      "signature": "(repo, *args)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "git",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "p.parent.mkdir",
+          "target": "p.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.write_text",
+          "target": "p.write_text"
+        }
+      ],
+      "call_forms": {
+        "p.parent.mkdir": "attribute",
+        "p.write_text": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_entry_point_routing_understands_natural_launch_language",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_malformed_source_nonfatal",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup"
+      ],
+      "calls": [
+        "p.parent.mkdir",
+        "p.write_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.write",
+      "semantic_tags": [],
+      "signature": "(repo, rp, text)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "write",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "json.loads": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_agent_guard_detects_and_repairs_all_agent_files",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_initial_index_check_idempotency_modules_and_initialization",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup"
+      ],
+      "calls": [
+        "json.loads",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.readj",
+      "semantic_tags": [],
+      "signature": "(repo, rp)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "readj",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.encode",
+          "target": "text.encode"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "text.encode": "attribute"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+      ],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest",
+        "text.encode"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.sha",
+      "semantic_tags": [],
+      "signature": "(text)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "sha",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.is_file",
+          "target": "p.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.read_bytes",
+          "target": "p.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.relative_to",
+          "target": "p.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.rglob",
+          "target": "root.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "as_posix": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "p.is_file": "attribute",
+        "p.read_bytes": "attribute",
+        "p.relative_to": "attribute",
+        "root.rglob": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.test_initial_index_check_idempotency_modules_and_initialization",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_precommit_source_ai_commit_then_init_is_byte_stable"
+      ],
+      "calls": [
+        "as_posix",
+        "hashlib.sha256",
+        "hexdigest",
+        "p.is_file",
+        "p.read_bytes",
+        "p.relative_to",
+        "root.rglob",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes",
+      "semantic_tags": [],
+      "signature": "(repo, prefix)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "tree_hashes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        }
+      ],
+      "call_forms": {
+        "readj": "name"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_deterministic_context_queries_and_public_surface_ranking",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_malformed_source_nonfatal",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_unknown_receiver_call_stays_unresolved"
+      ],
+      "calls": [
+        "readj"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.readj"
+      ],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.shard_path",
+      "semantic_tags": [],
+      "signature": "(repo, kind, source)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "shard_path",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dst.parent.mkdir",
+          "target": "dst.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repo.mkdir",
+          "target": "repo.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shutil.copy2",
+          "target": "shutil.copy2"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "git",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.git"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "sha",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.sha"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.write"
+        }
+      ],
+      "call_forms": {
+        "dst.parent.mkdir": "attribute",
+        "git": "name",
+        "items": "attribute",
+        "json.dumps": "attribute",
+        "repo.mkdir": "attribute",
+        "run": "name",
+        "sha": "name",
+        "shutil.copy2": "attribute",
+        "str": "name",
+        "write": "name"
+      },
+      "called_by": [
+        "tests.tooling.test_ai_repo_intelligence_v2.test_agent_guard_detects_and_repairs_all_agent_files",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_deterministic_context_queries_and_public_surface_ranking",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_entry_point_routing_understands_natural_launch_language",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_guard_install_hook_preserves_existing_hook",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_initial_index_check_idempotency_modules_and_initialization",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_malformed_source_nonfatal",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_module_test_mapping_excludes_support_and_instruction_files",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_precommit_source_ai_commit_then_init_is_byte_stable",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_repository_specific_semantic_benchmark",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_unknown_receiver_call_stays_unresolved",
+        "tests.tooling.test_ai_repo_intelligence_v2.test_utf8_redirected_cli_output"
+      ],
+      "calls": [
+        "dst.parent.mkdir",
+        "git",
+        "items",
+        "json.dumps",
+        "repo.mkdir",
+        "run",
+        "sha",
+        "shutil.copy2",
+        "str",
+        "write"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.git",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.sha",
+        "tests.tooling.test_ai_repo_intelligence_v2.write"
+      ],
+      "doc": "",
+      "end_line": 134,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "make_repo",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "exists",
+          "target": "exists"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "tree_hashes",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+        }
+      ],
+      "call_forms": {
+        "exists": "attribute",
+        "make_repo": "name",
+        "readj": "name",
+        "run": "name",
+        "tree_hashes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "exists",
+        "make_repo",
+        "readj",
+        "run",
+        "tree_hashes"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.readj",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+      ],
+      "doc": "",
+      "end_line": 153,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_initial_index_check_idempotency_modules_and_initialization",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 137,
+      "state_owner": "",
+      "symbol": "test_initial_index_check_idempotency_modules_and_initialization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "after.get",
+          "target": "after.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "before.get",
+          "target": "before.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.read_text",
+          "target": "p.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.write_text",
+          "target": "p.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative_to",
+          "target": "relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "tree_hashes",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+        }
+      ],
+      "call_forms": {
+        "after.get": "attribute",
+        "as_posix": "attribute",
+        "before.get": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "make_repo": "name",
+        "p.read_text": "attribute",
+        "p.write_text": "attribute",
+        "read_text": "attribute",
+        "readj": "name",
+        "relative_to": "attribute",
+        "run": "name",
+        "set": "name",
+        "shard_path": "name",
+        "sorted": "name",
+        "tree_hashes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "after.get",
+        "as_posix",
+        "before.get",
+        "json.loads",
+        "len",
+        "make_repo",
+        "p.read_text",
+        "p.write_text",
+        "read_text",
+        "readj",
+        "relative_to",
+        "run",
+        "set",
+        "shard_path",
+        "sorted",
+        "tree_hashes"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.readj",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path",
+        "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+      ],
+      "doc": "",
+      "end_line": 173,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_one_file_locality_and_audit_invalidation",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 156,
+      "state_owner": "",
+      "symbol": "test_one_file_locality_and_audit_invalidation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "canonical.replace",
+          "target": "canonical.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.write_bytes",
+          "target": "path.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative_to",
+          "target": "relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "git",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.git"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        }
+      ],
+      "call_forms": {
+        "as_posix": "attribute",
+        "canonical.replace": "attribute",
+        "encode": "attribute",
+        "git": "name",
+        "make_repo": "name",
+        "path.read_text": "attribute",
+        "path.write_bytes": "attribute",
+        "readj": "name",
+        "relative_to": "attribute",
+        "replace": "attribute",
+        "run": "name",
+        "shard_path": "name",
+        "subprocess.run": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "as_posix",
+        "canonical.replace",
+        "encode",
+        "git",
+        "make_repo",
+        "path.read_text",
+        "path.write_bytes",
+        "readj",
+        "relative_to",
+        "replace",
+        "run",
+        "shard_path",
+        "subprocess.run"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.git",
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.readj",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+      ],
+      "doc": "",
+      "end_line": 198,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 177,
+      "state_owner": "",
+      "symbol": "test_audit_seed_survives_clean_crlf_materialization_but_not_real_edit",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "glob",
+          "target": "glob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "old_shard.exists",
+          "target": "old_shard.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.read_text",
+          "target": "p.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rename",
+          "target": "rename"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "git",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.git"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.write"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "unlink",
+          "target": "unlink"
+        }
+      ],
+      "call_forms": {
+        "git": "name",
+        "glob": "attribute",
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "old_shard.exists": "attribute",
+        "p.read_text": "attribute",
+        "readj": "name",
+        "rename": "attribute",
+        "run": "name",
+        "shard_path": "name",
+        "unlink": "attribute",
+        "write": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "git",
+        "glob",
+        "json.loads",
+        "make_repo",
+        "old_shard.exists",
+        "p.read_text",
+        "readj",
+        "rename",
+        "run",
+        "shard_path",
+        "unlink",
+        "write"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.git",
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.readj",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path",
+        "tests.tooling.test_ai_repo_intelligence_v2.write"
+      ],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_rename_delete_and_stale_module_cleanup",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 200,
+      "state_owner": "",
+      "symbol": "test_rename_delete_and_stale_module_cleanup",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.write"
+        }
+      ],
+      "call_forms": {
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "read_text": "attribute",
+        "run": "name",
+        "shard_path": "name",
+        "write": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.loads",
+        "make_repo",
+        "read_text",
+        "run",
+        "shard_path",
+        "write"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path",
+        "tests.tooling.test_ai_repo_intelligence_v2.write"
+      ],
+      "doc": "",
+      "end_line": 229,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_malformed_source_nonfatal",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 222,
+      "state_owner": "",
+      "symbol": "test_malformed_source_nonfatal",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        }
+      ],
+      "call_forms": {
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "next": "name",
+        "read_text": "attribute",
+        "run": "name",
+        "shard_path": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.loads",
+        "make_repo",
+        "next",
+        "read_text",
+        "run",
+        "shard_path"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+      ],
+      "doc": "",
+      "end_line": 238,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_unknown_receiver_call_stays_unresolved",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 232,
+      "state_owner": "",
+      "symbol": "test_unknown_receiver_call_stays_unresolved",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "q.endswith",
+          "target": "q.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "q.endswith": "attribute",
+        "read_text": "attribute",
+        "run": "name",
+        "shard_path": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "any",
+        "json.loads",
+        "make_repo",
+        "q.endswith",
+        "read_text",
+        "run",
+        "shard_path"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+      ],
+      "doc": "",
+      "end_line": 246,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 241,
+      "state_owner": "",
+      "symbol": "test_generic_symbol_does_not_gain_unrelated_symbol_test_mapping",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        }
+      ],
+      "call_forms": {
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "run": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.loads",
+        "make_repo",
+        "run"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 256,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_module_test_mapping_excludes_support_and_instruction_files",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 250,
+      "state_owner": "",
+      "symbol": "test_module_test_mapping_excludes_support_and_instruction_files",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ctx.find",
+          "target": "ctx.find"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "q.lower",
+          "target": "q.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "shard_path",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+        }
+      ],
+      "call_forms": {
+        "ctx.find": "attribute",
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "next": "name",
+        "q.lower": "attribute",
+        "read_text": "attribute",
+        "run": "name",
+        "shard_path": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ctx.find",
+        "json.loads",
+        "make_repo",
+        "next",
+        "q.lower",
+        "read_text",
+        "run",
+        "shard_path"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.shard_path"
+      ],
+      "doc": "",
+      "end_line": 271,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_deterministic_context_queries_and_public_surface_ranking",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 258,
+      "state_owner": "",
+      "symbol": "test_deterministic_context_queries_and_public_surface_ranking",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.write"
+        }
+      ],
+      "call_forms": {
+        "make_repo": "name",
+        "run": "name",
+        "write": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "make_repo",
+        "run",
+        "write"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.write"
+      ],
+      "doc": "",
+      "end_line": 287,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_entry_point_routing_understands_natural_launch_language",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 275,
+      "state_owner": "",
+      "symbol": "test_entry_point_routing_understands_natural_launch_language",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cache.exists",
+          "target": "cache.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cache.write_bytes",
+          "target": "cache.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "concepts.read_text",
+          "target": "concepts.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "concepts.write_text",
+          "target": "concepts.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.setdefault",
+          "target": "data.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        }
+      ],
+      "call_forms": {
+        "cache.exists": "attribute",
+        "cache.write_bytes": "attribute",
+        "concepts.read_text": "attribute",
+        "concepts.write_text": "attribute",
+        "data.setdefault": "attribute",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "run": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "cache.exists",
+        "cache.write_bytes",
+        "concepts.read_text",
+        "concepts.write_text",
+        "data.setdefault",
+        "json.dumps",
+        "json.loads",
+        "make_repo",
+        "run"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 303,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 289,
+      "state_owner": "",
+      "symbol": "test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        }
+      ],
+      "call_forms": {
+        "make_repo": "name",
+        "run": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "make_repo",
+        "run"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 309,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_utf8_redirected_cli_output",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 306,
+      "state_owner": "",
+      "symbol": "test_utf8_redirected_cli_output",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "p.read_text",
+          "target": "p.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.write_text",
+          "target": "p.write_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "git",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.git"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "tree_hashes",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+        }
+      ],
+      "call_forms": {
+        "git": "name",
+        "make_repo": "name",
+        "p.read_text": "attribute",
+        "p.write_text": "attribute",
+        "run": "name",
+        "tree_hashes": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "git",
+        "make_repo",
+        "p.read_text",
+        "p.write_text",
+        "run",
+        "tree_hashes"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.git",
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run",
+        "tests.tooling.test_ai_repo_intelligence_v2.tree_hashes"
+      ],
+      "doc": "",
+      "end_line": 320,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_precommit_source_ai_commit_then_init_is_byte_stable",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 312,
+      "state_owner": "",
+      "symbol": "test_precommit_source_ai_commit_then_init_is_byte_stable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lstrip",
+          "target": "lstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nested.read_text",
+          "target": "nested.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "nested.write_text",
+          "target": "nested.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repaired.startswith",
+          "target": "repaired.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "readj",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.readj"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.split",
+          "target": "text.split"
+        }
+      ],
+      "call_forms": {
+        "lstrip": "attribute",
+        "make_repo": "name",
+        "nested.read_text": "attribute",
+        "nested.write_text": "attribute",
+        "readj": "name",
+        "repaired.startswith": "attribute",
+        "run": "name",
+        "str": "name",
+        "text.split": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "lstrip",
+        "make_repo",
+        "nested.read_text",
+        "nested.write_text",
+        "readj",
+        "repaired.startswith",
+        "run",
+        "str",
+        "text.split"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.readj",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 336,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_agent_guard_detects_and_repairs_all_agent_files",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "test_agent_guard_detects_and_repairs_all_agent_files",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "chained.exists",
+          "target": "chained.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "chained.read_text",
+          "target": "chained.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "existing.chmod",
+          "target": "existing.chmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "existing.read_text",
+          "target": "existing.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "existing.write_text",
+          "target": "existing.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        }
+      ],
+      "call_forms": {
+        "chained.exists": "attribute",
+        "chained.read_text": "attribute",
+        "existing.chmod": "attribute",
+        "existing.read_text": "attribute",
+        "existing.write_text": "attribute",
+        "make_repo": "name",
+        "run": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "chained.exists",
+        "chained.read_text",
+        "existing.chmod",
+        "existing.read_text",
+        "existing.write_text",
+        "make_repo",
+        "run",
+        "str"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 351,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_guard_install_hook_preserves_existing_hook",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 340,
+      "state_owner": "",
+      "symbol": "test_guard_install_hook_preserves_existing_hook",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 361,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_workflow_is_read_only_and_guarded",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 354,
+      "state_owner": "",
+      "symbol": "test_workflow_is_read_only_and_guarded",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "make_repo",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.make_repo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run",
+          "target": "tests.tooling.test_ai_repo_intelligence_v2.run"
+        }
+      ],
+      "call_forms": {
+        "json.loads": "attribute",
+        "make_repo": "name",
+        "run": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.loads",
+        "make_repo",
+        "run"
+      ],
+      "calls_resolved": [
+        "tests.tooling.test_ai_repo_intelligence_v2.make_repo",
+        "tests.tooling.test_ai_repo_intelligence_v2.run"
+      ],
+      "doc": "",
+      "end_line": 369,
+      "entry_point": false,
+      "file": "tests/tooling/test_ai_repo_intelligence_v2.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "pytest": "pytest",
+        "shutil": "shutil",
+        "subprocess": "subprocess",
+        "sys": "sys"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "pytest",
+        "shutil",
+        "subprocess",
+        "sys"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.tooling.test_ai_repo_intelligence_v2",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.tooling.test_ai_repo_intelligence_v2",
+      "qualname": "tests.tooling.test_ai_repo_intelligence_v2.test_repository_specific_semantic_benchmark",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 364,
+      "state_owner": "",
+      "symbol": "test_repository_specific_semantic_benchmark",
+      "tests": []
+    }
+  ]
+}

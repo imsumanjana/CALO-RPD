@@ -1,0 +1,381 @@
+{
+  "path": "calo_rpd_studio/power_system/case_identity.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_identity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_loader",
+        "__future__",
+        "functools",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_identity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_identity",
+      "qualname": "calo_rpd_studio.power_system.case_identity.PROTECTED_HOLDOUT_BUS_COUNTS",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "PROTECTED_HOLDOUT_BUS_COUNTS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checksum",
+          "target": "checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lru_cache",
+          "target": "lru_cache"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "checksum": "attribute",
+        "lower": "attribute",
+        "lru_cache": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment._problem_protected_identity",
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_identity"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "checksum",
+        "lower",
+        "lru_cache"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_identity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_loader",
+        "__future__",
+        "functools",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_identity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_identity",
+      "qualname": "calo_rpd_studio.power_system.case_identity.canonical_protected_holdout_checksums",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "()",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "canonical_protected_holdout_checksums",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PROTECTED_HOLDOUT_BUS_COUNTS.items",
+          "target": "PROTECTED_HOLDOUT_BUS_COUNTS.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "canonical_protected_holdout_checksums",
+          "target": "calo_rpd_studio.power_system.case_identity.canonical_protected_holdout_checksums"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.checksum",
+          "target": "case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "references.items",
+          "target": "references.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stem.lower",
+          "target": "stem.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "PROTECTED_HOLDOUT_BUS_COUNTS.items": "attribute",
+        "Path": "name",
+        "canonical_protected_holdout_checksums": "name",
+        "case.checksum": "attribute",
+        "int": "name",
+        "lower": "attribute",
+        "references.items": "attribute",
+        "stem.lower": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+        "tests.unit.test_v650_must_resolve.test_v64_n03_renamed_protected_case_is_detected_by_canonical_checksum"
+      ],
+      "calls": [
+        "CaseLoader.load",
+        "PROTECTED_HOLDOUT_BUS_COUNTS.items",
+        "Path",
+        "canonical_protected_holdout_checksums",
+        "case.checksum",
+        "int",
+        "lower",
+        "references.items",
+        "stem.lower",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_identity.canonical_protected_holdout_checksums",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "Return the protected canonical case name, or an empty string when not protected.",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_identity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_loader",
+        "__future__",
+        "functools",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_identity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_identity",
+      "qualname": "calo_rpd_studio.power_system.case_identity.protected_holdout_identity",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(source)",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "protected_holdout_identity",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "protected_holdout_identity",
+          "target": "calo_rpd_studio.power_system.case_identity.protected_holdout_identity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "protected_holdout_identity": "name",
+        "sorted": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_generalization_guard_core.TSHCALOGeneralizationGuardConfig.validate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingCampaignPlan.validate",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._train_policy_heterogeneous_impl",
+        "calo_rpd_studio.algorithms.calo.training._deployable_policy_payload",
+        "calo_rpd_studio.algorithms.calo.training._train_policy_impl",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation.TSHCALOComponentAblationPlan.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.ComponentAblationAuthority.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_inference.QualificationCandidateAuthority.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.ParameterStudyPlan.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_parameter_study.apply_parameter_assignment",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification.TSHCALOQualificationReceipt.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationPlan.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._verify_component_evidence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.TSHCALOTrainingConfig.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt.TSHCALOTrainingEpisodeReceipt.validate",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem"
+      ],
+      "calls": [
+        "protected_holdout_identity",
+        "sorted",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_identity.protected_holdout_identity"
+      ],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/case_identity.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "lru_cache": "functools.lru_cache"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_loader",
+        "__future__",
+        "functools",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.case_identity",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.case_identity",
+      "qualname": "calo_rpd_studio.power_system.case_identity.protected_holdout_matches",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(sources)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "protected_holdout_matches",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "path": "tests/unit/test_historical_policy_pretraining.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_repository_checksum",
+          "target": "calo_rpd_studio.learning.experience_repository._repository_checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "repository_path.write_text",
+          "target": "repository_path.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_repository_checksum": "name",
+        "json.dumps": "attribute",
+        "repository_path.write_text": "attribute",
+        "str": "name",
+        "torch.load": "attribute",
+        "train_policy": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_repository_checksum",
+        "json.dumps",
+        "repository_path.write_text",
+        "str",
+        "torch.load",
+        "train_policy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "calo_rpd_studio.learning.experience_repository._repository_checksum"
+      ],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "tests/unit/test_historical_policy_pretraining.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "REPOSITORY_SCHEMA_VERSION": "calo_rpd_studio.learning.experience_repository.REPOSITORY_SCHEMA_VERSION",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_repository_checksum": "calo_rpd_studio.learning.experience_repository._repository_checksum",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.learning.experience_repository",
+        "json",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_historical_policy_pretraining",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_historical_policy_pretraining",
+      "qualname": "tests.unit.test_historical_policy_pretraining.test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "test_historical_policy_pretraining_is_separate_from_fresh_ppo",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,1525 @@
+{
+  "path": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render.SCHEMA_VERSION",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "SCHEMA_VERSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "In-memory preferences so validation never mutates the user's desktop settings.",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_TransientSettings",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.values.get",
+          "target": "self.values.get"
+        }
+      ],
+      "call_forms": {
+        "self.values.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.values.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings.value",
+      "semantic_tags": [],
+      "signature": "(self, key, default)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings.set_value",
+      "semantic_tags": [],
+      "signature": "(self, key, value)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "set_value",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._sha256",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.append",
+          "target": "values.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.extend",
+          "target": "values.extend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.count",
+          "target": "widget.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.itemText",
+          "target": "widget.itemText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.placeholderText",
+          "target": "widget.placeholderText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.statusTip",
+          "target": "widget.statusTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.tabText",
+          "target": "widget.tabText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.text",
+          "target": "widget.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.title",
+          "target": "widget.title"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.toolTip",
+          "target": "widget.toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.whatsThis",
+          "target": "widget.whatsThis"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name",
+        "range": "name",
+        "tuple": "name",
+        "values.append": "attribute",
+        "values.extend": "attribute",
+        "widget.count": "attribute",
+        "widget.itemText": "attribute",
+        "widget.placeholderText": "attribute",
+        "widget.statusTip": "attribute",
+        "widget.tabText": "attribute",
+        "widget.text": "attribute",
+        "widget.title": "attribute",
+        "widget.toolTip": "attribute",
+        "widget.whatsThis": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render"
+      ],
+      "calls": [
+        "isinstance",
+        "range",
+        "tuple",
+        "values.append",
+        "values.extend",
+        "widget.count",
+        "widget.itemText",
+        "widget.placeholderText",
+        "widget.statusTip",
+        "widget.tabText",
+        "widget.text",
+        "widget.title",
+        "widget.toolTip",
+        "widget.whatsThis"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render._widget_text",
+      "semantic_tags": [],
+      "signature": "(widget)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_widget_text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication",
+          "target": "QApplication"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QApplication.instance",
+          "target": "QApplication.instance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QTest.qWait",
+          "target": "QTest.qWait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "application.platformName",
+          "target": "application.platformName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "application.processEvents",
+          "target": "application.processEvents"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button.isHidden",
+          "target": "button.isHidden"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentManager",
+          "target": "calo_rpd_studio.app.experiment_manager.ExperimentManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "MainWindow",
+          "target": "calo_rpd_studio.app.main_window.MainWindow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ensure_application_font",
+          "target": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "apply_theme",
+          "target": "calo_rpd_studio.gui.themes.theme_manager.apply_theme"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_TransientSettings",
+          "target": "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.scripts.validate_phase3_gui_render._sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_widget_text",
+          "target": "calo_rpd_studio.scripts.validate_phase3_gui_render._widget_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "character.isspace",
+          "target": "character.isspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "className",
+          "target": "className"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clipping.append",
+          "target": "clipping.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "compact_violations.append",
+          "target": "compact_violations.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failure_counts.items",
+          "target": "failure_counts.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "font_record.as_dict",
+          "target": "font_record.as_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hint.width",
+          "target": "hint.width"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inFontUcs4",
+          "target": "inFontUcs4"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lineSpacing",
+          "target": "lineSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "missing_glyphs.append",
+          "target": "missing_glyphs.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ord",
+          "target": "ord"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.mkdir",
+          "target": "output.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pixmap.isNull",
+          "target": "pixmap.isNull"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pixmap.save",
+          "target": "pixmap.save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "platform.platform",
+          "target": "platform.platform"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replacement_hits.append",
+          "target": "replacement_hits.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report_path.exists",
+          "target": "report_path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report_path.write_text",
+          "target": "report_path.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "runtime.mkdir",
+          "target": "runtime.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "screenshot.exists",
+          "target": "screenshot.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "screenshot.stat",
+          "target": "screenshot.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "settings.set_value",
+          "target": "settings.set_value"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.fontMetrics",
+          "target": "widget.fontMetrics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.height",
+          "target": "widget.height"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.isReadOnly",
+          "target": "widget.isReadOnly"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.isVisibleTo",
+          "target": "widget.isVisibleTo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.metaObject",
+          "target": "widget.metaObject"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.objectName",
+          "target": "widget.objectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.property",
+          "target": "widget.property"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.sizeHint",
+          "target": "widget.sizeHint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.width",
+          "target": "widget.width"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.wordWrap",
+          "target": "widget.wordWrap"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.close",
+          "target": "window.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.findChildren",
+          "target": "window.findChildren"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.grab",
+          "target": "window.grab"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.height",
+          "target": "window.height"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.resize",
+          "target": "window.resize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.show",
+          "target": "window.show"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.width",
+          "target": "window.width"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "ExperimentManager": "name",
+        "FileExistsError": "name",
+        "MainWindow": "name",
+        "Path": "name",
+        "QApplication": "name",
+        "QApplication.instance": "attribute",
+        "QTest.qWait": "attribute",
+        "RuntimeError": "name",
+        "_TransientSettings": "name",
+        "_sha256": "name",
+        "_widget_text": "name",
+        "application.platformName": "attribute",
+        "application.processEvents": "attribute",
+        "apply_theme": "name",
+        "bool": "name",
+        "button.isHidden": "attribute",
+        "character.isspace": "attribute",
+        "className": "attribute",
+        "clipping.append": "attribute",
+        "compact_violations.append": "attribute",
+        "ensure_application_font": "name",
+        "failure_counts.items": "attribute",
+        "float": "name",
+        "font_record.as_dict": "attribute",
+        "hint.width": "attribute",
+        "inFontUcs4": "attribute",
+        "int": "name",
+        "isinstance": "name",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "lineSpacing": "attribute",
+        "list": "name",
+        "missing_glyphs.append": "attribute",
+        "ord": "name",
+        "output.mkdir": "attribute",
+        "pixmap.isNull": "attribute",
+        "pixmap.save": "attribute",
+        "platform.platform": "attribute",
+        "replacement_hits.append": "attribute",
+        "report_path.exists": "attribute",
+        "report_path.write_text": "attribute",
+        "resolve": "attribute",
+        "runtime.mkdir": "attribute",
+        "screenshot.exists": "attribute",
+        "screenshot.stat": "attribute",
+        "set": "name",
+        "settings.set_value": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "sum": "name",
+        "widget.fontMetrics": "attribute",
+        "widget.height": "attribute",
+        "widget.isReadOnly": "attribute",
+        "widget.isVisibleTo": "attribute",
+        "widget.metaObject": "attribute",
+        "widget.objectName": "attribute",
+        "widget.property": "attribute",
+        "widget.sizeHint": "attribute",
+        "widget.width": "attribute",
+        "widget.wordWrap": "attribute",
+        "window.close": "attribute",
+        "window.findChildren": "attribute",
+        "window.grab": "attribute",
+        "window.height": "attribute",
+        "window.resize": "attribute",
+        "window.show": "attribute",
+        "window.width": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.main"
+      ],
+      "calls": [
+        "AppState",
+        "ExperimentManager",
+        "FileExistsError",
+        "MainWindow",
+        "Path",
+        "QApplication",
+        "QApplication.instance",
+        "QTest.qWait",
+        "RuntimeError",
+        "_TransientSettings",
+        "_sha256",
+        "_widget_text",
+        "application.platformName",
+        "application.processEvents",
+        "apply_theme",
+        "bool",
+        "button.isHidden",
+        "character.isspace",
+        "className",
+        "clipping.append",
+        "compact_violations.append",
+        "ensure_application_font",
+        "failure_counts.items",
+        "float",
+        "font_record.as_dict",
+        "hint.width",
+        "inFontUcs4",
+        "int",
+        "isinstance",
+        "join",
+        "json.dumps",
+        "len",
+        "lineSpacing",
+        "list",
+        "missing_glyphs.append",
+        "ord",
+        "output.mkdir",
+        "pixmap.isNull",
+        "pixmap.save",
+        "platform.platform",
+        "replacement_hits.append",
+        "report_path.exists",
+        "report_path.write_text",
+        "resolve",
+        "runtime.mkdir",
+        "screenshot.exists",
+        "screenshot.stat",
+        "set",
+        "settings.set_value",
+        "sorted",
+        "str",
+        "sum",
+        "widget.fontMetrics",
+        "widget.height",
+        "widget.isReadOnly",
+        "widget.isVisibleTo",
+        "widget.metaObject",
+        "widget.objectName",
+        "widget.property",
+        "widget.sizeHint",
+        "widget.width",
+        "widget.wordWrap",
+        "window.close",
+        "window.findChildren",
+        "window.grab",
+        "window.height",
+        "window.resize",
+        "window.show",
+        "window.width"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "calo_rpd_studio.app.main_window.MainWindow",
+        "calo_rpd_studio.app.state_manager.AppState",
+        "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render._TransientSettings",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render._sha256",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render._widget_text"
+      ],
+      "doc": "Render and audit one isolated theme, size, and scale combination.",
+      "end_line": 239,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render",
+      "semantic_tags": [],
+      "signature": "(output_directory, theme, width, height, scale_factor, qt_platform)",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "validate_render",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "command.add_argument",
+          "target": "command.add_argument"
+        }
+      ],
+      "call_forms": {
+        "argparse.ArgumentParser": "attribute",
+        "command.add_argument": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.main"
+      ],
+      "calls": [
+        "argparse.ArgumentParser",
+        "command.add_argument"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 255,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render.parser",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 242,
+      "state_owner": "",
+      "symbol": "parser",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "parser",
+          "target": "calo_rpd_studio.scripts.validate_phase3_gui_render.parser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_render",
+          "target": "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parse_args",
+          "target": "parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "json.dumps": "attribute",
+        "parse_args": "attribute",
+        "parser": "name",
+        "print": "name",
+        "validate_render": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "json.dumps",
+        "parse_args",
+        "parser",
+        "print",
+        "validate_render"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.parser",
+        "calo_rpd_studio.scripts.validate_phase3_gui_render.validate_render"
+      ],
+      "doc": "",
+      "end_line": 269,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/validate_phase3_gui_render.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentManager": "calo_rpd_studio.app.experiment_manager.ExperimentManager",
+        "MainWindow": "calo_rpd_studio.app.main_window.MainWindow",
+        "PYQT_VERSION_STR": "PyQt6.QtCore.PYQT_VERSION_STR",
+        "Path": "pathlib.Path",
+        "QAbstractButton": "PyQt6.QtWidgets.QAbstractButton",
+        "QAbstractSpinBox": "PyQt6.QtWidgets.QAbstractSpinBox",
+        "QApplication": "PyQt6.QtWidgets.QApplication",
+        "QComboBox": "PyQt6.QtWidgets.QComboBox",
+        "QGroupBox": "PyQt6.QtWidgets.QGroupBox",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QPlainTextEdit": "PyQt6.QtWidgets.QPlainTextEdit",
+        "QT_VERSION_STR": "PyQt6.QtCore.QT_VERSION_STR",
+        "QTabWidget": "PyQt6.QtWidgets.QTabWidget",
+        "QTest": "PyQt6.QtTest.QTest",
+        "QTextEdit": "PyQt6.QtWidgets.QTextEdit",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "WORKSPACE_GROUP_ORDER": "calo_rpd_studio.app.workspaces.WORKSPACE_GROUP_ORDER",
+        "WORKSPACE_KEYS": "calo_rpd_studio.app.workspaces.WORKSPACE_KEYS",
+        "annotations": "__future__.annotations",
+        "apply_theme": "calo_rpd_studio.gui.themes.theme_manager.apply_theme",
+        "argparse": "argparse",
+        "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "platform": "platform"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtTest",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.app.experiment_manager",
+        "calo_rpd_studio.app.main_window",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.app.workspaces",
+        "calo_rpd_studio.gui.themes.runtime_fonts",
+        "calo_rpd_studio.gui.themes.theme_manager",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "platform"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.validate_phase3_gui_render",
+      "qualname": "calo_rpd_studio.scripts.validate_phase3_gui_render.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 258,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

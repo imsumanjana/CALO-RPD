@@ -1,0 +1,768 @@
+{
+  "path": "calo_rpd_studio/scripts/container_smoke.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/container_smoke.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.container_smoke",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.container_smoke",
+      "qualname": "calo_rpd_studio.scripts.container_smoke._POLICY_ARTIFACT_SUFFIXES",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "_POLICY_ARTIFACT_SUFFIXES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        }
+      ],
+      "call_forms": {
+        "enumerate": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope"
+      ],
+      "calls": [
+        "enumerate"
+      ],
+      "calls_resolved": [],
+      "doc": "Allow packaged application validators while rejecting local evidence directories.",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/container_smoke.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.container_smoke",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.container_smoke",
+      "qualname": "calo_rpd_studio.scripts.container_smoke._contains_local_validation_content",
+      "semantic_tags": [],
+      "signature": "(parts)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "_contains_local_validation_content",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_contains_local_validation_content",
+          "target": "calo_rpd_studio.scripts.container_smoke._contains_local_validation_content"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "endswith",
+          "target": "endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "forbidden.append",
+          "target": "forbidden.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lowered.endswith",
+          "target": "lowered.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "part.casefold",
+          "target": "part.casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "part.endswith",
+          "target": "part.endswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.lower",
+          "target": "path.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "replace",
+          "target": "replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "_contains_local_validation_content": "name",
+        "any": "name",
+        "encode": "attribute",
+        "endswith": "attribute",
+        "forbidden.append": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "item.get": "attribute",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "lowered.endswith": "attribute",
+        "part.casefold": "attribute",
+        "part.endswith": "attribute",
+        "path.lower": "attribute",
+        "replace": "attribute",
+        "sorted": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.container_smoke.main",
+        "tests.unit.test_container_contract.test_container_image_manifest_rejects_policy_training_and_validation_artifacts"
+      ],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "_contains_local_validation_content",
+        "any",
+        "encode",
+        "endswith",
+        "forbidden.append",
+        "hashlib.sha256",
+        "hexdigest",
+        "item.get",
+        "join",
+        "json.dumps",
+        "len",
+        "lowered.endswith",
+        "part.casefold",
+        "part.endswith",
+        "path.lower",
+        "replace",
+        "sorted",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.container_smoke._contains_local_validation_content"
+      ],
+      "doc": "Fail closed if the built image contains policy, training, or validation artifacts.",
+      "end_line": 82,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/container_smoke.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.container_smoke",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.container_smoke",
+      "qualname": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+      "semantic_tags": [],
+      "signature": "(manifest)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "_verify_image_release_scope",
+      "tests": [
+        "tests/unit/test_container_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probe.unlink",
+          "target": "probe.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "probe.write_text",
+          "target": "probe.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "statvfs",
+          "target": "statvfs"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "callable": "name",
+        "getattr": "name",
+        "int": "name",
+        "probe.unlink": "attribute",
+        "probe.write_text": "attribute",
+        "statvfs": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.container_smoke.main"
+      ],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "callable",
+        "getattr",
+        "int",
+        "probe.unlink",
+        "probe.write_text",
+        "statvfs"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/container_smoke.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.container_smoke",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.container_smoke",
+      "qualname": "calo_rpd_studio.scripts.container_smoke._assert_root_filesystem_is_read_only",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "_assert_root_filesystem_is_read_only",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_assert_root_filesystem_is_read_only",
+          "target": "calo_rpd_studio.scripts.container_smoke._assert_root_filesystem_is_read_only"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_verify_image_release_scope",
+          "target": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "write_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data_root.mkdir",
+          "target": "data_root.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_experiment",
+          "target": "database.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get_effective_uid",
+          "target": "get_effective_uid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest_path.read_text",
+          "target": "manifest_path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.environ.get",
+          "target": "os.environ.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_identity.to_dict",
+          "target": "source_identity.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tempfile.TemporaryDirectory",
+          "target": "tempfile.TemporaryDirectory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "Path": "name",
+        "ResultDatabase": "name",
+        "RuntimeError": "name",
+        "_assert_root_filesystem_is_read_only": "name",
+        "_verify_image_release_scope": "name",
+        "argparse.ArgumentParser": "attribute",
+        "bool": "name",
+        "callable": "name",
+        "data_root.mkdir": "attribute",
+        "database.create_experiment": "attribute",
+        "database.get_experiment": "attribute",
+        "get_effective_uid": "name",
+        "getattr": "name",
+        "int": "name",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "lower": "attribute",
+        "manifest_path.read_text": "attribute",
+        "os.environ.get": "attribute",
+        "parser.add_argument": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "resolve": "attribute",
+        "resolve_source_identity": "name",
+        "source_identity.to_dict": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "tempfile.TemporaryDirectory": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "write_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "Path",
+        "ResultDatabase",
+        "RuntimeError",
+        "_assert_root_filesystem_is_read_only",
+        "_verify_image_release_scope",
+        "argparse.ArgumentParser",
+        "bool",
+        "callable",
+        "data_root.mkdir",
+        "database.create_experiment",
+        "database.get_experiment",
+        "get_effective_uid",
+        "getattr",
+        "int",
+        "json.dumps",
+        "json.loads",
+        "lower",
+        "manifest_path.read_text",
+        "os.environ.get",
+        "parser.add_argument",
+        "parser.parse_args",
+        "print",
+        "resolve",
+        "resolve_source_identity",
+        "source_identity.to_dict",
+        "str",
+        "strip",
+        "tempfile.TemporaryDirectory",
+        "torch.cuda.is_available",
+        "write_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.scripts.container_smoke._assert_root_filesystem_is_read_only",
+        "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      ],
+      "doc": "",
+      "end_line": 157,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/container_smoke.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DATABASE_SCHEMA_VERSION": "calo_rpd_studio.results.database.DATABASE_SCHEMA_VERSION",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "tempfile": "tempfile",
+        "torch": "torch",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "tempfile",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.container_smoke",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.container_smoke",
+      "qualname": "calo_rpd_studio.scripts.container_smoke.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

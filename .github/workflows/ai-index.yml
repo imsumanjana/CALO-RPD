@@ -8,6 +8,11 @@ on:
       - "tests/**"
       - "tools/**"
       - "scripts/ai-index*"
+      - "scripts/ai-agent-guard.py"
+      - "AGENT.md"
+      - "AGENTS.md"
+      - "**/AGENT.md"
+      - "**/AGENTS.md"
       - "pyproject.toml"
       - "Dockerfile"
       - "compose.yaml"
@@ -20,6 +25,11 @@ on:
       - "tests/**"
       - "tools/**"
       - "scripts/ai-index*"
+      - "scripts/ai-agent-guard.py"
+      - "AGENT.md"
+      - "AGENTS.md"
+      - "**/AGENT.md"
+      - "**/AGENTS.md"
       - "pyproject.toml"
       - "Dockerfile"
       - "compose.yaml"
@@ -36,7 +46,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Verify committed AI index
+    name: Verify repository intelligence
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -44,5 +54,17 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Verify source hashes and index integrity
-        run: python tools/ai_repo_intelligence.py check
+      - name: Verify protected agent policy
+        run: python scripts/ai-agent-guard.py --check
+      - name: Verify committed intelligence freshness
+        run: python scripts/ai-index guard --no-semantic
+      - name: Verify deterministic regeneration is byte-stable
+        run: |
+          python scripts/ai-index init
+          git diff --exit-code -- .ai
+      - name: Verify optional concept retrieval benchmark
+        env:
+          AI_INDEX_EMBEDDING_PROVIDER: concept
+        run: |
+          python scripts/ai-index embeddings update
+          python scripts/ai-index embeddings benchmark --check

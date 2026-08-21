@@ -1,0 +1,59 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:99cdb8b90d34108d07c7d9a7458921b924beb2f0",
+    "content_sha256": "5c0f0d7285b730fff881189566a55f3580799f713550bae8ae26e65ec3d6fe32",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "DARK_STYLESHEET": "calo_rpd_studio.gui.themes.dark.DARK_STYLESHEET",
+      "DARK_TOKENS": "calo_rpd_studio.gui.themes.tokens.DARK_TOKENS",
+      "LIGHT_STYLESHEET": "calo_rpd_studio.gui.themes.light.LIGHT_STYLESHEET",
+      "LIGHT_TOKENS": "calo_rpd_studio.gui.themes.tokens.LIGHT_TOKENS",
+      "ModernSpinBoxStyle": "calo_rpd_studio.gui.themes.modern_spin_style.ModernSpinBoxStyle",
+      "QApplication": "PyQt6.QtWidgets.QApplication",
+      "QColor": "PyQt6.QtGui.QColor",
+      "QPalette": "PyQt6.QtGui.QPalette",
+      "annotations": "__future__.annotations",
+      "ensure_application_font": "calo_rpd_studio.gui.themes.runtime_fonts.ensure_application_font"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".dark",
+      ".light",
+      ".modern_spin_style",
+      ".runtime_fonts",
+      ".tokens",
+      "PyQt6.QtGui",
+      "PyQt6.QtWidgets",
+      "__future__"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/gui/themes/theme_manager.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 3993,
+    "state_owner": "",
+    "symbol_count": 4
+  },
+  "path": "calo_rpd_studio/gui/themes/theme_manager.py",
+  "schema_version": 2
+}

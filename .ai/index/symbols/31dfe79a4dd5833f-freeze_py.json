@@ -1,0 +1,1037 @@
+{
+  "path": "calo_rpd_studio/benchmarking/freeze.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.FREEZE_SCHEMA_VERSION",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "FREEZE_SCHEMA_VERSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 171,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.DEFAULT_FREEZE_RELATIVE_PATHS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "DEFAULT_FREEZE_RELATIVE_PATHS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 198,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.FreezeVerification",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 175,
+      "state_owner": "",
+      "symbol": "FreezeVerification",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        }
+      ],
+      "call_forms": {
+        "list": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "list"
+      ],
+      "calls_resolved": [],
+      "doc": "Return all diagnostic categories for machine-readable release tooling.",
+      "end_line": 198,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze.FreezeVerification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.FreezeVerification.to_dict",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 186,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 206,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze._sha256",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(path)",
+      "start_line": 201,
+      "state_owner": "",
+      "symbol": "_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "clean.pop",
+          "target": "clean.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "clean.pop": "attribute",
+        "dict": "name",
+        "encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "calls": [
+        "clean.pop",
+        "dict",
+        "encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 213,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze._canonical_json_hash",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(payload)",
+      "start_line": 209,
+      "state_owner": "",
+      "symbol": "_canonical_json_hash",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+        "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest"
+      ],
+      "calls": [
+        "Path",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 217,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.project_root_from_module",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "()",
+      "start_line": 216,
+      "state_owner": "",
+      "symbol": "project_root_from_module",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileNotFoundError",
+          "target": "FileNotFoundError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_json_hash",
+          "target": "calo_rpd_studio.benchmarking.freeze._canonical_json_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.benchmarking.freeze._sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "project_root_from_module",
+          "target": "calo_rpd_studio.benchmarking.freeze.project_root_from_module"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "missing.append",
+          "target": "missing.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.stat",
+          "target": "path.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.resolve",
+          "target": "root.resolve"
+        }
+      ],
+      "call_forms": {
+        "FileNotFoundError": "name",
+        "Path": "name",
+        "_canonical_json_hash": "name",
+        "_sha256": "name",
+        "datetime.now": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "destination.write_text": "attribute",
+        "isoformat": "attribute",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "missing.append": "attribute",
+        "path.is_file": "attribute",
+        "path.stat": "attribute",
+        "project_root_from_module": "name",
+        "root.resolve": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase1_contracts.test_freeze_diagnostics_report_all_categories_in_text_and_json",
+        "tests.unit.test_v2_benchmarking.test_freeze_manifest_captures_scope",
+        "tests.unit.test_v2_benchmarking.test_freeze_manifest_detects_frozen_source_change"
+      ],
+      "calls": [
+        "FileNotFoundError",
+        "Path",
+        "_canonical_json_hash",
+        "_sha256",
+        "datetime.now",
+        "destination.parent.mkdir",
+        "destination.write_text",
+        "isoformat",
+        "join",
+        "json.dumps",
+        "missing.append",
+        "path.is_file",
+        "path.stat",
+        "project_root_from_module",
+        "root.resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze._canonical_json_hash",
+        "calo_rpd_studio.benchmarking.freeze._sha256",
+        "calo_rpd_studio.benchmarking.freeze.project_root_from_module"
+      ],
+      "doc": "",
+      "end_line": 468,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.create_freeze_manifest",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(destination, project_root, relative_paths, software_version, note)",
+      "start_line": 220,
+      "state_owner": "",
+      "symbol": "create_freeze_manifest",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py",
+        "tests/unit/test_v2_benchmarking.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "FreezeVerification",
+          "target": "calo_rpd_studio.benchmarking.freeze.FreezeVerification"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_json_hash",
+          "target": "calo_rpd_studio.benchmarking.freeze._canonical_json_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256",
+          "target": "calo_rpd_studio.benchmarking.freeze._sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "project_root_from_module",
+          "target": "calo_rpd_studio.benchmarking.freeze.project_root_from_module"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "changed.append",
+          "target": "changed.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "extra.append",
+          "target": "extra.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "files.items",
+          "target": "files.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.is_file",
+          "target": "manifest.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest.read_text",
+          "target": "manifest.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "meta.get",
+          "target": "meta.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "missing.append",
+          "target": "missing.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative_path.is_absolute",
+          "target": "relative_path.is_absolute"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.resolve",
+          "target": "root.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "FreezeVerification": "name",
+        "Path": "name",
+        "_canonical_json_hash": "name",
+        "_sha256": "name",
+        "bool": "name",
+        "changed.append": "attribute",
+        "extra.append": "attribute",
+        "files.items": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "len": "name",
+        "manifest.is_file": "attribute",
+        "manifest.read_text": "attribute",
+        "meta.get": "attribute",
+        "missing.append": "attribute",
+        "path.is_file": "attribute",
+        "payload.get": "attribute",
+        "project_root_from_module": "name",
+        "relative_path.is_absolute": "attribute",
+        "root.resolve": "attribute",
+        "str": "name",
+        "tuple": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.BenchmarkCampaignConfig.validate",
+        "calo_rpd_studio.benchmarking.package.ScientificEvidencePackageBuilder.build",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel._start_next_task",
+        "calo_rpd_studio.gui.panels.benchmark_campaign_panel.BenchmarkCampaignPanel.verify_freeze",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "tests.unit.test_v120_phase1_contracts.test_freeze_diagnostics_report_all_categories_in_text_and_json",
+        "tests.unit.test_v2_benchmarking.test_freeze_manifest_detects_frozen_source_change",
+        "tests.unit.test_v541_release_integrity.test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+        "tests.unit.test_v560_release_integrity.test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+        "tests.unit.test_v570_release_integrity.test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy",
+        "tests.unit.test_v600_release_integrity.test_v600a4_freeze_verifies_and_covers_alpha_architecture",
+        "tests.unit.test_v610_release_integrity.test_v610_freeze_verifies_and_covers_beta_architecture",
+        "tests.unit.test_v620_release_integrity.test_v620_freeze_verifies_and_covers_rc_final_architecture",
+        "tests.unit.test_v621_release_integrity.test_v621_freeze_verifies_and_covers_rc_final_architecture",
+        "tests.unit.test_v630_release_integrity.test_v630_freeze_verifies_and_covers_stage_a_reporting_contract",
+        "tests.unit.test_v640_release_integrity.test_v640_freeze_verifies_and_covers_stage_b_science",
+        "tests.unit.test_v650_release_integrity.test_v650_freeze_verifies_and_covers_must_resolve_science",
+        "tests.unit.test_v660_release_integrity.test_v660_freeze_verifies_and_covers_remaining_audit_scope",
+        "tests.unit.test_v670_release_integrity.test_v670_freeze_verifies_hardware_runtime_scope",
+        "tests.unit.test_v680_release_integrity.test_v680_freeze_verifies_new_scope",
+        "tests.unit.test_v690_release_integrity.test_v690_freeze_verifies_vram_residency_scope"
+      ],
+      "calls": [
+        "FreezeVerification",
+        "Path",
+        "_canonical_json_hash",
+        "_sha256",
+        "bool",
+        "changed.append",
+        "extra.append",
+        "files.items",
+        "isinstance",
+        "json.loads",
+        "len",
+        "manifest.is_file",
+        "manifest.read_text",
+        "meta.get",
+        "missing.append",
+        "path.is_file",
+        "payload.get",
+        "project_root_from_module",
+        "relative_path.is_absolute",
+        "root.resolve",
+        "str",
+        "tuple",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.benchmarking.freeze.FreezeVerification",
+        "calo_rpd_studio.benchmarking.freeze._canonical_json_hash",
+        "calo_rpd_studio.benchmarking.freeze._sha256",
+        "calo_rpd_studio.benchmarking.freeze.project_root_from_module"
+      ],
+      "doc": "",
+      "end_line": 557,
+      "entry_point": false,
+      "file": "calo_rpd_studio/benchmarking/freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Iterable": "typing.Iterable",
+        "Path": "pathlib.Path",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "VERSION": "calo_rpd_studio.version.VERSION",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.version",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.benchmarking.freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.benchmarking.freeze",
+      "qualname": "calo_rpd_studio.benchmarking.freeze.verify_freeze_manifest",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(manifest_path, project_root)",
+      "start_line": 471,
+      "state_owner": "",
+      "symbol": "verify_freeze_manifest",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py",
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v541_release_integrity.py",
+        "tests/unit/test_v560_release_integrity.py",
+        "tests/unit/test_v570_release_integrity.py",
+        "tests/unit/test_v600_release_integrity.py",
+        "tests/unit/test_v610_release_integrity.py",
+        "tests/unit/test_v620_release_integrity.py",
+        "tests/unit/test_v621_release_integrity.py",
+        "tests/unit/test_v630_release_integrity.py",
+        "tests/unit/test_v640_release_integrity.py",
+        "tests/unit/test_v650_release_integrity.py",
+        "tests/unit/test_v660_release_integrity.py",
+        "tests/unit/test_v670_release_integrity.py",
+        "tests/unit/test_v680_release_integrity.py",
+        "tests/unit/test_v690_release_integrity.py"
+      ]
+    }
+  ]
+}

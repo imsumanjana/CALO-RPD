@@ -1,0 +1,357 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/device.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/accelerated/parity_audit.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/memory_budget.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/source_identity.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    }
+  ],
+  "path": "calo_rpd_studio/scripts/validate_accelerator.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._cuda_peak_residency_evidence",
+      "to": "bool"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._cuda_peak_residency_evidence",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._cuda_peak_residency_evidence",
+      "to": "max"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._git_source_identity",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._json_safe"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "math.isfinite"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "math.isnan"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._json_safe",
+      "to": "value.items"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "cpu_admission.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "cuda_admission.to_dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "getattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "platform.platform"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "psutil.virtual_memory"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "selected.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.device_count"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.get_device_name"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.get_device_properties"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.mem_get_info"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.memory_allocated"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.cuda.memory_reserved"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot",
+      "to": "torch.device"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+      "to": "datetime.now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._utc_now",
+      "to": "isoformat"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "FileExistsError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._json_safe"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "destination.exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "ValueError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "argparse.ArgumentParser"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "args.run_id.strip"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.accelerated.device.resolve_device"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.accelerated.parity_audit.run_configuration_parity_audit"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.compute.source_identity.resolve_evidence_source_identity"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._cuda_peak_residency_evidence"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._json_safe"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._runtime_snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._utc_now"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "calo_rpd_studio.scripts.validate_accelerator._write_new_evidence"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "cuda_peak.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "parser.add_argument"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "parser.parse_args"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "print"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "report.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "resolved.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "resolved_before.startswith"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.cuda.is_available"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.cuda.max_memory_allocated"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.cuda.max_memory_reserved"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.cuda.reset_peak_memory_stats"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.cuda.synchronize"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.scripts.validate_accelerator.main",
+      "to": "torch.device"
+    }
+  ]
+}

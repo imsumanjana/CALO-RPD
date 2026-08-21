@@ -1,0 +1,277 @@
+{
+  "path": "tests/unit/test_artifact_manifest.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "write_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mkdir",
+          "target": "mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.read_text",
+          "target": "output.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_bytes",
+          "target": "write_bytes"
+        }
+      ],
+      "call_forms": {
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.loads": "attribute",
+        "len": "name",
+        "mkdir": "attribute",
+        "output.read_text": "attribute",
+        "write_bytes": "attribute",
+        "write_manifest": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "hashlib.sha256",
+        "hexdigest",
+        "json.loads",
+        "len",
+        "mkdir",
+        "output.read_text",
+        "write_bytes",
+        "write_manifest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      ],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "tests/unit/test_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SCHEMA": "calo_rpd_studio.scripts.generate_artifact_manifest.SCHEMA",
+        "annotations": "__future__.annotations",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_artifact_manifest",
+      "qualname": "tests.unit.test_artifact_manifest.test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "test_staged_manifest_is_sorted_hashed_and_self_excluding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "build_manifest": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "build_manifest",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SCHEMA": "calo_rpd_studio.scripts.generate_artifact_manifest.SCHEMA",
+        "annotations": "__future__.annotations",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_artifact_manifest",
+      "qualname": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_empty_stage",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "test_staged_manifest_rejects_empty_stage",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_manifest",
+          "target": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "link.symlink_to",
+          "target": "link.symlink_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.skip",
+          "target": "pytest.skip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stage.mkdir",
+          "target": "stage.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.write_text",
+          "target": "target.write_text"
+        }
+      ],
+      "call_forms": {
+        "build_manifest": "name",
+        "link.symlink_to": "attribute",
+        "pytest.raises": "attribute",
+        "pytest.skip": "attribute",
+        "stage.mkdir": "attribute",
+        "target.write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "build_manifest",
+        "link.symlink_to",
+        "pytest.raises",
+        "pytest.skip",
+        "stage.mkdir",
+        "target.write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest"
+      ],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "tests/unit/test_artifact_manifest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "SCHEMA": "calo_rpd_studio.scripts.generate_artifact_manifest.SCHEMA",
+        "annotations": "__future__.annotations",
+        "build_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.build_manifest",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest",
+        "write_manifest": "calo_rpd_studio.scripts.generate_artifact_manifest.write_manifest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.generate_artifact_manifest",
+        "hashlib",
+        "json",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_artifact_manifest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_artifact_manifest",
+      "qualname": "tests.unit.test_artifact_manifest.test_staged_manifest_rejects_symbolic_links_when_supported",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "test_staged_manifest_rejects_symbolic_links_when_supported",
+      "tests": []
+    }
+  ]
+}

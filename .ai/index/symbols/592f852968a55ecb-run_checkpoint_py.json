@@ -1,0 +1,248 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 9,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "durable_trusted_torch_save": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "load_trusted_resume": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint.FORMAT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "FORMAT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "durable_trusted_torch_save",
+          "target": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "destination.parent.mkdir": "attribute",
+        "dict": "name",
+        "durable_trusted_torch_save": "name",
+        "expanduser": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._save_run_checkpoint",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer._save_checkpoint",
+        "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar"
+      ],
+      "calls": [
+        "Path",
+        "destination.parent.mkdir",
+        "dict",
+        "durable_trusted_torch_save",
+        "expanduser",
+        "resolve"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.durable_trusted_torch_save"
+      ],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "durable_trusted_torch_save": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "load_trusted_resume": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint.save_exact_run_checkpoint",
+      "semantic_tags": [],
+      "signature": "(path, payload)",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "save_exact_run_checkpoint",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_trusted_resume",
+          "target": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "expanduser": "attribute",
+        "load_trusted_resume": "name",
+        "payload.get": "attribute",
+        "resolve": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "tests.unit.test_v650_must_resolve.test_m32_exact_resume_is_self_authenticating_even_without_external_sidecar"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "expanduser",
+        "load_trusted_resume",
+        "payload.get",
+        "resolve",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.load_trusted_resume"
+      ],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "annotations": "__future__.annotations",
+        "durable_trusted_torch_save": "calo_rpd_studio.ai.model_io.durable_trusted_torch_save",
+        "load_trusted_resume": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.run_checkpoint",
+      "qualname": "calo_rpd_studio.algorithms.calo.run_checkpoint.load_exact_run_checkpoint",
+      "semantic_tags": [],
+      "signature": "(path)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "load_exact_run_checkpoint",
+      "tests": [
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2306 @@
+{
+  "path": "calo_rpd_studio/orpd/variable_decoder.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.FORMULATION_PROFILE_VERSION",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "FORMULATION_PROFILE_VERSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.relaxed_control_derivatives"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Declared normalized-to-physical slope for proposal-only local sensitivity.",
+      "end_line": 47,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.RelaxedControlDerivative",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "RelaxedControlDerivative",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.orpd.external_profile.load_reviewed_orpd_profile",
+        "calo_rpd_studio.orpd.variable_decoder.default_shunt_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile._profile"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Declared controllable shunt in MVAr at 1 p.u.",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 51,
+      "state_owner": "",
+      "symbol": "ShuntControlDefinition",
+      "tests": [
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "all": "name",
+        "float": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "all",
+        "float",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "calo_rpd_studio.orpd.external_profile.ReviewedORPDProfile.validate",
+        "calo_rpd_studio.orpd.external_profile.variable_config_from_reviewed_profile",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+        "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+        "tests.unit.test_mathematical_reference._all_discrete_problem",
+        "tests.unit.test_orpd_counted_evaluation_context.test_case30_analytic_control_sensitivity_matches_power_flow_finite_difference",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state",
+        "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+        "tests.unit.test_v590_scientific_closure.test_variable_config_fails_fast_for_invalid_tap_science",
+        "tests.unit.test_v660_remaining_audit.test_c02_reusable_decoder_reuses_workspace_without_stale_controls"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "ORPDVariableConfig",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_mathematical_reference.py",
+        "tests/unit/test_orpd_counted_evaluation_context.py",
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "TypeError": "name",
+        "any": "name",
+        "int": "name",
+        "isinstance": "name",
+        "self.validate": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TypeError",
+        "any",
+        "int",
+        "isinstance",
+        "self.validate",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig.validate"
+      ],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig.__post_init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 93,
+      "state_owner": "",
+      "symbol": "__post_init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control.validate",
+          "target": "control.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen.add",
+          "target": "seen.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "TypeError": "name",
+        "ValueError": "name",
+        "any": "name",
+        "control.validate": "attribute",
+        "float": "name",
+        "int": "name",
+        "isinstance": "name",
+        "len": "name",
+        "math.isfinite": "attribute",
+        "seen.add": "attribute",
+        "set": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig.__post_init__"
+      ],
+      "calls": [
+        "TypeError",
+        "ValueError",
+        "any",
+        "control.validate",
+        "float",
+        "int",
+        "isinstance",
+        "len",
+        "math.isfinite",
+        "seen.add",
+        "set",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 147,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig.validate",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 117,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.default_shunt_controls"
+      ],
+      "calls": [
+        "float",
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder._case_bus_bs",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 150,
+      "state_owner": "",
+      "symbol": "_case_bus_bs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShuntControlDefinition",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_case_bus_bs",
+          "target": "calo_rpd_studio.orpd.variable_decoder._case_bus_bs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "ShuntControlDefinition": "name",
+        "_case_bus_bs": "name",
+        "astype": "attribute",
+        "max": "name",
+        "set": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.__init__"
+      ],
+      "calls": [
+        "ShuntControlDefinition",
+        "_case_bus_bs",
+        "astype",
+        "max",
+        "set",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "calo_rpd_studio.orpd.variable_decoder._case_bus_bs"
+      ],
+      "doc": "Return explicit, sign-safe controls for bundled IEEE cases.",
+      "end_line": 206,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.default_shunt_controls",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case)",
+      "start_line": 154,
+      "state_owner": "",
+      "symbol": "default_shunt_controls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.benchmarking.campaign.write_campaign_plan",
+        "calo_rpd_studio.orpd.problem.ORPDProblem.__init__",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path._build_policy_state",
+        "calo_rpd_studio.scripts.validate_tsh_calo_device_equivalence._build_policy_state",
+        "tests.scientific.test_v34_scientific_integrity.test_all_publication_cases_have_explicit_formulation_manifest_and_converged_base",
+        "tests.scientific.test_v34_scientific_integrity.test_case118_fixed_reactors_are_preserved_by_zero_and_mid_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_is_checksum_bound_and_selects_only_declared_controls",
+        "tests.unit.test_pglib_import_and_reviewed_orpd_profile.test_reviewed_profile_preserves_protected_case_boundary",
+        "tests.unit.test_tsh_calo_hierarchical_policy._policy_state",
+        "tests.unit.test_tsh_calo_independent_training._state",
+        "tests.unit.test_tsh_calo_inference._state",
+        "tests.unit.test_tsh_calo_topology_context.test_prepared_policy_state_is_numerically_identical_without_reupload",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_builder_uses_only_an_already_computed_power_flow",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology",
+        "tests.unit.test_tsh_calo_topology_context.test_topology_encoder_is_invariant_to_bus_edge_control_and_scenario_order",
+        "tests.unit.test_tsh_calo_uncertainty_shield._state",
+        "tests.unit.test_v590_scientific_closure.test_generator_voltage_controls_exclude_pq_bus_generators",
+        "tests.unit.test_v660_remaining_audit.test_c02_reusable_decoder_reuses_workspace_without_stale_controls"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 470,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "class",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 209,
+      "state_owner": "",
+      "symbol": "ORPDVariableDecoder",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_pglib_import_and_reviewed_orpd_profile.py",
+        "tests/unit/test_tsh_calo_hierarchical_policy.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_topology_context.py",
+        "tests/unit/test_tsh_calo_uncertainty_shield.py",
+        "tests/unit/test_v590_scientific_closure.py",
+        "tests/unit/test_v660_remaining_audit.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "DecisionVariable",
+          "target": "calo_rpd_studio.orpd.decision_variables.DecisionVariable"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "stepped_values",
+          "target": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "default_shunt_controls",
+          "target": "calo_rpd_studio.orpd.variable_decoder.default_shunt_controls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case.bus_index_map",
+          "target": "case.bus_index_map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "control.validate",
+          "target": "control.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "declared.difference",
+          "target": "declared.difference"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "declared_voltage_buses.difference",
+          "target": "declared_voltage_buses.difference"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen.add",
+          "target": "seen.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen_buses.add",
+          "target": "seen_buses.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._actions.append",
+          "target": "self._actions.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._shunt_definitions.append",
+          "target": "self._shunt_definitions.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.variables.append",
+          "target": "self.variables.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.local",
+          "target": "threading.local"
+        }
+      ],
+      "call_forms": {
+        "DecisionVariable": "name",
+        "ValueError": "name",
+        "astype": "attribute",
+        "case.bus_index_map": "attribute",
+        "control.validate": "attribute",
+        "declared.difference": "attribute",
+        "declared_voltage_buses.difference": "attribute",
+        "default_shunt_controls": "name",
+        "dict": "name",
+        "float": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "np.where": "attribute",
+        "seen.add": "attribute",
+        "seen_buses.add": "attribute",
+        "self._actions.append": "attribute",
+        "self._shunt_definitions.append": "attribute",
+        "self.variables.append": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "stepped_values": "name",
+        "threading.local": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "DecisionVariable",
+        "ValueError",
+        "astype",
+        "case.bus_index_map",
+        "control.validate",
+        "declared.difference",
+        "declared_voltage_buses.difference",
+        "default_shunt_controls",
+        "dict",
+        "float",
+        "int",
+        "np.asarray",
+        "np.where",
+        "seen.add",
+        "seen_buses.add",
+        "self._actions.append",
+        "self._shunt_definitions.append",
+        "self.variables.append",
+        "set",
+        "sorted",
+        "stepped_values",
+        "threading.local"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "calo_rpd_studio.orpd.variable_decoder.default_shunt_controls"
+      ],
+      "doc": "",
+      "end_line": 343,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.__init__",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, case, config)",
+      "start_line": 210,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        }
+      ],
+      "call_forms": {
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "len"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 347,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.dimension",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 346,
+      "state_owner": "",
+      "symbol": "dimension",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "RelaxedControlDerivative",
+          "target": "calo_rpd_studio.orpd.variable_decoder.RelaxedControlDerivative"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "RelaxedControlDerivative": "name",
+        "float": "name",
+        "int": "name",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "RelaxedControlDerivative",
+        "float",
+        "int",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.RelaxedControlDerivative"
+      ],
+      "doc": "Expose a version-stable relaxed slope; final candidates still snap to their lattice.",
+      "end_line": 355,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.relaxed_control_derivatives",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 349,
+      "state_owner": "",
+      "symbol": "relaxed_control_derivatives",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "decode_continuous",
+          "target": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "decode_discrete",
+          "target": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "decode_continuous": "name",
+        "decode_discrete": "name",
+        "int": "name",
+        "np.asarray": "attribute",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.decode",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.decode_reusable"
+      ],
+      "calls": [
+        "ValueError",
+        "decode_continuous",
+        "decode_discrete",
+        "int",
+        "np.asarray",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete"
+      ],
+      "doc": "",
+      "end_line": 381,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, output, normalized)",
+      "start_line": 357,
+      "state_owner": "",
+      "symbol": "_decode_into",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "int": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.decode_reusable"
+      ],
+      "calls": [
+        "int"
+      ],
+      "calls_resolved": [],
+      "doc": "Reset only decision-controlled cells instead of cloning all case arrays every FE.",
+      "end_line": 396,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._reset_reusable_workspace",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, output)",
+      "start_line": 383,
+      "state_owner": "",
+      "symbol": "_reset_reusable_workspace",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._decode_into",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._reset_reusable_workspace",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._reset_reusable_workspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.clone",
+          "target": "self.case.clone"
+        }
+      ],
+      "call_forms": {
+        "getattr": "name",
+        "self._decode_into": "attribute",
+        "self._reset_reusable_workspace": "attribute",
+        "self.case.clone": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "getattr",
+        "self._decode_into",
+        "self._reset_reusable_workspace",
+        "self.case.clone"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._reset_reusable_workspace"
+      ],
+      "doc": "Hot-loop decoder using one thread-local mutable case workspace.",
+      "end_line": 414,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.decode_reusable",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 398,
+      "state_owner": "",
+      "symbol": "decode_reusable",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._decode_into",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.clone",
+          "target": "self.case.clone"
+        }
+      ],
+      "call_forms": {
+        "self._decode_into": "attribute",
+        "self.case.clone": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._decode_into",
+        "self.case.clone"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder._decode_into"
+      ],
+      "doc": "Compatibility decoder returning an independently owned case.",
+      "end_line": 420,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.decode",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 416,
+      "state_owner": "",
+      "symbol": "decode",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "np.all",
+        "np.asarray",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 428,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.control_validity",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self, normalized)",
+      "start_line": 422,
+      "state_owner": "",
+      "symbol": "control_validity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.case.checksum",
+          "target": "self.case.checksum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tap_branches.append",
+          "target": "tap_branches.append"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "asdict": "name",
+        "bool": "name",
+        "float": "name",
+        "int": "name",
+        "self.case.checksum": "attribute",
+        "tap_branches.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "abs",
+        "asdict",
+        "bool",
+        "float",
+        "int",
+        "self.case.checksum",
+        "tap_branches.append"
+      ],
+      "calls_resolved": [],
+      "doc": "Return a serializable declaration of the exact control formulation.",
+      "end_line": 470,
+      "entry_point": false,
+      "file": "calo_rpd_studio/orpd/variable_decoder.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BR_STATUS": "calo_rpd_studio.power_system.case_model.BR_STATUS",
+        "BS": "calo_rpd_studio.power_system.case_model.BS",
+        "BUS_I": "calo_rpd_studio.power_system.case_model.BUS_I",
+        "BUS_TYPE": "calo_rpd_studio.power_system.case_model.BUS_TYPE",
+        "DecisionVariable": "calo_rpd_studio.orpd.decision_variables.DecisionVariable",
+        "F_BUS": "calo_rpd_studio.power_system.case_model.F_BUS",
+        "GEN_BUS": "calo_rpd_studio.power_system.case_model.GEN_BUS",
+        "GEN_STATUS": "calo_rpd_studio.power_system.case_model.GEN_STATUS",
+        "Integral": "numbers.Integral",
+        "Literal": "typing.Literal",
+        "PV": "calo_rpd_studio.power_system.case_model.PV",
+        "REF": "calo_rpd_studio.power_system.case_model.REF",
+        "TAP": "calo_rpd_studio.power_system.case_model.TAP",
+        "T_BUS": "calo_rpd_studio.power_system.case_model.T_BUS",
+        "VG": "calo_rpd_studio.power_system.case_model.VG",
+        "VM": "calo_rpd_studio.power_system.case_model.VM",
+        "VMAX": "calo_rpd_studio.power_system.case_model.VMAX",
+        "VMIN": "calo_rpd_studio.power_system.case_model.VMIN",
+        "VariableKind": "calo_rpd_studio.orpd.decision_variables.VariableKind",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "decode_continuous": "calo_rpd_studio.orpd.mixed_variable_handler.decode_continuous",
+        "decode_discrete": "calo_rpd_studio.orpd.mixed_variable_handler.decode_discrete",
+        "math": "math",
+        "np": "numpy",
+        "stepped_values": "calo_rpd_studio.orpd.mixed_variable_handler.stepped_values",
+        "threading": "threading"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".decision_variables",
+        ".mixed_variable_handler",
+        "__future__",
+        "calo_rpd_studio.power_system.case_model",
+        "dataclasses",
+        "math",
+        "numbers",
+        "numpy",
+        "threading",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "method",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.orpd.variable_decoder",
+      "qualname": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableDecoder.formulation_manifest",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(self)",
+      "start_line": 430,
+      "state_owner": "",
+      "symbol": "formulation_manifest",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,3101 @@
+{
+  "path": "calo_rpd_studio/experiments/experiment_config.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.CURRENT_EXECUTION_BACKENDS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "CURRENT_EXECUTION_BACKENDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.LEGACY_CUDA_EXECUTION_BACKENDS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "LEGACY_CUDA_EXECUTION_BACKENDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "constant",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.LEGACY_EXECUTION_TUNING_FIELDS",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "LEGACY_EXECUTION_TUNING_FIELDS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "raw.items",
+          "target": "raw.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "dict": "name",
+        "isinstance": "name",
+        "len": "name",
+        "parameters.get": "attribute",
+        "raw.items": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "calls": [
+        "ValueError",
+        "dict",
+        "isinstance",
+        "len",
+        "parameters.get",
+        "raw.items",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 72,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config._load_algorithm_parameters",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(raw)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_load_algorithm_parameters",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "len": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate",
+        "calo_rpd_studio.experiments.experiment_config._immutable_ensemble_binding"
+      ],
+      "calls": [
+        "all",
+        "len",
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config._is_sha256",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(value)",
+      "start_line": 75,
+      "state_owner": "",
+      "symbol": "_is_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_is_sha256",
+          "target": "calo_rpd_studio.experiments.experiment_config._is_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "member.get",
+          "target": "member.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "provenance.get",
+          "target": "provenance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "_is_sha256": "name",
+        "any": "name",
+        "dict": "name",
+        "int": "name",
+        "isinstance": "name",
+        "len": "name",
+        "list": "name",
+        "lower": "attribute",
+        "member.get": "attribute",
+        "parameters.get": "attribute",
+        "provenance.get": "attribute",
+        "row.get": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+      ],
+      "calls": [
+        "_is_sha256",
+        "any",
+        "dict",
+        "int",
+        "isinstance",
+        "len",
+        "list",
+        "lower",
+        "member.get",
+        "parameters.get",
+        "provenance.get",
+        "row.get",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config._is_sha256"
+      ],
+      "doc": "Validate the stage-neutral structural contract retained in an experiment binding.",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config._immutable_ensemble_binding",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(parameters)",
+      "start_line": 80,
+      "state_owner": "",
+      "symbol": "_immutable_ensemble_binding",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "calls": [
+        "lower",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the current execution mode while keeping historical XPU plans view-only.",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.migrate_execution_backend",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(value)",
+      "start_line": 116,
+      "state_owner": "",
+      "symbol": "migrate_execution_backend",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "map",
+          "target": "map"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.keys",
+          "target": "payload.keys"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "join": "attribute",
+        "map": "name",
+        "payload.keys": "attribute",
+        "set": "name",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "calls": [
+        "ValueError",
+        "join",
+        "map",
+        "payload.keys",
+        "set",
+        "sorted"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config._reject_unknown_keys",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(payload, allowed, context)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "_reject_unknown_keys",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "fields",
+          "target": "fields"
+        }
+      ],
+      "call_forms": {
+        "fields": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "calls": [
+        "fields"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 141,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config._field_names",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(cls)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "_field_names",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+        "tests.unit.test_v590_scientific_closure.test_invalid_power_flow_and_robust_configs_fail_fast"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 204,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 145,
+      "state_owner": "",
+      "symbol": "RobustScenarioSettings",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "any": "name",
+        "float": "name",
+        "int": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "any",
+        "float",
+        "int",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 204,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings.validate",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 157,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._base_experiment_config",
+        "calo_rpd_studio.app.state_manager.AppState.__init__",
+        "calo_rpd_studio.benchmarking.campaign.build_campaign",
+        "calo_rpd_studio.scripts.container_smoke.main",
+        "calo_rpd_studio.scripts.generate_experiment_schema.build_schema",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "calo_rpd_studio.scripts.run_final_benchmark.main",
+        "calo_rpd_studio.scripts.validate_accelerator.main",
+        "calo_rpd_studio.scripts.validate_cuda_hot_path._build_cuda_problem",
+        "calo_rpd_studio.scripts.validate_resource_recovery._build_cuda_problem",
+        "tests.integration.test_database_workflow.test_database_experiment_creation",
+        "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+        "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+        "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+        "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+        "tests.integration.test_history_deletion.test_clear_history_removes_all_experiments_and_referenced_traces",
+        "tests.integration.test_history_deletion.test_delete_experiment_removes_records_and_trace_file",
+        "tests.integration.test_history_deletion.test_delete_run_preserves_experiment_and_other_runs",
+        "tests.integration.test_phase4_empty_policy_workflow.test_default_and_loaded_primary_calo_are_fail_closed_to_rule_only_mode",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_accepts_only_a_complete_a_to_e_binding_without_internal_fallback",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_is_executable_only_with_an_immutable_qualified_binding",
+        "tests.integration.test_phase4_empty_policy_workflow.test_tsh_calo_rejects_experimental_change_f_even_with_a_complete_binding",
+        "tests.integration.test_workspace_execution_control.prepared_service",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_manifest_is_nonempty_and_case_checksums_are_reproducible",
+        "tests.scientific.test_v34_scientific_integrity.test_scenario_validation_rejects_empty_and_out_of_range_requests",
+        "tests.unit.test_calo_v41_policy_system.test_pre_freeze_policy_cannot_activate_bind_or_delete_directly",
+        "tests.unit.test_calo_v41_policy_system.test_workspace_state_round_trip_and_delete_cleanup",
+        "tests.unit.test_calo_v41_workflow_restore.test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup_inference",
+        "tests.unit.test_calo_v41_workflow_restore.test_policy_free_individual_completion_survives_restore_without_governing_policy",
+        "tests.unit.test_calo_v41_workflow_restore.test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed",
+        "tests.unit.test_calo_v41_workflow_restore.test_workflow_snapshot_round_trip_restores_unlocked_experiment_state",
+        "tests.unit.test_config.test_config_enum_roundtrip",
+        "tests.unit.test_config.test_experiment_roundtrip_retains_saved_calo_and_tsh_calo_runtime_settings",
+        "tests.unit.test_config.test_plan_bound_result_contract_round_trip",
+        "tests.unit.test_config.test_population_requires_two_learners_in_code_and_schema",
+        "tests.unit.test_config.test_schema_matches_loader_unknown_field_and_throughput_defaults",
+        "tests.unit.test_config.test_workspace_study_runtime_contract_replaces_legacy_profile_run_floor",
+        "tests.unit.test_cuda_residency_contract.test_cuda_batching_defaults_and_generated_schema_are_synchronized",
+        "tests.unit.test_execution_plan.test_calo_ablation_plan_is_fixed_and_independent_of_primary_selection",
+        "tests.unit.test_execution_plan.test_primary_comparison_plan_uses_selected_algorithms",
+        "tests.unit.test_mathematical_reference.test_reference_cli_inputs_are_hashed_strict_and_protected_cases_fail_closed",
+        "tests.unit.test_study_strength.test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals",
+        "tests.unit.test_study_strength.test_study_strength_applies_one_coherent_valid_protocol",
+        "tests.unit.test_study_strength.test_study_strength_does_not_modify_governing_policy_binding",
+        "tests.unit.test_study_strength.test_study_strength_round_trip_is_serialized",
+        "tests.unit.test_tsh_calo_inference._binding",
+        "tests.unit.test_tsh_calo_inference.test_tsh_binding_requires_activation_and_inference_has_no_solver_or_training_authority",
+        "tests.unit.test_tsh_calo_optimizer._parameters",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable",
+        "tests.unit.test_tsh_calo_policy_lifecycle.test_verified_feasibility_requires_scientist_selection_before_separate_activation",
+        "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+        "tests.unit.test_v2_benchmarking.test_campaign_plan_uses_all_algorithms_and_equal_job_count",
+        "tests.unit.test_v31_batched_throughput.test_v31_experiment_configuration_round_trip_preserves_throughput_fields",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+        "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+        "tests.unit.test_v32_portfolio_resume.test_shared_reused_trace_is_deleted_only_after_last_reference",
+        "tests.unit.test_v33_cuda_resident.test_v34_defaults_prioritize_device_resident_cuda",
+        "tests.unit.test_v343_export_completion._database",
+        "tests.unit.test_v343_export_completion.test_standard_publication_export_reports_bundle_progress_and_reaches_100",
+        "tests.unit.test_v34_release_blockers.test_campaign_preserves_requested_run_count_exactly",
+        "tests.unit.test_v34_release_blockers.test_publication_export_excludes_infeasible_objective_from_statistics",
+        "tests.unit.test_v57_previous_audit_closure.test_equal_fe_budget_must_be_divisible_by_population",
+        "tests.unit.test_v5_continuation.test_exact_horizon_branch_records_explicit_source_and_parent_revision",
+        "tests.unit.test_v5_continuation.test_experiment_revisions_preserve_original_and_mark_manual_extension_exploratory",
+        "tests.unit.test_v5_continuation.test_horizon_validation_is_attached_to_exact_evidence_only",
+        "tests.unit.test_v5_continuation.test_publication_eligible_horizon_subset_cannot_drop_algorithms",
+        "tests.unit.test_v5_continuation.test_publication_horizon_can_branch_after_longer_exploratory_horizon",
+        "tests.unit.test_v5_continuation.test_revision_scoped_run_checkpoint_paths_never_overwrite_prior_revision",
+        "tests.unit.test_v5_continuation.test_run_count_extension_branches_from_primary_not_newer_exploratory_revision",
+        "tests.unit.test_v5_continuation.test_v5_history_deletion_removes_revision_children_and_preserved_artifacts",
+        "tests.unit.test_v640_stage_b.test_heterogeneous_real_orpd_environment_uses_declared_experiment_formulation",
+        "tests.unit.test_v660_remaining_audit.test_h26_l20_validation_is_read_only_and_unknown_fields_fail_closed",
+        "tests.unit.test_v670_hardware_mapping.test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices",
+        "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings",
+        "tests.unit.test_v690_vram_residency.test_v690_defaults_use_fixed_80_percent_of_currently_free_vram",
+        "tests.unit.test_v690_vram_residency.test_v690_direct_non_80_percent_configuration_is_rejected",
+        "tests.unit.test_workspace_execution_plans.configured_stage"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 896,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 208,
+      "state_owner": "",
+      "symbol": "ExperimentConfig",
+      "tests": [
+        "tests/integration/test_database_workflow.py",
+        "tests/integration/test_historical_learning.py",
+        "tests/integration/test_history_deletion.py",
+        "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/integration/test_workspace_execution_control.py",
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_calo_v41_workflow_restore.py",
+        "tests/unit/test_config.py",
+        "tests/unit/test_cuda_residency_contract.py",
+        "tests/unit/test_execution_plan.py",
+        "tests/unit/test_mathematical_reference.py",
+        "tests/unit/test_study_strength.py",
+        "tests/unit/test_tsh_calo_inference.py",
+        "tests/unit/test_tsh_calo_optimizer.py",
+        "tests/unit/test_tsh_calo_policy_lifecycle.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v2_benchmarking.py",
+        "tests/unit/test_v31_batched_throughput.py",
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v33_cuda_resident.py",
+        "tests/unit/test_v343_export_completion.py",
+        "tests/unit/test_v34_release_blockers.py",
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v5_continuation.py",
+        "tests/unit/test_v640_stage_b.py",
+        "tests/unit/test_v660_remaining_audit.py",
+        "tests/unit/test_v670_hardware_mapping.py",
+        "tests/unit/test_v680_policy_independence.py",
+        "tests/unit/test_v690_vram_residency.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.constraint_tolerances.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.objective.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.power_flow.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.robust_objective.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.scenarios.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.variables.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "self.constraint_tolerances.validate": "attribute",
+        "self.objective.validate": "attribute",
+        "self.power_flow.validate": "attribute",
+        "self.robust_objective.validate": "attribute",
+        "self.scenarios.validate": "attribute",
+        "self.variables.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "self.constraint_tolerances.validate",
+        "self.objective.validate",
+        "self.power_flow.validate",
+        "self.robust_objective.validate",
+        "self.scenarios.validate",
+        "self.variables.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+      ],
+      "doc": "Validate only the scientific formulation consumed by CALO Intelligence.",
+      "end_line": 351,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate_policy_development",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 331,
+      "state_owner": "",
+      "symbol": "validate_policy_development",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calo_parameters.get",
+          "target": "calo_parameters.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.budget.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.constraint_tolerances.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.objective.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.portfolio.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.power_flow.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.robust_objective.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.scenarios.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.variables.validate",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_immutable_ensemble_binding",
+          "target": "calo_rpd_studio.experiments.experiment_config._immutable_ensemble_binding"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_is_sha256",
+          "target": "calo_rpd_studio.experiments.experiment_config._is_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_individual_result_contract",
+          "target": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "flags.get",
+          "target": "flags.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isdigit",
+          "target": "isdigit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isclose",
+          "target": "math.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.get",
+          "target": "parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested_device.split",
+          "target": "requested_device.split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested_device.startswith",
+          "target": "requested_device.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selection.get",
+          "target": "selection.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.algorithm_parameters.get",
+          "target": "self.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.portfolio.required_runs",
+          "target": "self.portfolio.required_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "workspace_contract.get",
+          "target": "workspace_contract.get"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_immutable_ensemble_binding": "name",
+        "_is_sha256": "name",
+        "any": "name",
+        "calo_parameters.get": "attribute",
+        "dict": "name",
+        "flags.get": "attribute",
+        "float": "name",
+        "int": "name",
+        "isdigit": "attribute",
+        "isinstance": "name",
+        "lower": "attribute",
+        "math.isclose": "attribute",
+        "math.isfinite": "attribute",
+        "parameters.get": "attribute",
+        "requested_device.split": "attribute",
+        "requested_device.startswith": "attribute",
+        "selection.get": "attribute",
+        "self.algorithm_parameters.get": "attribute",
+        "self.budget.validate": "attribute",
+        "self.constraint_tolerances.validate": "attribute",
+        "self.objective.validate": "attribute",
+        "self.portfolio.required_runs": "attribute",
+        "self.portfolio.validate": "attribute",
+        "self.power_flow.validate": "attribute",
+        "self.robust_objective.validate": "attribute",
+        "self.scenarios.validate": "attribute",
+        "self.variables.validate": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "validate_individual_result_contract": "name",
+        "workspace_contract.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate_policy_development"
+      ],
+      "calls": [
+        "ValueError",
+        "_immutable_ensemble_binding",
+        "_is_sha256",
+        "any",
+        "calo_parameters.get",
+        "dict",
+        "flags.get",
+        "float",
+        "int",
+        "isdigit",
+        "isinstance",
+        "lower",
+        "math.isclose",
+        "math.isfinite",
+        "parameters.get",
+        "requested_device.split",
+        "requested_device.startswith",
+        "selection.get",
+        "self.algorithm_parameters.get",
+        "self.budget.validate",
+        "self.constraint_tolerances.validate",
+        "self.objective.validate",
+        "self.portfolio.required_runs",
+        "self.portfolio.validate",
+        "self.power_flow.validate",
+        "self.robust_objective.validate",
+        "self.scenarios.validate",
+        "self.variables.validate",
+        "str",
+        "strip",
+        "validate_individual_result_contract",
+        "workspace_contract.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate",
+        "calo_rpd_studio.experiments.experiment_config._immutable_ensemble_binding",
+        "calo_rpd_studio.experiments.experiment_config._is_sha256",
+        "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract"
+      ],
+      "doc": "",
+      "end_line": 617,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.validate",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, execution_plan_kind)",
+      "start_line": 353,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.portfolio.normalize_for_execution",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.normalize_for_execution"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.portfolio.required_runs",
+          "target": "self.portfolio.required_runs"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name",
+        "self.portfolio.normalize_for_execution": "attribute",
+        "self.portfolio.required_runs": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.normalize_for_execution"
+      ],
+      "calls": [
+        "int",
+        "max",
+        "self.portfolio.normalize_for_execution",
+        "self.portfolio.required_runs"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.normalize_for_execution"
+      ],
+      "doc": "Apply explicit execution normalization and return ``self``.",
+      "end_line": 627,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.normalize_for_execution",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 619,
+      "state_owner": "",
+      "symbol": "normalize_for_execution",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "convert",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cast",
+          "target": "cast"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.pop",
+          "target": "payload.pop"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "cast": "name",
+        "convert": "name",
+        "payload.pop": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.save"
+      ],
+      "calls": [
+        "asdict",
+        "cast",
+        "convert",
+        "payload.pop"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert"
+      ],
+      "doc": "",
+      "end_line": 643,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self)",
+      "start_line": 629,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "convert",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.items",
+          "target": "value.items"
+        }
+      ],
+      "call_forms": {
+        "convert": "name",
+        "isinstance": "name",
+        "str": "name",
+        "value.items": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert"
+      ],
+      "calls": [
+        "convert",
+        "isinstance",
+        "str",
+        "value.items"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert"
+      ],
+      "doc": "",
+      "end_line": 637,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict.convert",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(value)",
+      "start_line": 630,
+      "state_owner": "",
+      "symbol": "convert",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.to_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.suffix.lower",
+          "target": "destination.suffix.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_dump",
+          "target": "yaml.safe_dump"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "destination.parent.mkdir": "attribute",
+        "destination.suffix.lower": "attribute",
+        "destination.write_text": "attribute",
+        "json.dumps": "attribute",
+        "self.to_dict": "attribute",
+        "yaml.safe_dump": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "destination.parent.mkdir",
+        "destination.suffix.lower",
+        "destination.write_text",
+        "json.dumps",
+        "self.to_dict",
+        "yaml.safe_dump"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.to_dict"
+      ],
+      "doc": "",
+      "end_line": 653,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.save",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(self, path)",
+      "start_line": 645,
+      "state_owner": "",
+      "symbol": "save",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "TypeError",
+          "target": "TypeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "budget_data.get",
+          "target": "budget_data.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "BudgetPolicy",
+          "target": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvaluationBudget",
+          "target": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustScenarioSettings",
+          "target": "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_field_names",
+          "target": "calo_rpd_studio.experiments.experiment_config._field_names"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_load_algorithm_parameters",
+          "target": "calo_rpd_studio.experiments.experiment_config._load_algorithm_parameters"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_reject_unknown_keys",
+          "target": "calo_rpd_studio.experiments.experiment_config._reject_unknown_keys"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "migrate_execution_backend",
+          "target": "calo_rpd_studio.experiments.experiment_config.migrate_execution_backend"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintToleranceConfig",
+          "target": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ObjectiveConfig",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ObjectiveKind",
+          "target": "calo_rpd_studio.orpd.objectives.ObjectiveKind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDVariableConfig",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ShuntControlDefinition",
+          "target": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioConfig.from_dict",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PowerFlowOptions",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ConstraintAggregation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustAggregation",
+          "target": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "RobustObjectiveConfig",
+          "target": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "objective_data.get",
+          "target": "objective_data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pf_data.get",
+          "target": "pf_data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "robust_data.get",
+          "target": "robust_data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolerance_data.get",
+          "target": "tolerance_data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "variable_data.get",
+          "target": "variable_data.get"
+        }
+      ],
+      "call_forms": {
+        "BudgetPolicy": "name",
+        "ConstraintAggregation": "name",
+        "ConstraintToleranceConfig": "name",
+        "EvaluationBudget": "name",
+        "ORPDVariableConfig": "name",
+        "ObjectiveConfig": "name",
+        "ObjectiveKind": "name",
+        "PortfolioConfig.from_dict": "attribute",
+        "PowerFlowOptions": "name",
+        "RobustAggregation": "name",
+        "RobustObjectiveConfig": "name",
+        "RobustScenarioSettings": "name",
+        "ShuntControlDefinition": "name",
+        "TypeError": "name",
+        "_field_names": "name",
+        "_load_algorithm_parameters": "name",
+        "_reject_unknown_keys": "name",
+        "bool": "name",
+        "budget_data.get": "attribute",
+        "cls": "name",
+        "data.get": "attribute",
+        "dict": "name",
+        "enumerate": "name",
+        "float": "name",
+        "int": "name",
+        "isinstance": "name",
+        "items": "attribute",
+        "list": "name",
+        "migrate_execution_backend": "name",
+        "objective_data.get": "attribute",
+        "pf_data.get": "attribute",
+        "robust_data.get": "attribute",
+        "set": "name",
+        "str": "name",
+        "tolerance_data.get": "attribute",
+        "tuple": "name",
+        "variable_data.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.app.execution_control.ExecutionControlService.plan_configuration",
+        "calo_rpd_studio.app.experiment_manager.ExperimentManager.resume_campaign",
+        "calo_rpd_studio.app.experiment_workspace_restorer.ExperimentWorkspaceRestorer._config_for_revision",
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService._base_config",
+        "calo_rpd_studio.experiments.execution_plans.frozen_individual_config_payload",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load",
+        "calo_rpd_studio.results.solution_validator.validate_stored_run",
+        "calo_rpd_studio.scripts.run_mathematical_reference.load_reference_problem",
+        "tests.integration.test_phase4_empty_policy_workflow.test_default_and_loaded_primary_calo_are_fail_closed_to_rule_only_mode",
+        "tests.unit.test_config.test_config_roundtrip_uses_automatic_compute_defaults",
+        "tests.unit.test_config.test_historical_xpu_mode_is_readable_but_view_only",
+        "tests.unit.test_config.test_legacy_cuda_scheduler_modes_migrate_to_cuda_preferred",
+        "tests.unit.test_config.test_plan_bound_result_contract_round_trip",
+        "tests.unit.test_config.test_schema_declares_reviewed_external_control_identifiers_as_optional_arrays",
+        "tests.unit.test_config.test_schema_matches_loader_unknown_field_and_throughput_defaults",
+        "tests.unit.test_config.test_workspace_study_runtime_contract_replaces_legacy_profile_run_floor",
+        "tests.unit.test_study_strength.test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals",
+        "tests.unit.test_study_strength.test_study_strength_round_trip_is_serialized",
+        "tests.unit.test_v120_phase2_contracts.test_process_local_resolution_marker_is_never_serialized_or_trusted",
+        "tests.unit.test_v31_batched_throughput.test_v31_experiment_configuration_round_trip_preserves_throughput_fields",
+        "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+        "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+        "tests.unit.test_v660_remaining_audit.test_h26_l20_validation_is_read_only_and_unknown_fields_fail_closed",
+        "tests.unit.test_v690_vram_residency.test_v690_config_round_trip_normalizes_memory_fraction_and_preserves_retry_settings"
+      ],
+      "calls": [
+        "BudgetPolicy",
+        "ConstraintAggregation",
+        "ConstraintToleranceConfig",
+        "EvaluationBudget",
+        "ORPDVariableConfig",
+        "ObjectiveConfig",
+        "ObjectiveKind",
+        "PortfolioConfig.from_dict",
+        "PowerFlowOptions",
+        "RobustAggregation",
+        "RobustObjectiveConfig",
+        "RobustScenarioSettings",
+        "ShuntControlDefinition",
+        "TypeError",
+        "_field_names",
+        "_load_algorithm_parameters",
+        "_reject_unknown_keys",
+        "bool",
+        "budget_data.get",
+        "cls",
+        "data.get",
+        "dict",
+        "enumerate",
+        "float",
+        "int",
+        "isinstance",
+        "items",
+        "list",
+        "migrate_execution_backend",
+        "objective_data.get",
+        "pf_data.get",
+        "robust_data.get",
+        "set",
+        "str",
+        "tolerance_data.get",
+        "tuple",
+        "variable_data.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "calo_rpd_studio.experiments.experiment_config.RobustScenarioSettings",
+        "calo_rpd_studio.experiments.experiment_config._field_names",
+        "calo_rpd_studio.experiments.experiment_config._load_algorithm_parameters",
+        "calo_rpd_studio.experiments.experiment_config._reject_unknown_keys",
+        "calo_rpd_studio.experiments.experiment_config.migrate_execution_backend",
+        "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict",
+        "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig"
+      ],
+      "doc": "",
+      "end_line": 887,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(cls, data, allow_unknown_fields)",
+      "start_line": 656,
+      "state_owner": "",
+      "symbol": "from_dict",
+      "tests": [
+        "tests/integration/test_phase4_empty_policy_workflow.py",
+        "tests/unit/test_config.py",
+        "tests/unit/test_study_strength.py",
+        "tests/unit/test_v120_phase2_contracts.py",
+        "tests/unit/test_v31_batched_throughput.py",
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v33_cuda_resident.py",
+        "tests/unit/test_v660_remaining_audit.py",
+        "tests/unit/test_v690_vram_residency.py"
+      ]
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.suffix.lower",
+          "target": "source.suffix.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "cls.from_dict": "attribute",
+        "json.loads": "attribute",
+        "source.read_text": "attribute",
+        "source.suffix.lower": "attribute",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.competitive_training._exact_development_problem",
+        "calo_rpd_studio.algorithms.calo.heterogeneous_training._environment_for_episode",
+        "calo_rpd_studio.algorithms.calo.training._collect_rollout_chunk",
+        "calo_rpd_studio.app.project_manager.ProjectManager.load",
+        "calo_rpd_studio.scripts.run_benchmark.main",
+        "tests.unit.test_config.test_config_enum_roundtrip",
+        "tests.unit.test_config.test_config_roundtrip_uses_automatic_compute_defaults",
+        "tests.unit.test_config.test_experiment_roundtrip_retains_saved_calo_and_tsh_calo_runtime_settings",
+        "tests.unit.test_v680_policy_independence.test_policy_development_validation_is_independent_of_portfolio_run_minimum"
+      ],
+      "calls": [
+        "Path",
+        "cls.from_dict",
+        "json.loads",
+        "source.read_text",
+        "source.suffix.lower",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 896,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/experiment_config.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "ConstraintAggregation": "calo_rpd_studio.robustness.robust_objectives.ConstraintAggregation",
+        "ConstraintToleranceConfig": "calo_rpd_studio.orpd.constraints.ConstraintToleranceConfig",
+        "Enum": "enum.Enum",
+        "EvaluationBudget": "calo_rpd_studio.experiments.evaluation_budget.EvaluationBudget",
+        "ExecutionPlanKind": "calo_rpd_studio.experiments.execution_plans.ExecutionPlanKind",
+        "ORPDVariableConfig": "calo_rpd_studio.orpd.variable_decoder.ORPDVariableConfig",
+        "ObjectiveConfig": "calo_rpd_studio.orpd.objectives.ObjectiveConfig",
+        "ObjectiveKind": "calo_rpd_studio.orpd.objectives.ObjectiveKind",
+        "POLICY_GATED_SPECS": "calo_rpd_studio.algorithms.registry.POLICY_GATED_SPECS",
+        "Path": "pathlib.Path",
+        "PortfolioConfig": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+        "PowerFlowOptions": "calo_rpd_studio.power_system.ac_power_flow.PowerFlowOptions",
+        "RobustAggregation": "calo_rpd_studio.robustness.robust_objectives.RobustAggregation",
+        "RobustObjectiveConfig": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig",
+        "SPECS": "calo_rpd_studio.algorithms.registry.SPECS",
+        "ShuntControlDefinition": "calo_rpd_studio.orpd.variable_decoder.ShuntControlDefinition",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "cast": "typing.cast",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field",
+        "fields": "dataclasses.fields",
+        "json": "json",
+        "math": "math",
+        "validate_individual_result_contract": "calo_rpd_studio.experiments.result_contracts.validate_individual_result_contract",
+        "yaml": "yaml"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "__future__",
+        "calo_rpd_studio.algorithms.registry",
+        "calo_rpd_studio.experiments.execution_plans",
+        "calo_rpd_studio.experiments.result_contracts",
+        "calo_rpd_studio.orpd.constraints",
+        "calo_rpd_studio.orpd.objectives",
+        "calo_rpd_studio.orpd.variable_decoder",
+        "calo_rpd_studio.portfolio.models",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.robustness.robust_objectives",
+        "dataclasses",
+        "enum",
+        "json",
+        "math",
+        "pathlib",
+        "typing",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "method",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.experiment_config",
+      "qualname": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(cls, path, allow_unknown_fields)",
+      "start_line": 890,
+      "state_owner": "",
+      "symbol": "load",
+      "tests": [
+        "tests/unit/test_config.py",
+        "tests/unit/test_v680_policy_independence.py"
+      ]
+    }
+  ]
+}

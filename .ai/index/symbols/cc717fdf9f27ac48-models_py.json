@@ -1,0 +1,745 @@
+{
+  "path": "calo_rpd_studio/portfolio/models.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._controls_changed",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._select_recommended",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioKind",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "PortfolioKind",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v343_export_completion.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.EvidenceProfile",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "EvidenceProfile",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v343_export_completion.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.apply",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.StorageProfile",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "StorageProfile",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v343_export_completion.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.ArticlePreset",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "ArticlePreset",
+      "tests": [
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.DEFAULT_SINGLE_RUN_OUTPUTS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "DEFAULT_SINGLE_RUN_OUTPUTS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.DEFAULT_EXPERIMENT_OUTPUTS",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "DEFAULT_EXPERIMENT_OUTPUTS",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel._build_config",
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.PortfolioManagerPanel.refresh",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_drives_minimum_repetitions_and_disables_invalid_single_run_statistics",
+        "tests.unit.test_v32_portfolio_resume.test_portfolio_export_resumes_artifact_by_artifact",
+        "tests.unit.test_v32_portfolio_resume.test_scientific_fingerprint_ignores_portfolio_and_operational_changes",
+        "tests.unit.test_v343_export_completion._database",
+        "tests.unit.test_workspace_execution_plans.test_article_preset_never_mutates_authoritative_algorithm_pool"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "PortfolioConfig",
+      "tests": [
+        "tests/unit/test_v32_portfolio_resume.py",
+        "tests/unit/test_v343_export_completion.py",
+        "tests/unit/test_workspace_execution_plans.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "max": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "int",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 111,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig.required_runs",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 85,
+      "state_owner": "",
+      "symbol": "required_runs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig.validate",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 113,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Explicitly normalize legacy/saved combinations before execution.",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig.normalize_for_execution",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 129,
+      "state_owner": "",
+      "symbol": "normalize_for_execution",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.items",
+          "target": "payload.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "isinstance": "name",
+        "payload.items": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "isinstance",
+        "payload.items",
+        "tuple"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig.to_dict",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 138,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ArticlePreset",
+          "target": "calo_rpd_studio.portfolio.models.ArticlePreset"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "EvidenceProfile",
+          "target": "calo_rpd_studio.portfolio.models.EvidenceProfile"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioKind",
+          "target": "calo_rpd_studio.portfolio.models.PortfolioKind"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "StorageProfile",
+          "target": "calo_rpd_studio.portfolio.models.StorageProfile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "data.get",
+          "target": "data.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ArticlePreset": "name",
+        "EvidenceProfile": "name",
+        "PortfolioKind": "name",
+        "StorageProfile": "name",
+        "bool": "name",
+        "cls": "name",
+        "data.get": "attribute",
+        "dict": "name",
+        "int": "name",
+        "list": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "calls": [
+        "ArticlePreset",
+        "EvidenceProfile",
+        "PortfolioKind",
+        "StorageProfile",
+        "bool",
+        "cls",
+        "data.get",
+        "dict",
+        "int",
+        "list",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.models.ArticlePreset",
+        "calo_rpd_studio.portfolio.models.EvidenceProfile",
+        "calo_rpd_studio.portfolio.models.PortfolioKind",
+        "calo_rpd_studio.portfolio.models.StorageProfile"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "calo_rpd_studio/portfolio/models.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Enum": "enum.Enum",
+        "OUTPUT_REQUIREMENTS": "calo_rpd_studio.portfolio.catalog.OUTPUT_REQUIREMENTS",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".catalog",
+        "__future__",
+        "dataclasses",
+        "enum"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.portfolio.models",
+      "qualname": "calo_rpd_studio.portfolio.models.PortfolioConfig.from_dict",
+      "semantic_tags": [],
+      "signature": "(cls, data)",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "from_dict",
+      "tests": []
+    }
+  ]
+}

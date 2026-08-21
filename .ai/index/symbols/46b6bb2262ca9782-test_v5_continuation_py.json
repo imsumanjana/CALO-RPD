@@ -1,0 +1,2805 @@
+{
+  "path": "tests/unit/test_v5_continuation.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_v5_continuation.test_calo_exact_horizon_resume_uses_only_additional_physical_calls",
+        "tests.unit.test_v5_continuation.test_calo_interrupted_exact_resume_matches_uninterrupted_same_horizon"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.CheckpointSphere",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "CheckpointSphere",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.CheckpointSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.CheckpointSphere.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "Evaluation",
+          "target": "calo_rpd_studio.orpd.problem.Evaluation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "Evaluation": "name",
+        "float": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v5_continuation.CheckpointSphere.evaluate_population"
+      ],
+      "calls": [
+        "Evaluation",
+        "float",
+        "np.asarray",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.problem.Evaluation"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.CheckpointSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.CheckpointSphere.evaluate",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "evaluate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.evaluate",
+          "target": "tests.unit.test_v5_continuation.CheckpointSphere.evaluate"
+        }
+      ],
+      "call_forms": {
+        "self.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.evaluate"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v5_continuation.CheckpointSphere.evaluate"
+      ],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.CheckpointSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.CheckpointSphere.evaluate_population",
+      "semantic_tags": [],
+      "signature": "(self, population)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "evaluate_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tolist",
+          "target": "tolist"
+        }
+      ],
+      "call_forms": {
+        "np.asarray": "attribute",
+        "tolist": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "np.asarray",
+        "tolist"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 39,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.CheckpointSphere",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.CheckpointSphere.solution_state",
+      "semantic_tags": [],
+      "signature": "(self, x)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "solution_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_resolve_training_target",
+          "target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_resolve_training_target": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_resolve_training_target"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "calo_rpd_studio.algorithms.calo.training._resolve_training_target"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_training_target_modes_are_cumulative_additional_and_indefinite",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 42,
+      "state_owner": "",
+      "symbol": "test_training_target_modes_are_cumulative_additional_and_indefinite",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "train_policy",
+          "target": "calo_rpd_studio.algorithms.calo.training.train_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "make_config",
+          "target": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs.make_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.load",
+          "target": "torch.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "with_suffix",
+          "target": "with_suffix"
+        }
+      ],
+      "call_forms": {
+        "make_config": "name",
+        "pytest.raises": "attribute",
+        "str": "name",
+        "torch.load": "attribute",
+        "train_policy": "name",
+        "with_suffix": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "make_config",
+        "pytest.raises",
+        "str",
+        "torch.load",
+        "train_policy",
+        "with_suffix"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.train_policy",
+        "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs.make_config"
+      ],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs"
+      ],
+      "calls": [
+        "TrainingConfig"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs.make_config",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 56,
+      "state_owner": "",
+      "symbol": "make_config",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_exact_policy_training_resume_preserves_state_and_accumulates_session_epochs.progress",
+      "semantic_tags": [],
+      "signature": "(_percent, message)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyLineageManager",
+          "target": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.best",
+          "target": "manager.best"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.create",
+          "target": "manager.create"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.latest",
+          "target": "manager.latest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.mark_best",
+          "target": "manager.mark_best"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register_checkpoint",
+          "target": "manager.register_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "model.state_dict",
+          "target": "model.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "paths.append",
+          "target": "paths.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        }
+      ],
+      "call_forms": {
+        "CALOPolicyNetwork": "name",
+        "PolicyLineageManager": "name",
+        "ResultDatabase": "name",
+        "manager.best": "attribute",
+        "manager.create": "attribute",
+        "manager.latest": "attribute",
+        "manager.mark_best": "attribute",
+        "manager.register_checkpoint": "attribute",
+        "model.state_dict": "attribute",
+        "paths.append": "attribute",
+        "torch.save": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOPolicyNetwork",
+        "PolicyLineageManager",
+        "ResultDatabase",
+        "manager.best",
+        "manager.create",
+        "manager.latest",
+        "manager.mark_best",
+        "manager.register_checkpoint",
+        "model.state_dict",
+        "paths.append",
+        "torch.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 125,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_policy_lineage_tracks_latest_separately_from_best",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "test_policy_lineage_tracks_latest_separately_from_best",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_experiment_revisions",
+          "target": "db.list_experiment_revisions"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.ensure_original_revision",
+          "target": "service.ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_evaluation_horizon",
+          "target": "service.extend_evaluation_horizon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_run_count",
+          "target": "service.extend_run_count"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "db.create_experiment": "attribute",
+        "db.list_experiment_revisions": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "service.ensure_original_revision": "attribute",
+        "service.extend_evaluation_horizon": "attribute",
+        "service.extend_run_count": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "db.create_experiment",
+        "db.list_experiment_revisions",
+        "db.update_experiment_revision",
+        "service.ensure_original_revision",
+        "service.extend_evaluation_horizon",
+        "service.extend_run_count"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 159,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_experiment_revisions_preserve_original_and_mark_manual_extension_exploratory",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "test_experiment_revisions_preserve_original_and_mark_manual_extension_exploratory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.ensure_original_revision",
+          "target": "service.ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_evaluation_horizon",
+          "target": "service.extend_evaluation_horizon"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "db.create_experiment": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "pytest.raises": "attribute",
+        "service.ensure_original_revision": "attribute",
+        "service.extend_evaluation_horizon": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "db.create_experiment",
+        "db.update_experiment_revision",
+        "pytest.raises",
+        "service.ensure_original_revision",
+        "service.extend_evaluation_horizon"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 179,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_publication_eligible_horizon_subset_cannot_drop_algorithms",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 162,
+      "state_owner": "",
+      "symbol": "test_publication_eligible_horizon_subset_cannot_drop_algorithms",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOOptimizer",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.is_file",
+          "target": "checkpoint.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.with_suffix",
+          "target": "checkpoint.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_file",
+          "target": "is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CheckpointSphere",
+          "target": "tests.unit.test_v5_continuation.CheckpointSphere"
+        }
+      ],
+      "call_forms": {
+        "CALOOptimizer": "name",
+        "CheckpointSphere": "name",
+        "OptimizerConfig": "name",
+        "checkpoint.is_file": "attribute",
+        "checkpoint.with_suffix": "attribute",
+        "dict": "name",
+        "is_file": "attribute",
+        "run": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOOptimizer",
+        "CheckpointSphere",
+        "OptimizerConfig",
+        "checkpoint.is_file",
+        "checkpoint.with_suffix",
+        "dict",
+        "is_file",
+        "run",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "tests.unit.test_v5_continuation.CheckpointSphere"
+      ],
+      "doc": "",
+      "end_line": 216,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_calo_exact_horizon_resume_uses_only_additional_physical_calls",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 182,
+      "state_owner": "",
+      "symbol": "test_calo_exact_horizon_resume_uses_only_additional_physical_calls",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "OptimizerConfig",
+          "target": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOOptimizer",
+          "target": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.is_file",
+          "target": "checkpoint.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.approx",
+          "target": "pytest.approx"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run",
+          "target": "run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CheckpointSphere",
+          "target": "tests.unit.test_v5_continuation.CheckpointSphere"
+        }
+      ],
+      "call_forms": {
+        "CALOOptimizer": "name",
+        "CheckpointSphere": "name",
+        "OptimizerConfig": "name",
+        "checkpoint.is_file": "attribute",
+        "dict": "name",
+        "np.testing.assert_allclose": "attribute",
+        "pytest.approx": "attribute",
+        "run": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOOptimizer",
+        "CheckpointSphere",
+        "OptimizerConfig",
+        "checkpoint.is_file",
+        "dict",
+        "np.testing.assert_allclose",
+        "pytest.approx",
+        "run",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "tests.unit.test_v5_continuation.CheckpointSphere"
+      ],
+      "doc": "",
+      "end_line": 275,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_calo_interrupted_exact_resume_matches_uninterrupted_same_horizon",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 219,
+      "state_owner": "",
+      "symbol": "test_calo_interrupted_exact_resume_matches_uninterrupted_same_horizon",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "float": "name",
+        "int": "name",
+        "np.zeros": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v5_continuation.test_horizon_validation_is_attached_to_exact_evidence_only",
+        "tests.unit.test_v5_continuation.test_v5_history_deletion_removes_revision_children_and_preserved_artifacts"
+      ],
+      "calls": [
+        "SimpleNamespace",
+        "float",
+        "int",
+        "np.zeros"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 299,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation._fake_completed",
+      "semantic_tags": [],
+      "signature": "(algorithm, run_index, evaluations, objective)",
+      "start_line": 278,
+      "state_owner": "",
+      "symbol": "_fake_completed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_run",
+          "target": "db.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_validation",
+          "target": "db.add_validation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.available_run_horizons",
+          "target": "db.available_run_horizons"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_run",
+          "target": "db.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_run_evidence_at_horizon",
+          "target": "db.get_run_evidence_at_horizon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.snapshot_run_horizon",
+          "target": "db.snapshot_run_horizon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_run_result",
+          "target": "db.update_run_result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_completed",
+          "target": "tests.unit.test_v5_continuation._fake_completed"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ResultDatabase": "name",
+        "_fake_completed": "name",
+        "db.add_run": "attribute",
+        "db.add_validation": "attribute",
+        "db.available_run_horizons": "attribute",
+        "db.create_experiment": "attribute",
+        "db.get_run": "attribute",
+        "db.get_run_evidence_at_horizon": "attribute",
+        "db.snapshot_run_horizon": "attribute",
+        "db.update_run_result": "attribute",
+        "len": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ResultDatabase",
+        "_fake_completed",
+        "db.add_run",
+        "db.add_validation",
+        "db.available_run_horizons",
+        "db.create_experiment",
+        "db.get_run",
+        "db.get_run_evidence_at_horizon",
+        "db.snapshot_run_horizon",
+        "db.update_run_result",
+        "len"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.unit.test_v5_continuation._fake_completed"
+      ],
+      "doc": "",
+      "end_line": 333,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_horizon_validation_is_attached_to_exact_evidence_only",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 302,
+      "state_owner": "",
+      "symbol": "test_horizon_validation_is_attached_to_exact_evidence_only",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment_revision",
+          "target": "db.get_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.ensure_original_revision",
+          "target": "service.ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_evaluation_horizon",
+          "target": "service.extend_evaluation_horizon"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "db.create_experiment": "attribute",
+        "db.get_experiment_revision": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "service.ensure_original_revision": "attribute",
+        "service.extend_evaluation_horizon": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "db.create_experiment",
+        "db.get_experiment_revision",
+        "db.update_experiment_revision",
+        "service.ensure_original_revision",
+        "service.extend_evaluation_horizon"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 367,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_publication_horizon_can_branch_after_longer_exploratory_horizon",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 336,
+      "state_owner": "",
+      "symbol": "test_publication_horizon_can_branch_after_longer_exploratory_horizon",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment_revision",
+          "target": "db.get_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.ensure_original_revision",
+          "target": "service.ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_evaluation_horizon",
+          "target": "service.extend_evaluation_horizon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_run_count",
+          "target": "service.extend_run_count"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "db.create_experiment": "attribute",
+        "db.get_experiment_revision": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "service.ensure_original_revision": "attribute",
+        "service.extend_evaluation_horizon": "attribute",
+        "service.extend_run_count": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "db.create_experiment",
+        "db.get_experiment_revision",
+        "db.update_experiment_revision",
+        "service.ensure_original_revision",
+        "service.extend_evaluation_horizon",
+        "service.extend_run_count"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 395,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_run_count_extension_branches_from_primary_not_newer_exploratory_revision",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 370,
+      "state_owner": "",
+      "symbol": "test_run_count_extension_branches_from_primary_not_newer_exploratory_revision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "bind_exact_run_checkpoint",
+          "target": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "SimpleNamespace": "name",
+        "bind_exact_run_checkpoint": "name",
+        "deepcopy": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "SimpleNamespace",
+        "bind_exact_run_checkpoint",
+        "deepcopy",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 414,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_revision_scoped_run_checkpoint_paths_never_overwrite_prior_revision",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 398,
+      "state_owner": "",
+      "symbol": "test_revision_scoped_run_checkpoint_paths_never_overwrite_prior_revision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TrainingConfig",
+          "target": "calo_rpd_studio.algorithms.calo.training.TrainingConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validate_exact_resume_config",
+          "target": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "TrainingConfig": "name",
+        "_validate_exact_resume_config": "name",
+        "asdict": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "TrainingConfig",
+        "_validate_exact_resume_config",
+        "asdict",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config"
+      ],
+      "doc": "",
+      "end_line": 428,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_exact_policy_resume_blocks_scientific_hyperparameter_drift",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 417,
+      "state_owner": "",
+      "symbol": "test_exact_policy_resume_blocks_scientific_hyperparameter_drift",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment_revision",
+          "target": "db.get_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.ensure_original_revision",
+          "target": "service.ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.extend_evaluation_horizon",
+          "target": "service.extend_evaluation_horizon"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "db.create_experiment": "attribute",
+        "db.get_experiment_revision": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "service.ensure_original_revision": "attribute",
+        "service.extend_evaluation_horizon": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "db.create_experiment",
+        "db.get_experiment_revision",
+        "db.update_experiment_revision",
+        "service.ensure_original_revision",
+        "service.extend_evaluation_horizon"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase"
+      ],
+      "doc": "",
+      "end_line": 463,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_exact_horizon_branch_records_explicit_source_and_parent_revision",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 431,
+      "state_owner": "",
+      "symbol": "test_exact_horizon_branch_records_explicit_source_and_parent_revision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentEvolutionService",
+          "target": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.exists",
+          "target": "checkpoint.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.with_suffix",
+          "target": "checkpoint.with_suffix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.write_bytes",
+          "target": "checkpoint.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_run",
+          "target": "db.add_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.add_run_segment",
+          "target": "db.add_run_segment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.create_experiment",
+          "target": "db.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.delete_experiment",
+          "target": "db.delete_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_experiment",
+          "target": "db.get_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.get_run",
+          "target": "db.get_run"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_run_horizon_snapshots",
+          "target": "db.list_run_horizon_snapshots"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.list_run_segments",
+          "target": "db.list_run_segments"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.snapshot_run_horizon",
+          "target": "db.snapshot_run_horizon"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_experiment_revision",
+          "target": "db.update_experiment_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "db.update_run_result",
+          "target": "db.update_run_result"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ensure_original_revision",
+          "target": "ensure_original_revision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "new_array.exists",
+          "target": "new_array.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "new_array.write_bytes",
+          "target": "new_array.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "old_array.exists",
+          "target": "old_array.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "old_array.write_bytes",
+          "target": "old_array.write_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fake_completed",
+          "target": "tests.unit.test_v5_continuation._fake_completed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "ExperimentEvolutionService": "name",
+        "ResultDatabase": "name",
+        "_fake_completed": "name",
+        "checkpoint.exists": "attribute",
+        "checkpoint.with_suffix": "attribute",
+        "checkpoint.write_bytes": "attribute",
+        "db.add_run": "attribute",
+        "db.add_run_segment": "attribute",
+        "db.create_experiment": "attribute",
+        "db.delete_experiment": "attribute",
+        "db.get_experiment": "attribute",
+        "db.get_run": "attribute",
+        "db.list_run_horizon_snapshots": "attribute",
+        "db.list_run_segments": "attribute",
+        "db.snapshot_run_horizon": "attribute",
+        "db.update_experiment_revision": "attribute",
+        "db.update_run_result": "attribute",
+        "ensure_original_revision": "attribute",
+        "new_array.exists": "attribute",
+        "new_array.write_bytes": "attribute",
+        "old_array.exists": "attribute",
+        "old_array.write_bytes": "attribute",
+        "str": "name",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "ExperimentEvolutionService",
+        "ResultDatabase",
+        "_fake_completed",
+        "checkpoint.exists",
+        "checkpoint.with_suffix",
+        "checkpoint.write_bytes",
+        "db.add_run",
+        "db.add_run_segment",
+        "db.create_experiment",
+        "db.delete_experiment",
+        "db.get_experiment",
+        "db.get_run",
+        "db.list_run_horizon_snapshots",
+        "db.list_run_segments",
+        "db.snapshot_run_horizon",
+        "db.update_experiment_revision",
+        "db.update_run_result",
+        "ensure_original_revision",
+        "new_array.exists",
+        "new_array.write_bytes",
+        "old_array.exists",
+        "old_array.write_bytes",
+        "str",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.unit.test_v5_continuation._fake_completed"
+      ],
+      "doc": "",
+      "end_line": 507,
+      "entry_point": false,
+      "file": "tests/unit/test_v5_continuation.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOOptimizer": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer",
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ExperimentEvolutionService": "calo_rpd_studio.continuation.experiment_evolution.ExperimentEvolutionService",
+        "ExtensionProtocol": "calo_rpd_studio.continuation.experiment_evolution.ExtensionProtocol",
+        "OptimizerConfig": "calo_rpd_studio.algorithms.base_optimizer.OptimizerConfig",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "PolicyLineageManager": "calo_rpd_studio.algorithms.calo.policy_lineage.PolicyLineageManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "TrainingCancelled": "calo_rpd_studio.algorithms.calo.training.TrainingCancelled",
+        "TrainingConfig": "calo_rpd_studio.algorithms.calo.training.TrainingConfig",
+        "_resolve_training_target": "calo_rpd_studio.algorithms.calo.training._resolve_training_target",
+        "_validate_exact_resume_config": "calo_rpd_studio.algorithms.calo.training._validate_exact_resume_config",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "bind_exact_run_checkpoint": "calo_rpd_studio.continuation.runtime_binding.bind_exact_run_checkpoint",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest",
+        "torch": "torch",
+        "train_policy": "calo_rpd_studio.algorithms.calo.training.train_policy"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.base_optimizer",
+        "calo_rpd_studio.algorithms.calo.optimizer",
+        "calo_rpd_studio.algorithms.calo.policy_lineage",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "calo_rpd_studio.algorithms.calo.training",
+        "calo_rpd_studio.continuation.experiment_evolution",
+        "calo_rpd_studio.continuation.runtime_binding",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.results.database",
+        "copy",
+        "dataclasses",
+        "numpy",
+        "pytest",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v5_continuation",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v5_continuation",
+      "qualname": "tests.unit.test_v5_continuation.test_v5_history_deletion_removes_revision_children_and_preserved_artifacts",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 466,
+      "state_owner": "",
+      "symbol": "test_v5_history_deletion_removes_revision_children_and_preserved_artifacts",
+      "tests": []
+    }
+  ]
+}

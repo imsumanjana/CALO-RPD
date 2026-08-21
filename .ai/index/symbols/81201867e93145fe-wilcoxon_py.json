@@ -1,0 +1,113 @@
+{
+  "path": "calo_rpd_studio/statistics/wilcoxon.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PairIntegrityError",
+          "target": "calo_rpd_studio.statistics.paired.PairIntegrityError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wilcoxon_signed_rank_evidence",
+          "target": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ravel",
+          "target": "ravel"
+        }
+      ],
+      "call_forms": {
+        "PairIntegrityError": "name",
+        "float": "name",
+        "int": "name",
+        "np.all": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "ravel": "attribute",
+        "wilcoxon_signed_rank_evidence": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase1_contracts.test_unequal_wilcoxon_arrays_fail_before_statistical_execution"
+      ],
+      "calls": [
+        "PairIntegrityError",
+        "float",
+        "int",
+        "np.all",
+        "np.asarray",
+        "np.isfinite",
+        "ravel",
+        "wilcoxon_signed_rank_evidence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.paired.PairIntegrityError",
+        "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/statistics/wilcoxon.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PairIntegrityError": "calo_rpd_studio.statistics.paired.PairIntegrityError",
+        "np": "numpy",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".paired",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.statistics.wilcoxon",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.statistics.wilcoxon",
+      "qualname": "calo_rpd_studio.statistics.wilcoxon.wilcoxon_signed_rank",
+      "semantic_tags": [],
+      "signature": "(a, b)",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "wilcoxon_signed_rank",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py"
+      ]
+    }
+  ]
+}

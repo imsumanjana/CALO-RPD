@@ -1,0 +1,3813 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.INVENTORY_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "INVENTORY_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 23,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PLAN_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "PLAN_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.AUTHORIZATION_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "AUTHORIZATION_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.RECEIPT_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "RECEIPT_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.AUTHORIZED_ACTION",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 26,
+      "state_owner": "",
+      "symbol": "AUTHORIZED_ACTION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 27,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._PROTECTED_STORE_FILES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "_PROTECTED_STORE_FILES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._AUTHORIZATION_ID",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "_AUTHORIZATION_ID",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        }
+      ],
+      "call_forms": {
+        "datetime.now": "attribute",
+        "isoformat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+      ],
+      "calls": [
+        "datetime.now",
+        "isoformat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "()",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "_utcnow",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "digest.hexdigest",
+          "target": "digest.hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "digest.update",
+          "target": "digest.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.open",
+          "target": "path.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.read",
+          "target": "stream.read"
+        }
+      ],
+      "call_forms": {
+        "digest.hexdigest": "attribute",
+        "digest.update": "attribute",
+        "hashlib.sha256": "attribute",
+        "iter": "name",
+        "path.open": "attribute",
+        "stream.read": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._file_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "digest.hexdigest",
+        "digest.update",
+        "hashlib.sha256",
+        "iter",
+        "path.open",
+        "stream.read"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._sha256_file",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "_sha256_file",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encode": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+      ],
+      "calls": [
+        "encode",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_bytes",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 43,
+      "state_owner": "",
+      "symbol": "_canonical_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_bytes",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        }
+      ],
+      "call_forms": {
+        "_canonical_bytes": "name",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan"
+      ],
+      "calls": [
+        "_canonical_bytes",
+        "hashlib.sha256",
+        "hexdigest"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_bytes"
+      ],
+      "doc": "",
+      "end_line": 54,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.open",
+          "target": "destination.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.fsync",
+          "target": "os.fsync"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.expanduser",
+          "target": "path.expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.fileno",
+          "target": "stream.fileno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.flush",
+          "target": "stream.flush"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "destination.open": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "json.dumps": "attribute",
+        "os.fsync": "attribute",
+        "path.expanduser": "attribute",
+        "resolve": "attribute",
+        "stream.fileno": "attribute",
+        "stream.flush": "attribute",
+        "stream.write": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      ],
+      "calls": [
+        "FileExistsError",
+        "destination.open",
+        "destination.parent.mkdir",
+        "json.dumps",
+        "os.fsync",
+        "path.expanduser",
+        "resolve",
+        "stream.fileno",
+        "stream.flush",
+        "stream.write"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, payload)",
+      "start_line": 57,
+      "state_owner": "",
+      "symbol": "_write_json_exclusive",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.relative_to",
+          "target": "destination.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "destination.relative_to": "attribute",
+        "expanduser": "attribute",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "destination.relative_to",
+        "expanduser",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, policy_store)",
+      "start_line": 82,
+      "state_owner": "",
+      "symbol": "_assert_evidence_outside_store",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "resolve": "attribute",
+        "source.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "expanduser",
+        "isinstance",
+        "json.loads",
+        "resolve",
+        "source.read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 97,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path)",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "load_json_document",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement._manager",
+        "tests.unit.test_v120_phase4_development_freeze._fixture",
+        "tests.unit.test_v120_phase4_policy_retirement._manager",
+        "tests.unit.test_v120_phase4_policy_retirement.test_read_only_inventory_does_not_create_or_initialize_a_missing_database"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Prepare and, only after authorization, apply exact policy-store retirement.",
+      "end_line": 505,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 100,
+      "state_owner": "",
+      "symbol": "PolicyRetirementManager",
+      "tests": [
+        "tests/unit/test_v120_phase4_development_freeze.py",
+        "tests/unit/test_v120_phase4_policy_retirement.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_store.is_dir",
+          "target": "self.policy_store.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_store.is_symlink",
+          "target": "self.policy_store.is_symlink"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "expanduser": "attribute",
+        "resolve": "attribute",
+        "self.policy_store.is_dir": "attribute",
+        "self.policy_store.is_symlink": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "ValueError",
+        "expanduser",
+        "resolve",
+        "self.policy_store.is_dir",
+        "self.policy_store.is_symlink"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 118,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, policy_store, database, source_root, source_identity)",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        }
+      ],
+      "call_forms": {
+        "path.relative_to": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._assert_external_evidence_path",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._external_artifacts",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._file_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "path.relative_to"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 126,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, root)",
+      "start_line": 121,
+      "state_owner": "",
+      "symbol": "_is_within",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        }
+      ],
+      "call_forms": {
+        "resolve_source_identity": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._validate_authorization",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+      ],
+      "calls": [
+        "resolve_source_identity"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+      ],
+      "doc": "",
+      "end_line": 131,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._resolve_source_identity",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 128,
+      "state_owner": "",
+      "symbol": "_resolve_source_identity",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._is_within",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.source_root.resolve",
+          "target": "self.source_root.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_root.is_dir",
+          "target": "source_root.is_dir"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "self._is_within": "attribute",
+        "self.source_root.resolve": "attribute",
+        "source_root.is_dir": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "self._is_within",
+        "self.source_root.resolve",
+        "source_root.is_dir"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+      ],
+      "doc": "Require destructive-transition evidence outside both store and source tree.",
+      "end_line": 146,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._assert_external_evidence_path",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, path, label)",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "_assert_external_evidence_path",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._is_within",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._sha256_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_file",
+          "target": "candidate.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_symlink",
+          "target": "candidate.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.relative_to",
+          "target": "candidate.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.resolve",
+          "target": "candidate.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.stat",
+          "target": "candidate.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.as_posix",
+          "target": "item.as_posix"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "protected.append",
+          "target": "protected.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "removable.append",
+          "target": "removable.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_store.rglob",
+          "target": "self.policy_store.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_sha256_file": "name",
+        "as_posix": "attribute",
+        "candidate.is_file": "attribute",
+        "candidate.is_symlink": "attribute",
+        "candidate.relative_to": "attribute",
+        "candidate.resolve": "attribute",
+        "candidate.stat": "attribute",
+        "int": "name",
+        "item.as_posix": "attribute",
+        "protected.append": "attribute",
+        "removable.append": "attribute",
+        "self._is_within": "attribute",
+        "self.policy_store.rglob": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+      ],
+      "calls": [
+        "ValueError",
+        "_sha256_file",
+        "as_posix",
+        "candidate.is_file",
+        "candidate.is_symlink",
+        "candidate.relative_to",
+        "candidate.resolve",
+        "candidate.stat",
+        "int",
+        "item.as_posix",
+        "protected.append",
+        "removable.append",
+        "self._is_within",
+        "self.policy_store.rglob",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._sha256_file"
+      ],
+      "doc": "",
+      "end_line": 169,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._file_inventory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 148,
+      "state_owner": "",
+      "symbol": "_file_inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._is_within",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.exists",
+          "target": "candidate.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_file",
+          "target": "candidate.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database_snapshot.get",
+          "target": "database_snapshot.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "os.path.normcase",
+          "target": "os.path.normcase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "output.append",
+          "target": "output.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "seen.add",
+          "target": "seen.add"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "candidate.exists": "attribute",
+        "candidate.is_file": "attribute",
+        "casefold": "attribute",
+        "database_snapshot.get": "attribute",
+        "expanduser": "attribute",
+        "os.path.normcase": "attribute",
+        "output.append": "attribute",
+        "resolve": "attribute",
+        "row.get": "attribute",
+        "seen.add": "attribute",
+        "self._is_within": "attribute",
+        "set": "name",
+        "sorted": "name",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+      ],
+      "calls": [
+        "Path",
+        "candidate.exists",
+        "candidate.is_file",
+        "casefold",
+        "database_snapshot.get",
+        "expanduser",
+        "os.path.normcase",
+        "output.append",
+        "resolve",
+        "row.get",
+        "seen.add",
+        "self._is_within",
+        "set",
+        "sorted",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+      ],
+      "doc": "",
+      "end_line": 200,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._external_artifacts",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, database_snapshot)",
+      "start_line": 171,
+      "state_owner": "",
+      "symbol": "_external_artifacts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._external_artifacts",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._external_artifacts"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._file_inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._file_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._resolve_source_identity",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utcnow",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.to_dict",
+          "target": "identity.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.policy_lifecycle_snapshot",
+          "target": "self.database.policy_lifecycle_snapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_canonical_sha256": "name",
+        "_utcnow": "name",
+        "identity.to_dict": "attribute",
+        "self._external_artifacts": "attribute",
+        "self._file_inventory": "attribute",
+        "self._resolve_source_identity": "attribute",
+        "self.database.policy_lifecycle_snapshot": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "_canonical_sha256",
+        "_utcnow",
+        "identity.to_dict",
+        "self._external_artifacts",
+        "self._file_inventory",
+        "self._resolve_source_identity",
+        "self.database.policy_lifecycle_snapshot",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._external_artifacts",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._file_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._resolve_source_identity",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow"
+      ],
+      "doc": "Return an exact read-only policy-store and database inventory.",
+      "end_line": 221,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 202,
+      "state_owner": "",
+      "symbol": "inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.get",
+          "target": "inventory.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.items",
+          "target": "inventory.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "inventory.get": "attribute",
+        "inventory.items": "attribute",
+        "re.fullmatch": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+      ],
+      "calls": [
+        "ValueError",
+        "_canonical_sha256",
+        "inventory.get",
+        "inventory.items",
+        "re.fullmatch",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 234,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(inventory)",
+      "start_line": 224,
+      "state_owner": "",
+      "symbol": "validate_inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "blockers.append",
+          "target": "blockers.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate_inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utcnow",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.items",
+          "target": "database.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.get",
+          "target": "selected.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_utcnow": "name",
+        "blockers.append": "attribute",
+        "database.items": "attribute",
+        "dict": "name",
+        "len": "name",
+        "list": "name",
+        "resolve": "attribute",
+        "selected.get": "attribute",
+        "self.inventory": "attribute",
+        "self.validate_inventory": "attribute",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "_canonical_sha256",
+        "_utcnow",
+        "blockers.append",
+        "database.items",
+        "dict",
+        "len",
+        "list",
+        "resolve",
+        "selected.get",
+        "self.inventory",
+        "self.validate_inventory",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow"
+      ],
+      "doc": "Describe exact targets and blockers without changing files or database rows.",
+      "end_line": 269,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, inventory)",
+      "start_line": 236,
+      "state_owner": "",
+      "symbol": "dry_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.validate_plan",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager.validate_plan": "attribute",
+        "dict": "name",
+        "get": "attribute",
+        "plan.get": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+        "tests.unit.test_v120_phase4_policy_retirement._authorized",
+        "tests.unit.test_v120_phase4_policy_retirement.test_phase4_inventory_and_plan_are_exact_and_non_destructive",
+        "tests.unit.test_v120_phase4_policy_retirement.test_retirement_rejects_unapproved_or_tampered_documents_without_changes"
+      ],
+      "calls": [
+        "PolicyRetirementManager.validate_plan",
+        "dict",
+        "get",
+        "plan.get",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan"
+      ],
+      "doc": "",
+      "end_line": 288,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(plan)",
+      "start_line": 272,
+      "state_owner": "",
+      "symbol": "authorization_template",
+      "tests": [
+        "tests/unit/test_v120_phase4_policy_retirement.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.items",
+          "target": "plan.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "plan.get": "attribute",
+        "plan.items": "attribute",
+        "re.fullmatch": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan"
+      ],
+      "calls": [
+        "ValueError",
+        "_canonical_sha256",
+        "plan.get",
+        "plan.items",
+        "re.fullmatch",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 299,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(plan)",
+      "start_line": 291,
+      "state_owner": "",
+      "symbol": "validate_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PermissionError",
+          "target": "PermissionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "_AUTHORIZATION_ID.fullmatch",
+          "target": "_AUTHORIZATION_ID.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "authorization.get",
+          "target": "authorization.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._resolve_source_identity",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._resolve_source_identity"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comparisons.items",
+          "target": "comparisons.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "PermissionError": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_AUTHORIZATION_ID.fullmatch": "attribute",
+        "any": "name",
+        "authorization.get": "attribute",
+        "comparisons.items": "attribute",
+        "lower": "attribute",
+        "plan.get": "attribute",
+        "re.fullmatch": "attribute",
+        "self._resolve_source_identity": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute"
+      ],
+      "calls": [
+        "PermissionError",
+        "RuntimeError",
+        "ValueError",
+        "_AUTHORIZATION_ID.fullmatch",
+        "any",
+        "authorization.get",
+        "comparisons.items",
+        "lower",
+        "plan.get",
+        "re.fullmatch",
+        "self._resolve_source_identity",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._resolve_source_identity"
+      ],
+      "doc": "",
+      "end_line": 343,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._validate_authorization",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, authorization, inventory, plan)",
+      "start_line": 301,
+      "state_owner": "",
+      "symbol": "_validate_authorization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "FileExistsError",
+          "target": "FileExistsError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "PermissionError",
+          "target": "PermissionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._assert_external_evidence_path",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._assert_external_evidence_path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._is_within",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._validate_authorization",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._validate_authorization"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.dry_run",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate_inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate_plan",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_sha256_file",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._sha256_file"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_utcnow",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_json_exclusive",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_json_document",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_acceptance_receipt",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.exists",
+          "target": "destination.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "directory.rmdir",
+          "target": "directory.rmdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.get",
+          "target": "inventory.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.is_dir",
+          "target": "item.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "moved.append",
+          "target": "moved.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reversed",
+          "target": "reversed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.database.clear_policy_lifecycle",
+          "target": "self.database.clear_policy_lifecycle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.exists",
+          "target": "source.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_symlink",
+          "target": "source.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.parent.mkdir",
+          "target": "source.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.replace",
+          "target": "source.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged.exists",
+          "target": "staged.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged.is_file",
+          "target": "staged.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged.parent.mkdir",
+          "target": "staged.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged.replace",
+          "target": "staged.replace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged.unlink",
+          "target": "staged.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staged_artifacts.append",
+          "target": "staged_artifacts.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staging.exists",
+          "target": "staging.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staging.iterdir",
+          "target": "staging.iterdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staging.rglob",
+          "target": "staging.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "staging.rmdir",
+          "target": "staging.rmdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values",
+          "target": "values"
+        }
+      ],
+      "call_forms": {
+        "FileExistsError": "name",
+        "Path": "name",
+        "PermissionError": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "_sha256_file": "name",
+        "_utcnow": "name",
+        "_write_json_exclusive": "name",
+        "any": "name",
+        "destination.exists": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "directory.rmdir": "attribute",
+        "expanduser": "attribute",
+        "inventory.get": "attribute",
+        "item.is_dir": "attribute",
+        "len": "name",
+        "load_json_document": "name",
+        "moved.append": "attribute",
+        "plan.get": "attribute",
+        "resolve": "attribute",
+        "reversed": "name",
+        "self._assert_external_evidence_path": "attribute",
+        "self._is_within": "attribute",
+        "self._validate_authorization": "attribute",
+        "self.database.clear_policy_lifecycle": "attribute",
+        "self.dry_run": "attribute",
+        "self.inventory": "attribute",
+        "self.validate_inventory": "attribute",
+        "self.validate_plan": "attribute",
+        "sorted": "name",
+        "source.exists": "attribute",
+        "source.is_symlink": "attribute",
+        "source.parent.mkdir": "attribute",
+        "source.replace": "attribute",
+        "staged.exists": "attribute",
+        "staged.is_file": "attribute",
+        "staged.parent.mkdir": "attribute",
+        "staged.replace": "attribute",
+        "staged.unlink": "attribute",
+        "staged_artifacts.append": "attribute",
+        "staging.exists": "attribute",
+        "staging.iterdir": "attribute",
+        "staging.rglob": "attribute",
+        "staging.rmdir": "attribute",
+        "str": "name",
+        "type": "name",
+        "validate_acceptance_receipt": "name",
+        "values": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "FileExistsError",
+        "Path",
+        "PermissionError",
+        "RuntimeError",
+        "ValueError",
+        "_canonical_sha256",
+        "_sha256_file",
+        "_utcnow",
+        "_write_json_exclusive",
+        "any",
+        "destination.exists",
+        "destination.parent.mkdir",
+        "directory.rmdir",
+        "expanduser",
+        "inventory.get",
+        "item.is_dir",
+        "len",
+        "load_json_document",
+        "moved.append",
+        "plan.get",
+        "resolve",
+        "reversed",
+        "self._assert_external_evidence_path",
+        "self._is_within",
+        "self._validate_authorization",
+        "self.database.clear_policy_lifecycle",
+        "self.dry_run",
+        "self.inventory",
+        "self.validate_inventory",
+        "self.validate_plan",
+        "sorted",
+        "source.exists",
+        "source.is_symlink",
+        "source.parent.mkdir",
+        "source.replace",
+        "staged.exists",
+        "staged.is_file",
+        "staged.parent.mkdir",
+        "staged.replace",
+        "staged.unlink",
+        "staged_artifacts.append",
+        "staging.exists",
+        "staging.iterdir",
+        "staging.rglob",
+        "staging.rmdir",
+        "str",
+        "type",
+        "validate_acceptance_receipt",
+        "values"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._assert_external_evidence_path",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._is_within",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager._validate_authorization",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.dry_run",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._canonical_sha256",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._sha256_file",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._utcnow",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive",
+        "calo_rpd_studio.algorithms.calo.policy_retirement.load_json_document",
+        "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      ],
+      "doc": "Apply a separately authorized post-freeze retirement and retain an exact receipt.",
+      "end_line": 505,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.execute",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, inventory, plan, authorization, authorization_path, phase4_acceptance_path, receipt_path)",
+      "start_line": 345,
+      "state_owner": "",
+      "symbol": "execute",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.validate_inventory",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_assert_evidence_outside_store",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_json_exclusive",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "PolicyRetirementManager.validate_inventory": "attribute",
+        "_assert_evidence_outside_store": "name",
+        "_write_json_exclusive": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "Path",
+        "PolicyRetirementManager.validate_inventory",
+        "_assert_evidence_outside_store",
+        "_write_json_exclusive",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_inventory",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+      ],
+      "doc": "",
+      "end_line": 511,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.write_inventory",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, inventory)",
+      "start_line": 508,
+      "state_owner": "",
+      "symbol": "write_inventory",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.validate_plan",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_assert_evidence_outside_store",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_json_exclusive",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "PolicyRetirementManager.validate_plan": "attribute",
+        "_assert_evidence_outside_store": "name",
+        "_write_json_exclusive": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "Path",
+        "PolicyRetirementManager.validate_plan",
+        "_assert_evidence_outside_store",
+        "_write_json_exclusive",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.validate_plan",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+      ],
+      "doc": "",
+      "end_line": 517,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.write_plan",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, plan)",
+      "start_line": 514,
+      "state_owner": "",
+      "symbol": "write_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager.authorization_template",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_assert_evidence_outside_store",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_json_exclusive",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "PolicyRetirementManager.authorization_template": "attribute",
+        "_assert_evidence_outside_store": "name",
+        "_write_json_exclusive": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.manage_policy_retirement.main"
+      ],
+      "calls": [
+        "Path",
+        "PolicyRetirementManager.authorization_template",
+        "_assert_evidence_outside_store",
+        "_write_json_exclusive",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager.authorization_template",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._assert_evidence_outside_store",
+        "calo_rpd_studio.algorithms.calo.policy_retirement._write_json_exclusive"
+      ],
+      "doc": "",
+      "end_line": 525,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Path": "pathlib.Path",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "hashlib": "hashlib",
+        "json": "json",
+        "os": "os",
+        "re": "re",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "timezone": "datetime.timezone",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_retirement",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_retirement.write_authorization_template",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(path, plan)",
+      "start_line": 520,
+      "state_owner": "",
+      "symbol": "write_authorization_template",
+      "tests": []
+    }
+  ]
+}

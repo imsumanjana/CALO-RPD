@@ -1,0 +1,185 @@
+{
+  "path": "calo_rpd_studio/experiments/fairness_validator.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.experiments.fairness_validator.validate_fairness"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/fairness_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "class",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.fairness_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.fairness_validator",
+      "qualname": "calo_rpd_studio.experiments.fairness_validator.FairnessReport",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "FairnessReport",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "FairnessReport",
+          "target": "calo_rpd_studio.experiments.fairness_validator.FairnessReport"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "errors.append",
+          "target": "errors.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "FairnessReport": "name",
+        "bool": "name",
+        "config.validate": "attribute",
+        "errors.append": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "len": "name",
+        "set": "name",
+        "str": "name",
+        "warnings.append": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ScientificAuditWorker.run"
+      ],
+      "calls": [
+        "FairnessReport",
+        "bool",
+        "config.validate",
+        "errors.append",
+        "getattr",
+        "int",
+        "len",
+        "set",
+        "str",
+        "warnings.append"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.fairness_validator.FairnessReport"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/experiments/fairness_validator.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BudgetPolicy": "calo_rpd_studio.experiments.evaluation_budget.BudgetPolicy",
+        "dataclass": "dataclasses.dataclass",
+        "field": "dataclasses.field"
+      },
+      "important_invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "imports": [
+        ".evaluation_budget",
+        "dataclasses"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."
+      ],
+      "kind": "function",
+      "module": "experiments",
+      "parent_qualname": "calo_rpd_studio.experiments.fairness_validator",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.experiments.fairness_validator",
+      "qualname": "calo_rpd_studio.experiments.fairness_validator.validate_fairness",
+      "semantic_tags": [
+        "determinism",
+        "evaluation-accounting",
+        "experiments",
+        "fairness"
+      ],
+      "signature": "(config)",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "validate_fairness",
+      "tests": []
+    }
+  ]
+}

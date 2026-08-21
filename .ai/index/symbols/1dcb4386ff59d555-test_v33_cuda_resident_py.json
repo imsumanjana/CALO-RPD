@@ -1,0 +1,868 @@
+{
+  "path": "tests/unit/test_v33_cuda_resident.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "hasattr": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig",
+        "hasattr"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+      ],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_v34_defaults_prioritize_device_resident_cuda",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "test_v34_defaults_prioritize_device_resident_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "build_weighted_lane_plan": "name",
+        "len": "name",
+        "range": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "build_weighted_lane_plan",
+        "len",
+        "range"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_v33_all_primary_jobs_are_accelerator_eligible",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "test_v33_all_primary_jobs_are_accelerator_eligible",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "assignments.values",
+          "target": "assignments.values"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "assignments.values": "attribute",
+        "build_weighted_lane_plan": "name",
+        "range": "name",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "assignments.values",
+        "build_weighted_lane_plan",
+        "range",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+      ],
+      "doc": "",
+      "end_line": 45,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_v33_cuda_only_assigns_every_job_to_cuda",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "test_v33_cuda_only_assigns_every_job_to_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "batch.to_evaluations",
+          "target": "batch.to_evaluations"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parity_check",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidates.numpy",
+          "target": "candidates.numpy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population_tensor",
+          "target": "problem.evaluate_population_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.rand",
+          "target": "torch.rand"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "ORPDProblem": "name",
+        "all": "name",
+        "batch.to_evaluations": "attribute",
+        "candidates.numpy": "attribute",
+        "len": "name",
+        "parity_check": "name",
+        "problem.evaluate_population_tensor": "attribute",
+        "torch.rand": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "ORPDProblem",
+        "all",
+        "batch.to_evaluations",
+        "candidates.numpy",
+        "len",
+        "parity_check",
+        "problem.evaluate_population_tensor",
+        "torch.rand"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 65,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "semantic_tags": [],
+      "signature": "(toy_case)",
+      "start_line": 48,
+      "state_owner": "",
+      "symbol": "test_v33_tensor_batch_stays_on_execution_device_until_materialized",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_control_linearization",
+          "target": "context.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "context.primary_converged_power_flow",
+          "target": "context.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_context.primary_control_linearization",
+          "target": "expected_context.primary_control_linearization"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_context.primary_converged_power_flow",
+          "target": "expected_context.primary_converged_power_flow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expected_linearization.jacobian.toarray",
+          "target": "expected_linearization.jacobian.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "linearization.jacobian.toarray",
+          "target": "linearization.jacobian.toarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_allclose",
+          "target": "np.testing.assert_allclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.testing.assert_array_equal",
+          "target": "np.testing.assert_array_equal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.evaluate_population_with_context",
+          "target": "problem.evaluate_population_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reference.evaluate_with_context",
+          "target": "reference.evaluate_with_context"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "ORPDProblem": "name",
+        "astype": "attribute",
+        "context.primary_control_linearization": "attribute",
+        "context.primary_converged_power_flow": "attribute",
+        "expected_context.primary_control_linearization": "attribute",
+        "expected_context.primary_converged_power_flow": "attribute",
+        "expected_linearization.jacobian.toarray": "attribute",
+        "len": "name",
+        "linearization.jacobian.toarray": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "np.linspace": "attribute",
+        "np.testing.assert_allclose": "attribute",
+        "np.testing.assert_array_equal": "attribute",
+        "np.vstack": "attribute",
+        "problem.evaluate_population_with_context": "attribute",
+        "reference.evaluate_with_context": "attribute",
+        "zip": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "ORPDProblem",
+        "astype",
+        "context.primary_control_linearization",
+        "context.primary_converged_power_flow",
+        "expected_context.primary_control_linearization",
+        "expected_context.primary_converged_power_flow",
+        "expected_linearization.jacobian.toarray",
+        "len",
+        "linearization.jacobian.toarray",
+        "monkeypatch.setattr",
+        "np.linspace",
+        "np.testing.assert_allclose",
+        "np.testing.assert_array_equal",
+        "np.vstack",
+        "problem.evaluate_population_with_context",
+        "reference.evaluate_with_context",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.orpd.problem.ORPDProblem"
+      ],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "semantic_tags": [],
+      "signature": "(toy_case, monkeypatch)",
+      "start_line": 68,
+      "state_owner": "",
+      "symbol": "test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_counted_context_batch_materializes_once_without_reference_power_flow_rerun.forbidden_reference_rerun",
+      "semantic_tags": [],
+      "signature": "(*_args, **_kwargs)",
+      "start_line": 90,
+      "state_owner": "",
+      "symbol": "forbidden_reference_rerun",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "accelerated.evaluate",
+          "target": "accelerated.evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AcceleratedORPDProblem",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parity_check",
+          "target": "calo_rpd_studio.accelerated.torch_orpd.parity_check"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ORPDProblem",
+          "target": "calo_rpd_studio.orpd.problem.ORPDProblem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "items",
+          "target": "items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isinf",
+          "target": "np.isinf"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reference.evaluate",
+          "target": "reference.evaluate"
+        }
+      ],
+      "call_forms": {
+        "AcceleratedORPDProblem": "name",
+        "CaseLoader.load": "attribute",
+        "ORPDProblem": "name",
+        "accelerated.evaluate": "attribute",
+        "all": "name",
+        "float": "name",
+        "items": "attribute",
+        "np.arange": "attribute",
+        "np.isinf": "attribute",
+        "parity_check": "name",
+        "reference.evaluate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AcceleratedORPDProblem",
+        "CaseLoader.load",
+        "ORPDProblem",
+        "accelerated.evaluate",
+        "all",
+        "float",
+        "items",
+        "np.arange",
+        "np.isinf",
+        "parity_check",
+        "reference.evaluate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+      ],
+      "doc": "",
+      "end_line": 166,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "test_joint_nonconvergence_uses_canonical_failure_record_not_discarded_iterates",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.from_dict",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.to_dict",
+          "target": "config.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.from_dict": "attribute",
+        "config.to_dict": "attribute",
+        "config.validate": "attribute",
+        "hasattr": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.from_dict",
+        "config.to_dict",
+        "config.validate",
+        "hasattr"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.from_dict"
+      ],
+      "doc": "",
+      "end_line": 175,
+      "entry_point": false,
+      "file": "tests/unit/test_v33_cuda_resident.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AcceleratedORPDProblem": "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem",
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "ORPDProblem": "calo_rpd_studio.orpd.problem.ORPDProblem",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "np": "numpy",
+        "parity_check": "calo_rpd_studio.accelerated.torch_orpd.parity_check",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.accelerated.torch_orpd",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.orpd.problem",
+        "calo_rpd_studio.power_system.case_loader",
+        "numpy",
+        "torch",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v33_cuda_resident",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v33_cuda_resident",
+      "qualname": "tests.unit.test_v33_cuda_resident.test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 169,
+      "state_owner": "",
+      "symbol": "test_v33_legacy_cuda_only_config_migrates_to_cuda_preferred",
+      "tests": []
+    }
+  ]
+}

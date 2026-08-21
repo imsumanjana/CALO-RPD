@@ -1,0 +1,403 @@
+{
+  "path": "calo_rpd_studio/robustness/cvar.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.robustness.cvar.weighted_cvar"
+      ],
+      "calls": [
+        "ValueError",
+        "float",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite",
+        "np.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 31,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/cvar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.cvar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.cvar",
+      "qualname": "calo_rpd_studio.robustness.cvar._validated_numpy_inputs",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(values, weights, alpha)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "_validated_numpy_inputs",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_validated_numpy_inputs",
+          "target": "calo_rpd_studio.robustness.cvar._validated_numpy_inputs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argsort",
+          "target": "np.argsort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.cumsum",
+          "target": "np.cumsum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.finfo",
+          "target": "np.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "_validated_numpy_inputs": "name",
+        "float": "name",
+        "np.argsort": "attribute",
+        "np.cumsum": "attribute",
+        "np.finfo": "attribute",
+        "np.maximum": "attribute",
+        "np.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.robustness.robust_objectives.aggregate_robust",
+        "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend",
+        "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_rejects_invalid_inputs",
+        "tests.unit.test_robustness.test_cvar_and_seeded_scenarios"
+      ],
+      "calls": [
+        "RuntimeError",
+        "_validated_numpy_inputs",
+        "float",
+        "np.argsort",
+        "np.cumsum",
+        "np.finfo",
+        "np.maximum",
+        "np.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.robustness.cvar._validated_numpy_inputs"
+      ],
+      "doc": "Return exact upper-tail weighted empirical CVaR.",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/cvar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.cvar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.cvar",
+      "qualname": "calo_rpd_studio.robustness.cvar.weighted_cvar",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(values, weights, alpha)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "weighted_cvar",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py",
+        "tests/unit/test_robustness.py"
+      ]
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.all",
+          "target": "torch.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.any",
+          "target": "torch.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.as_tensor",
+          "target": "torch.as_tensor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.clamp",
+          "target": "torch.clamp"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cumsum",
+          "target": "torch.cumsum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.finfo",
+          "target": "torch.finfo"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.gather",
+          "target": "torch.gather"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.isfinite",
+          "target": "torch.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.maximum",
+          "target": "torch.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sort",
+          "target": "torch.sort"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.sum",
+          "target": "torch.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "w.expand_as",
+          "target": "w.expand_as"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "bool": "name",
+        "float": "name",
+        "torch.all": "attribute",
+        "torch.any": "attribute",
+        "torch.as_tensor": "attribute",
+        "torch.clamp": "attribute",
+        "torch.cumsum": "attribute",
+        "torch.finfo": "attribute",
+        "torch.gather": "attribute",
+        "torch.isfinite": "attribute",
+        "torch.maximum": "attribute",
+        "torch.sort": "attribute",
+        "torch.sum": "attribute",
+        "w.expand_as": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.device_resident_orpd.DeviceResidentORPDEvaluator._robust",
+        "calo_rpd_studio.accelerated.torch_orpd.AcceleratedORPDProblem._aggregate_robust",
+        "tests.scientific.test_v34_scientific_integrity.test_weighted_cvar_fractional_tail_exact_and_cross_backend"
+      ],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "bool",
+        "float",
+        "torch.all",
+        "torch.any",
+        "torch.as_tensor",
+        "torch.clamp",
+        "torch.cumsum",
+        "torch.finfo",
+        "torch.gather",
+        "torch.isfinite",
+        "torch.maximum",
+        "torch.sort",
+        "torch.sum",
+        "w.expand_as"
+      ],
+      "calls_resolved": [],
+      "doc": "Torch implementation supporting vectors or batches along the last axis.",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "calo_rpd_studio/robustness/cvar.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        "__future__",
+        "numpy",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.robustness.cvar",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.robustness.cvar",
+      "qualname": "calo_rpd_studio.robustness.cvar.weighted_cvar_torch",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(values, weights, alpha)",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "weighted_cvar_torch",
+      "tests": [
+        "tests/scientific/test_v34_scientific_integrity.py"
+      ]
+    }
+  ]
+}

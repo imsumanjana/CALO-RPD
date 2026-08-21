@@ -1,0 +1,237 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/optimizer.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_qualification.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/orpd/constraints.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/power_system/case_model.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/robust_objectives.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/robustness/scenario.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/statistics/confidence_intervals.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/statistics/effect_sizes.py"
+    }
+  ],
+  "path": "tests/unit/test_v57_previous_audit_closure.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_callable_compatibility_fingerprint_includes_closure_values_and_code",
+      "to": "calo_rpd_studio.algorithms.calo.optimizer.CALOOptimizer._compatibility_jsonable"
+    },
+    {
+      "confidence": "inferred",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_callable_compatibility_fingerprint_includes_closure_values_and_code",
+      "to": "tests.unit.test_v57_previous_audit_closure.test_callable_compatibility_fingerprint_includes_closure_values_and_code.make_transform"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_equal_fe_budget_must_be_divisible_by_population",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_equal_fe_budget_must_be_divisible_by_population",
+      "to": "cfg.validate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_equal_fe_budget_must_be_divisible_by_population",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "calo_rpd_studio.ai.model_io.durable_torch_save"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "calo_rpd_studio.ai.model_io.load_trusted_resume"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "calo_rpd_studio.ai.model_io.trusted_resume_sha_path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "calo_rpd_studio.ai.model_io.write_trusted_resume_hash"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_exact_resume_requires_authenticated_local_sidecar_not_self_asserted_hash",
+      "to": "write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus",
+      "to": "calo_rpd_studio.orpd.constraints.generator_limit_violation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus",
+      "to": "calo_rpd_studio.power_system.case_model.PowerSystemCase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus",
+      "to": "first.copy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus",
+      "to": "np.vstack"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus",
+      "to": "np.zeros"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generic_stats_guards_handle_empty_and_nonfinite_inputs",
+      "to": "calo_rpd_studio.statistics.confidence_intervals.mean_confidence_interval"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generic_stats_guards_handle_empty_and_nonfinite_inputs",
+      "to": "calo_rpd_studio.statistics.effect_sizes.cliffs_delta"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_generic_stats_guards_handle_empty_and_nonfinite_inputs",
+      "to": "np.isnan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_low_level_scenario_weights_reject_negative_nan_and_zero_sum",
+      "to": "calo_rpd_studio.robustness.robust_objectives.normalize_scenario_weights"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_low_level_scenario_weights_reject_negative_nan_and_zero_sum",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_low_level_scenario_weights_reject_negative_nan_and_zero_sum",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+      "to": "Result"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+      "to": "calo_rpd_studio.algorithms.calo.policy_qualification._convergence_auc"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+      "to": "float"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+      "to": "np.isinf"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_suppression_is_project_database_scoped",
+      "to": "a.list_suppressed_policy_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_suppression_is_project_database_scoped",
+      "to": "a.suppress_policy_sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_suppression_is_project_database_scoped",
+      "to": "b.list_suppressed_policy_sha256"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_policy_suppression_is_project_database_scoped",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_robust_feasibility_defaults_to_all_scenario_max_and_cannot_dilute_low_weight_violation",
+      "to": "calo_rpd_studio.robustness.robust_objectives.RobustObjectiveConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_robust_feasibility_defaults_to_all_scenario_max_and_cannot_dilute_low_weight_violation",
+      "to": "calo_rpd_studio.robustness.robust_objectives.aggregate_constraint_violation"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_robust_feasibility_defaults_to_all_scenario_max_and_cannot_dilute_low_weight_violation",
+      "to": "pytest.approx"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_scenario_is_immutable_and_validates_weight",
+      "to": "calo_rpd_studio.robustness.scenario.Scenario"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_v57_previous_audit_closure.test_scenario_is_immutable_and_validates_weight",
+      "to": "pytest.raises"
+    }
+  ]
+}

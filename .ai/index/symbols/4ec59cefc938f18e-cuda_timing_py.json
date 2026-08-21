@@ -1,0 +1,630 @@
+{
+  "path": "calo_rpd_studio/accelerated/cuda_timing.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.CUDA_NUMERICAL_TIME_SHARE_TARGET",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 10,
+      "state_owner": "",
+      "symbol": "CUDA_NUMERICAL_TIME_SHARE_TARGET",
+      "tests": [
+        "tests/unit/test_cuda_residency_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.POWER_SYSTEM_EVALUATIONS_PER_BOUNDARY",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "POWER_SYSTEM_EVALUATIONS_PER_BOUNDARY",
+      "tests": [
+        "tests/unit/test_cuda_residency_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "constant",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.POLICY_EPOCHS_PER_BOUNDARY",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "POLICY_EPOCHS_PER_BOUNDARY",
+      "tests": [
+        "tests/unit/test_cuda_residency_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.accelerated.cuda_timing.summarize_cuda_window_timing"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Timing evidence for one explicitly bounded CUDA numerical operation.",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "class",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.CudaWindowTiming",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "CudaWindowTiming",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "method",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing.CudaWindowTiming",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.CudaWindowTiming.to_dict",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(self)",
+      "start_line": 31,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CudaWindowTiming",
+          "target": "calo_rpd_studio.accelerated.cuda_timing.CudaWindowTiming"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "CudaWindowTiming": "name",
+        "ValueError": "name",
+        "bool": "name",
+        "float": "name",
+        "max": "name",
+        "min": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+        "tests.unit.test_cuda_residency_contract.test_cuda_window_timing_qualifies_only_consistent_samples_at_target"
+      ],
+      "calls": [
+        "CudaWindowTiming",
+        "ValueError",
+        "bool",
+        "float",
+        "max",
+        "min",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.cuda_timing.CudaWindowTiming"
+      ],
+      "doc": "Build a bounded timing record without hiding invalid or contradictory samples.",
+      "end_line": 70,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.summarize_cuda_window_timing",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(label, device, wall_seconds, cuda_event_seconds, target_cuda_time_share)",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "summarize_cuda_window_timing",
+      "tests": [
+        "tests/unit/test_cuda_residency_contract.py"
+      ]
+    },
+    {
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "summarize_cuda_window_timing",
+          "target": "calo_rpd_studio.accelerated.cuda_timing.summarize_cuda_window_timing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "clock",
+          "target": "clock"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "end_event.record",
+          "target": "end_event.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "end_event.synchronize",
+          "target": "end_event.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "operation",
+          "target": "operation"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "start_event.elapsed_time",
+          "target": "start_event.elapsed_time"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "start_event.record",
+          "target": "start_event.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.Event",
+          "target": "torch.cuda.Event"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.current_device",
+          "target": "torch.cuda.current_device"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.synchronize",
+          "target": "torch.cuda.synchronize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "bool": "name",
+        "clock": "name",
+        "end_event.record": "attribute",
+        "end_event.synchronize": "attribute",
+        "float": "name",
+        "int": "name",
+        "operation": "name",
+        "start_event.elapsed_time": "attribute",
+        "start_event.record": "attribute",
+        "str": "name",
+        "summarize_cuda_window_timing": "name",
+        "torch.cuda.Event": "attribute",
+        "torch.cuda.current_device": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.synchronize": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts.validate_cuda_hot_path.main",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main"
+      ],
+      "calls": [
+        "RuntimeError",
+        "bool",
+        "clock",
+        "end_event.record",
+        "end_event.synchronize",
+        "float",
+        "int",
+        "operation",
+        "start_event.elapsed_time",
+        "start_event.record",
+        "str",
+        "summarize_cuda_window_timing",
+        "torch.cuda.Event",
+        "torch.cuda.current_device",
+        "torch.cuda.is_available",
+        "torch.cuda.synchronize",
+        "torch.device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.accelerated.cuda_timing.summarize_cuda_window_timing"
+      ],
+      "doc": "Execute and time one CUDA window, synchronizing only at its outer boundaries.",
+      "end_line": 114,
+      "entry_point": false,
+      "file": "calo_rpd_studio/accelerated/cuda_timing.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Callable": "typing.Callable",
+        "TypeVar": "typing.TypeVar",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "dataclass": "dataclasses.dataclass",
+        "imported_torch": "torch",
+        "perf_counter": "time.perf_counter"
+      },
+      "important_invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Resource admission is bounded by Safe-80 rules.",
+        "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+      ],
+      "kind": "function",
+      "module": "compute",
+      "parent_qualname": "calo_rpd_studio.accelerated.cuda_timing",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.accelerated.cuda_timing",
+      "qualname": "calo_rpd_studio.accelerated.cuda_timing.measure_cuda_window",
+      "semantic_tags": [
+        "CPU",
+        "CUDA",
+        "Safe-80",
+        "resource-admission"
+      ],
+      "signature": "(operation, device, label, target_cuda_time_share, torch_module, clock)",
+      "start_line": 73,
+      "state_owner": "",
+      "symbol": "measure_cuda_window",
+      "tests": []
+    }
+  ]
+}

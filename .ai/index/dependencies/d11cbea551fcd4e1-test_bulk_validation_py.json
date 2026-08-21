@@ -1,0 +1,62 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/benchmarking/__init__.py"
+    }
+  ],
+  "path": "tests/unit/test_bulk_validation.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_bulk_validation._FakeDatabase.get_run",
+      "to": "dict"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_bulk_validation._FakeDatabase.get_run",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_bulk_validation._FakeDatabase.list_runs",
+      "to": "dict"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "to": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "to": "calo_rpd_studio.benchmarking.validation.validate_runs"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress",
+      "to": "tests.unit.test_bulk_validation._FakeDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validate_runs_continues_after_failure_and_reports_progress.fake_validate",
+      "to": "RuntimeError"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validation_selection_skips_verified_by_default",
+      "to": "calo_rpd_studio.benchmarking.validation.select_runs_for_validation"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_bulk_validation.test_bulk_validation_selection_skips_verified_by_default",
+      "to": "tests.unit.test_bulk_validation._FakeDatabase"
+    }
+  ]
+}

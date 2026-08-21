@@ -1,0 +1,702 @@
+{
+  "path": "tests/unit/test_container_contract.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 12,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_verify_image_release_scope",
+          "target": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "_verify_image_release_scope": "name",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_verify_image_release_scope",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope"
+      ],
+      "doc": "",
+      "end_line": 52,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_container_image_manifest_rejects_policy_training_and_validation_artifacts",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "test_container_image_manifest_rejects_policy_training_and_validation_artifacts",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "debian_sources.count",
+          "target": "debian_sources.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dockerfile.index",
+          "target": "dockerfile.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "debian_sources.count": "attribute",
+        "dockerfile.index": "attribute",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "debian_sources.count",
+        "dockerfile.index",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 78,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_image_drops_root_before_runtime_entrypoint",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 55,
+      "state_owner": "",
+      "symbol": "test_image_drops_root_before_runtime_entrypoint",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.startswith",
+          "target": "item.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "any": "name",
+        "item.startswith": "attribute",
+        "read_text": "attribute",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "any",
+        "item.startswith",
+        "read_text",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_compose_profiles_are_local_only_read_only_and_non_privileged",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "test_compose_profiles_are_local_only_read_only_and_non_privileged",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 115,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_cuda_profile_requests_one_explicit_nvidia_device",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 103,
+      "state_owner": "",
+      "symbol": "test_cuda_profile_requests_one_explicit_nvidia_device",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "line.lstrip",
+          "target": "line.lstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.strip",
+          "target": "line.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "splitlines",
+          "target": "splitlines"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        }
+      ],
+      "call_forms": {
+        "line.lstrip": "attribute",
+        "line.strip": "attribute",
+        "read_text": "attribute",
+        "splitlines": "attribute",
+        "startswith": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "line.lstrip",
+        "line.strip",
+        "read_text",
+        "splitlines",
+        "startswith"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 143,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_container_context_excludes_generated_policies_and_user_build_notes",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 118,
+      "state_owner": "",
+      "symbol": "test_container_context_excludes_generated_policies_and_user_build_notes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 152,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_vnc_server_is_reachable_only_from_the_container_loopback",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 146,
+      "state_owner": "",
+      "symbol": "test_vnc_server_is_reachable_only_from_the_container_loopback",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "expected.items",
+          "target": "expected.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "match.group",
+          "target": "match.group"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.compile",
+          "target": "re.compile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requirement_pattern.findall",
+          "target": "requirement_pattern.findall"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requirement_pattern.finditer",
+          "target": "requirement_pattern.finditer"
+        }
+      ],
+      "call_forms": {
+        "expected.items": "attribute",
+        "len": "name",
+        "match.group": "attribute",
+        "re.compile": "attribute",
+        "read_text": "attribute",
+        "requirement_pattern.findall": "attribute",
+        "requirement_pattern.finditer": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "expected.items",
+        "len",
+        "match.group",
+        "re.compile",
+        "read_text",
+        "requirement_pattern.findall",
+        "requirement_pattern.finditer"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 176,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_cpu_and_cuda_runtime_locks_are_hash_complete_and_backend_specific",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 155,
+      "state_owner": "",
+      "symbol": "test_cpu_and_cuda_runtime_locks_are_hash_complete_and_backend_specific",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "match.group",
+          "target": "match.group"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.compile",
+          "target": "re.compile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.findall",
+          "target": "re.findall"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "re.fullmatch",
+          "target": "re.fullmatch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requirement_pattern.finditer",
+          "target": "requirement_pattern.finditer"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_dump",
+          "target": "yaml.safe_dump"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "yaml.safe_load",
+          "target": "yaml.safe_load"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "match.group": "attribute",
+        "re.compile": "attribute",
+        "re.findall": "attribute",
+        "re.fullmatch": "attribute",
+        "read_text": "attribute",
+        "requirement_pattern.finditer": "attribute",
+        "set": "name",
+        "yaml.safe_dump": "attribute",
+        "yaml.safe_load": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "all",
+        "match.group",
+        "re.compile",
+        "re.findall",
+        "re.fullmatch",
+        "read_text",
+        "requirement_pattern.finditer",
+        "set",
+        "yaml.safe_dump",
+        "yaml.safe_load"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 233,
+      "entry_point": false,
+      "file": "tests/unit/test_container_contract.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "_verify_image_release_scope": "calo_rpd_studio.scripts.container_smoke._verify_image_release_scope",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest",
+        "re": "re",
+        "yaml": "yaml"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.scripts.container_smoke",
+        "pathlib",
+        "pytest",
+        "re",
+        "yaml"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_container_contract",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_container_contract",
+      "qualname": "tests.unit.test_container_contract.test_ci_lock_and_workflow_are_reproducible_and_supply_chain_pinned",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 179,
+      "state_owner": "",
+      "symbol": "test_ci_lock_and_workflow_are_reproducible_and_supply_chain_pinned",
+      "tests": []
+    }
+  ]
+}

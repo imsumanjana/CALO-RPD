@@ -1,0 +1,338 @@
+{
+  "path": "calo_rpd_studio/power_system/pv_pq_switching.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 10,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/pv_pq_switching.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "constant",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.pv_pq_switching",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.pv_pq_switching",
+      "qualname": "calo_rpd_studio.power_system.pv_pq_switching.REACTIVE_ALLOCATION_CONVENTION",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "",
+      "start_line": 7,
+      "state_owner": "",
+      "symbol": "REACTIVE_ALLOCATION_CONVENTION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        }
+      ],
+      "call_forms": {
+        "astype": "attribute",
+        "int": "name",
+        "np.where": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow._update_outputs",
+        "calo_rpd_studio.power_system.ac_power_flow._update_outputs",
+        "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+        "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power"
+      ],
+      "calls": [
+        "astype",
+        "int",
+        "np.where"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/pv_pq_switching.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.pv_pq_switching",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.pv_pq_switching",
+      "qualname": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, bus_number)",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "online_generators_at_bus",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "online_generators_at_bus",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.sum": "attribute",
+        "online_generators_at_bus": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow_batch",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "float",
+        "np.sum",
+        "online_generators_at_bus"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/pv_pq_switching.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.pv_pq_switching",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.pv_pq_switching",
+      "qualname": "calo_rpd_studio.power_system.pv_pq_switching.aggregate_q_limits",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, bus_number)",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "aggregate_q_limits",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "online_generators_at_bus",
+          "target": "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.maximum",
+          "target": "np.maximum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qmax.sum",
+          "target": "qmax.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qmin.sum",
+          "target": "qmin.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "span.sum",
+          "target": "span.sum"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "np.clip": "attribute",
+        "np.full": "attribute",
+        "np.maximum": "attribute",
+        "np.sum": "attribute",
+        "online_generators_at_bus": "name",
+        "qmax.sum": "attribute",
+        "qmin.sum": "attribute",
+        "span.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.accelerated.torch_power_flow._update_outputs",
+        "calo_rpd_studio.accelerated.torch_power_flow.run_torch_ac_power_flow",
+        "calo_rpd_studio.power_system.ac_power_flow._update_outputs",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+      ],
+      "calls": [
+        "float",
+        "np.clip",
+        "np.full",
+        "np.maximum",
+        "np.sum",
+        "online_generators_at_bus",
+        "qmax.sum",
+        "qmin.sum",
+        "span.sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.pv_pq_switching.online_generators_at_bus"
+      ],
+      "doc": "Allocate aggregate reactive output across online generators at one bus.",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/power_system/pv_pq_switching.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "annotations": "__future__.annotations",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "imports": [
+        ".case_model",
+        "__future__",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Protected cases remain outside training/tuning/checkpoint selection."
+      ],
+      "kind": "function",
+      "module": "power-system",
+      "parent_qualname": "calo_rpd_studio.power_system.pv_pq_switching",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.power_system.pv_pq_switching",
+      "qualname": "calo_rpd_studio.power_system.pv_pq_switching.distribute_reactive_power",
+      "semantic_tags": [
+        "ORPD",
+        "constraints",
+        "power-flow",
+        "robustness"
+      ],
+      "signature": "(case, bus_number, required_q, clip_to_limits)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "distribute_reactive_power",
+      "tests": []
+    }
+  ]
+}

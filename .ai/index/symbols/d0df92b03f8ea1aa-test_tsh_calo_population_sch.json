@@ -1,0 +1,927 @@
+{
+  "path": "tests/unit/test_tsh_calo_population_schedule.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule.test_disabled_schedule_cannot_apply_fabricated_contraction_decision",
+        "tests.unit.test_tsh_calo_population_schedule.test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 24,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule._Evaluation",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "_Evaluation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleMetrics",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics"
+        }
+      ],
+      "call_forms": {
+        "PopulationScheduleMetrics": "name"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule.test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+        "tests.unit.test_tsh_calo_population_schedule.test_population_schedule_is_doubly_gated_and_disabled_by_default",
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision"
+      ],
+      "calls": [
+        "PopulationScheduleMetrics"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics"
+      ],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule._ready",
+      "semantic_tags": [],
+      "signature": "(evaluations)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "_ready",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "values.update",
+          "target": "values.update"
+        }
+      ],
+      "call_forms": {
+        "PopulationScheduleConfig": "name",
+        "dict": "name",
+        "values.update": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_tsh_calo_population_schedule.test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+        "tests.unit.test_tsh_calo_population_schedule.test_every_preregistered_condition_can_falsify_contraction",
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision",
+        "tests.unit.test_tsh_calo_population_schedule.test_schedule_design_hash_changes_with_preregistered_threshold"
+      ],
+      "calls": [
+        "PopulationScheduleConfig",
+        "dict",
+        "values.update"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule._enabled",
+      "semantic_tags": [],
+      "signature": "(**changes)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_enabled",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleConfig",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.decide",
+          "target": "schedule.decide"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ready",
+          "target": "tests.unit.test_tsh_calo_population_schedule._ready"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "validate",
+          "target": "validate"
+        }
+      ],
+      "call_forms": {
+        "ExperimentalPopulationSchedule": "name",
+        "PopulationScheduleConfig": "name",
+        "_ready": "name",
+        "pytest.raises": "attribute",
+        "schedule.decide": "attribute",
+        "validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig",
+        "_ready",
+        "pytest.raises",
+        "schedule.decide",
+        "validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "tests.unit.test_tsh_calo_population_schedule._ready"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_population_schedule_is_doubly_gated_and_disabled_by_default",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_population_schedule_is_doubly_gated_and_disabled_by_default",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleMetrics",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decide",
+          "target": "decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_enabled",
+          "target": "tests.unit.test_tsh_calo_population_schedule._enabled"
+        }
+      ],
+      "call_forms": {
+        "ExperimentalPopulationSchedule": "name",
+        "PopulationScheduleMetrics": "name",
+        "_enabled": "name",
+        "decide": "attribute",
+        "pytest.mark.parametrize": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentalPopulationSchedule",
+        "PopulationScheduleMetrics",
+        "_enabled",
+        "decide",
+        "pytest.mark.parametrize"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "tests.unit.test_tsh_calo_population_schedule._enabled"
+      ],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_every_preregistered_condition_can_falsify_contraction",
+      "semantic_tags": [],
+      "signature": "(metrics, reason)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "test_every_preregistered_condition_can_falsify_contraction",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inspect.getsource",
+          "target": "inspect.getsource"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.arange",
+          "target": "np.arange"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.apply",
+          "target": "schedule.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.decide",
+          "target": "schedule.decide"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Evaluation",
+          "target": "tests.unit.test_tsh_calo_population_schedule._Evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_enabled",
+          "target": "tests.unit.test_tsh_calo_population_schedule._enabled"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ready",
+          "target": "tests.unit.test_tsh_calo_population_schedule._ready"
+        }
+      ],
+      "call_forms": {
+        "ExperimentalPopulationSchedule": "name",
+        "_Evaluation": "name",
+        "_enabled": "name",
+        "_ready": "name",
+        "all": "name",
+        "float": "name",
+        "inspect.getsource": "attribute",
+        "len": "name",
+        "np.arange": "attribute",
+        "range": "name",
+        "reshape": "attribute",
+        "schedule.apply": "attribute",
+        "schedule.decide": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentalPopulationSchedule",
+        "_Evaluation",
+        "_enabled",
+        "_ready",
+        "all",
+        "float",
+        "inspect.getsource",
+        "len",
+        "np.arange",
+        "range",
+        "reshape",
+        "schedule.apply",
+        "schedule.decide"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "tests.unit.test_tsh_calo_population_schedule._Evaluation",
+        "tests.unit.test_tsh_calo_population_schedule._enabled",
+        "tests.unit.test_tsh_calo_population_schedule._ready"
+      ],
+      "doc": "",
+      "end_line": 102,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "test_eligible_contraction_is_bounded_deterministic_feasibility_first_and_has_no_fe",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule.from_state_dict",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.from_state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.linspace",
+          "target": "np.linspace"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.decide",
+          "target": "restored.decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "restored.state_dict",
+          "target": "restored.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.apply",
+          "target": "schedule.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.decide",
+          "target": "schedule.decide"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.state_dict",
+          "target": "schedule.state_dict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Evaluation",
+          "target": "tests.unit.test_tsh_calo_population_schedule._Evaluation"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_enabled",
+          "target": "tests.unit.test_tsh_calo_population_schedule._enabled"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_ready",
+          "target": "tests.unit.test_tsh_calo_population_schedule._ready"
+        }
+      ],
+      "call_forms": {
+        "ExperimentalPopulationSchedule": "name",
+        "ExperimentalPopulationSchedule.from_state_dict": "attribute",
+        "_Evaluation": "name",
+        "_enabled": "name",
+        "_ready": "name",
+        "float": "name",
+        "np.linspace": "attribute",
+        "range": "name",
+        "reshape": "attribute",
+        "restored.decide": "attribute",
+        "restored.state_dict": "attribute",
+        "schedule.apply": "attribute",
+        "schedule.decide": "attribute",
+        "schedule.state_dict": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentalPopulationSchedule",
+        "ExperimentalPopulationSchedule.from_state_dict",
+        "_Evaluation",
+        "_enabled",
+        "_ready",
+        "float",
+        "np.linspace",
+        "range",
+        "reshape",
+        "restored.decide",
+        "restored.state_dict",
+        "schedule.apply",
+        "schedule.decide",
+        "schedule.state_dict"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule.from_state_dict",
+        "tests.unit.test_tsh_calo_population_schedule._Evaluation",
+        "tests.unit.test_tsh_calo_population_schedule._enabled",
+        "tests.unit.test_tsh_calo_population_schedule._ready"
+      ],
+      "doc": "",
+      "end_line": 116,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_schedule_checkpoint_restores_exact_state_and_spacing_decision",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 105,
+      "state_owner": "",
+      "symbol": "test_schedule_checkpoint_restores_exact_state_and_spacing_decision",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "first.design_hash",
+          "target": "first.design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "second.design_hash",
+          "target": "second.design_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_enabled",
+          "target": "tests.unit.test_tsh_calo_population_schedule._enabled"
+        }
+      ],
+      "call_forms": {
+        "_enabled": "name",
+        "first.design_hash": "attribute",
+        "second.design_hash": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_enabled",
+        "first.design_hash",
+        "second.design_hash"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_tsh_calo_population_schedule._enabled"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_schedule_design_hash_changes_with_preregistered_threshold",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 119,
+      "state_owner": "",
+      "symbol": "test_schedule_design_hash_changes_with_preregistered_threshold",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentalPopulationSchedule",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PopulationScheduleDecision",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.apply",
+          "target": "schedule.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schedule.config.design_hash",
+          "target": "schedule.config.design_hash"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_Evaluation",
+          "target": "tests.unit.test_tsh_calo_population_schedule._Evaluation"
+        }
+      ],
+      "call_forms": {
+        "ExperimentalPopulationSchedule": "name",
+        "PopulationScheduleDecision": "name",
+        "_Evaluation": "name",
+        "float": "name",
+        "np.zeros": "attribute",
+        "pytest.raises": "attribute",
+        "range": "name",
+        "schedule.apply": "attribute",
+        "schedule.config.design_hash": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentalPopulationSchedule",
+        "PopulationScheduleDecision",
+        "_Evaluation",
+        "float",
+        "np.zeros",
+        "pytest.raises",
+        "range",
+        "schedule.apply",
+        "schedule.config.design_hash"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "tests.unit.test_tsh_calo_population_schedule._Evaluation"
+      ],
+      "doc": "",
+      "end_line": 146,
+      "entry_point": false,
+      "file": "tests/unit/test_tsh_calo_population_schedule.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_TSH_CALO_FEATURES": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.DEFAULT_TSH_CALO_FEATURES",
+        "ExperimentalPopulationSchedule": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.ExperimentalPopulationSchedule",
+        "PopulationScheduleConfig": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleConfig",
+        "PopulationScheduleDecision": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleDecision",
+        "PopulationScheduleMetrics": "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule.PopulationScheduleMetrics",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "inspect": "inspect",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_population_schedule",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "dataclasses",
+        "inspect",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_tsh_calo_population_schedule",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_tsh_calo_population_schedule",
+      "qualname": "tests.unit.test_tsh_calo_population_schedule.test_disabled_schedule_cannot_apply_fabricated_contraction_decision",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "test_disabled_schedule_cannot_apply_fabricated_contraction_decision",
+      "tests": []
+    }
+  ]
+}

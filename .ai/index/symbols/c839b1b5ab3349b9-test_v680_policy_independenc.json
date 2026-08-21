@@ -1,0 +1,545 @@
+{
+  "path": "tests/unit/test_v680_policy_independence.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "resolve": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v680_policy_independence.test_policy_development_validation_is_independent_of_portfolio_run_minimum",
+        "tests.unit.test_v680_policy_independence.test_policy_training_paths_use_independent_scientific_validation"
+      ],
+      "calls": [
+        "Path",
+        "resolve"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence._root",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "_root",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig.load",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.portfolio.required_runs",
+          "target": "config.portfolio.required_runs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate_policy_development",
+          "target": "config.validate_policy_development"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v680_policy_independence._root"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig.load": "attribute",
+        "_root": "name",
+        "config.portfolio.required_runs": "attribute",
+        "config.validate": "attribute",
+        "config.validate_policy_development": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "ExperimentConfig.load",
+        "_root",
+        "config.portfolio.required_runs",
+        "config.validate",
+        "config.validate_policy_development",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig.load",
+        "tests.unit.test_v680_policy_independence._root"
+      ],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_policy_development_validation_is_independent_of_portfolio_run_minimum",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "test_policy_development_validation_is_independent_of_portfolio_run_minimum",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_root",
+          "target": "tests.unit.test_v680_policy_independence._root"
+        }
+      ],
+      "call_forms": {
+        "_root": "name",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_root",
+        "read_text"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v680_policy_independence._root"
+      ],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_policy_training_paths_use_independent_scientific_validation",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "test_policy_training_paths_use_independent_scientific_validation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "accelerator_repair_required",
+          "target": "calo_bootstrap.launcher.accelerator_repair_required"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "accelerator_repair_required": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "accelerator_repair_required"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.launcher.accelerator_repair_required"
+      ],
+      "doc": "",
+      "end_line": 58,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_detected_nvidia_without_verified_cuda_requires_repair",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "test_detected_nvidia_without_verified_cuda_requires_repair",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "accelerator_repair_required",
+          "target": "calo_bootstrap.launcher.accelerator_repair_required"
+        }
+      ],
+      "call_forms": {
+        "SimpleNamespace": "name",
+        "accelerator_repair_required": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "SimpleNamespace",
+        "accelerator_repair_required"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.launcher.accelerator_repair_required"
+      ],
+      "doc": "",
+      "end_line": 66,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_cpu_only_host_does_not_require_accelerator_repair",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "test_cpu_only_host_does_not_require_accelerator_repair",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "SimpleNamespace",
+          "target": "SimpleNamespace"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AppState",
+          "target": "calo_rpd_studio.app.state_manager.AppState"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parameters.update",
+          "target": "parameters.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.config.algorithm_parameters.setdefault",
+          "target": "state.config.algorithm_parameters.setdefault"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.synchronize_governing_policy_binding",
+          "target": "state.synchronize_governing_policy_binding"
+        }
+      ],
+      "call_forms": {
+        "AppState": "name",
+        "SimpleNamespace": "name",
+        "monkeypatch.setattr": "attribute",
+        "parameters.update": "attribute",
+        "state.config.algorithm_parameters.setdefault": "attribute",
+        "state.synchronize_governing_policy_binding": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AppState",
+        "SimpleNamespace",
+        "monkeypatch.setattr",
+        "parameters.update",
+        "state.config.algorithm_parameters.setdefault",
+        "state.synchronize_governing_policy_binding"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.app.state_manager.AppState"
+      ],
+      "doc": "",
+      "end_line": 113,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 69,
+      "state_owner": "",
+      "symbol": "test_active_governing_policy_is_automatically_bound_to_new_experiments",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "update",
+          "target": "update"
+        }
+      ],
+      "call_forms": {
+        "dict": "name",
+        "update": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "dict",
+        "update"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "tests/unit/test_v680_policy_independence.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AppState": "calo_rpd_studio.app.state_manager.AppState",
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "Path": "pathlib.Path",
+        "SimpleNamespace": "types.SimpleNamespace",
+        "accelerator_repair_required": "calo_bootstrap.launcher.accelerator_repair_required",
+        "annotations": "__future__.annotations",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.launcher",
+        "calo_rpd_studio.app.state_manager",
+        "calo_rpd_studio.experiments.experiment_config",
+        "pathlib",
+        "pytest",
+        "types"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v680_policy_independence",
+      "qualname": "tests.unit.test_v680_policy_independence.test_active_governing_policy_is_automatically_bound_to_new_experiments.bind",
+      "semantic_tags": [],
+      "signature": "(policy_id, config, deterministic, allow_unqualified, algorithm_id)",
+      "start_line": 91,
+      "state_owner": "",
+      "symbol": "bind",
+      "tests": []
+    }
+  ]
+}

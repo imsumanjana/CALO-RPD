@@ -1,0 +1,211 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/ai/model_io.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/resume/models.py"
+    }
+  ],
+  "path": "calo_rpd_studio/resume/service.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.__init__",
+      "to": "Path"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.__init__",
+      "to": "self.checkpoint_root.mkdir"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.resume.service.ResumeService.archive",
+      "to": "calo_rpd_studio.resume.service.ResumeService.update"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "Path"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "calo_rpd_studio.ai.model_io.durable_write_bytes"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "encode"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "hashlib.sha256"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "hexdigest"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.atomic_write_json",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.checkpoint_path",
+      "to": "ch.isalnum"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.checkpoint_path",
+      "to": "directory.mkdir"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.checkpoint_path",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.delete",
+      "to": "directory.exists"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.delete",
+      "to": "self.database.delete_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.delete",
+      "to": "shutil.rmtree"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "calo_rpd_studio.resume.models.ResumeItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "items.append"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "self.database.list_resumable_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.list_all",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.recover_after_restart",
+      "to": "self.database.mark_stale_running_interrupted"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.register",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.register",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.register",
+      "to": "self.database.upsert_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.register",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.register",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.unfinished",
+      "to": "bool"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "calo_rpd_studio.resume.service.ResumeService.unfinished",
+      "to": "calo_rpd_studio.resume.models.ResumeItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.unfinished",
+      "to": "int"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.unfinished",
+      "to": "json.loads"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.unfinished",
+      "to": "self.database.list_resumable_tasks"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.update",
+      "to": "isinstance"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.update",
+      "to": "self.database.update_resumable_task"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.ResumeService.update",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.utcnow",
+      "to": "datetime.now"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "calo_rpd_studio.resume.service.utcnow",
+      "to": "isoformat"
+    }
+  ]
+}

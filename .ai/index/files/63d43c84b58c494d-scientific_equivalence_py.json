@@ -1,0 +1,55 @@
+{
+  "file": {
+    "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:f65f9e988db09388d5c07e148a34aefa2976f6b6",
+    "content_sha256": "3343ba829b9d8944c8b53aebdc1ada683f84cc1d919902333138cb2deee56fbf",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Any": "typing.Any",
+      "Iterable": "typing.Iterable",
+      "annotations": "__future__.annotations",
+      "asdict": "dataclasses.asdict",
+      "dataclass": "dataclasses.dataclass",
+      "hashlib": "hashlib",
+      "json": "json"
+    },
+    "important_invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "hashlib",
+      "json",
+      "typing"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Resource admission is bounded by Safe-80 rules.",
+      "Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable."
+    ],
+    "language": "python",
+    "last_indexed_commit": "b80342e5237b650d672d8a089f38b49c548bdbec",
+    "module": "compute",
+    "parse_error": "",
+    "path": "calo_rpd_studio/compute/scientific_equivalence.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "CPU",
+      "CUDA",
+      "Safe-80",
+      "resource-admission"
+    ],
+    "size_bytes": 2845,
+    "state_owner": "",
+    "symbol_count": 6
+  },
+  "path": "calo_rpd_studio/compute/scientific_equivalence.py",
+  "schema_version": 2
+}

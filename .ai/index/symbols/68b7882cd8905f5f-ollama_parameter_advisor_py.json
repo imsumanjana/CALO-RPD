@@ -1,0 +1,712 @@
+{
+  "path": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 13,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LOCAL_ASSISTANT_RESPONSE_SCHEMA",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 13,
+      "state_owner": "",
+      "symbol": "LOCAL_ASSISTANT_RESPONSE_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "encoded.encode",
+          "target": "encoded.encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        }
+      ],
+      "call_forms": {
+        "encoded.encode": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "json.dumps": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor.explain"
+      ],
+      "calls": [
+        "encoded.encode",
+        "hashlib.sha256",
+        "hexdigest",
+        "json.dumps"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor._canonical_sha256",
+      "semantic_tags": [],
+      "signature": "(payload)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_canonical_sha256",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core.CALOIntelligencePanel._local_assistant_config",
+        "calo_rpd_studio.gui.panels.application_settings_panel.ApplicationSettingsPanel.save_local_assistant_settings",
+        "tests.unit.test_local_parameter_assistant.test_local_assistant_refuses_nonlocal_endpoint"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantConfig",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "LocalAssistantConfig",
+      "tests": [
+        "tests/unit/test_local_parameter_assistant.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "urlparse",
+          "target": "urlparse"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "isinstance": "name",
+        "lower": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "urlparse": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "isinstance",
+        "lower",
+        "str",
+        "strip",
+        "urlparse"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 40,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantConfig.validate",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 28,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor.explain",
+        "tests.unit.test_local_parameter_assistant.test_local_assistant_response_cannot_claim_scientific_authority"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantResponse",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "LocalAssistantResponse",
+      "tests": [
+        "tests/unit/test_local_parameter_assistant.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantResponse",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantResponse.to_dict",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels._calo_intelligence_panel_core._ParameterExplanationWorker.run"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Explain structured evidence without giving the model any mutation capability.",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 63,
+      "state_owner": "",
+      "symbol": "OllamaParameterAdvisor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "config.validate",
+          "target": "config.validate"
+        }
+      ],
+      "call_forms": {
+        "config.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "config.validate"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor.__init__",
+      "semantic_tags": [],
+      "signature": "(self, config)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Request",
+          "target": "Request"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "LocalAssistantResponse",
+          "target": "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantResponse"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_canonical_sha256",
+          "target": "calo_rpd_studio.assistant.ollama_parameter_advisor._canonical_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "decode",
+          "target": "decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "encode",
+          "target": "encode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "message.get",
+          "target": "message.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "response.read",
+          "target": "response.read"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.endpoint.rstrip",
+          "target": "self.config.endpoint.rstrip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "urlopen",
+          "target": "urlopen"
+        }
+      ],
+      "call_forms": {
+        "LocalAssistantResponse": "name",
+        "Request": "name",
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "_canonical_sha256": "name",
+        "decode": "attribute",
+        "dict": "name",
+        "encode": "attribute",
+        "float": "name",
+        "isinstance": "name",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "message.get": "attribute",
+        "payload.get": "attribute",
+        "response.read": "attribute",
+        "self.config.endpoint.rstrip": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "urlopen": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "LocalAssistantResponse",
+        "Request",
+        "RuntimeError",
+        "ValueError",
+        "_canonical_sha256",
+        "decode",
+        "dict",
+        "encode",
+        "float",
+        "isinstance",
+        "json.dumps",
+        "json.loads",
+        "message.get",
+        "payload.get",
+        "response.read",
+        "self.config.endpoint.rstrip",
+        "str",
+        "strip",
+        "urlopen"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.assistant.ollama_parameter_advisor.LocalAssistantResponse",
+        "calo_rpd_studio.assistant.ollama_parameter_advisor._canonical_sha256"
+      ],
+      "doc": "",
+      "end_line": 120,
+      "entry_point": false,
+      "file": "calo_rpd_studio/assistant/ollama_parameter_advisor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Any": "typing.Any",
+        "Request": "urllib.request.Request",
+        "annotations": "__future__.annotations",
+        "dataclass": "dataclasses.dataclass",
+        "hashlib": "hashlib",
+        "json": "json",
+        "urlopen": "urllib.request.urlopen",
+        "urlparse": "urllib.parse.urlparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "hashlib",
+        "json",
+        "typing",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "core",
+      "parent_qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.assistant.ollama_parameter_advisor",
+      "qualname": "calo_rpd_studio.assistant.ollama_parameter_advisor.OllamaParameterAdvisor.explain",
+      "semantic_tags": [],
+      "signature": "(self, evidence, question)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "explain",
+      "tests": []
+    }
+  ]
+}

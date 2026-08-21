@@ -1,0 +1,1064 @@
+{
+  "path": "calo_rpd_studio/algorithms/lshade.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "better",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.better"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "sort_key",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "eps.item",
+          "target": "eps.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.finfo",
+          "target": "np.finfo"
+        }
+      ],
+      "call_forms": {
+        "better": "name",
+        "eps.item": "attribute",
+        "float": "name",
+        "max": "name",
+        "np.finfo": "attribute",
+        "sort_key": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_lshade",
+        "tests.unit.test_lshade.test_constrained_improvement_respects_feasibility_first_adapter"
+      ],
+      "calls": [
+        "better",
+        "eps.item",
+        "float",
+        "max",
+        "np.finfo",
+        "sort_key"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.orpd.feasibility_rules.better",
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "doc": "Positive improvement magnitude consistent with feasibility-first selection.",
+      "end_line": 38,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+      "semantic_tags": [],
+      "signature": "(parent, child)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "constrained_improvement",
+      "tests": [
+        "tests/unit/test_lshade.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        }
+      ],
+      "call_forms": {
+        "copy": "attribute",
+        "np.asarray": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population",
+        "tests.unit.test_lshade.test_parent_midpoint_repair_matches_reference_equation"
+      ],
+      "calls": [
+        "copy",
+        "np.asarray"
+      ],
+      "calls_resolved": [],
+      "doc": "Apply the JADE/L-SHADE parent-midpoint repair on the normalized unit box.",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+      "semantic_tags": [],
+      "signature": "(candidate, parent)",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "parent_midpoint_repair",
+      "tests": [
+        "tests/unit/test_lshade.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.floor",
+          "target": "np.floor"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "int": "name",
+        "np.floor": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population",
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_lshade",
+        "tests.unit.test_lshade.test_positive_round_matches_reference_cpp_size_rounding"
+      ],
+      "calls": [
+        "float",
+        "int",
+        "np.floor"
+      ],
+      "calls_resolved": [],
+      "doc": "Match C++ ``round`` for the non-negative sizes used by L-SHADE.",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.positive_round",
+      "semantic_tags": [],
+      "signature": "(value)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "positive_round",
+      "tests": [
+        "tests/unit/test_lshade.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Corrected L-SHADE mechanics under the shared optimizer result contract.",
+      "end_line": 257,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "LSHADEOptimizer",
+      "tests": [
+        "tests/unit/test_lshade.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.standard_cauchy",
+          "target": "self.rng.standard_cauchy"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "min": "name",
+        "self.rng.standard_cauchy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_lshade"
+      ],
+      "calls": [
+        "float",
+        "min",
+        "self.rng.standard_cauchy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 68,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._sample_scaling_factor",
+      "semantic_tags": [],
+      "signature": "(self, mean)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "_sample_scaling_factor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "archive.append",
+          "target": "archive.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.integers",
+          "target": "self.rng.integers"
+        }
+      ],
+      "call_forms": {
+        "archive.append": "attribute",
+        "copy": "attribute",
+        "int": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "self.rng.integers": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run"
+      ],
+      "calls": [
+        "archive.append",
+        "copy",
+        "int",
+        "len",
+        "np.asarray",
+        "self.rng.integers"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 77,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._archive_insert",
+      "semantic_tags": [],
+      "signature": "(self, archive, parent, capacity)",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "_archive_insert",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._sample_scaling_factor",
+          "target": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._sample_scaling_factor"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "parent_midpoint_repair",
+          "target": "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "positive_round",
+          "target": "calo_rpd_studio.algorithms.lshade.positive_round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.count_nonzero",
+          "target": "np.count_nonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty",
+          "target": "np.empty"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty_like",
+          "target": "np.empty_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.vstack",
+          "target": "np.vstack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.where",
+          "target": "np.where"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.choice",
+          "target": "self.rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.integers",
+          "target": "self.rng.integers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.normal",
+          "target": "self.rng.normal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.random",
+          "target": "self.rng.random"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "float": "name",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "min": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.clip": "attribute",
+        "np.count_nonzero": "attribute",
+        "np.empty": "attribute",
+        "np.empty_like": "attribute",
+        "np.vstack": "attribute",
+        "np.where": "attribute",
+        "parent_midpoint_repair": "name",
+        "positive_round": "name",
+        "range": "name",
+        "self._sample_scaling_factor": "attribute",
+        "self.order": "attribute",
+        "self.rng.choice": "attribute",
+        "self.rng.integers": "attribute",
+        "self.rng.normal": "attribute",
+        "self.rng.random": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run"
+      ],
+      "calls": [
+        "bool",
+        "float",
+        "int",
+        "len",
+        "max",
+        "min",
+        "np.any",
+        "np.asarray",
+        "np.clip",
+        "np.count_nonzero",
+        "np.empty",
+        "np.empty_like",
+        "np.vstack",
+        "np.where",
+        "parent_midpoint_repair",
+        "positive_round",
+        "range",
+        "self._sample_scaling_factor",
+        "self.order",
+        "self.rng.choice",
+        "self.rng.integers",
+        "self.rng.normal",
+        "self.rng.random"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._sample_scaling_factor",
+        "calo_rpd_studio.algorithms.lshade.parent_midpoint_repair",
+        "calo_rpd_studio.algorithms.lshade.positive_round"
+      ],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population",
+      "semantic_tags": [],
+      "signature": "(self, population, evaluations, archive, memory_f, memory_cr, p_best_rate)",
+      "start_line": 79,
+      "state_owner": "",
+      "symbol": "_trial_population",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.sum",
+          "target": "np.sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "weights.sum",
+          "target": "weights.sum"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.sum": "attribute",
+        "weights.sum": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run",
+        "calo_rpd_studio.algorithms.torch_suite.TorchCanonicalOptimizer._run_lshade",
+        "tests.unit.test_lshade.test_success_history_update_uses_weighted_lehmer_means"
+      ],
+      "calls": [
+        "float",
+        "len",
+        "np.asarray",
+        "np.sum",
+        "weights.sum"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 149,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory",
+      "semantic_tags": [],
+      "signature": "(memory_f, memory_cr, memory_position, successful_f, successful_cr, improvements)",
+      "start_line": 127,
+      "state_owner": "",
+      "symbol": "_update_memory",
+      "tests": [
+        "tests/unit/test_lshade.py"
+      ]
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "archive.pop",
+          "target": "archive.pop"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._archive_insert",
+          "target": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._archive_insert"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._trial_population",
+          "target": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_memory",
+          "target": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "constrained_improvement",
+          "target": "calo_rpd_studio.algorithms.lshade.constrained_improvement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "positive_round",
+          "target": "calo_rpd_studio.algorithms.lshade.positive_round"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "sort_key",
+          "target": "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "improvements.append",
+          "target": "improvements.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory_cr.tolist",
+          "target": "memory_cr.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory_f.tolist",
+          "target": "memory_f.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population_history.append",
+          "target": "population_history.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.can_evaluate",
+          "target": "self.can_evaluate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.config.parameters.get",
+          "target": "self.config.parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.evaluate_population",
+          "target": "self.evaluate_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.finalize",
+          "target": "self.finalize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.order",
+          "target": "self.order"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.random_population",
+          "target": "self.random_population"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.record",
+          "target": "self.record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.rng.integers",
+          "target": "self.rng.integers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "successful_cr.append",
+          "target": "successful_cr.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "successful_f.append",
+          "target": "successful_f.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.perf_counter",
+          "target": "time.perf_counter"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "ValueError": "name",
+        "archive.pop": "attribute",
+        "constrained_improvement": "name",
+        "enumerate": "name",
+        "float": "name",
+        "improvements.append": "attribute",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "memory_cr.tolist": "attribute",
+        "memory_f.tolist": "attribute",
+        "np.full": "attribute",
+        "population_history.append": "attribute",
+        "positive_round": "name",
+        "self._archive_insert": "attribute",
+        "self._trial_population": "attribute",
+        "self._update_memory": "attribute",
+        "self.can_evaluate": "attribute",
+        "self.config.parameters.get": "attribute",
+        "self.evaluate_population": "attribute",
+        "self.finalize": "attribute",
+        "self.order": "attribute",
+        "self.random_population": "attribute",
+        "self.record": "attribute",
+        "self.rng.integers": "attribute",
+        "sort_key": "name",
+        "successful_cr.append": "attribute",
+        "successful_f.append": "attribute",
+        "time.perf_counter": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "RuntimeError",
+        "ValueError",
+        "archive.pop",
+        "constrained_improvement",
+        "enumerate",
+        "float",
+        "improvements.append",
+        "int",
+        "len",
+        "max",
+        "memory_cr.tolist",
+        "memory_f.tolist",
+        "np.full",
+        "population_history.append",
+        "positive_round",
+        "self._archive_insert",
+        "self._trial_population",
+        "self._update_memory",
+        "self.can_evaluate",
+        "self.config.parameters.get",
+        "self.evaluate_population",
+        "self.finalize",
+        "self.order",
+        "self.random_population",
+        "self.record",
+        "self.rng.integers",
+        "sort_key",
+        "successful_cr.append",
+        "successful_f.append",
+        "time.perf_counter"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._archive_insert",
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._trial_population",
+        "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer._update_memory",
+        "calo_rpd_studio.algorithms.lshade.constrained_improvement",
+        "calo_rpd_studio.algorithms.lshade.positive_round",
+        "calo_rpd_studio.orpd.feasibility_rules.sort_key"
+      ],
+      "doc": "",
+      "end_line": 257,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/lshade.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BaseOptimizer": "calo_rpd_studio.algorithms.base_optimizer.BaseOptimizer",
+        "Evaluation": "calo_rpd_studio.orpd.problem.Evaluation",
+        "annotations": "__future__.annotations",
+        "better": "calo_rpd_studio.orpd.feasibility_rules.better",
+        "np": "numpy",
+        "sort_key": "calo_rpd_studio.orpd.feasibility_rules.sort_key",
+        "time": "time"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".base_optimizer",
+        "__future__",
+        "calo_rpd_studio.orpd.feasibility_rules",
+        "calo_rpd_studio.orpd.problem",
+        "numpy",
+        "time"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "optimization",
+      "parent_qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.lshade",
+      "qualname": "calo_rpd_studio.algorithms.lshade.LSHADEOptimizer.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

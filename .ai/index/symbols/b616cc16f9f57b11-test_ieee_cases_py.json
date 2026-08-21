@@ -1,0 +1,89 @@
+{
+  "path": "tests/scientific/test_ieee_cases.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CaseLoader.load",
+          "target": "calo_rpd_studio.power_system.case_loader.CaseLoader.load"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_against_pypower",
+          "target": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.mark.parametrize",
+          "target": "pytest.mark.parametrize"
+        }
+      ],
+      "call_forms": {
+        "CaseLoader.load": "attribute",
+        "pytest.mark.parametrize": "attribute",
+        "run_ac_power_flow": "name",
+        "validate_against_pypower": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "CaseLoader.load",
+        "pytest.mark.parametrize",
+        "run_ac_power_flow",
+        "validate_against_pypower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader.CaseLoader.load",
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "tests/scientific/test_ieee_cases.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CaseLoader": "calo_rpd_studio.power_system.case_loader.CaseLoader",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "pytest": "pytest",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.case_loader",
+        "calo_rpd_studio.power_system.independent_validator",
+        "importlib.util",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.scientific.test_ieee_cases",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.scientific.test_ieee_cases",
+      "qualname": "tests.scientific.test_ieee_cases.test_internal_solver_crosschecks_pypower",
+      "semantic_tags": [],
+      "signature": "(name)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "test_internal_solver_crosschecks_pypower",
+      "tests": []
+    }
+  ]
+}

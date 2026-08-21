@@ -1,0 +1,2030 @@
+{
+  "path": "tests/unit/test_prerequisites_and_resources.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "NvidiaInfo",
+          "target": "calo_bootstrap.prerequisites.NvidiaInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "candidate_torch_channels",
+          "target": "calo_bootstrap.prerequisites.candidate_torch_channels"
+        }
+      ],
+      "call_forms": {
+        "NvidiaInfo": "name",
+        "candidate_torch_channels": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "NvidiaInfo",
+        "candidate_torch_channels"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.NvidiaInfo",
+        "calo_bootstrap.prerequisites.candidate_torch_channels"
+      ],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_cuda_channel_selection_respects_driver_capability",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "test_cuda_channel_selection_respects_driver_capability",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "NvidiaInfo",
+          "target": "calo_bootstrap.prerequisites.NvidiaInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "candidate_torch_channels",
+          "target": "calo_bootstrap.prerequisites.candidate_torch_channels"
+        }
+      ],
+      "call_forms": {
+        "NvidiaInfo": "name",
+        "candidate_torch_channels": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "NvidiaInfo",
+        "candidate_torch_channels"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.NvidiaInfo",
+        "calo_bootstrap.prerequisites.candidate_torch_channels"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_no_nvidia_selects_cpu_pytorch_channel",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_no_nvidia_selects_cpu_pytorch_channel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "project_torch_requirement",
+          "target": "calo_bootstrap.prerequisites.project_torch_requirement"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "project_torch_requirement": "name",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "project_torch_requirement",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.project_torch_requirement"
+      ],
+      "doc": "",
+      "end_line": 41,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_project_torch_requirement_is_read_from_project_metadata",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "test_project_torch_requirement_is_read_from_project_metadata",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "torch_version_satisfies_requirement",
+          "target": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+        }
+      ],
+      "call_forms": {
+        "torch_version_satisfies_requirement": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "torch_version_satisfies_requirement"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      ],
+      "doc": "",
+      "end_line": 49,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_torch_version_contract_accepts_cuda_local_version_and_rejects_drift",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "test_torch_version_contract_accepts_cuda_local_version_and_rejects_drift",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "NvidiaInfo",
+          "target": "calo_bootstrap.prerequisites.NvidiaInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchInfo",
+          "target": "calo_bootstrap.prerequisites.TorchInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.scan_environment",
+          "target": "calo_bootstrap.prerequisites.scan_environment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        }
+      ],
+      "call_forms": {
+        "NvidiaInfo": "name",
+        "TorchInfo": "name",
+        "monkeypatch.setattr": "attribute",
+        "prerequisites.scan_environment": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "NvidiaInfo",
+        "TorchInfo",
+        "monkeypatch.setattr",
+        "prerequisites.scan_environment"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.NvidiaInfo",
+        "calo_bootstrap.prerequisites.TorchInfo",
+        "calo_bootstrap.prerequisites.scan_environment"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_scan_environment_rejects_pytorch_outside_project_contract",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 52,
+      "state_owner": "",
+      "symbol": "test_scan_environment_rejects_pytorch_outside_project_contract",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.install_or_repair",
+          "target": "calo_bootstrap.prerequisites.install_or_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.lower",
+          "target": "item.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throw",
+          "target": "throw"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "any": "name",
+        "calls.append": "attribute",
+        "item.lower": "attribute",
+        "iter": "name",
+        "join": "attribute",
+        "len": "name",
+        "list": "name",
+        "lower": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "next": "name",
+        "prerequisites.install_or_repair": "attribute",
+        "pytest.raises": "attribute",
+        "throw": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "any",
+        "calls.append",
+        "item.lower",
+        "iter",
+        "join",
+        "len",
+        "list",
+        "lower",
+        "monkeypatch.setattr",
+        "next",
+        "prerequisites.install_or_repair",
+        "pytest.raises",
+        "throw"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.install_or_repair"
+      ],
+      "doc": "",
+      "end_line": 101,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "test_installer_repairs_broken_scientific_import_before_pytorch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "AssertionError",
+          "target": "AssertionError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.install_or_repair",
+          "target": "calo_bootstrap.prerequisites.install_or_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "throw",
+          "target": "throw"
+        }
+      ],
+      "call_forms": {
+        "AssertionError": "name",
+        "any": "name",
+        "calls.append": "attribute",
+        "join": "attribute",
+        "list": "name",
+        "lower": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "prerequisites.install_or_repair": "attribute",
+        "pytest.raises": "attribute",
+        "throw": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "AssertionError",
+        "any",
+        "calls.append",
+        "join",
+        "list",
+        "lower",
+        "monkeypatch.setattr",
+        "prerequisites.install_or_repair",
+        "pytest.raises",
+        "throw"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.install_or_repair"
+      ],
+      "doc": "",
+      "end_line": 128,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 104,
+      "state_owner": "",
+      "symbol": "test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.EnvironmentReport",
+          "target": "calo_bootstrap.prerequisites.EnvironmentReport"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "NvidiaInfo",
+          "target": "calo_bootstrap.prerequisites.NvidiaInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchInfo",
+          "target": "calo_bootstrap.prerequisites.TorchInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.install_or_repair",
+          "target": "calo_bootstrap.prerequisites.install_or_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.lower",
+          "target": "item.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        }
+      ],
+      "call_forms": {
+        "NvidiaInfo": "name",
+        "TorchInfo": "name",
+        "any": "name",
+        "calls.append": "attribute",
+        "item.lower": "attribute",
+        "iter": "name",
+        "list": "name",
+        "monkeypatch.setattr": "attribute",
+        "next": "name",
+        "prerequisites.EnvironmentReport": "attribute",
+        "prerequisites.install_or_repair": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "NvidiaInfo",
+        "TorchInfo",
+        "any",
+        "calls.append",
+        "item.lower",
+        "iter",
+        "list",
+        "monkeypatch.setattr",
+        "next",
+        "prerequisites.EnvironmentReport",
+        "prerequisites.install_or_repair"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.EnvironmentReport",
+        "calo_bootstrap.prerequisites.NvidiaInfo",
+        "calo_bootstrap.prerequisites.TorchInfo",
+        "calo_bootstrap.prerequisites.install_or_repair"
+      ],
+      "doc": "",
+      "end_line": 192,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 131,
+      "state_owner": "",
+      "symbol": "test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "calls.append",
+          "target": "calls.append"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "NvidiaInfo",
+          "target": "calo_bootstrap.prerequisites.NvidiaInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TorchInfo",
+          "target": "calo_bootstrap.prerequisites.TorchInfo"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prerequisites.install_or_repair",
+          "target": "calo_bootstrap.prerequisites.install_or_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "iter",
+          "target": "iter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        }
+      ],
+      "call_forms": {
+        "NvidiaInfo": "name",
+        "TorchInfo": "name",
+        "any": "name",
+        "calls.append": "attribute",
+        "iter": "name",
+        "len": "name",
+        "list": "name",
+        "monkeypatch.setattr": "attribute",
+        "next": "name",
+        "prerequisites.install_or_repair": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "NvidiaInfo",
+        "TorchInfo",
+        "any",
+        "calls.append",
+        "iter",
+        "len",
+        "list",
+        "monkeypatch.setattr",
+        "next",
+        "prerequisites.install_or_repair",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.NvidiaInfo",
+        "calo_bootstrap.prerequisites.TorchInfo",
+        "calo_bootstrap.prerequisites.install_or_repair"
+      ],
+      "doc": "",
+      "end_line": 236,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "semantic_tags": [],
+      "signature": "(monkeypatch, tmp_path)",
+      "start_line": 195,
+      "state_owner": "",
+      "symbol": "test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "item_uses_calo_ai",
+          "target": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "AblationSpec",
+          "target": "calo_rpd_studio.experiments.calo_ablation.AblationSpec"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        }
+      ],
+      "call_forms": {
+        "AblationSpec": "name",
+        "PlannedItem": "name",
+        "item_uses_calo_ai": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "AblationSpec",
+        "PlannedItem",
+        "item_uses_calo_ai"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "",
+      "end_line": 251,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 238,
+      "state_owner": "",
+      "symbol": "test_gpu_capability_classification_covers_comparison_and_ablation",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        }
+      ],
+      "call_forms": {
+        "DeviceSnapshot": "name",
+        "ResourceSnapshot": "name",
+        "int": "name"
+      },
+      "called_by": [
+        "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps"
+      ],
+      "calls": [
+        "DeviceSnapshot",
+        "ResourceSnapshot",
+        "int"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+      ],
+      "doc": "",
+      "end_line": 273,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources._snapshot",
+      "semantic_tags": [],
+      "signature": "(cuda_utilization, ram)",
+      "start_line": 254,
+      "state_owner": "",
+      "symbol": "_snapshot",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "accelerator_admission_allowed",
+          "target": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cpu_admission_allowed",
+          "target": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "high_gpu.by_backend",
+          "target": "high_gpu.by_backend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "low.by_backend",
+          "target": "low.by_backend"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_snapshot",
+          "target": "tests.unit.test_prerequisites_and_resources._snapshot"
+        }
+      ],
+      "call_forms": {
+        "_snapshot": "name",
+        "accelerator_admission_allowed": "name",
+        "cpu_admission_allowed": "name",
+        "high_gpu.by_backend": "attribute",
+        "low.by_backend": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_snapshot",
+        "accelerator_admission_allowed",
+        "cpu_admission_allowed",
+        "high_gpu.by_backend",
+        "low.by_backend"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "tests.unit.test_prerequisites_and_resources._snapshot"
+      ],
+      "doc": "",
+      "end_line": 284,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 276,
+      "state_owner": "",
+      "symbol": "test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "prioritized_accelerators",
+          "target": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators"
+        }
+      ],
+      "call_forms": {
+        "DeviceSnapshot": "name",
+        "ResourceSnapshot": "name",
+        "prioritized_accelerators": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceSnapshot",
+        "ResourceSnapshot",
+        "prioritized_accelerators"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators"
+      ],
+      "doc": "",
+      "end_line": 291,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 287,
+      "state_owner": "",
+      "symbol": "test_accelerator_priority_contains_only_cuda_devices",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "accelerator_admission_allowed",
+          "target": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+        }
+      ],
+      "call_forms": {
+        "DeviceSnapshot": "name",
+        "accelerator_admission_allowed": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "DeviceSnapshot",
+        "accelerator_admission_allowed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+      ],
+      "doc": "",
+      "end_line": 320,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 294,
+      "state_owner": "",
+      "symbol": "test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "ResourceSnapshot",
+          "target": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cpu_admission_allowed",
+          "target": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+        }
+      ],
+      "call_forms": {
+        "ResourceSnapshot": "name",
+        "cpu_admission_allowed": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ResourceSnapshot",
+        "cpu_admission_allowed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+      ],
+      "doc": "",
+      "end_line": 339,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_cpu_admission_uses_available_ram_not_cpu_utilization",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "test_cpu_admission_uses_available_ram_not_cpu_utilization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_human_download_item",
+          "target": "calo_bootstrap.prerequisites._human_download_item"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_parse_pip_raw_progress",
+          "target": "calo_bootstrap.prerequisites._parse_pip_raw_progress"
+        }
+      ],
+      "call_forms": {
+        "_human_download_item": "name",
+        "_parse_pip_raw_progress": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_human_download_item",
+        "_parse_pip_raw_progress"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites._human_download_item",
+        "calo_bootstrap.prerequisites._parse_pip_raw_progress"
+      ],
+      "doc": "",
+      "end_line": 352,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_pip_raw_progress_parser_and_download_item_extraction",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 342,
+      "state_owner": "",
+      "symbol": "test_pip_raw_progress_parser_and_download_item_extraction",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lanes.values",
+          "target": "lanes.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "PlannedItem": "name",
+        "build_weighted_lane_plan": "name",
+        "lanes.values": "attribute",
+        "range": "name",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PlannedItem",
+        "build_weighted_lane_plan",
+        "lanes.values",
+        "range",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "",
+      "end_line": 367,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 355,
+      "state_owner": "",
+      "symbol": "test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lanes.values",
+          "target": "lanes.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "PlannedItem": "name",
+        "build_weighted_lane_plan": "name",
+        "lanes.values": "attribute",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PlannedItem",
+        "build_weighted_lane_plan",
+        "lanes.values",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "",
+      "end_line": 386,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 370,
+      "state_owner": "",
+      "symbol": "test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lanes.values",
+          "target": "lanes.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "PlannedItem": "name",
+        "build_weighted_lane_plan": "name",
+        "enumerate": "name",
+        "lanes.values": "attribute",
+        "len": "name",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PlannedItem",
+        "build_weighted_lane_plan",
+        "enumerate",
+        "lanes.values",
+        "len",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "",
+      "end_line": 406,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 389,
+      "state_owner": "",
+      "symbol": "test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "build_weighted_lane_plan",
+          "target": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlannedItem",
+          "target": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lanes.values",
+          "target": "lanes.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "PlannedItem": "name",
+        "build_weighted_lane_plan": "name",
+        "lanes.values": "attribute",
+        "range": "name",
+        "sum": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PlannedItem",
+        "build_weighted_lane_plan",
+        "lanes.values",
+        "range",
+        "sum"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+      ],
+      "doc": "",
+      "end_line": 419,
+      "entry_point": false,
+      "file": "tests/unit/test_prerequisites_and_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "AblationSpec": "calo_rpd_studio.experiments.calo_ablation.AblationSpec",
+        "DeviceSnapshot": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot",
+        "NvidiaInfo": "calo_bootstrap.prerequisites.NvidiaInfo",
+        "PlannedItem": "calo_rpd_studio.experiments.execution_plan.PlannedItem",
+        "ResourceSnapshot": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot",
+        "TorchInfo": "calo_bootstrap.prerequisites.TorchInfo",
+        "_human_download_item": "calo_bootstrap.prerequisites._human_download_item",
+        "_parse_pip_raw_progress": "calo_bootstrap.prerequisites._parse_pip_raw_progress",
+        "accelerator_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed",
+        "annotations": "__future__.annotations",
+        "build_weighted_lane_plan": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan",
+        "candidate_torch_channels": "calo_bootstrap.prerequisites.candidate_torch_channels",
+        "cpu_admission_allowed": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed",
+        "item_uses_calo_ai": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai",
+        "prerequisites": "calo_bootstrap.prerequisites",
+        "prioritized_accelerators": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators",
+        "project_torch_requirement": "calo_bootstrap.prerequisites.project_torch_requirement",
+        "pytest": "pytest",
+        "torch_version_satisfies_requirement": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_bootstrap.prerequisites",
+        "calo_rpd_studio.compute.resource_scheduler",
+        "calo_rpd_studio.experiments.calo_ablation",
+        "calo_rpd_studio.experiments.execution_plan",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_prerequisites_and_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_prerequisites_and_resources",
+      "qualname": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 409,
+      "state_owner": "",
+      "symbol": "test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "tests": []
+    }
+  ]
+}

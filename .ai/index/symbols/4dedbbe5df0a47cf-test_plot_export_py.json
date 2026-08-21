@@ -1,0 +1,681 @@
+{
+  "path": "tests/unit/test_plot_export.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.plot",
+          "target": "axis.plot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "figure.add_subplot",
+          "target": "figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.export",
+          "target": "manager.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register",
+          "target": "manager.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mpimg.imread",
+          "target": "mpimg.imread"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotManager": "name",
+        "axis.plot": "attribute",
+        "figure.add_subplot": "attribute",
+        "manager.export": "attribute",
+        "manager.register": "attribute",
+        "mpimg.imread": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotManager",
+        "axis.plot",
+        "figure.add_subplot",
+        "manager.export",
+        "manager.register",
+        "mpimg.imread"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_manager.PlotManager"
+      ],
+      "doc": "",
+      "end_line": 18,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_square_export_has_exact_one_to_one_pixel_dimensions",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 9,
+      "state_owner": "",
+      "symbol": "test_square_export_has_exact_one_to_one_pixel_dimensions",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.get_legend",
+          "target": "axis.get_legend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.plot",
+          "target": "axis.plot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "figure.add_subplot",
+          "target": "figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get_texts",
+          "target": "get_texts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.get_visible",
+          "target": "line.get_visible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.export",
+          "target": "manager.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register",
+          "target": "manager.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.get_text",
+          "target": "text.get_text"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotManager": "name",
+        "axis.get_legend": "attribute",
+        "axis.plot": "attribute",
+        "figure.add_subplot": "attribute",
+        "get_texts": "attribute",
+        "line.get_visible": "attribute",
+        "manager.export": "attribute",
+        "manager.register": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "text.get_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotManager",
+        "axis.get_legend",
+        "axis.plot",
+        "figure.add_subplot",
+        "get_texts",
+        "line.get_visible",
+        "manager.export",
+        "manager.register",
+        "monkeypatch.setattr",
+        "text.get_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_manager.PlotManager"
+      ],
+      "doc": "",
+      "end_line": 56,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 21,
+      "state_owner": "",
+      "symbol": "test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "axis.get_legend",
+          "target": "axis.get_legend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "legend.get_texts",
+          "target": "legend.get_texts"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.get_label",
+          "target": "line.get_label"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "line.get_visible",
+          "target": "line.get_visible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "startswith",
+          "target": "startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text.get_text",
+          "target": "text.get_text"
+        }
+      ],
+      "call_forms": {
+        "axis.get_legend": "attribute",
+        "legend.get_texts": "attribute",
+        "line.get_label": "attribute",
+        "line.get_visible": "attribute",
+        "startswith": "attribute",
+        "text.get_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "axis.get_legend",
+        "legend.get_texts",
+        "line.get_label",
+        "line.get_visible",
+        "startswith",
+        "text.get_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export.test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview.fake_savefig",
+      "semantic_tags": [],
+      "signature": "(*args, **kwargs)",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "fake_savefig",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.plot",
+          "target": "axis.plot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "figure.add_subplot",
+          "target": "figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.export",
+          "target": "manager.export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register",
+          "target": "manager.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "set",
+          "target": "set"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotManager": "name",
+        "axis.plot": "attribute",
+        "figure.add_subplot": "attribute",
+        "manager.export": "attribute",
+        "manager.register": "attribute",
+        "pytest.raises": "attribute",
+        "set": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotManager",
+        "axis.plot",
+        "figure.add_subplot",
+        "manager.export",
+        "manager.register",
+        "pytest.raises",
+        "set"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_manager.PlotManager"
+      ],
+      "doc": "",
+      "end_line": 69,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_export_rejects_empty_selection_when_series_exist",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "test_export_rejects_empty_selection_when_series_exist",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.get_xlim",
+          "target": "axis.get_xlim"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.get_ylim",
+          "target": "axis.get_ylim"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.plot",
+          "target": "axis.plot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.set_ylim",
+          "target": "axis.set_ylim"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotStyle",
+          "target": "calo_rpd_studio.visualization.plot_style.PlotStyle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "figure.add_subplot",
+          "target": "figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register",
+          "target": "manager.register"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotManager": "name",
+        "PlotStyle": "name",
+        "axis.get_xlim": "attribute",
+        "axis.get_ylim": "attribute",
+        "axis.plot": "attribute",
+        "axis.set_ylim": "attribute",
+        "figure.add_subplot": "attribute",
+        "manager.register": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotManager",
+        "PlotStyle",
+        "axis.get_xlim",
+        "axis.get_ylim",
+        "axis.plot",
+        "axis.set_ylim",
+        "figure.add_subplot",
+        "manager.register"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "calo_rpd_studio.visualization.plot_style.PlotStyle"
+      ],
+      "doc": "",
+      "end_line": 89,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_auto_fit_visible_data_tightens_nonnegative_convergence_range",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 72,
+      "state_owner": "",
+      "symbol": "test_auto_fit_visible_data_tightens_nonnegative_convergence_range",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Figure",
+          "target": "Figure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.get_ylim",
+          "target": "axis.get_ylim"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "axis.plot",
+          "target": "axis.plot"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotManager",
+          "target": "calo_rpd_studio.visualization.plot_manager.PlotManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PlotStyle",
+          "target": "calo_rpd_studio.visualization.plot_style.PlotStyle"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "figure.add_subplot",
+          "target": "figure.add_subplot"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "high.set_visible",
+          "target": "high.set_visible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "low.get_visible",
+          "target": "low.get_visible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager._apply_axis_limits",
+          "target": "manager._apply_axis_limits"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manager.register",
+          "target": "manager.register"
+        }
+      ],
+      "call_forms": {
+        "Figure": "name",
+        "PlotManager": "name",
+        "PlotStyle": "name",
+        "axis.get_ylim": "attribute",
+        "axis.plot": "attribute",
+        "figure.add_subplot": "attribute",
+        "high.set_visible": "attribute",
+        "low.get_visible": "attribute",
+        "manager._apply_axis_limits": "attribute",
+        "manager.register": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Figure",
+        "PlotManager",
+        "PlotStyle",
+        "axis.get_ylim",
+        "axis.plot",
+        "figure.add_subplot",
+        "high.set_visible",
+        "low.get_visible",
+        "manager._apply_axis_limits",
+        "manager.register"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "calo_rpd_studio.visualization.plot_style.PlotStyle"
+      ],
+      "doc": "",
+      "end_line": 107,
+      "entry_point": false,
+      "file": "tests/unit/test_plot_export.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Figure": "matplotlib.figure.Figure",
+        "PlotManager": "calo_rpd_studio.visualization.plot_manager.PlotManager",
+        "PlotStyle": "calo_rpd_studio.visualization.plot_style.PlotStyle",
+        "annotations": "__future__.annotations",
+        "mpimg": "matplotlib.image",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.visualization.plot_manager",
+        "calo_rpd_studio.visualization.plot_style",
+        "matplotlib.figure",
+        "matplotlib.image",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_plot_export",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_plot_export",
+      "qualname": "tests.unit.test_plot_export.test_auto_fit_visible_data_reacts_to_current_visible_series_only",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 92,
+      "state_owner": "",
+      "symbol": "test_auto_fit_visible_data_reacts_to_current_visible_series_only",
+      "tests": []
+    }
+  ]
+}

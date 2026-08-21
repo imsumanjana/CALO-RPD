@@ -1,0 +1,1891 @@
+{
+  "path": "calo_bootstrap/wizard.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_bootstrap.launcher.ensure_prerequisites"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 381,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "class",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 23,
+      "state_owner": "",
+      "symbol": "PrerequisiteWizard",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "buttons.pack",
+          "target": "buttons.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "metrics.pack",
+          "target": "metrics.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "outer.pack",
+          "target": "outer.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pack",
+          "target": "pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "progress_box.pack",
+          "target": "progress_box.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "queue.Queue",
+          "target": "queue.Queue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.close_button.pack",
+          "target": "self.close_button.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_amount_label.pack",
+          "target": "self.download_amount_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_eta_label.pack",
+          "target": "self.download_eta_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_label.pack",
+          "target": "self.download_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_progress.pack",
+          "target": "self.download_progress.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_speed_label.pack",
+          "target": "self.download_speed_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.pack",
+          "target": "self.elapsed_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.install_button.pack",
+          "target": "self.install_button.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.pack",
+          "target": "self.log.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.overall_progress.pack",
+          "target": "self.overall_progress.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.phase_label.pack",
+          "target": "self.phase_label.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.after",
+          "target": "self.root.after"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.geometry",
+          "target": "self.root.geometry"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.minsize",
+          "target": "self.root.minsize"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.protocol",
+          "target": "self.root.protocol"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.title",
+          "target": "self.root.title"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.scan_button.pack",
+          "target": "self.scan_button.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.pack",
+          "target": "self.start_button.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.state",
+          "target": "self.start_button.state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.pack",
+          "target": "self.summary.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.column",
+          "target": "self.tree.column"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.heading",
+          "target": "self.tree.heading"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.pack",
+          "target": "self.tree.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.verify_button.pack",
+          "target": "self.verify_button.pack"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tk.Text",
+          "target": "tk.Text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tk.Tk",
+          "target": "tk.Tk"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.Button",
+          "target": "ttk.Button"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.Frame",
+          "target": "ttk.Frame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.Label",
+          "target": "ttk.Label"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.LabelFrame",
+          "target": "ttk.LabelFrame"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.Progressbar",
+          "target": "ttk.Progressbar"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ttk.Treeview",
+          "target": "ttk.Treeview"
+        }
+      ],
+      "call_forms": {
+        "buttons.pack": "attribute",
+        "metrics.pack": "attribute",
+        "outer.pack": "attribute",
+        "pack": "attribute",
+        "progress_box.pack": "attribute",
+        "queue.Queue": "attribute",
+        "self.close_button.pack": "attribute",
+        "self.download_amount_label.pack": "attribute",
+        "self.download_eta_label.pack": "attribute",
+        "self.download_label.pack": "attribute",
+        "self.download_progress.pack": "attribute",
+        "self.download_speed_label.pack": "attribute",
+        "self.elapsed_label.pack": "attribute",
+        "self.install_button.pack": "attribute",
+        "self.log.pack": "attribute",
+        "self.overall_progress.pack": "attribute",
+        "self.phase_label.pack": "attribute",
+        "self.root.after": "attribute",
+        "self.root.geometry": "attribute",
+        "self.root.minsize": "attribute",
+        "self.root.protocol": "attribute",
+        "self.root.title": "attribute",
+        "self.scan_button.pack": "attribute",
+        "self.start_button.pack": "attribute",
+        "self.start_button.state": "attribute",
+        "self.summary.pack": "attribute",
+        "self.tree.column": "attribute",
+        "self.tree.heading": "attribute",
+        "self.tree.pack": "attribute",
+        "self.verify_button.pack": "attribute",
+        "tk.Text": "attribute",
+        "tk.Tk": "attribute",
+        "ttk.Button": "attribute",
+        "ttk.Frame": "attribute",
+        "ttk.Label": "attribute",
+        "ttk.LabelFrame": "attribute",
+        "ttk.Progressbar": "attribute",
+        "ttk.Treeview": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "buttons.pack",
+        "metrics.pack",
+        "outer.pack",
+        "pack",
+        "progress_box.pack",
+        "queue.Queue",
+        "self.close_button.pack",
+        "self.download_amount_label.pack",
+        "self.download_eta_label.pack",
+        "self.download_label.pack",
+        "self.download_progress.pack",
+        "self.download_speed_label.pack",
+        "self.elapsed_label.pack",
+        "self.install_button.pack",
+        "self.log.pack",
+        "self.overall_progress.pack",
+        "self.phase_label.pack",
+        "self.root.after",
+        "self.root.geometry",
+        "self.root.minsize",
+        "self.root.protocol",
+        "self.root.title",
+        "self.scan_button.pack",
+        "self.start_button.pack",
+        "self.start_button.state",
+        "self.summary.pack",
+        "self.tree.column",
+        "self.tree.heading",
+        "self.tree.pack",
+        "self.verify_button.pack",
+        "tk.Text",
+        "tk.Tk",
+        "ttk.Button",
+        "ttk.Frame",
+        "ttk.Label",
+        "ttk.LabelFrame",
+        "ttk.Progressbar",
+        "ttk.Treeview"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 112,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.__init__",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.state",
+          "target": "self.start_button.state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.state",
+          "target": "widget.state"
+        }
+      ],
+      "call_forms": {
+        "self.start_button.state": "attribute",
+        "widget.state": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._poll_events",
+        "calo_bootstrap.wizard.PrerequisiteWizard.install",
+        "calo_bootstrap.wizard.PrerequisiteWizard.scan"
+      ],
+      "calls": [
+        "self.start_button.state",
+        "widget.state"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 124,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._set_busy",
+      "semantic_tags": [],
+      "signature": "(self, busy)",
+      "start_line": 114,
+      "state_owner": "",
+      "symbol": "_set_busy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.configure",
+          "target": "self.log.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.insert",
+          "target": "self.log.insert"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.log.see",
+          "target": "self.log.see"
+        }
+      ],
+      "call_forms": {
+        "self.log.configure": "attribute",
+        "self.log.insert": "attribute",
+        "self.log.see": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._poll_events",
+        "calo_bootstrap.wizard.PrerequisiteWizard._render",
+        "calo_bootstrap.wizard.PrerequisiteWizard.install"
+      ],
+      "calls": [
+        "self.log.configure",
+        "self.log.insert",
+        "self.log.see"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 130,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._log",
+      "semantic_tags": [],
+      "signature": "(self, text)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "_log",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._render"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 136,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._mark",
+      "semantic_tags": [],
+      "signature": "(ok, warning)",
+      "start_line": 133,
+      "state_owner": "",
+      "symbol": "_mark",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._log",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._log"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._mark",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._mark"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.core_import_errors.get",
+          "target": "report.core_import_errors.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.core_packages.items",
+          "target": "report.core_packages.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.recommended_backend.startswith",
+          "target": "report.recommended_backend.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.start_button.state",
+          "target": "self.start_button.state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.configure",
+          "target": "self.summary.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.delete",
+          "target": "self.tree.delete"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.get_children",
+          "target": "self.tree.get_children"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.tree.insert",
+          "target": "self.tree.insert"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "report.core_import_errors.get": "attribute",
+        "report.core_packages.items": "attribute",
+        "report.recommended_backend.startswith": "attribute",
+        "self._log": "attribute",
+        "self._mark": "attribute",
+        "self.start_button.state": "attribute",
+        "self.summary.configure": "attribute",
+        "self.tree.delete": "attribute",
+        "self.tree.get_children": "attribute",
+        "self.tree.insert": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._poll_events"
+      ],
+      "calls": [
+        "bool",
+        "report.core_import_errors.get",
+        "report.core_packages.items",
+        "report.recommended_backend.startswith",
+        "self._log",
+        "self._mark",
+        "self.start_button.state",
+        "self.summary.configure",
+        "self.tree.delete",
+        "self.tree.get_children",
+        "self.tree.insert"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._log",
+        "calo_bootstrap.wizard.PrerequisiteWizard._mark"
+      ],
+      "doc": "",
+      "end_line": 219,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._render",
+      "semantic_tags": [],
+      "signature": "(self, report)",
+      "start_line": 138,
+      "state_owner": "",
+      "symbol": "_render",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "max": "name"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._render_progress"
+      ],
+      "calls": [
+        "float",
+        "max"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 229,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._format_bytes",
+      "semantic_tags": [],
+      "signature": "(value)",
+      "start_line": 222,
+      "state_owner": "",
+      "symbol": "_format_bytes",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "divmod",
+          "target": "divmod"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        }
+      ],
+      "call_forms": {
+        "divmod": "name",
+        "float": "name",
+        "int": "name",
+        "round": "name"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._render_progress",
+        "calo_bootstrap.wizard.PrerequisiteWizard._update_elapsed"
+      ],
+      "calls": [
+        "divmod",
+        "float",
+        "int",
+        "round"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 238,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._format_duration",
+      "semantic_tags": [],
+      "signature": "(seconds)",
+      "start_line": 232,
+      "state_owner": "",
+      "symbol": "_format_duration",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.download_progress.start",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_progress.configure",
+          "target": "self.download_progress.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_progress.stop",
+          "target": "self.download_progress.stop"
+        }
+      ],
+      "call_forms": {
+        "self.download_progress.configure": "attribute",
+        "self.download_progress.start": "attribute",
+        "self.download_progress.stop": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._render_progress"
+      ],
+      "calls": [
+        "self.download_progress.configure",
+        "self.download_progress.start",
+        "self.download_progress.stop"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard.start"
+      ],
+      "doc": "",
+      "end_line": 252,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._set_download_indeterminate",
+      "semantic_tags": [],
+      "signature": "(self, active)",
+      "start_line": 240,
+      "state_owner": "",
+      "symbol": "_set_download_indeterminate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._format_bytes",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._format_bytes"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._format_duration",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._format_duration"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_download_indeterminate",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._set_download_indeterminate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_amount_label.configure",
+          "target": "self.download_amount_label.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_eta_label.configure",
+          "target": "self.download_eta_label.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_label.configure",
+          "target": "self.download_label.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.download_speed_label.configure",
+          "target": "self.download_speed_label.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.phase_label.configure",
+          "target": "self.phase_label.configure"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "min": "name",
+        "self._format_bytes": "attribute",
+        "self._format_duration": "attribute",
+        "self._set_download_indeterminate": "attribute",
+        "self.download_amount_label.configure": "attribute",
+        "self.download_eta_label.configure": "attribute",
+        "self.download_label.configure": "attribute",
+        "self.download_speed_label.configure": "attribute",
+        "self.phase_label.configure": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._poll_events"
+      ],
+      "calls": [
+        "max",
+        "min",
+        "self._format_bytes",
+        "self._format_duration",
+        "self._set_download_indeterminate",
+        "self.download_amount_label.configure",
+        "self.download_eta_label.configure",
+        "self.download_label.configure",
+        "self.download_speed_label.configure",
+        "self.phase_label.configure"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._format_bytes",
+        "calo_bootstrap.wizard.PrerequisiteWizard._format_duration",
+        "calo_bootstrap.wizard.PrerequisiteWizard._set_download_indeterminate"
+      ],
+      "doc": "",
+      "end_line": 294,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._render_progress",
+      "semantic_tags": [],
+      "signature": "(self, progress)",
+      "start_line": 254,
+      "state_owner": "",
+      "symbol": "_render_progress",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._format_duration",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._format_duration"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.elapsed_label.configure",
+          "target": "self.elapsed_label.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.after",
+          "target": "self.root.after"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "self._format_duration": "attribute",
+        "self.elapsed_label.configure": "attribute",
+        "self.root.after": "attribute",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._format_duration",
+        "self.elapsed_label.configure",
+        "self.root.after",
+        "time.monotonic"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._format_duration"
+      ],
+      "doc": "",
+      "end_line": 301,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._update_elapsed",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 296,
+      "state_owner": "",
+      "symbol": "_update_elapsed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_busy",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.summary.configure",
+          "target": "self.summary.configure"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "start",
+          "target": "start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Thread",
+          "target": "threading.Thread"
+        }
+      ],
+      "call_forms": {
+        "self._set_busy": "attribute",
+        "self.summary.configure": "attribute",
+        "start": "attribute",
+        "threading.Thread": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._set_busy",
+        "self.summary.configure",
+        "start",
+        "threading.Thread"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+      ],
+      "doc": "",
+      "end_line": 315,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.scan",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 303,
+      "state_owner": "",
+      "symbol": "scan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "scan_environment",
+          "target": "calo_bootstrap.prerequisites.scan_environment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.events.put",
+          "target": "self.events.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "scan_environment": "name",
+        "self.events.put": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "scan_environment",
+        "self.events.put",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.scan_environment"
+      ],
+      "doc": "",
+      "end_line": 313,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard.scan",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.scan.work",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 307,
+      "state_owner": "",
+      "symbol": "work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._log",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._log"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_busy",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "start",
+          "target": "start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "threading.Thread",
+          "target": "threading.Thread"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "time.monotonic",
+          "target": "time.monotonic"
+        }
+      ],
+      "call_forms": {
+        "self._log": "attribute",
+        "self._set_busy": "attribute",
+        "start": "attribute",
+        "threading.Thread": "attribute",
+        "time.monotonic": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._log",
+        "self._set_busy",
+        "start",
+        "threading.Thread",
+        "time.monotonic"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._log",
+        "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+      ],
+      "doc": "",
+      "end_line": 336,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.install",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 317,
+      "state_owner": "",
+      "symbol": "install",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "install_or_repair",
+          "target": "calo_bootstrap.prerequisites.install_or_repair"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.events.put",
+          "target": "self.events.put"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "install_or_repair": "name",
+        "self.events.put": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "install_or_repair",
+        "self.events.put",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.install_or_repair"
+      ],
+      "doc": "",
+      "end_line": 334,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard.install",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.install.work",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 323,
+      "state_owner": "",
+      "symbol": "work",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._log",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._log"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._render",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._render"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._render_progress",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._render_progress"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._set_busy",
+          "target": "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "messagebox.showerror",
+          "target": "messagebox.showerror"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.events.get_nowait",
+          "target": "self.events.get_nowait"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.after",
+          "target": "self.root.after"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "messagebox.showerror": "attribute",
+        "self._log": "attribute",
+        "self._render": "attribute",
+        "self._render_progress": "attribute",
+        "self._set_busy": "attribute",
+        "self.events.get_nowait": "attribute",
+        "self.root.after": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "bool",
+        "messagebox.showerror",
+        "self._log",
+        "self._render",
+        "self._render_progress",
+        "self._set_busy",
+        "self.events.get_nowait",
+        "self.root.after",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._log",
+        "calo_bootstrap.wizard.PrerequisiteWizard._render",
+        "calo_bootstrap.wizard.PrerequisiteWizard._render_progress",
+        "calo_bootstrap.wizard.PrerequisiteWizard._set_busy"
+      ],
+      "doc": "",
+      "end_line": 355,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._poll_events",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 338,
+      "state_owner": "",
+      "symbol": "_poll_events",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "save_environment_state",
+          "target": "calo_bootstrap.prerequisites.save_environment_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "messagebox.askyesno",
+          "target": "messagebox.askyesno"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "messagebox.showwarning",
+          "target": "messagebox.showwarning"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.destroy",
+          "target": "self.root.destroy"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "messagebox.askyesno": "attribute",
+        "messagebox.showwarning": "attribute",
+        "save_environment_state": "name",
+        "self.root.destroy": "attribute"
+      },
+      "called_by": [
+        "calo_bootstrap.wizard.PrerequisiteWizard._set_download_indeterminate"
+      ],
+      "calls": [
+        "bool",
+        "messagebox.askyesno",
+        "messagebox.showwarning",
+        "save_environment_state",
+        "self.root.destroy"
+      ],
+      "calls_resolved": [
+        "calo_bootstrap.prerequisites.save_environment_state"
+      ],
+      "doc": "",
+      "end_line": 373,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.start",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 357,
+      "state_owner": "",
+      "symbol": "start",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.destroy",
+          "target": "self.root.destroy"
+        }
+      ],
+      "call_forms": {
+        "self.root.destroy": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.root.destroy"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 377,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard._close",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 375,
+      "state_owner": "",
+      "symbol": "_close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "self.root.mainloop",
+          "target": "self.root.mainloop"
+        }
+      ],
+      "call_forms": {
+        "self.root.mainloop": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.root.mainloop"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 381,
+      "entry_point": false,
+      "file": "calo_bootstrap/wizard.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "EnvironmentReport": "calo_bootstrap.prerequisites.EnvironmentReport",
+        "InstallProgress": "calo_bootstrap.prerequisites.InstallProgress",
+        "annotations": "__future__.annotations",
+        "install_or_repair": "calo_bootstrap.prerequisites.install_or_repair",
+        "messagebox": "tkinter.messagebox",
+        "queue": "queue",
+        "save_environment_state": "calo_bootstrap.prerequisites.save_environment_state",
+        "scan_environment": "calo_bootstrap.prerequisites.scan_environment",
+        "threading": "threading",
+        "time": "time",
+        "tk": "tkinter",
+        "ttk": "tkinter.ttk"
+      },
+      "important_invariants": [],
+      "imports": [
+        ".prerequisites",
+        "__future__",
+        "queue",
+        "threading",
+        "time",
+        "tkinter"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "method",
+      "module": "bootstrap",
+      "parent_qualname": "calo_bootstrap.wizard.PrerequisiteWizard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_bootstrap.wizard",
+      "qualname": "calo_bootstrap.wizard.PrerequisiteWizard.run",
+      "semantic_tags": [],
+      "signature": "(self)",
+      "start_line": 379,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

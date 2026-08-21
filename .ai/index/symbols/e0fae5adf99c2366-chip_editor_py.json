@@ -1,0 +1,597 @@
+{
+  "path": "calo_rpd_studio/gui/widgets/chip_editor.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.gui.panels.robust_scenarios_panel.RobustScenariosPanel.__init__"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Comma-separated entry with parsed chips and a QLineEdit-compatible text API.",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "IntegerChipEditor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QHBoxLayout",
+          "target": "QHBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QLineEdit",
+          "target": "QLineEdit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "QVBoxLayout",
+          "target": "QVBoxLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addLayout",
+          "target": "layout.addLayout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.addWidget",
+          "target": "layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setContentsMargins",
+          "target": "layout.setContentsMargins"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout.setSpacing",
+          "target": "layout.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.chip_row.addStretch",
+          "target": "self.chip_row.addStretch"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.chip_row.setSpacing",
+          "target": "self.chip_row.setSpacing"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.editor.editingFinished.connect",
+          "target": "self.editor.editingFinished.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.editor.setAccessibleName",
+          "target": "self.editor.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.editor.setPlaceholderText",
+          "target": "self.editor.setPlaceholderText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.setObjectName",
+          "target": "self.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QHBoxLayout": "name",
+        "QLineEdit": "name",
+        "QVBoxLayout": "name",
+        "__init__": "attribute",
+        "layout.addLayout": "attribute",
+        "layout.addWidget": "attribute",
+        "layout.setContentsMargins": "attribute",
+        "layout.setSpacing": "attribute",
+        "self.chip_row.addStretch": "attribute",
+        "self.chip_row.setSpacing": "attribute",
+        "self.editor.editingFinished.connect": "attribute",
+        "self.editor.setAccessibleName": "attribute",
+        "self.editor.setPlaceholderText": "attribute",
+        "self.setObjectName": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QHBoxLayout",
+        "QLineEdit",
+        "QVBoxLayout",
+        "__init__",
+        "layout.addLayout",
+        "layout.addWidget",
+        "layout.setContentsMargins",
+        "layout.setSpacing",
+        "self.chip_row.addStretch",
+        "self.chip_row.setSpacing",
+        "self.editor.editingFinished.connect",
+        "self.editor.setAccessibleName",
+        "self.editor.setPlaceholderText",
+        "self.setObjectName",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 25,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, placeholder, parent)",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.editor.text",
+          "target": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text"
+        }
+      ],
+      "call_forms": {
+        "self.editor.text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text",
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.values"
+      ],
+      "calls": [
+        "self.editor.text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text"
+      ],
+      "doc": "",
+      "end_line": 28,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 27,
+      "state_owner": "",
+      "symbol": "text",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._refresh_chips",
+          "target": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor._refresh_chips"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.editor.setText",
+          "target": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.setText"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "self._refresh_chips": "attribute",
+        "self.editor.setText": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.setText"
+      ],
+      "calls": [
+        "self._refresh_chips",
+        "self.editor.setText",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor._refresh_chips",
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.setText"
+      ],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.setText",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, value)",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "setText",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.text",
+          "target": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.strip",
+          "target": "item.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "split",
+          "target": "split"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "int": "name",
+        "item.strip": "attribute",
+        "self.text": "attribute",
+        "split": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor._refresh_chips"
+      ],
+      "calls": [
+        "int",
+        "item.strip",
+        "self.text",
+        "split",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.text"
+      ],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.values",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "values",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QLabel",
+          "target": "QLabel"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.values",
+          "target": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "chip.setAccessibleName",
+          "target": "chip.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "chip.setObjectName",
+          "target": "chip.setObjectName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.widget",
+          "target": "item.widget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.chip_row.count",
+          "target": "self.chip_row.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.chip_row.insertWidget",
+          "target": "self.chip_row.insertWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.chip_row.takeAt",
+          "target": "self.chip_row.takeAt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "widget.deleteLater",
+          "target": "widget.deleteLater"
+        }
+      ],
+      "call_forms": {
+        "QLabel": "name",
+        "chip.setAccessibleName": "attribute",
+        "chip.setObjectName": "attribute",
+        "item.widget": "attribute",
+        "self.chip_row.count": "attribute",
+        "self.chip_row.insertWidget": "attribute",
+        "self.chip_row.takeAt": "attribute",
+        "self.values": "attribute",
+        "str": "name",
+        "widget.deleteLater": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.setText"
+      ],
+      "calls": [
+        "QLabel",
+        "chip.setAccessibleName",
+        "chip.setObjectName",
+        "item.widget",
+        "self.chip_row.count",
+        "self.chip_row.insertWidget",
+        "self.chip_row.takeAt",
+        "self.values",
+        "str",
+        "widget.deleteLater"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor.values"
+      ],
+      "doc": "",
+      "end_line": 51,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/widgets/chip_editor.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "QHBoxLayout": "PyQt6.QtWidgets.QHBoxLayout",
+        "QLabel": "PyQt6.QtWidgets.QLabel",
+        "QLineEdit": "PyQt6.QtWidgets.QLineEdit",
+        "QVBoxLayout": "PyQt6.QtWidgets.QVBoxLayout",
+        "QWidget": "PyQt6.QtWidgets.QWidget",
+        "annotations": "__future__.annotations"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        "PyQt6.QtWidgets",
+        "__future__"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.widgets.chip_editor",
+      "qualname": "calo_rpd_studio.gui.widgets.chip_editor.IntegerChipEditor._refresh_chips",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "_refresh_chips",
+      "tests": []
+    }
+  ]
+}

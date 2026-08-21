@@ -1,0 +1,952 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.TSHCandidateBatch",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 30,
+      "state_owner": "",
+      "symbol": "TSHCandidateBatch",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.effective_group_parameter_values",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.effective_recovery_fraction",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring"
+      ],
+      "calls": [
+        "ValueError",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(raw_parameters)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_group_parameters",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_group_parameters",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        }
+      ],
+      "call_forms": {
+        "_group_parameters": "name",
+        "copy": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run"
+      ],
+      "calls": [
+        "_group_parameters",
+        "copy"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+      ],
+      "doc": "Return physical/scaled policy parameter values without changing the action.",
+      "end_line": 50,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.effective_group_parameter_values",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(group_parameter_actions)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "effective_group_parameter_values",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "PARAMETER_NAMES.index",
+          "target": "PARAMETER_NAMES.index"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "active.any",
+          "target": "active.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "astype",
+          "target": "astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_group_parameters",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "min",
+          "target": "min"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.average",
+          "target": "np.average"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.bincount",
+          "target": "np.bincount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.clip",
+          "target": "np.clip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reshape",
+          "target": "reshape"
+        }
+      ],
+      "call_forms": {
+        "PARAMETER_NAMES.index": "attribute",
+        "ValueError": "name",
+        "_group_parameters": "name",
+        "active.any": "attribute",
+        "astype": "attribute",
+        "bool": "name",
+        "float": "name",
+        "min": "name",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.average": "attribute",
+        "np.bincount": "attribute",
+        "np.clip": "attribute",
+        "np.isfinite": "attribute",
+        "reshape": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.step",
+        "tests.unit.test_tsh_calo_effective_recovery.test_policy_recovery_fraction_is_operational_and_bounded_by_scientist_ceiling",
+        "tests.unit.test_tsh_calo_effective_recovery.test_policy_recovery_fraction_respects_lower_scientist_ceiling"
+      ],
+      "calls": [
+        "PARAMETER_NAMES.index",
+        "ValueError",
+        "_group_parameters",
+        "active.any",
+        "astype",
+        "bool",
+        "float",
+        "min",
+        "np.any",
+        "np.asarray",
+        "np.average",
+        "np.bincount",
+        "np.clip",
+        "np.isfinite",
+        "reshape"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+      ],
+      "doc": "Return the policy-selected recovery fraction bounded by the scientist-set ceiling.",
+      "end_line": 79,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.effective_recovery_fraction",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(group_parameter_actions, learner_groups, maximum_fraction)",
+      "start_line": 53,
+      "state_owner": "",
+      "symbol": "effective_recovery_fraction",
+      "tests": [
+        "tests/unit/test_tsh_calo_effective_recovery.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "DISCOVERY_MEMORY_PRIOR.copy",
+          "target": "DISCOVERY_MEMORY_PRIOR.copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "blend_probabilities",
+          "target": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CandidateBatch",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_focus_to_group",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_propose_candidate",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "individual_regime",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCandidateBatch",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.TSHCandidateBatch"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_group_parameters",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "credit.memory_probabilities",
+          "target": "credit.memory_probabilities"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "group_intelligence.mask",
+          "target": "group_intelligence.mask"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "groups.astype",
+          "target": "groups.astype"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hpem.hierarchy",
+          "target": "hpem.hierarchy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "memory.mean_direction",
+          "target": "memory.mean_direction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.argmax",
+          "target": "np.argmax"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.empty_like",
+          "target": "np.empty_like"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.full",
+          "target": "np.full"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.zeros",
+          "target": "np.zeros"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "physics_repair_operator.propose",
+          "target": "physics_repair_operator.propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "population.mean",
+          "target": "population.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "precision.propose",
+          "target": "precision.propose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.choice",
+          "target": "rng.choice"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "rng.random",
+          "target": "rng.random"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "round",
+          "target": "round"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "CandidateBatch": "name",
+        "DISCOVERY_MEMORY_PRIOR.copy": "attribute",
+        "RuntimeError": "name",
+        "TSHCandidateBatch": "name",
+        "ValueError": "name",
+        "_focus_to_group": "name",
+        "_group_parameters": "name",
+        "_propose_candidate": "name",
+        "any": "name",
+        "blend_probabilities": "name",
+        "bool": "name",
+        "copy": "attribute",
+        "credit.memory_probabilities": "attribute",
+        "float": "name",
+        "group_intelligence.mask": "attribute",
+        "groups.astype": "attribute",
+        "hpem.hierarchy": "attribute",
+        "individual_regime": "name",
+        "int": "name",
+        "len": "name",
+        "memory.mean_direction": "attribute",
+        "np.any": "attribute",
+        "np.argmax": "attribute",
+        "np.asarray": "attribute",
+        "np.empty_like": "attribute",
+        "np.full": "attribute",
+        "np.zeros": "attribute",
+        "physics_repair_operator.propose": "attribute",
+        "population.mean": "attribute",
+        "precision.propose": "attribute",
+        "range": "name",
+        "rng.choice": "attribute",
+        "rng.random": "attribute",
+        "round": "name",
+        "tuple": "name",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.step",
+        "tests.unit.test_tsh_calo_runtime_transition.test_action_vectors_and_parameters_cannot_bypass_the_versioned_abi",
+        "tests.unit.test_tsh_calo_runtime_transition.test_group_conditioned_candidate_generation_is_seeded_and_per_learner",
+        "tests.unit.test_tsh_calo_runtime_transition.test_physics_operator_uses_supplied_counted_context_and_remains_group_focused",
+        "tests.unit.test_tsh_calo_runtime_transition.test_shielded_physics_selection_fails_closed_if_context_disappears"
+      ],
+      "calls": [
+        "CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR.copy",
+        "RuntimeError",
+        "TSHCandidateBatch",
+        "ValueError",
+        "_focus_to_group",
+        "_group_parameters",
+        "_propose_candidate",
+        "any",
+        "blend_probabilities",
+        "bool",
+        "copy",
+        "credit.memory_probabilities",
+        "float",
+        "group_intelligence.mask",
+        "groups.astype",
+        "hpem.hierarchy",
+        "individual_regime",
+        "int",
+        "len",
+        "memory.mean_direction",
+        "np.any",
+        "np.argmax",
+        "np.asarray",
+        "np.empty_like",
+        "np.full",
+        "np.zeros",
+        "physics_repair_operator.propose",
+        "population.mean",
+        "precision.propose",
+        "range",
+        "rng.choice",
+        "rng.random",
+        "round",
+        "tuple",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.TSHCandidateBatch",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel._group_parameters"
+      ],
+      "doc": "Execute independently shielded learner actions without redefining frozen CALO.",
+      "end_line": 242,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.generate_tsh_offspring",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(population, evaluations, personal_best, rng, dimension, variables, quality_order, contexts, learner_groups, learned_lanes, global_regime, learner_operators, group_parameter_actions, memory, hpem, feasible_archive, boundary_archive, credit, group_intelligence, precision, precision_active, precision_fraction, forced_recovery, consensus, environment_deterministic, physics_repair_operator, physics_contexts, out)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "generate_tsh_offspring",
+      "tests": [
+        "tests/unit/test_tsh_calo_runtime_transition.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "complete_transition",
+          "target": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition"
+        }
+      ],
+      "call_forms": {
+        "complete_transition": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.TSHCALOOptimizer.run",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.IndependentTSHCALOTrainingEnvironment.step",
+        "tests.unit.test_tsh_calo_runtime_transition.test_tsh_completion_reserves_a_distinct_precision_memory_channel"
+      ],
+      "calls": [
+        "complete_transition"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition"
+      ],
+      "doc": "Use channel 7 for precision because TSH operator 6 is physics repair.",
+      "end_line": 248,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CandidateBatch": "calo_rpd_studio.algorithms.calo.transition_kernel.CandidateBatch",
+        "DISCOVERY_MEMORY_PRIOR": "calo_rpd_studio.algorithms.calo.transition_kernel.DISCOVERY_MEMORY_PRIOR",
+        "N_BOUNDED_PARAMETERS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_BOUNDED_PARAMETERS",
+        "N_CONTROL_GROUPS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_CONTROL_GROUPS",
+        "N_OPERATORS": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.N_OPERATORS",
+        "PARAMETER_HIGH": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_HIGH",
+        "PARAMETER_LOW": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_LOW",
+        "PARAMETER_NAMES": "calo_rpd_studio.algorithms.calo.ai_controller.PARAMETER_NAMES",
+        "PhysicsRepairContext": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairContext",
+        "PhysicsRepairOperator": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairOperator",
+        "PhysicsRepairProposal": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairProposal",
+        "PhysicsRepairStatus": "calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair.PhysicsRepairStatus",
+        "REGIME_MEMORY_PRIORS": "calo_rpd_studio.algorithms.calo.transition_kernel.REGIME_MEMORY_PRIORS",
+        "_focus_to_group": "calo_rpd_studio.algorithms.calo.transition_kernel._focus_to_group",
+        "_propose_candidate": "calo_rpd_studio.algorithms.calo.transition_kernel._propose_candidate",
+        "annotations": "__future__.annotations",
+        "blend_probabilities": "calo_rpd_studio.algorithms.calo.operator_credit.blend_probabilities",
+        "complete_transition": "calo_rpd_studio.algorithms.calo.transition_kernel.complete_transition",
+        "dataclass": "dataclasses.dataclass",
+        "individual_regime": "calo_rpd_studio.algorithms.calo.transition_kernel.individual_regime",
+        "np": "numpy"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".ai_controller",
+        ".operator_credit",
+        ".transition_kernel",
+        ".tsh_calo_physics_repair",
+        ".tsh_calo_schema",
+        "__future__",
+        "dataclasses",
+        "numpy"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_transition_kernel.complete_tsh_transition",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(**kwargs)",
+      "start_line": 245,
+      "state_owner": "",
+      "symbol": "complete_tsh_transition",
+      "tests": [
+        "tests/unit/test_tsh_calo_runtime_transition.py"
+      ]
+    }
+  ]
+}

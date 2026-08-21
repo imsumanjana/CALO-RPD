@@ -1,0 +1,1288 @@
+{
+  "path": "tests/unit/test_v120_phase4_development_freeze.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 19,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "constant",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze._COMMIT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 19,
+      "state_owner": "",
+      "symbol": "_COMMIT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "freeze._file_record",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate._file_record"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        }
+      ],
+      "call_forms": {
+        "freeze._file_record": "attribute",
+        "sorted": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_development_freeze._fixture",
+        "tests.unit.test_v120_phase4_development_freeze.test_dirty_development_freeze_is_evidence_but_not_new_policy_training_authority"
+      ],
+      "calls": [
+        "freeze._file_record",
+        "sorted"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.create_development_freeze_candidate._file_record"
+      ],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze._complete_source_fixture",
+      "semantic_tags": [],
+      "signature": "(source, clean)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_complete_source_fixture",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "inferred",
+          "raw": "TSHCALOCandidateArtifact",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "members.append",
+          "target": "members.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOCandidateArtifact": "name",
+        "members.append": "attribute",
+        "range": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_development_freeze.test_production_artifact_eligibility_requires_exact_freeze_and_empty_initialization"
+      ],
+      "calls": [
+        "TSHCALOCandidateArtifact",
+        "members.append",
+        "range",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.TSHCALOCandidateArtifact"
+      ],
+      "doc": "",
+      "end_line": 67,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze._ensemble_artifact",
+      "semantic_tags": [],
+      "signature": "(freeze_commit, initialization_sha256)",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_ensemble_artifact",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_ensemble_artifact",
+          "target": "tests.unit.test_v120_phase4_development_freeze._ensemble_artifact"
+        }
+      ],
+      "call_forms": {
+        "_ensemble_artifact": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_ensemble_artifact"
+      ],
+      "calls_resolved": [
+        "tests.unit.test_v120_phase4_development_freeze._ensemble_artifact"
+      ],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_production_artifact_eligibility_requires_exact_freeze_and_empty_initialization",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 70,
+      "state_owner": "",
+      "symbol": "test_production_artifact_eligibility_requires_exact_freeze_and_empty_initialization",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "read_text",
+          "target": "read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "read_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "read_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 99,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_future_training_entrypoint_is_exact_freeze_bound_without_executing_training",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 87,
+      "state_owner": "",
+      "symbol": "test_future_training_entrypoint_is_exact_freeze_bound_without_executing_training",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRetirementManager",
+          "target": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory",
+          "target": "inventory"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.mkdir",
+          "target": "root.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "store.mkdir",
+          "target": "store.mkdir"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_source_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._complete_source_fixture"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "PolicyRetirementManager": "name",
+        "ResultDatabase": "name",
+        "SourceIdentity": "name",
+        "_complete_source_fixture": "name",
+        "inventory": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "root.mkdir": "attribute",
+        "store.mkdir": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [
+        "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_candidate_binds_source_interfaces_and_empty_policy_scope",
+        "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_rejects_policy_inventory_from_another_source",
+        "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_requires_matching_clean_source_when_requested",
+        "tests.unit.test_v120_phase4_development_freeze.test_dirty_development_freeze_is_evidence_but_not_new_policy_training_authority",
+        "tests.unit.test_v120_phase4_development_freeze.test_phase4_acceptance_requires_a_complete_hash_valid_passing_manual_run"
+      ],
+      "calls": [
+        "PolicyRetirementManager",
+        "ResultDatabase",
+        "SourceIdentity",
+        "_complete_source_fixture",
+        "inventory",
+        "monkeypatch.setattr",
+        "root.mkdir",
+        "store.mkdir",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.unit.test_v120_phase4_development_freeze._complete_source_fixture"
+      ],
+      "doc": "",
+      "end_line": 123,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze._fixture",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 102,
+      "state_owner": "",
+      "symbol": "_fixture",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance.acceptance_matches_freeze",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.build_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.development_source_contract",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.development_source_contract"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.verify_development_freeze_source",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.verify_development_freeze_source"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._fixture"
+        }
+      ],
+      "call_forms": {
+        "_fixture": "name",
+        "acceptance._canonical_sha256": "attribute",
+        "acceptance.acceptance_matches_freeze": "attribute",
+        "freeze.build_development_freeze_candidate": "attribute",
+        "freeze.development_source_contract": "attribute",
+        "freeze.verify_development_freeze_source": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_fixture",
+        "acceptance._canonical_sha256",
+        "acceptance.acceptance_matches_freeze",
+        "freeze.build_development_freeze_candidate",
+        "freeze.development_source_contract",
+        "freeze.verify_development_freeze_source"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.accept_development_freeze._canonical_sha256",
+        "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.development_source_contract",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.verify_development_freeze_source",
+        "tests.unit.test_v120_phase4_development_freeze._fixture"
+      ],
+      "doc": "",
+      "end_line": 178,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_candidate_binds_source_interfaces_and_empty_policy_scope",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "test_development_freeze_candidate_binds_source_interfaces_and_empty_policy_scope",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "freeze._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.development_source_contract",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.development_source_contract"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        }
+      ],
+      "call_forms": {
+        "freeze._canonical_sha256": "attribute",
+        "freeze.development_source_contract": "attribute",
+        "monkeypatch.setattr": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "freeze._canonical_sha256",
+        "freeze.development_source_contract",
+        "monkeypatch.setattr"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.development_source_contract"
+      ],
+      "doc": "",
+      "end_line": 202,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_accepted_source_contract_excludes_only_the_designated_policy_store",
+      "semantic_tags": [],
+      "signature": "(monkeypatch)",
+      "start_line": 181,
+      "state_owner": "",
+      "symbol": "test_accepted_source_contract_excludes_only_the_designated_policy_store",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "as_posix",
+          "target": "as_posix"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance.acceptance_matches_freeze",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance.build_acceptance_receipt",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance.validate_acceptance_receipt",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.build_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.parent.mkdir",
+          "target": "destination.parent.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "destination.write_text",
+          "target": "destination.write_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "files.items",
+          "target": "files.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hashlib.sha256",
+          "target": "hashlib.sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hexdigest",
+          "target": "hexdigest"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.is_file",
+          "target": "item.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "manifest_rows.append",
+          "target": "manifest_rows.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "mkdir",
+          "target": "mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_bytes",
+          "target": "path.read_bytes"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.relative_to",
+          "target": "path.relative_to"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "run.rglob",
+          "target": "run.rglob"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._fixture"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "_fixture": "name",
+        "acceptance.acceptance_matches_freeze": "attribute",
+        "acceptance.build_acceptance_receipt": "attribute",
+        "acceptance.validate_acceptance_receipt": "attribute",
+        "as_posix": "attribute",
+        "destination.parent.mkdir": "attribute",
+        "destination.write_text": "attribute",
+        "files.items": "attribute",
+        "freeze.build_development_freeze_candidate": "attribute",
+        "hashlib.sha256": "attribute",
+        "hexdigest": "attribute",
+        "item.is_file": "attribute",
+        "join": "attribute",
+        "json.dumps": "attribute",
+        "len": "name",
+        "manifest_rows.append": "attribute",
+        "mkdir": "attribute",
+        "path.read_bytes": "attribute",
+        "path.relative_to": "attribute",
+        "pytest.raises": "attribute",
+        "run.rglob": "attribute",
+        "sorted": "name",
+        "write_text": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_fixture",
+        "acceptance.acceptance_matches_freeze",
+        "acceptance.build_acceptance_receipt",
+        "acceptance.validate_acceptance_receipt",
+        "as_posix",
+        "destination.parent.mkdir",
+        "destination.write_text",
+        "files.items",
+        "freeze.build_development_freeze_candidate",
+        "hashlib.sha256",
+        "hexdigest",
+        "item.is_file",
+        "join",
+        "json.dumps",
+        "len",
+        "manifest_rows.append",
+        "mkdir",
+        "path.read_bytes",
+        "path.relative_to",
+        "pytest.raises",
+        "run.rglob",
+        "sorted",
+        "write_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "calo_rpd_studio.scripts.accept_development_freeze.build_acceptance_receipt",
+        "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate",
+        "tests.unit.test_v120_phase4_development_freeze._fixture"
+      ],
+      "doc": "",
+      "end_line": 266,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_phase4_acceptance_requires_a_complete_hash_valid_passing_manual_run",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 205,
+      "state_owner": "",
+      "symbol": "test_phase4_acceptance_requires_a_complete_hash_valid_passing_manual_run",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.build_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.validate_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dirty.to_dict",
+          "target": "dirty.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.items",
+          "target": "inventory.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_complete_source_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._complete_source_fixture"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._fixture"
+        }
+      ],
+      "call_forms": {
+        "SourceIdentity": "name",
+        "_complete_source_fixture": "name",
+        "_fixture": "name",
+        "dirty.to_dict": "attribute",
+        "freeze._canonical_sha256": "attribute",
+        "freeze.build_development_freeze_candidate": "attribute",
+        "freeze.validate_development_freeze_candidate": "attribute",
+        "inventory.items": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SourceIdentity",
+        "_complete_source_fixture",
+        "_fixture",
+        "dirty.to_dict",
+        "freeze._canonical_sha256",
+        "freeze.build_development_freeze_candidate",
+        "freeze.validate_development_freeze_candidate",
+        "inventory.items",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate",
+        "tests.unit.test_v120_phase4_development_freeze._complete_source_fixture",
+        "tests.unit.test_v120_phase4_development_freeze._fixture"
+      ],
+      "doc": "",
+      "end_line": 297,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_dirty_development_freeze_is_evidence_but_not_new_policy_training_authority",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 269,
+      "state_owner": "",
+      "symbol": "test_dirty_development_freeze_is_evidence_but_not_new_policy_training_authority",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze._canonical_sha256",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.build_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dirty.to_dict",
+          "target": "dirty.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "inventory.items",
+          "target": "inventory.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._fixture"
+        }
+      ],
+      "call_forms": {
+        "SourceIdentity": "name",
+        "_fixture": "name",
+        "dirty.to_dict": "attribute",
+        "freeze._canonical_sha256": "attribute",
+        "freeze.build_development_freeze_candidate": "attribute",
+        "inventory.items": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SourceIdentity",
+        "_fixture",
+        "dirty.to_dict",
+        "freeze._canonical_sha256",
+        "freeze.build_development_freeze_candidate",
+        "inventory.items",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate._canonical_sha256",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate",
+        "tests.unit.test_v120_phase4_development_freeze._fixture"
+      ],
+      "doc": "",
+      "end_line": 318,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_requires_matching_clean_source_when_requested",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 300,
+      "state_owner": "",
+      "symbol": "test_development_freeze_requires_matching_clean_source_when_requested",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "SourceIdentity",
+          "target": "calo_rpd_studio.compute.source_identity.SourceIdentity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "freeze.build_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_fixture",
+          "target": "tests.unit.test_v120_phase4_development_freeze._fixture"
+        }
+      ],
+      "call_forms": {
+        "SourceIdentity": "name",
+        "_fixture": "name",
+        "freeze.build_development_freeze_candidate": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "pytest.raises": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "SourceIdentity",
+        "_fixture",
+        "freeze.build_development_freeze_candidate",
+        "monkeypatch.setattr",
+        "pytest.raises"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.build_development_freeze_candidate",
+        "tests.unit.test_v120_phase4_development_freeze._fixture"
+      ],
+      "doc": "",
+      "end_line": 334,
+      "entry_point": false,
+      "file": "tests/unit/test_v120_phase4_development_freeze.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRetirementManager": "calo_rpd_studio.algorithms.calo.policy_retirement.PolicyRetirementManager",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "SourceIdentity": "calo_rpd_studio.compute.source_identity.SourceIdentity",
+        "TSHCALOCandidateArtifact": "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact.TSHCALOCandidateArtifact",
+        "acceptance": "calo_rpd_studio.scripts.accept_development_freeze",
+        "annotations": "__future__.annotations",
+        "freeze": "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "hashlib": "hashlib",
+        "json": "json",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_retirement",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.scripts",
+        "hashlib",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_v120_phase4_development_freeze",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_v120_phase4_development_freeze",
+      "qualname": "tests.unit.test_v120_phase4_development_freeze.test_development_freeze_rejects_policy_inventory_from_another_source",
+      "semantic_tags": [],
+      "signature": "(tmp_path, monkeypatch)",
+      "start_line": 321,
+      "state_owner": "",
+      "symbol": "test_development_freeze_rejects_policy_inventory_from_another_source",
+      "tests": []
+    }
+  ]
+}

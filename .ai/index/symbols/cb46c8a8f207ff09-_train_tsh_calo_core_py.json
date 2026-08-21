@@ -1,0 +1,1216 @@
+{
+  "path": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.ROOT",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "ROOT",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "constant",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.TRAINING_EVENT_PREFIX",
+      "semantic_tags": [],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "TRAINING_EVENT_PREFIX",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "payload.get",
+          "target": "payload.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "dict": "name",
+        "json.dumps": "attribute",
+        "payload.get": "attribute",
+        "print": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "dict",
+        "json.dumps",
+        "payload.get",
+        "print"
+      ],
+      "calls_resolved": [],
+      "doc": "Emit one machine-readable checkpoint event while keeping stdout human-inspectable.",
+      "end_line": 44,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.emit_training_event",
+      "semantic_tags": [],
+      "signature": "(event)",
+      "start_line": 38,
+      "state_owner": "",
+      "symbol": "emit_training_event",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "TSHCALOTrainingCampaignPlan.from_dict",
+          "target": "TSHCALOTrainingCampaignPlan.from_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "parse_tsh_calo_extension_plan",
+          "target": "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.parse_tsh_calo_extension_plan"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "TSHCALOTrainingCampaignPlan.from_dict": "attribute",
+        "ValueError": "name",
+        "expanduser": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "parse_tsh_calo_extension_plan": "name",
+        "resolve": "attribute",
+        "source.read_text": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main"
+      ],
+      "calls": [
+        "Path",
+        "TSHCALOTrainingCampaignPlan.from_dict",
+        "ValueError",
+        "expanduser",
+        "isinstance",
+        "json.loads",
+        "parse_tsh_calo_extension_plan",
+        "resolve",
+        "source.read_text"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.parse_tsh_calo_extension_plan"
+      ],
+      "doc": "",
+      "end_line": 61,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.load_plan",
+      "semantic_tags": [],
+      "signature": "(path, compatible_extension)",
+      "start_line": 47,
+      "state_owner": "",
+      "symbol": "load_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stdout.strip",
+          "target": "stdout.strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "subprocess.run",
+          "target": "subprocess.run"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "RuntimeError": "name",
+        "resolve": "attribute",
+        "stdout.strip": "attribute",
+        "subprocess.run": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.validate_repository_for_plan"
+      ],
+      "calls": [
+        "Path",
+        "RuntimeError",
+        "resolve",
+        "stdout.strip",
+        "subprocess.run"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.repository_state",
+      "semantic_tags": [],
+      "signature": "(root)",
+      "start_line": 64,
+      "state_owner": "",
+      "symbol": "repository_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "repository_state",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core.repository_state"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "head.lower",
+          "target": "head.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.development_freeze_commit.lower",
+          "target": "plan.development_freeze_commit.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.source_commit.lower",
+          "target": "plan.source_commit.lower"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "head.lower": "attribute",
+        "plan.development_freeze_commit.lower": "attribute",
+        "plan.source_commit.lower": "attribute",
+        "repository_state": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main"
+      ],
+      "calls": [
+        "RuntimeError",
+        "head.lower",
+        "plan.development_freeze_commit.lower",
+        "plan.source_commit.lower",
+        "repository_state"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.repository_state"
+      ],
+      "doc": "",
+      "end_line": 105,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_repository_for_plan",
+      "semantic_tags": [],
+      "signature": "(plan, root, compatible_extension)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "validate_repository_for_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "acceptance.get",
+          "target": "acceptance.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "acceptance_source.read_text",
+          "target": "acceptance_source.read_text"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "acceptance_matches_freeze",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_acceptance_receipt",
+          "target": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_development_freeze_candidate",
+          "target": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comparisons.items",
+          "target": "comparisons.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "identity.get",
+          "target": "identity.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.development_freeze_commit.lower",
+          "target": "plan.development_freeze_commit.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.development_freeze_sha256.lower",
+          "target": "plan.development_freeze_sha256.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.phase4_acceptance_sha256.lower",
+          "target": "plan.phase4_acceptance_sha256.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "report.get",
+          "target": "report.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.read_text",
+          "target": "source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "acceptance.get": "attribute",
+        "acceptance_matches_freeze": "name",
+        "acceptance_source.read_text": "attribute",
+        "comparisons.items": "attribute",
+        "dict": "name",
+        "expanduser": "attribute",
+        "identity.get": "attribute",
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "lower": "attribute",
+        "plan.development_freeze_commit.lower": "attribute",
+        "plan.development_freeze_sha256.lower": "attribute",
+        "plan.phase4_acceptance_sha256.lower": "attribute",
+        "report.get": "attribute",
+        "resolve": "attribute",
+        "source.read_text": "attribute",
+        "str": "name",
+        "validate_acceptance_receipt": "name",
+        "validate_development_freeze_candidate": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "acceptance.get",
+        "acceptance_matches_freeze",
+        "acceptance_source.read_text",
+        "comparisons.items",
+        "dict",
+        "expanduser",
+        "identity.get",
+        "isinstance",
+        "json.loads",
+        "lower",
+        "plan.development_freeze_commit.lower",
+        "plan.development_freeze_sha256.lower",
+        "plan.phase4_acceptance_sha256.lower",
+        "report.get",
+        "resolve",
+        "source.read_text",
+        "str",
+        "validate_acceptance_receipt",
+        "validate_development_freeze_candidate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      ],
+      "doc": "",
+      "end_line": 148,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_development_freeze_for_plan",
+      "semantic_tags": [],
+      "signature": "(plan, path, acceptance_path)",
+      "start_line": 108,
+      "state_owner": "",
+      "symbol": "validate_development_freeze_for_plan",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "payload.update",
+          "target": "payload.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.execution_plan_sha256",
+          "target": "plan.execution_plan_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.scientific_design_hash",
+          "target": "plan.scientific_design_hash"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.seed_manifest_sha256",
+          "target": "plan.seed_manifest_sha256"
+        }
+      ],
+      "call_forms": {
+        "payload.update": "attribute",
+        "plan.execution_plan_sha256": "attribute",
+        "plan.scientific_design_hash": "attribute",
+        "plan.seed_manifest_sha256": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main"
+      ],
+      "calls": [
+        "payload.update",
+        "plan.execution_plan_sha256",
+        "plan.scientific_design_hash",
+        "plan.seed_manifest_sha256"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 183,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core._summary",
+      "semantic_tags": [],
+      "signature": "(plan, state, result, resource_preflight)",
+      "start_line": 151,
+      "state_owner": "",
+      "symbol": "_summary",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "preflight_tsh_calo_training_resources",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.training_config",
+          "target": "plan.training_config"
+        }
+      ],
+      "call_forms": {
+        "plan.training_config": "attribute",
+        "preflight_tsh_calo_training_resources": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.scripts._train_tsh_calo_core.main"
+      ],
+      "calls": [
+        "plan.training_config",
+        "preflight_tsh_calo_training_resources"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources"
+      ],
+      "doc": "Apply the trainer's current Safe-80 admission without starting training.",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_training_resources",
+      "semantic_tags": [],
+      "signature": "(plan)",
+      "start_line": 186,
+      "state_owner": "",
+      "symbol": "validate_training_resources",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "arguments.output.expanduser",
+          "target": "arguments.output.expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingCampaign",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "IndependentTSHCALOTrainingExtension",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "extension_plan_summary",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_summary",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core._summary"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "load_plan",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core.load_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_development_freeze_for_plan",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_development_freeze_for_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_repository_for_plan",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_repository_for_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_training_resources",
+          "target": "calo_rpd_studio.scripts._train_tsh_calo_core.validate_training_resources"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.resume",
+          "target": "campaign.resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.start",
+          "target": "campaign.start"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "extension.start_or_resume",
+          "target": "extension.start_or_resume"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.add_argument",
+          "target": "parser.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.error",
+          "target": "parser.error"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "parser.parse_args",
+          "target": "parser.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        }
+      ],
+      "call_forms": {
+        "IndependentTSHCALOTrainingCampaign": "name",
+        "IndependentTSHCALOTrainingExtension": "name",
+        "_summary": "name",
+        "any": "name",
+        "argparse.ArgumentParser": "attribute",
+        "arguments.output.expanduser": "attribute",
+        "bool": "name",
+        "campaign.resume": "attribute",
+        "campaign.start": "attribute",
+        "extension.start_or_resume": "attribute",
+        "extension_plan_summary": "name",
+        "json.dumps": "attribute",
+        "len": "name",
+        "load_plan": "name",
+        "parser.add_argument": "attribute",
+        "parser.error": "attribute",
+        "parser.parse_args": "attribute",
+        "print": "name",
+        "resolve": "attribute",
+        "str": "name",
+        "sum": "name",
+        "validate_development_freeze_for_plan": "name",
+        "validate_repository_for_plan": "name",
+        "validate_training_resources": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension",
+        "_summary",
+        "any",
+        "argparse.ArgumentParser",
+        "arguments.output.expanduser",
+        "bool",
+        "campaign.resume",
+        "campaign.start",
+        "extension.start_or_resume",
+        "extension_plan_summary",
+        "json.dumps",
+        "len",
+        "load_plan",
+        "parser.add_argument",
+        "parser.error",
+        "parser.parse_args",
+        "print",
+        "resolve",
+        "str",
+        "sum",
+        "validate_development_freeze_for_plan",
+        "validate_repository_for_plan",
+        "validate_training_resources"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "calo_rpd_studio.scripts._train_tsh_calo_core._summary",
+        "calo_rpd_studio.scripts._train_tsh_calo_core.load_plan",
+        "calo_rpd_studio.scripts._train_tsh_calo_core.validate_development_freeze_for_plan",
+        "calo_rpd_studio.scripts._train_tsh_calo_core.validate_repository_for_plan",
+        "calo_rpd_studio.scripts._train_tsh_calo_core.validate_training_resources"
+      ],
+      "doc": "",
+      "end_line": 363,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/_train_tsh_calo_core.py",
+      "implementation_core": true,
+      "import_bindings": {
+        "IndependentTSHCALOTrainingCampaign": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.IndependentTSHCALOTrainingCampaign",
+        "IndependentTSHCALOTrainingExtension": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.IndependentTSHCALOTrainingExtension",
+        "Path": "pathlib.Path",
+        "TSHCALOTrainingCampaignPlan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingCampaignPlan",
+        "TSHCALOTrainingPauseRequested": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSHCALOTrainingPauseRequested",
+        "TSH_CALO_TRAINING_EVENT_SCHEMA": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_EVENT_SCHEMA",
+        "TSH_CALO_TRAINING_PAUSE_EXIT_CODE": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.TSH_CALO_TRAINING_PAUSE_EXIT_CODE",
+        "acceptance_matches_freeze": "calo_rpd_studio.scripts.accept_development_freeze.acceptance_matches_freeze",
+        "annotations": "__future__.annotations",
+        "argparse": "argparse",
+        "extension_plan_summary": "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension.extension_plan_summary",
+        "json": "json",
+        "parse_tsh_calo_extension_plan": "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign.parse_tsh_calo_extension_plan",
+        "preflight_tsh_calo_training_resources": "calo_rpd_studio.algorithms.calo.tsh_calo_training.preflight_tsh_calo_training_resources",
+        "subprocess": "subprocess",
+        "validate_acceptance_receipt": "calo_rpd_studio.scripts.accept_development_freeze.validate_acceptance_receipt",
+        "validate_development_freeze_candidate": "calo_rpd_studio.scripts.create_development_freeze_candidate.validate_development_freeze_candidate"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_extension",
+        "calo_rpd_studio.scripts.accept_development_freeze",
+        "calo_rpd_studio.scripts.create_development_freeze_candidate",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "integration_layer": "",
+      "internal_only": true,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts._train_tsh_calo_core",
+      "qualname": "calo_rpd_studio.scripts._train_tsh_calo_core.main",
+      "semantic_tags": [],
+      "signature": "(argv)",
+      "start_line": 192,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}

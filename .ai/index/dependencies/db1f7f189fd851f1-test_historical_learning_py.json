@@ -1,0 +1,219 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/learning/experience_repository.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    }
+  ],
+  "path": "tests/integration/test_historical_learning.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning._insert_run",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning._insert_run",
+      "to": "db.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning._insert_run",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning._insert_run",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning._insert_run",
+      "to": "uuid.uuid4"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "to": "db.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_existing_and_new_experiments_are_excluded_from_learning_by_default",
+      "to": "db.get_experiment"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "db.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "db.set_experiment_learning_role"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_legacy_calo_summaries_are_reconstructed_with_lower_confidence",
+      "to": "tests.integration.test_historical_learning._insert_run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "calo_rpd_studio.learning.experience_repository.load_experience_repository"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "db.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "db.get_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "db.set_experiment_learning_role"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "len"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_repository_includes_only_explicit_eligible_training_experiments",
+      "to": "tests.integration.test_historical_learning._insert_run"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "calo_rpd_studio.learning.experience_repository.build_experience_repository"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "con.execute"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "db.connect"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "db.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "db.set_experiment_learning_role"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "json.dumps"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "str"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.integration.test_historical_learning.test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining",
+      "to": "uuid.uuid4"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "path": "tests/conftest.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PowerSystemCase",
+          "target": "calo_rpd_studio.power_system.case_model.PowerSystemCase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.array",
+          "target": "np.array"
+        }
+      ],
+      "call_forms": {
+        "PowerSystemCase": "name",
+        "np.array": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PowerSystemCase",
+        "np.array"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.power_system.case_model.PowerSystemCase"
+      ],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "tests/conftest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "WorkspaceStudyPlanner": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.power_system.case_model",
+        "copy",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.conftest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.conftest",
+      "qualname": "tests.conftest.toy_case",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 12,
+      "state_owner": "",
+      "symbol": "toy_case",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.gui.test_phase6_ribbon_workspace.test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_authority",
+        "tests.gui.test_workspace_execution_ui._audited_workspace",
+        "tests.gui.test_workspace_execution_ui.test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms",
+        "tests.gui.test_workspace_execution_ui.test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed",
+        "tests.gui.test_workspace_execution_ui.test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector",
+        "tests.integration.test_workspace_execution_control.audited_workspace",
+        "tests.integration.test_workspace_execution_control.test_new_portfolio_goal_invalidates_only_unstarted_workspace_state",
+        "tests.integration.test_workspace_execution_control.test_plan_configuration_routes_workspace_and_individual_result_ownership",
+        "tests.integration.test_workspace_execution_control.test_workspace_advances_to_next_cell_only_after_manager_idle"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Create the v3 draft only through the approved Goal -> recommendation -> Study path.",
+      "end_line": 88,
+      "entry_point": false,
+      "file": "tests/conftest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "WorkspaceStudyPlanner": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.power_system.case_model",
+        "copy",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.conftest",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.conftest",
+      "qualname": "tests.conftest.apply_workspace_study",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "apply_workspace_study",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PortfolioGoalPlanner.create",
+          "target": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceStudyPlanner.apply_selection",
+          "target": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "WorkspaceStudyPlanner.recommend",
+          "target": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "list",
+          "target": "list"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.active_stage",
+          "target": "service.active_stage"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.create_workspace_draft",
+          "target": "service.create_workspace_draft"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "service.database.replace_portfolio_goal",
+          "target": "service.database.replace_portfolio_goal"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "PortfolioGoalPlanner.create": "attribute",
+        "WorkspaceStudyPlanner.apply_selection": "attribute",
+        "WorkspaceStudyPlanner.recommend": "attribute",
+        "deepcopy": "name",
+        "list": "name",
+        "service.active_stage": "attribute",
+        "service.create_workspace_draft": "attribute",
+        "service.database.replace_portfolio_goal": "attribute",
+        "str": "name",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PortfolioGoalPlanner.create",
+        "WorkspaceStudyPlanner.apply_selection",
+        "WorkspaceStudyPlanner.recommend",
+        "deepcopy",
+        "list",
+        "service.active_stage",
+        "service.create_workspace_draft",
+        "service.database.replace_portfolio_goal",
+        "str",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner.create",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.apply_selection",
+        "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner.recommend"
+      ],
+      "doc": "",
+      "end_line": 86,
+      "entry_point": false,
+      "file": "tests/conftest.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PortfolioGoalPlanner": "calo_rpd_studio.portfolio.study_planning.PortfolioGoalPlanner",
+        "PowerSystemCase": "calo_rpd_studio.power_system.case_model.PowerSystemCase",
+        "WorkspaceStudyPlanner": "calo_rpd_studio.portfolio.study_planning.WorkspaceStudyPlanner",
+        "annotations": "__future__.annotations",
+        "deepcopy": "copy.deepcopy",
+        "np": "numpy",
+        "pytest": "pytest"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.portfolio.study_planning",
+        "calo_rpd_studio.power_system.case_model",
+        "copy",
+        "numpy",
+        "pytest"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.conftest.apply_workspace_study",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.conftest",
+      "qualname": "tests.conftest.apply_workspace_study.apply",
+      "semantic_tags": [],
+      "signature": "(service, config, subset)",
+      "start_line": 44,
+      "state_owner": "",
+      "symbol": "apply",
+      "tests": []
+    }
+  ]
+}

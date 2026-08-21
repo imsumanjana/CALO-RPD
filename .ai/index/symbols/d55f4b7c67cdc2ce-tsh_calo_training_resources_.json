@@ -1,0 +1,2731 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 32,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TRAINING_MEMORY_ESTIMATOR_VERSION",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "TRAINING_MEMORY_ESTIMATOR_VERSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 33,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._FLOAT_BYTES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 33,
+      "state_owner": "",
+      "symbol": "_FLOAT_BYTES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 34,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._INDEX_BYTES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 34,
+      "state_owner": "",
+      "symbol": "_INDEX_BYTES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 35,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._RUNTIME_OVERHEAD_FLOOR",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 35,
+      "state_owner": "",
+      "symbol": "_RUNTIME_OVERHEAD_FLOOR",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._LOG",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "_LOG",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_training_campaign_core.TSHCALOTrainingCampaignPlan.from_dict",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._collect_calibration",
+        "calo_rpd_studio.gui.panels._independent_training_panel_core.TrainingLaunchModel.create_plan",
+        "calo_rpd_studio.scripts.validate_cuda_policy_hot_path.main",
+        "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "tests.unit.test_tsh_calo_feasibility_and_influence._training_plan",
+        "tests.unit.test_tsh_calo_generalization_guard._plan",
+        "tests.unit.test_tsh_calo_generalization_guard._training_config",
+        "tests.unit.test_tsh_calo_independent_training._config",
+        "tests.unit.test_tsh_calo_independent_training.test_training_state_cannot_exceed_frozen_resource_envelope",
+        "tests.unit.test_tsh_calo_training_campaign._plan",
+        "tests.unit.test_tsh_calo_training_environment._training_config",
+        "tests.unit.test_tsh_calo_training_resources._envelope",
+        "tests.unit.test_tsh_calo_training_session._training"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Declared maxima for one PPO rollout/update; every observed state is checked.",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 40,
+      "state_owner": "",
+      "symbol": "TSHCALOTrainingResourceEnvelope",
+      "tests": [
+        "tests/gui/test_phase6_ribbon_workspace.py",
+        "tests/unit/test_tsh_calo_feasibility_and_influence.py",
+        "tests/unit/test_tsh_calo_generalization_guard.py",
+        "tests/unit/test_tsh_calo_independent_training.py",
+        "tests/unit/test_tsh_calo_training_campaign.py",
+        "tests/unit/test_tsh_calo_training_environment.py",
+        "tests/unit/test_tsh_calo_training_resources.py",
+        "tests/unit/test_tsh_calo_training_session.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.to_dict",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state"
+      ],
+      "calls": [
+        "ValueError"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 60,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 50,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name",
+        "self.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict",
+        "self.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+      ],
+      "doc": "",
+      "end_line": 64,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.to_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 62,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "MemoryError",
+          "target": "MemoryError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.validate",
+          "target": "state.validate"
+        }
+      ],
+      "call_forms": {
+        "MemoryError": "name",
+        "int": "name",
+        "join": "attribute",
+        "self.validate": "attribute",
+        "state.validate": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "MemoryError",
+        "int",
+        "join",
+        "self.validate",
+        "state.validate"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate"
+      ],
+      "doc": "",
+      "end_line": 93,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingResourceEnvelope.validate_state",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, state, population_size)",
+      "start_line": 66,
+      "state_owner": "",
+      "symbol": "validate_state",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 97,
+      "state_owner": "",
+      "symbol": "TSHCALOTrainingMemoryEstimate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 108,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate.to_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 107,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "TSHCALOTrainingMemoryAdmission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        }
+      ],
+      "call_forms": {
+        "asdict": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "asdict"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 127,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission.to_dict",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 126,
+      "state_owner": "",
+      "symbol": "to_dict",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingMemoryEstimate",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "envelope.to_dict",
+          "target": "envelope.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "envelope.validate",
+          "target": "envelope.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.ceil",
+          "target": "math.ceil"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.buffers",
+          "target": "network.buffers"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.parameters",
+          "target": "network.parameters"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sum",
+          "target": "sum"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.element_size",
+          "target": "value.element_size"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "value.numel",
+          "target": "value.numel"
+        }
+      ],
+      "call_forms": {
+        "TSHCALOTrainingMemoryEstimate": "name",
+        "envelope.to_dict": "attribute",
+        "envelope.validate": "attribute",
+        "getattr": "name",
+        "int": "name",
+        "math.ceil": "attribute",
+        "max": "name",
+        "network.buffers": "attribute",
+        "network.parameters": "attribute",
+        "sum": "name",
+        "value.element_size": "attribute",
+        "value.numel": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training._build_and_admit_training_network",
+        "tests.unit.test_tsh_calo_training_resources._estimate"
+      ],
+      "calls": [
+        "TSHCALOTrainingMemoryEstimate",
+        "envelope.to_dict",
+        "envelope.validate",
+        "getattr",
+        "int",
+        "math.ceil",
+        "max",
+        "network.buffers",
+        "network.parameters",
+        "sum",
+        "value.element_size",
+        "value.numel"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryEstimate"
+      ],
+      "doc": "Conservatively estimate a whole PPO update from declared maximum tensor shapes.",
+      "end_line": 180,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.estimate_tsh_calo_training_working_set",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(network, envelope)",
+      "start_line": 130,
+      "state_owner": "",
+      "symbol": "estimate_tsh_calo_training_working_set",
+      "tests": [
+        "tests/unit/test_tsh_calo_training_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "MemoryError",
+          "target": "MemoryError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingMemoryAdmission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "psutil.virtual_memory",
+          "target": "psutil.virtual_memory"
+        }
+      ],
+      "call_forms": {
+        "MemoryError": "name",
+        "TSHCALOTrainingMemoryAdmission": "name",
+        "calculate_available_memory_admission": "name",
+        "int": "name",
+        "psutil.virtual_memory": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom"
+      ],
+      "calls": [
+        "MemoryError",
+        "TSHCALOTrainingMemoryAdmission",
+        "calculate_available_memory_admission",
+        "int",
+        "psutil.virtual_memory"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission",
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "",
+      "end_line": 209,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(estimate, reason, requested)",
+      "start_line": 183,
+      "state_owner": "",
+      "symbol": "_cpu_admission",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Own the admitted training device and its exclusive CUDA lease.",
+      "end_line": 347,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 212,
+      "state_owner": "",
+      "symbol": "TSHCALOTrainingDeviceGuard",
+      "tests": [
+        "tests/unit/test_tsh_calo_training_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 227,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, admission, lease, local_cuda_key)",
+      "start_line": 218,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "DeviceLeaseUnavailable",
+          "target": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls._local_cuda_owners.add",
+          "target": "cls._local_cuda_owners.add"
+        }
+      ],
+      "call_forms": {
+        "DeviceLeaseUnavailable": "name",
+        "cls._local_cuda_owners.add": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit"
+      ],
+      "calls": [
+        "DeviceLeaseUnavailable",
+        "cls._local_cuda_owners.add"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable"
+      ],
+      "doc": "",
+      "end_line": 236,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, key)",
+      "start_line": 230,
+      "state_owner": "",
+      "symbol": "_claim_local_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "cls._local_cuda_owners.discard",
+          "target": "cls._local_cuda_owners.discard"
+        }
+      ],
+      "call_forms": {
+        "cls._local_cuda_owners.discard": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+      ],
+      "calls": [
+        "cls._local_cuda_owners.discard"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 243,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, key)",
+      "start_line": 239,
+      "state_owner": "",
+      "symbol": "_release_local_cuda",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "MemoryError",
+          "target": "MemoryError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls._claim_local_cuda",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "cls._release_local_cuda",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "TSHCALOTrainingMemoryAdmission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_cpu_admission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExclusiveDeviceLease",
+          "target": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "calculate_available_memory_admission",
+          "target": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cls",
+          "target": "cls"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lease.close",
+          "target": "lease.close"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.startswith",
+          "target": "requested.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.is_available",
+          "target": "torch.cuda.is_available"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.mem_get_info",
+          "target": "torch.cuda.mem_get_info"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.memory_reserved",
+          "target": "torch.cuda.memory_reserved"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.cuda.set_per_process_memory_fraction",
+          "target": "torch.cuda.set_per_process_memory_fraction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.device",
+          "target": "torch.device"
+        }
+      ],
+      "call_forms": {
+        "ExclusiveDeviceLease": "name",
+        "MemoryError": "name",
+        "RuntimeError": "name",
+        "TSHCALOTrainingMemoryAdmission": "name",
+        "ValueError": "name",
+        "_cpu_admission": "name",
+        "calculate_available_memory_admission": "name",
+        "cls": "name",
+        "cls._claim_local_cuda": "attribute",
+        "cls._release_local_cuda": "attribute",
+        "int": "name",
+        "lease.close": "attribute",
+        "lower": "attribute",
+        "requested.startswith": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "torch.cuda.is_available": "attribute",
+        "torch.cuda.mem_get_info": "attribute",
+        "torch.cuda.memory_reserved": "attribute",
+        "torch.cuda.set_per_process_memory_fraction": "attribute",
+        "torch.device": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training._build_and_admit_training_network",
+        "tests.unit.test_tsh_calo_training_resources.test_candidate_device_provenance_rejects_safe80_or_compute_mutation",
+        "tests.unit.test_tsh_calo_training_resources.test_cpu_admission_uses_eighty_percent_of_current_available_ram",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_admission_uses_current_free_vram_and_holds_exclusive_lease",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_lease_contention_blocks_instead_of_spilling_to_cpu",
+        "tests.unit.test_tsh_calo_training_resources.test_cuda_vram_shortfall_falls_back_only_under_explicit_permission",
+        "tests.unit.test_tsh_calo_training_resources.test_no_xpu_training_resource_path_exists"
+      ],
+      "calls": [
+        "ExclusiveDeviceLease",
+        "MemoryError",
+        "RuntimeError",
+        "TSHCALOTrainingMemoryAdmission",
+        "ValueError",
+        "_cpu_admission",
+        "calculate_available_memory_admission",
+        "cls",
+        "cls._claim_local_cuda",
+        "cls._release_local_cuda",
+        "int",
+        "lease.close",
+        "lower",
+        "requested.startswith",
+        "str",
+        "strip",
+        "torch.cuda.is_available",
+        "torch.cuda.mem_get_info",
+        "torch.cuda.memory_reserved",
+        "torch.cuda.set_per_process_memory_fraction",
+        "torch.device"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._claim_local_cuda",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingMemoryAdmission",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission",
+        "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission"
+      ],
+      "doc": "",
+      "end_line": 315,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.admit",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cls, estimate, requested_device, allow_cpu_fallback)",
+      "start_line": 246,
+      "state_owner": "",
+      "symbol": "admit",
+      "tests": [
+        "tests/unit/test_tsh_calo_training_resources.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_cpu_admission",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "_cpu_admission": "name",
+        "self.close": "attribute",
+        "type": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_cpu_admission",
+        "self.close",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources._cpu_admission"
+      ],
+      "doc": "",
+      "end_line": 327,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, estimate)",
+      "start_line": 317,
+      "state_owner": "",
+      "symbol": "fallback_after_cuda_oom",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._release_local_cuda",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.lease.close",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+        }
+      ],
+      "call_forms": {
+        "self._release_local_cuda": "attribute",
+        "self.lease.close": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__del__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__exit__",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.fallback_after_cuda_oom"
+      ],
+      "calls": [
+        "self._release_local_cuda",
+        "self.lease.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard._release_local_cuda",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+      ],
+      "doc": "",
+      "end_line": 335,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 329,
+      "state_owner": "",
+      "symbol": "close",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 338,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__enter__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 337,
+      "state_owner": "",
+      "symbol": "__enter__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+        }
+      ],
+      "call_forms": {
+        "self.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+      ],
+      "doc": "",
+      "end_line": 341,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__exit__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, _exc_type, _exc, _tb)",
+      "start_line": 340,
+      "state_owner": "",
+      "symbol": "__exit__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_LOG.debug",
+          "target": "_LOG.debug"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.close",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+        }
+      ],
+      "call_forms": {
+        "_LOG.debug": "attribute",
+        "self.close": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_LOG.debug",
+        "self.close"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.close"
+      ],
+      "doc": "",
+      "end_line": 347,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.TSHCALOTrainingDeviceGuard.__del__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 343,
+      "state_owner": "",
+      "symbol": "__del__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "admission.get",
+          "target": "admission.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "estimate.get",
+          "target": "estimate.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.floor",
+          "target": "math.floor"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isclose",
+          "target": "math.isclose"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.startswith",
+          "target": "requested.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "selected.startswith",
+          "target": "selected.startswith"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "admission.get": "attribute",
+        "dict": "name",
+        "estimate.get": "attribute",
+        "float": "name",
+        "int": "name",
+        "lower": "attribute",
+        "math.floor": "attribute",
+        "math.isclose": "attribute",
+        "record.get": "attribute",
+        "requested.startswith": "attribute",
+        "selected.startswith": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo._tsh_calo_policy_artifact_core.IndependentTrainingProvenance.validate",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training.IndependentTSHCALOTrainer.from_resume_state_dict",
+        "tests.unit.test_tsh_calo_training_resources.test_candidate_device_provenance_rejects_safe80_or_compute_mutation"
+      ],
+      "calls": [
+        "ValueError",
+        "admission.get",
+        "dict",
+        "estimate.get",
+        "float",
+        "int",
+        "lower",
+        "math.floor",
+        "math.isclose",
+        "record.get",
+        "requested.startswith",
+        "selected.startswith",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "Validate the immutable Safe-80/computation record embedded in a candidate.",
+      "end_line": 403,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/tsh_calo_training_resources.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "BRANCH_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BRANCH_FEATURE_DIM",
+        "BUS_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.BUS_FEATURE_DIM",
+        "CONTROL_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.CONTROL_FEATURE_DIM",
+        "ClassVar": "typing.ClassVar",
+        "DeviceLeaseUnavailable": "calo_rpd_studio.compute.device_lease.DeviceLeaseUnavailable",
+        "ExclusiveDeviceLease": "calo_rpd_studio.compute.device_lease.ExclusiveDeviceLease",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "SCENARIO_FEATURE_DIM": "calo_rpd_studio.algorithms.calo.topology_context.SCENARIO_FEATURE_DIM",
+        "TopologyAwarePolicyState": "calo_rpd_studio.algorithms.calo.topology_context.TopologyAwarePolicyState",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "calculate_available_memory_admission": "calo_rpd_studio.compute.memory_budget.calculate_available_memory_admission",
+        "dataclass": "dataclasses.dataclass",
+        "logging": "logging",
+        "math": "math",
+        "psutil": "psutil",
+        "threading": "threading",
+        "torch": "torch"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_schema",
+        ".topology_context",
+        "__future__",
+        "calo_rpd_studio.compute.device_lease",
+        "calo_rpd_studio.compute.memory_budget",
+        "dataclasses",
+        "logging",
+        "math",
+        "psutil",
+        "threading",
+        "torch",
+        "typing"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources",
+      "qualname": "calo_rpd_studio.algorithms.calo.tsh_calo_training_resources.validate_tsh_calo_training_device_provenance",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(payload)",
+      "start_line": 350,
+      "state_owner": "",
+      "symbol": "validate_tsh_calo_training_device_provenance",
+      "tests": [
+        "tests/unit/test_tsh_calo_training_resources.py"
+      ]
+    }
+  ]
+}

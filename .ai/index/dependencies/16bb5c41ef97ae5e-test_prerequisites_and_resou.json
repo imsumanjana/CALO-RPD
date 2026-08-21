@@ -1,0 +1,509 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_bootstrap/prerequisites.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/compute/resource_scheduler.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/calo_ablation.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/execution_plan.py"
+    }
+  ],
+  "path": "tests/unit/test_prerequisites_and_resources.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources._snapshot",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources._snapshot",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources._snapshot",
+      "to": "int"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_accelerator_priority_contains_only_cuda_devices",
+      "to": "calo_rpd_studio.compute.resource_scheduler.prioritized_accelerators"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+      "to": "calo_rpd_studio.compute.resource_scheduler.DeviceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission",
+      "to": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "enumerate"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "lanes.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_assigns_large_campaign_to_cuda",
+      "to": "set"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "to": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "to": "lanes.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda",
+      "to": "sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_cpu_admission_uses_available_ram_not_cpu_utilization",
+      "to": "calo_rpd_studio.compute.resource_scheduler.ResourceSnapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_cpu_admission_uses_available_ram_not_cpu_utilization",
+      "to": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_cuda_channel_selection_respects_driver_capability",
+      "to": "calo_bootstrap.prerequisites.NvidiaInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_cuda_channel_selection_respects_driver_capability",
+      "to": "calo_bootstrap.prerequisites.candidate_torch_channels"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation",
+      "to": "calo_rpd_studio.compute.resource_scheduler.item_uses_calo_ai"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation",
+      "to": "calo_rpd_studio.experiments.calo_ablation.AblationSpec"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_gpu_capability_classification_covers_comparison_and_ablation",
+      "to": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "calo_bootstrap.prerequisites.NvidiaInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "calo_bootstrap.prerequisites.TorchInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "calo_bootstrap.prerequisites.install_or_repair"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "iter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_does_not_cycle_wheels_after_pytorch_verification_exception",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "calo_bootstrap.prerequisites.EnvironmentReport"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "calo_bootstrap.prerequisites.NvidiaInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "calo_bootstrap.prerequisites.TorchInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "calo_bootstrap.prerequisites.install_or_repair"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "item.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "iter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_keeps_existing_torch_until_replacement_install_succeeds",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "calo_bootstrap.prerequisites.install_or_repair"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "item.lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "iter"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "next"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_repairs_broken_scientific_import_before_pytorch",
+      "to": "throw"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "AssertionError"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "any"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "calls.append"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "calo_bootstrap.prerequisites.install_or_repair"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "join"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "list"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "lower"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails",
+      "to": "throw"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_no_nvidia_selects_cpu_pytorch_channel",
+      "to": "calo_bootstrap.prerequisites.NvidiaInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_no_nvidia_selects_cpu_pytorch_channel",
+      "to": "calo_bootstrap.prerequisites.candidate_torch_channels"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_pip_raw_progress_parser_and_download_item_extraction",
+      "to": "calo_bootstrap.prerequisites._human_download_item"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_pip_raw_progress_parser_and_download_item_extraction",
+      "to": "calo_bootstrap.prerequisites._parse_pip_raw_progress"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_project_torch_requirement_is_read_from_project_metadata",
+      "to": "calo_bootstrap.prerequisites.project_torch_requirement"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_project_torch_requirement_is_read_from_project_metadata",
+      "to": "write_text"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "to": "calo_rpd_studio.compute.resource_scheduler.accelerator_admission_allowed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "to": "calo_rpd_studio.compute.resource_scheduler.cpu_admission_allowed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "to": "high_gpu.by_backend"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "to": "low.by_backend"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_resource_admission_ignores_utilization_and_respects_job_caps",
+      "to": "tests.unit.test_prerequisites_and_resources._snapshot"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_scan_environment_rejects_pytorch_outside_project_contract",
+      "to": "calo_bootstrap.prerequisites.NvidiaInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_scan_environment_rejects_pytorch_outside_project_contract",
+      "to": "calo_bootstrap.prerequisites.TorchInfo"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_scan_environment_rejects_pytorch_outside_project_contract",
+      "to": "calo_bootstrap.prerequisites.scan_environment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_scan_environment_rejects_pytorch_outside_project_contract",
+      "to": "monkeypatch.setattr"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_torch_version_contract_accepts_cuda_local_version_and_rejects_drift",
+      "to": "calo_bootstrap.prerequisites.torch_version_satisfies_requirement"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "to": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "to": "lanes.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "to": "range"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_redistributes_when_cuda_is_unavailable",
+      "to": "sum"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "to": "calo_rpd_studio.compute.resource_scheduler.build_weighted_lane_plan"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "to": "calo_rpd_studio.experiments.execution_plan.PlannedItem"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "to": "lanes.values"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_prerequisites_and_resources.test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes",
+      "to": "set"
+    }
+  ]
+}

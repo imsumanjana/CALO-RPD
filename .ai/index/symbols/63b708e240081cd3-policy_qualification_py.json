@@ -1,0 +1,2593 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.HOLDOUT_CASES",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 36,
+      "state_owner": "",
+      "symbol": "HOLDOUT_CASES",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 37,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.CONVERGENCE_METRIC_VERSION",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 37,
+      "state_owner": "",
+      "symbol": "CONVERGENCE_METRIC_VERSION",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_calo_v41_policy_system.test_policy_qualification_protects_holdout_cases_by_default",
+        "tests.unit.test_v57_audit_closure_integration.test_policy_grade_handles_nonfinite_comparator_medians_without_min_empty_failure",
+        "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility",
+        "tests.unit.test_v580_audit_closure.test_formal_superiority_qualification_fails_without_favorable_significant_evidence",
+        "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate",
+        "tests.unit.test_v590_scientific_closure.test_policy_qualification_scientific_thresholds_fail_fast"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 41,
+      "state_owner": "",
+      "symbol": "PolicyQualificationConfig",
+      "tests": [
+        "tests/unit/test_calo_v41_policy_system.py",
+        "tests/unit/test_v57_audit_closure_integration.py",
+        "tests/unit/test_v57_previous_audit_closure.py",
+        "tests/unit/test_v580_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "join",
+          "target": "join"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "ValueError": "name",
+        "float": "name",
+        "int": "name",
+        "join": "attribute",
+        "lower": "attribute",
+        "math.isfinite": "attribute",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "ValueError",
+        "float",
+        "int",
+        "join",
+        "lower",
+        "math.isfinite",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 109,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig.validate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self)",
+      "start_line": 59,
+      "state_owner": "",
+      "symbol": "validate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "float": "name",
+        "math.isfinite": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run"
+      ],
+      "calls": [
+        "bool",
+        "float",
+        "math.isfinite"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 114,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._finite_objective",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(result)",
+      "start_line": 112,
+      "state_owner": "",
+      "symbol": "_finite_objective",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_trapezoid",
+          "target": "_trapezoid"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "copy",
+          "target": "copy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "md.get",
+          "target": "md.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.all",
+          "target": "np.all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.any",
+          "target": "np.any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.diff",
+          "target": "np.diff"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.flatnonzero",
+          "target": "np.flatnonzero"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        }
+      ],
+      "call_forms": {
+        "_trapezoid": "name",
+        "copy": "attribute",
+        "dict": "name",
+        "float": "name",
+        "getattr": "name",
+        "int": "name",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "md.get": "attribute",
+        "np.all": "attribute",
+        "np.any": "attribute",
+        "np.asarray": "attribute",
+        "np.diff": "attribute",
+        "np.flatnonzero": "attribute",
+        "np.isfinite": "attribute",
+        "range": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_v120_phase1_contracts.test_convergence_separates_feasibility_delay_from_post_feasible_auc",
+        "tests.unit.test_v57_previous_audit_closure.test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalizes_no_feasibility"
+      ],
+      "calls": [
+        "_trapezoid",
+        "copy",
+        "dict",
+        "float",
+        "getattr",
+        "int",
+        "math.isfinite",
+        "max",
+        "md.get",
+        "np.all",
+        "np.any",
+        "np.asarray",
+        "np.diff",
+        "np.flatnonzero",
+        "np.isfinite",
+        "range"
+      ],
+      "calls_resolved": [],
+      "doc": "Return the post-feasibility incumbent-objective AUC.",
+      "end_line": 150,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._convergence_auc",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(result)",
+      "start_line": 117,
+      "state_owner": "",
+      "symbol": "_convergence_auc",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py",
+        "tests/unit/test_v57_previous_audit_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "get": "attribute",
+        "getattr": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_v120_phase1_contracts.test_convergence_separates_feasibility_delay_from_post_feasible_auc"
+      ],
+      "calls": [
+        "float",
+        "get",
+        "getattr"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 158,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._eval_to_feasible",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(result)",
+      "start_line": 153,
+      "state_owner": "",
+      "symbol": "_eval_to_feasible",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.median",
+          "target": "np.median"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.quantile",
+          "target": "np.quantile"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.std",
+          "target": "np.std"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "row.get",
+          "target": "row.get"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "float": "name",
+        "len": "name",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "np.mean": "attribute",
+        "np.median": "attribute",
+        "np.quantile": "attribute",
+        "np.std": "attribute",
+        "row.get": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._case_summaries"
+      ],
+      "calls": [
+        "bool",
+        "float",
+        "len",
+        "np.asarray",
+        "np.isfinite",
+        "np.mean",
+        "np.median",
+        "np.quantile",
+        "np.std",
+        "row.get"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 189,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._aggregate",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(records)",
+      "start_line": 161,
+      "state_owner": "",
+      "symbol": "_aggregate",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "_aggregate",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._aggregate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "_aggregate": "name",
+        "sorted": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run"
+      ],
+      "calls": [
+        "_aggregate",
+        "sorted",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification._aggregate"
+      ],
+      "doc": "",
+      "end_line": 196,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._case_summaries",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(records)",
+      "start_line": 192,
+      "state_owner": "",
+      "symbol": "_case_summaries",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "relative_objective_improvement",
+          "target": "calo_rpd_studio.statistics.paired.relative_objective_improvement"
+        }
+      ],
+      "call_forms": {
+        "relative_objective_improvement": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "relative_objective_improvement"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.paired.relative_objective_improvement"
+      ],
+      "doc": "Compatibility alias for the v12 positive-is-better relative improvement.",
+      "end_line": 201,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._stable_relative_difference",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(candidate, comparator)",
+      "start_line": 199,
+      "state_owner": "",
+      "symbol": "_stable_relative_difference",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "exact_keyed_pairs",
+          "target": "calo_rpd_studio.statistics.paired.exact_keyed_pairs"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "matched_pairs_rank_biserial",
+          "target": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "pair_manifest",
+          "target": "calo_rpd_studio.statistics.paired.pair_manifest"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "relative_objective_improvement",
+          "target": "calo_rpd_studio.statistics.paired.relative_objective_improvement"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "wilcoxon_signed_rank_evidence",
+          "target": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "finite_pairs.append",
+          "target": "finite_pairs.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "improvements.tolist",
+          "target": "improvements.tolist"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.mean",
+          "target": "np.mean"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.median",
+          "target": "np.median"
+        }
+      ],
+      "call_forms": {
+        "exact_keyed_pairs": "name",
+        "finite_pairs.append": "attribute",
+        "float": "name",
+        "improvements.tolist": "attribute",
+        "int": "name",
+        "len": "name",
+        "matched_pairs_rank_biserial": "name",
+        "math.isfinite": "attribute",
+        "np.asarray": "attribute",
+        "np.mean": "attribute",
+        "np.median": "attribute",
+        "pair_manifest": "name",
+        "relative_objective_improvement": "name",
+        "wilcoxon_signed_rank_evidence": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_v120_phase1_contracts.test_both_qualification_engines_share_v12_improvement_and_effect_definitions",
+        "tests.unit.test_v120_phase1_contracts.test_policy_qualification_uses_exact_pairs_and_positive_effect_orientation",
+        "tests.unit.test_v650_must_resolve.test_h15_near_zero_comparator_does_not_explode_relative_qualification_evidence"
+      ],
+      "calls": [
+        "exact_keyed_pairs",
+        "finite_pairs.append",
+        "float",
+        "improvements.tolist",
+        "int",
+        "len",
+        "matched_pairs_rank_biserial",
+        "math.isfinite",
+        "np.asarray",
+        "np.mean",
+        "np.median",
+        "pair_manifest",
+        "relative_objective_improvement",
+        "wilcoxon_signed_rank_evidence"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "calo_rpd_studio.statistics.paired.pair_manifest",
+        "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      ],
+      "doc": "",
+      "end_line": 276,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._paired_evidence",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(candidate_rows, comparator_rows, objective_scale_floor)",
+      "start_line": 204,
+      "state_owner": "",
+      "symbol": "_paired_evidence",
+      "tests": [
+        "tests/unit/test_v120_phase1_contracts.py",
+        "tests/unit/test_v650_must_resolve.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "wilcoxon_signed_rank_evidence",
+          "target": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "holm_correction",
+          "target": "calo_rpd_studio.statistics.posthoc.holm_correction"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "keys.append",
+          "target": "keys.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ni_keys.append",
+          "target": "ni_keys.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ni_pvalues.append",
+          "target": "ni_pvalues.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.isfinite",
+          "target": "np.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "paired.items",
+          "target": "paired.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pvalues.append",
+          "target": "pvalues.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "zip",
+          "target": "zip"
+        }
+      ],
+      "call_forms": {
+        "float": "name",
+        "holm_correction": "name",
+        "item.get": "attribute",
+        "keys.append": "attribute",
+        "math.isfinite": "attribute",
+        "ni_keys.append": "attribute",
+        "ni_pvalues.append": "attribute",
+        "np.asarray": "attribute",
+        "np.isfinite": "attribute",
+        "paired.items": "attribute",
+        "pvalues.append": "attribute",
+        "wilcoxon_signed_rank_evidence": "name",
+        "zip": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_v590_scientific_closure.test_noninferiority_uses_one_sided_holm_adjusted_evidence"
+      ],
+      "calls": [
+        "float",
+        "holm_correction",
+        "item.get",
+        "keys.append",
+        "math.isfinite",
+        "ni_keys.append",
+        "ni_pvalues.append",
+        "np.asarray",
+        "np.isfinite",
+        "paired.items",
+        "pvalues.append",
+        "wilcoxon_signed_rank_evidence",
+        "zip"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence",
+        "calo_rpd_studio.statistics.posthoc.holm_correction"
+      ],
+      "doc": "",
+      "end_line": 304,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._apply_holm",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(paired, non_inferiority_margin)",
+      "start_line": 279,
+      "state_owner": "",
+      "symbol": "_apply_holm",
+      "tests": [
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "abs",
+          "target": "abs"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "relative_objective_improvement",
+          "target": "calo_rpd_studio.statistics.paired.relative_objective_improvement"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cand_case.get",
+          "target": "cand_case.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cand_cases.items",
+          "target": "cand_cases.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.get",
+          "target": "candidate.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "case_summaries.get",
+          "target": "case_summaries.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "comp_case.get",
+          "target": "comp_case.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "evidence_source.values",
+          "target": "evidence_source.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "math.isfinite",
+          "target": "math.isfinite"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "no_ai.get",
+          "target": "no_ai.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.median",
+          "target": "np.median"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reasons.append",
+          "target": "reasons.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reference.get",
+          "target": "reference.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "relative_case_improvements.append",
+          "target": "relative_case_improvements.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "abs": "name",
+        "all": "name",
+        "bool": "name",
+        "cand_case.get": "attribute",
+        "cand_cases.items": "attribute",
+        "candidate.get": "attribute",
+        "case_summaries.get": "attribute",
+        "comp_case.get": "attribute",
+        "evidence_source.values": "attribute",
+        "float": "name",
+        "get": "attribute",
+        "int": "name",
+        "item.get": "attribute",
+        "math.isfinite": "attribute",
+        "max": "name",
+        "no_ai.get": "attribute",
+        "np.median": "attribute",
+        "reasons.append": "attribute",
+        "reference.get": "attribute",
+        "relative_case_improvements.append": "attribute",
+        "relative_objective_improvement": "name",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+        "tests.unit.test_v57_audit_closure_integration.test_policy_grade_handles_nonfinite_comparator_medians_without_min_empty_failure",
+        "tests.unit.test_v580_audit_closure.test_formal_superiority_qualification_fails_without_favorable_significant_evidence",
+        "tests.unit.test_v590_scientific_closure.test_formal_qualification_requires_each_case_to_pass_paired_gate"
+      ],
+      "calls": [
+        "abs",
+        "all",
+        "bool",
+        "cand_case.get",
+        "cand_cases.items",
+        "candidate.get",
+        "case_summaries.get",
+        "comp_case.get",
+        "evidence_source.values",
+        "float",
+        "get",
+        "int",
+        "item.get",
+        "math.isfinite",
+        "max",
+        "no_ai.get",
+        "np.median",
+        "reasons.append",
+        "reference.get",
+        "relative_case_improvements.append",
+        "relative_objective_improvement",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.statistics.paired.relative_objective_improvement"
+      ],
+      "doc": "",
+      "end_line": 419,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(candidate, reference, no_ai, config, paired, case_summaries, case_paired)",
+      "start_line": 307,
+      "state_owner": "",
+      "symbol": "_grade",
+      "tests": [
+        "tests/unit/test_v57_audit_closure_integration.py",
+        "tests/unit/test_v580_audit_closure.py",
+        "tests/unit/test_v590_scientific_closure.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "build_problem",
+          "target": "calo_rpd_studio.experiments.experiment_runner.build_problem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_ac_power_flow",
+          "target": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "validate_against_pypower",
+          "target": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checks.append",
+          "target": "checks.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "np.asarray",
+          "target": "np.asarray"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "problem.decoder.decode",
+          "target": "problem.decoder.decode"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "scenario.apply",
+          "target": "scenario.apply"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "all": "name",
+        "bool": "name",
+        "build_problem": "name",
+        "checks.append": "attribute",
+        "float": "name",
+        "np.asarray": "attribute",
+        "problem.decoder.decode": "attribute",
+        "run_ac_power_flow": "name",
+        "scenario.apply": "attribute",
+        "str": "name",
+        "validate_against_pypower": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run"
+      ],
+      "calls": [
+        "all",
+        "bool",
+        "build_problem",
+        "checks.append",
+        "float",
+        "np.asarray",
+        "problem.decoder.decode",
+        "run_ac_power_flow",
+        "scenario.apply",
+        "str",
+        "validate_against_pypower"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator.validate_against_pypower"
+      ],
+      "doc": "",
+      "end_line": 455,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(cfg, seeds, result)",
+      "start_line": 422,
+      "state_owner": "",
+      "symbol": "_independent_validate_result",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 650,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "class",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 458,
+      "state_owner": "",
+      "symbol": "PolicyQualifier",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 461,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.__init__",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, base_config, registry)",
+      "start_line": 459,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "append",
+          "target": "append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "asdict",
+          "target": "asdict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyQualificationConfig",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_aggregate",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._aggregate"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_apply_holm",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._apply_holm"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_case_summaries",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._case_summaries"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_convergence_auc",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._convergence_auc"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_eval_to_feasible",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._eval_to_feasible"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_finite_objective",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._finite_objective"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_grade",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._grade"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_independent_validate_result",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_paired_evidence",
+          "target": "calo_rpd_studio.algorithms.calo.policy_qualification._paired_evidence"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "progress_callback",
+          "target": "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned.progress_callback"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "resolve_source_identity",
+          "target": "calo_rpd_studio.compute.source_identity.resolve_source_identity"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "run_single",
+          "target": "calo_rpd_studio.experiments.experiment_runner.run_single"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "SeedManager",
+          "target": "calo_rpd_studio.experiments.seed_manager.SeedManager"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cancel_callback",
+          "target": "cancel_callback"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "cfg.algorithm_parameters.get",
+          "target": "cfg.algorithm_parameters.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "deepcopy",
+          "target": "deepcopy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "float",
+          "target": "float"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "generate",
+          "target": "generate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "params.pop",
+          "target": "params.pop"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "params.update",
+          "target": "params.update"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "participants.insert",
+          "target": "participants.insert"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qconfig.validate",
+          "target": "qconfig.validate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "reasons.append",
+          "target": "reasons.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.items",
+          "target": "records.items"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "schema.get",
+          "target": "schema.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.registry.get",
+          "target": "self.registry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.registry.inspect_checkpoint",
+          "target": "self.registry.inspect_checkpoint"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source_identity.to_dict",
+          "target": "source_identity.to_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "summaries.get",
+          "target": "summaries.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "uuid.uuid4",
+          "target": "uuid.uuid4"
+        }
+      ],
+      "call_forms": {
+        "PolicyQualificationConfig": "name",
+        "RuntimeError": "name",
+        "SeedManager": "name",
+        "_aggregate": "name",
+        "_apply_holm": "name",
+        "_case_summaries": "name",
+        "_convergence_auc": "name",
+        "_eval_to_feasible": "name",
+        "_finite_objective": "name",
+        "_grade": "name",
+        "_independent_validate_result": "name",
+        "_paired_evidence": "name",
+        "append": "attribute",
+        "asdict": "name",
+        "bool": "name",
+        "cancel_callback": "name",
+        "cfg.algorithm_parameters.get": "attribute",
+        "deepcopy": "name",
+        "dict": "name",
+        "float": "name",
+        "generate": "attribute",
+        "int": "name",
+        "len": "name",
+        "max": "name",
+        "params.pop": "attribute",
+        "params.update": "attribute",
+        "participants.insert": "attribute",
+        "progress_callback": "name",
+        "qconfig.validate": "attribute",
+        "range": "name",
+        "reasons.append": "attribute",
+        "records.items": "attribute",
+        "resolve_source_identity": "name",
+        "run_single": "name",
+        "schema.get": "attribute",
+        "self.registry.get": "attribute",
+        "self.registry.inspect_checkpoint": "attribute",
+        "source_identity.to_dict": "attribute",
+        "str": "name",
+        "summaries.get": "attribute",
+        "uuid.uuid4": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "PolicyQualificationConfig",
+        "RuntimeError",
+        "SeedManager",
+        "_aggregate",
+        "_apply_holm",
+        "_case_summaries",
+        "_convergence_auc",
+        "_eval_to_feasible",
+        "_finite_objective",
+        "_grade",
+        "_independent_validate_result",
+        "_paired_evidence",
+        "append",
+        "asdict",
+        "bool",
+        "cancel_callback",
+        "cfg.algorithm_parameters.get",
+        "deepcopy",
+        "dict",
+        "float",
+        "generate",
+        "int",
+        "len",
+        "max",
+        "params.pop",
+        "params.update",
+        "participants.insert",
+        "progress_callback",
+        "qconfig.validate",
+        "range",
+        "reasons.append",
+        "records.items",
+        "resolve_source_identity",
+        "run_single",
+        "schema.get",
+        "self.registry.get",
+        "self.registry.inspect_checkpoint",
+        "source_identity.to_dict",
+        "str",
+        "summaries.get",
+        "uuid.uuid4"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualificationConfig",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._aggregate",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._apply_holm",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._case_summaries",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._convergence_auc",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._eval_to_feasible",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._finite_objective",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._grade",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._independent_validate_result",
+        "calo_rpd_studio.algorithms.calo.policy_qualification._paired_evidence",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign.TSHCALOQualificationCampaign._run_owned.progress_callback",
+        "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "calo_rpd_studio.experiments.seed_manager.SeedManager"
+      ],
+      "doc": "",
+      "end_line": 650,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_qualification.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "DEFAULT_OBJECTIVE_SCALE_FLOOR": "calo_rpd_studio.statistics.paired.DEFAULT_OBJECTIVE_SCALE_FLOOR",
+        "PAIRED_ANALYSIS_SCHEMA_VERSION": "calo_rpd_studio.statistics.paired.PAIRED_ANALYSIS_SCHEMA_VERSION",
+        "RELATIVE_IMPROVEMENT_VERSION": "calo_rpd_studio.statistics.paired.RELATIVE_IMPROVEMENT_VERSION",
+        "SeedManager": "calo_rpd_studio.experiments.seed_manager.SeedManager",
+        "annotations": "__future__.annotations",
+        "asdict": "dataclasses.asdict",
+        "build_problem": "calo_rpd_studio.experiments.experiment_runner.build_problem",
+        "dataclass": "dataclasses.dataclass",
+        "deepcopy": "copy.deepcopy",
+        "exact_keyed_pairs": "calo_rpd_studio.statistics.paired.exact_keyed_pairs",
+        "holm_correction": "calo_rpd_studio.statistics.posthoc.holm_correction",
+        "matched_pairs_rank_biserial": "calo_rpd_studio.statistics.paired.matched_pairs_rank_biserial",
+        "math": "math",
+        "np": "numpy",
+        "pair_manifest": "calo_rpd_studio.statistics.paired.pair_manifest",
+        "relative_objective_improvement": "calo_rpd_studio.statistics.paired.relative_objective_improvement",
+        "resolve_source_identity": "calo_rpd_studio.compute.source_identity.resolve_source_identity",
+        "run_ac_power_flow": "calo_rpd_studio.power_system.ac_power_flow.run_ac_power_flow",
+        "run_single": "calo_rpd_studio.experiments.experiment_runner.run_single",
+        "uuid": "uuid",
+        "validate_against_pypower": "calo_rpd_studio.power_system.independent_validator.validate_against_pypower",
+        "wilcoxon_signed_rank_evidence": "calo_rpd_studio.statistics.paired.wilcoxon_signed_rank_evidence"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.compute.source_identity",
+        "calo_rpd_studio.experiments.experiment_runner",
+        "calo_rpd_studio.experiments.seed_manager",
+        "calo_rpd_studio.power_system.ac_power_flow",
+        "calo_rpd_studio.power_system.independent_validator",
+        "calo_rpd_studio.statistics.paired",
+        "calo_rpd_studio.statistics.posthoc",
+        "copy",
+        "dataclasses",
+        "math",
+        "numpy",
+        "uuid"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "method",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_qualification",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_qualification.PolicyQualifier.run",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(self, candidate_policy_id, reference_policy_id, config, progress_callback, cancel_callback)",
+      "start_line": 463,
+      "state_owner": "",
+      "symbol": "run",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "path": "calo_rpd_studio/scripts/export_publication_results.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "argparse.ArgumentParser",
+          "target": "argparse.ArgumentParser"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "PublicationExporter",
+          "target": "calo_rpd_studio.results.publication_export.PublicationExporter"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "export",
+          "target": "export"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.add_argument",
+          "target": "p.add_argument"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "p.parse_args",
+          "target": "p.parse_args"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.resolve",
+          "target": "path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "print",
+          "target": "print"
+        }
+      ],
+      "call_forms": {
+        "PublicationExporter": "name",
+        "ResultDatabase": "name",
+        "argparse.ArgumentParser": "attribute",
+        "export": "attribute",
+        "p.add_argument": "attribute",
+        "p.parse_args": "attribute",
+        "path.resolve": "attribute",
+        "print": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "PublicationExporter",
+        "ResultDatabase",
+        "argparse.ArgumentParser",
+        "export",
+        "p.add_argument",
+        "p.parse_args",
+        "path.resolve",
+        "print"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "calo_rpd_studio.results.publication_export.PublicationExporter"
+      ],
+      "doc": "",
+      "end_line": 16,
+      "entry_point": false,
+      "file": "calo_rpd_studio/scripts/export_publication_results.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "PublicationExporter": "calo_rpd_studio.results.publication_export.PublicationExporter",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "argparse": "argparse"
+      },
+      "important_invariants": [],
+      "imports": [
+        "argparse",
+        "calo_rpd_studio.results.database",
+        "calo_rpd_studio.results.publication_export"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "validation-release",
+      "parent_qualname": "calo_rpd_studio.scripts.export_publication_results",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.scripts.export_publication_results",
+      "qualname": "calo_rpd_studio.scripts.export_publication_results.main",
+      "semantic_tags": [],
+      "signature": "()",
+      "start_line": 8,
+      "state_owner": "",
+      "symbol": "main",
+      "tests": []
+    }
+  ]
+}
